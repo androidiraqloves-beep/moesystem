@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoeSystem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05050a;
+  --text:#ffffff;
+  --muted:#b8b3c4;
+  --line:rgba(255,255,255,.12);
+  --card:rgba(255,255,255,.045);
+  --purple:#7c3aed;
+  --purple2:#a78bfa;
+  --blue:#2563eb;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:"Tajawal",system-ui,sans-serif;direction:rtl;background:#05050a;color:var(--text);overflow:hidden}
+body{
+  background:
+    radial-gradient(circle at 50% 110%,rgba(124,58,237,.45),transparent 34%),
+    radial-gradient(circle at 5% 80%,rgba(124,58,237,.18),transparent 24%),
+    linear-gradient(180deg,#030306 0%,#08070d 62%,#040407 100%);
+}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit}
+.nav{
+  height:72px;
+  border-bottom:1px solid var(--line);
+  background:rgba(5,5,10,.94);
+}
+.nav-in{
+  width:min(1120px,92%);
+  height:72px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900}
+.logo{
+  width:40px;height:40px;border-radius:12px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--purple),var(--blue));
+  font-weight:900;
+}
+.brand small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.links{display:flex;align-items:center;gap:14px}
+.links button{
+  background:transparent;border:0;color:#ddd9e8;
+  font-size:15px;font-weight:800;cursor:pointer;padding:10px 4px;
+}
+.links button.active,.links button:hover{color:var(--purple2)}
+.btn{
+  min-width:148px;height:46px;border-radius:13px;border:1px solid transparent;
+  background:linear-gradient(135deg,var(--purple),#6d28d9);
+  color:white;display:inline-flex;align-items:center;justify-content:center;
+  font-weight:900;cursor:pointer;
+}
+.btn.secondary{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.17)}
+.page{
+  height:calc(100vh - 72px);
+  display:none;
+  place-items:center;
+  padding:34px 20px;
+  position:relative;
+  overflow:hidden;
+}
+.page.active{display:grid}
+.page:before{
+  content:"";position:absolute;left:-110px;bottom:-225px;width:760px;height:350px;
+  border-radius:50% 50% 0 0;
+  background:radial-gradient(circle at center,rgba(124,58,237,.48),rgba(124,58,237,.16) 45%,transparent 70%);
+  border-top:1px solid rgba(167,139,250,.25);
+  pointer-events:none;
+}
+.page:after{
+  content:"";position:absolute;right:-180px;top:95px;width:300px;height:300px;border-radius:50%;
+  border:1px solid rgba(124,58,237,.22);
+  pointer-events:none;
+}
+.hero-inner,.content-card{position:relative;z-index:1;width:min(920px,100%);text-align:center}
+.badge{
+  display:inline-flex;border:1px solid rgba(167,139,250,.25);
+  background:rgba(255,255,255,.035);border-radius:999px;
+  padding:8px 15px;color:#ddd6fe;font-weight:900;margin-bottom:22px;
+}
+h1{
+  margin:0 0 17px;
+  font-size:clamp(58px,10vw,118px);
+  line-height:.92;letter-spacing:-3px;font-weight:900;
+  background:linear-gradient(135deg,#fff 0%,#c4b5fd 35%,#7c3aed 70%,#60a5fa 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.subtitle{font-size:clamp(23px,3.2vw,38px);font-weight:900;line-height:1.35;margin-bottom:16px}
+.lead{max-width:690px;margin:0 auto;color:var(--muted);font-size:19px;line-height:1.9;font-weight:600}
+.cta{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:30px}
+.content-card{
+  background:rgba(255,255,255,.045);
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:34px;
+  text-align:right;
+}
+.page-title{
+  margin:0 0 12px;
+  font-size:clamp(42px,7vw,74px);
+  line-height:1;
+  background:linear-gradient(135deg,#fff,#a78bfa);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.page-desc{color:#c8c2d2;font-size:20px;line-height:1.9;margin:0 0 24px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:20px}
+.item h3{margin:0 0 9px;font-size:22px}.item p{margin:0;color:#bbb5c8;line-height:1.7}.tag{color:var(--purple2);font-size:13px;font-weight:900}
+@media(max-width:840px){
+  .links{gap:6px;overflow:auto}.links button{font-size:13px;white-space:nowrap}
+  .nav-in{width:96%}.btn{min-width:auto;padding:0 12px}
+  h1{font-size:62px}.subtitle{font-size:24px}.lead{font-size:16px}
+  .grid{grid-template-columns:1fr}.content-card{padding:22px}.page{padding:20px 14px}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand">
+      <span class="logo">M</span>
+      <div><span data-bind="brand">MoeSystem</span><small data-bind="brandAr">مو سستم</small></div>
+    </div>
+    <div class="links">
+      <button class="active" data-page="home">الرئيسية</button>
+      <button data-page="services">خدماتنا</button>
+      <button data-page="products">منتجاتنا</button>
+      <button data-page="downloads">مركز التحميل</button>
+      <button data-page="about">من نحن</button>
+      <button data-page="contact">تواصل معنا</button>
+    </div>
+    <a class="btn secondary" id="navWhats" href="#">واتساب</a>
+  </div>
+</nav>
+
+<main id="home" class="page active">
+  <div class="hero-inner">
+    <div class="badge" data-bind="badge"></div>
+    <h1 data-bind="heroTitle"></h1>
+    <div class="subtitle" data-bind="heroSubtitle"></div>
+    <p class="lead" data-bind="heroText"></p>
+    <div class="cta">
+      <a class="btn" id="heroWhats" href="#">تواصل واتساب</a>
+      <button class="btn secondary" data-page="downloads">مركز التحميل</button>
+    </div>
+  </div>
+</main>
+
+<section id="services" class="page">
+  <div class="content-card">
+    <h2 class="page-title" data-bind="servicesTitle"></h2>
+    <p class="page-desc" data-bind="servicesDesc"></p>
+    <div class="grid" id="servicesGrid"></div>
+  </div>
+</section>
+
+<section id="products" class="page">
+  <div class="content-card">
+    <h2 class="page-title" data-bind="productsTitle"></h2>
+    <p class="page-desc" data-bind="productsDesc"></p>
+    <div class="grid" id="productsGrid"></div>
+  </div>
+</section>
+
+<section id="downloads" class="page">
+  <div class="content-card">
+    <h2 class="page-title" data-bind="downloadsTitle"></h2>
+    <p class="page-desc" data-bind="downloadsDesc"></p>
+    <div class="grid" id="downloadsGrid"></div>
+  </div>
+</section>
+
+<section id="about" class="page">
+  <div class="content-card">
+    <h2 class="page-title" data-bind="aboutTitle"></h2>
+    <p class="page-desc" data-bind="aboutText"></p>
+    <div class="grid" id="aboutGrid"></div>
+  </div>
+</section>
+
+<section id="contact" class="page">
+  <div class="content-card">
+    <h2 class="page-title" data-bind="contactTitle"></h2>
+    <p class="page-desc" data-bind="contactDesc"></p>
+    <div class="grid" id="contactGrid"></div>
+    <div class="cta" style="justify-content:flex-start">
+      <a class="btn" id="contactWhats" href="#">تواصل واتساب الآن</a>
+      <a class="btn secondary" id="mailBtn" href="#">إرسال إيميل</a>
+    </div>
+  </div>
+</section>
+
+<script>
+// كود الحماية 
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.onkeydown = function(e) {
+  if(e.keyCode == 123) return false; 
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; 
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; 
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; 
+  if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
+};
+
+// رجعنا المفتاح حتى يشتغل 100% بدون إعدادات إضافية
+const BIN_ID = '6a1a9fbc21f9ee59d29d1489';
+const MASTER_KEY = '$2a$10$V/BDwiDJlUYgmp8DWe/N/uwxCypHknvx7GQkNUs5Xa.85axSAU1Ly';
+
+async function loadData() {
+  try {
+    const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': MASTER_KEY }
+    });
+    const result = await response.json();
+    const siteData = result.record;
+
+    render(siteData); 
+  } catch (err) {
+    console.error("خطأ في جلب البيانات:", err);
+  }
+}
+
+function esc(v){
+  return String(v ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s]));
+}
+function wa(phone){
+  let c = String(phone || '').replace(/\D/g,'');
+  if(c.startsWith('0')) c = '964' + c.slice(1);
+  return 'https://wa.me/' + c;
+}
+function itemCard(x){
+  return `<div class="item"><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></div>`;
+}
+function downloadCard(x){
+  return `<div class="item"><span class="tag">${esc(x.type)} • ${esc(x.status)}</span><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p><p style="margin-top:16px"><a class="btn secondary" href="${esc(x.link)}" download>تحميل</a></p></div>`;
+}
+
+function render(siteData) {
+  document.querySelectorAll('[data-bind]').forEach(el=>{
+    const key = el.getAttribute('data-bind');
+    el.textContent = siteData[key] || '';
+  });
+  
+  if (siteData.services) document.getElementById('servicesGrid').innerHTML = siteData.services.map(itemCard).join('');
+  if (siteData.products) document.getElementById('productsGrid').innerHTML = siteData.products.map(itemCard).join('');
+  if (siteData.downloads) document.getElementById('downloadsGrid').innerHTML = siteData.downloads.map(downloadCard).join('');
+  if (siteData.aboutItems) document.getElementById('aboutGrid').innerHTML = siteData.aboutItems.map(itemCard).join('');
+
+  document.getElementById('contactGrid').innerHTML = `
+    <div class="item"><h3>واتساب</h3><p>${esc(siteData.phone)}</p></div>
+    <div class="item"><h3>الإيميل</h3><p>${esc(siteData.email)}</p></div>
+    <div class="item"><h3>الشركة</h3><p>${esc(siteData.brand)} / ${esc(siteData.brandAr)}</p></div>
+  `;
+
+  const w = wa(siteData.phone);
+  document.getElementById('navWhats').href = w;
+  document.getElementById('heroWhats').href = w;
+  document.getElementById('contactWhats').href = w;
+  document.getElementById('mailBtn').href = 'mailto:' + siteData.email;
+}
+
+function openPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(b=>{
+    if(b.tagName === 'BUTTON') b.classList.toggle('active', b.getAttribute('data-page') === id);
+  });
+}
+
+document.querySelectorAll('[data-page]').forEach(el=>{
+  el.addEventListener('click', ()=>openPage(el.getAttribute('data-page')));
+});
+
+loadData();
+</script>
+</body>
+</html>
