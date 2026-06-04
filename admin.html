@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MoeSystem</title>
+    <title>MoeSystem Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -21,229 +21,237 @@
         .ok{background:#166534!important}
         .mut{color:var(--mut)}
         .hidden{display:none!important}
-        .nav{min-height:76px;border-bottom:1px solid var(--line);background:rgba(5,5,10,.92);backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
-        .navin{width:min(1180px,94%);min-height:76px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-        .brand{display:flex;align-items:center;gap:12px;cursor:pointer}
-        .logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--p),var(--b));display:grid;place-items:center;font-size:26px;font-weight:900;overflow:hidden}
-        .logo img{width:100%;height:100%;object-fit:contain;padding:6px}
-        .brand b{font-size:22px;display:block}
-        .brand small{display:block;color:#c8c2d2;font-size:12px}
-        .links,.langs{display:flex;align-items:center;gap:12px}
-        .links button,.langs button{background:transparent;border:0;padding:8px 3px;color:#ddd9e8}
-        .links button.active,.links button:hover,.langs button.active{color:var(--p2)}
-        .menu{display:none}
-        .page{display:none;min-height:calc(100vh - 76px);padding:42px 20px 78px;position:relative}
-        .page.active{display:grid;place-items:center}
-        .page:before{content:"";position:absolute;left:-115px;bottom:-225px;width:760px;height:350px;border-radius:50% 50% 0 0;background:radial-gradient(circle at center,rgba(124,58,237,.46),rgba(124,58,237,.14) 45%,transparent 70%);border-top:1px solid rgba(167,139,250,.25);pointer-events:none}
-        .hero,.card{position:relative;z-index:1;width:min(1000px,100%)}
-        .hero{text-align:center}
-        .badge{display:inline-flex;border:1px solid rgba(167,139,250,.25);background:rgba(255,255,255,.035);border-radius:999px;padding:8px 15px;color:#ddd6fe;font-weight:900;margin-bottom:22px}
-        h1{margin:0 0 17px;font-size:clamp(52px,9vw,108px);line-height:.94;font-weight:900;background:linear-gradient(135deg,#fff,#c4b5fd 35%,#7c3aed 70%,#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .subtitle{font-size:clamp(21px,3vw,35px);font-weight:900;line-height:1.5;margin-bottom:16px}
-        .lead,.desc{color:var(--mut);line-height:2;font-size:18px}
-        .lead{max-width:800px;margin:auto}
-        .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:28px}
-        .card{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:28px;padding:32px;box-shadow:0 24px 75px rgba(0,0,0,.28)}
-        .ptitle{margin:0 0 10px;font-size:clamp(36px,6vw,68px);background:linear-gradient(135deg,#fff,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-        .item{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.11);border-radius:22px;padding:20px}
-        .item h3{margin:0 0 8px}
-        .item p{margin:0;color:#bbb5c8;line-height:1.85}
-        .product{cursor:pointer;display:flex;flex-direction:column;min-height:310px}
-        .appLogo{width:92px;height:92px;border-radius:25px;background:linear-gradient(135deg,rgba(124,58,237,.24),rgba(34,211,238,.12));display:grid;place-items:center;overflow:hidden;margin-bottom:12px;border:1px solid rgba(255,255,255,.12)}
-        .appLogo img{width:100%;height:100%;object-fit:contain;padding:7px}
-        .fallback{width:100%;height:100%;display:grid;place-items:center;font-size:34px;font-weight:900;background:linear-gradient(135deg,var(--p),var(--b))}
-        .tag{display:inline-flex;color:#ddd6fe;border:1px solid rgba(167,139,250,.22);background:rgba(124,58,237,.12);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;margin-bottom:12px}
-        .miniFeatures{display:grid;gap:7px;margin:12px 0 16px}
-        .miniFeature{font-size:13px;color:#e5dcff;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);border-radius:12px;padding:8px 10px;line-height:1.65}
-        .priceMini{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:auto;padding-top:12px}
-        .pricePill{border:1px solid rgba(34,211,238,.18);background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(34,211,238,.07));border-radius:14px;padding:8px;text-align:center;min-height:60px}
-        .pricePill small{display:block;color:#bdb6ca;font-size:11px;font-weight:800;margin-bottom:3px}
-        .pricePill b{display:block;color:#fff;font-size:13px;line-height:1.45}
-        .detail{width:min(1180px,100%)}
-        .detailLayout{display:grid;grid-template-columns:.95fr 1.05fr;gap:22px}
-        .detailHead{background:linear-gradient(135deg,rgba(124,58,237,.22),rgba(37,99,235,.10));border:1px solid rgba(167,139,250,.18);border-radius:26px;padding:24px}
-        .detailRow{display:flex;align-items:center;gap:14px;margin-bottom:12px}
-        .detailLogo{width:86px;height:86px;border-radius:24px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);display:grid;place-items:center;overflow:hidden;flex:0 0 auto}
-        .detailLogo img{width:100%;height:100%;object-fit:contain;padding:7px}
-        .detailTitle{font-size:clamp(38px,6vw,64px);margin:0;line-height:1.1;background:linear-gradient(135deg,#fff,#c4b5fd,#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .featureList{display:grid;gap:10px;margin:18px 0}
-        .feature{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);border-radius:16px;padding:13px 15px;color:#eee;font-weight:800;line-height:1.85}
-        .feature b{display:block;color:#fff;margin-bottom:2px}
-        .boxes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
-        .box{border:1px solid rgba(167,139,250,.18);background:rgba(255,255,255,.04);border-radius:18px;padding:16px}
-        .box h3{margin:0 0 8px;color:#ddd6fe}
-        .box p{margin:0;color:#c8c2d2;line-height:1.8}
-        .priceCards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
-        .priceCard{position:relative;overflow:hidden;border:1px solid rgba(34,211,238,.18);background:linear-gradient(135deg,rgba(124,58,237,.20),rgba(37,99,235,.08));border-radius:20px;padding:17px;box-shadow:0 18px 48px rgba(0,0,0,.18)}
-        .priceCard:before{content:"";position:absolute;inset:auto -25px -42px auto;width:90px;height:90px;border-radius:50%;background:rgba(34,211,238,.10)}
-        .priceCard h3{position:relative;margin:0 0 8px;color:#ddd6fe;font-size:16px}
-        .priceCard strong{position:relative;display:block;font-size:24px;color:#fff;margin-bottom:8px;line-height:1.35}
-        .priceCard p{position:relative;margin:0;color:#c8c2d2;line-height:1.8;font-size:14px}
-        .screens{display:grid;gap:14px}
-        .screen{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.11);border-radius:24px;padding:10px;min-height:210px;display:grid;place-items:center;cursor:pointer}
-        .screen img{width:100%;height:auto;max-height:540px;object-fit:contain;border-radius:17px;background:#080812}
-        .mock{width:100%;height:250px;border-radius:17px;background:linear-gradient(135deg,rgba(124,58,237,.32),rgba(37,99,235,.20));display:grid;place-items:center;text-align:center;font-weight:900;color:#f2efff}
-        .faq{display:grid;gap:10px}
-        .light{position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:99;display:none;align-items:center;justify-content:center;padding:22px}
-        .light.active{display:flex}
-        .light img{max-width:96vw;max-height:92vh;border-radius:18px}
-        .footer{padding:24px;text-align:center;color:#9b93aa;border-top:1px solid var(--line)}
-        @media(max-width:850px){.navin{flex-wrap:wrap;padding:10px 0}.menu{display:inline-flex}.links{display:none;order:6;width:100%;flex-direction:column;align-items:stretch;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:18px;padding:10px}.links.open{display:flex}.links button{text-align:inherit;padding:12px}.page{padding:28px 13px 74px}.grid,.detailLayout,.boxes,.priceCards,.priceMini{grid-template-columns:1fr}.card{padding:20px}.btn{width:100%}.cta{align-items:stretch}h1{font-size:58px}.logo{width:48px;height:48px}.brand b{font-size:18px}}
+        .wrap{width:min(1180px,94%);margin:20px auto;display:grid;grid-template-columns:245px 1fr;gap:14px}
+        .side,.panel,.box{background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:22px;padding:15px}
+        .side{height:max-content;position:sticky;top:15px}
+        .brand{font-weight:900;line-height:1.7;margin-bottom:12px}
+        .tab{width:100%;margin:5px 0;background:rgba(255,255,255,.07);text-align:right}
+        .tab.active{background:linear-gradient(135deg,var(--p),var(--b))}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .full{grid-column:1/-1}
+        label{display:block;font-weight:900;margin:7px 0}
+        input,textarea,select{width:100%;background:#0b0b14;color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px}
+        textarea{min-height:95px;resize:vertical}
+        .big{min-height:210px}
+        .hint{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.28);padding:12px;border-radius:14px;line-height:1.8;margin:10px 0}
+        .actions{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+        .drop{border:2px dashed rgba(167,139,250,.45);border-radius:14px;padding:18px;text-align:center;background:rgba(124,58,237,.08);cursor:pointer;color:#ddd6fe}
+        .preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+        .thumb{width:92px;height:76px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.16);position:relative;background:#111}
+        .thumb img{width:100%;height:100%;object-fit:cover}
+        .thumb button{position:absolute;top:3px;left:3px;background:#991b1b;border-radius:50%;padding:2px 8px}
+        .status{position:sticky;top:0;z-index:9;background:#111827;border:1px solid var(--line);border-radius:14px;padding:10px;min-height:44px;margin-bottom:10px;color:#c4b5fd}
+        .login{width:min(520px,100%);margin:auto}
+        .productRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px;margin:8px 0;background:rgba(255,255,255,.04)}
+        .priceEditGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+        .priceEditBox{border:1px solid rgba(167,139,250,.22);background:rgba(124,58,237,.075);border-radius:16px;padding:12px}
+        .priceEditBox h3{margin:0 0 8px;color:#ddd6fe;font-size:16px}
+        .priceChips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+        .priceChip{border:1px solid rgba(167,139,250,.24);background:rgba(124,58,237,.13);border-radius:999px;padding:4px 9px;color:#eee;font-size:12px;font-weight:800}
+        @media(max-width:850px){.wrap,.grid,.priceEditGrid{grid-template-columns:1fr}.side{position:static}.full{grid-column:auto}}
     </style>
 </head>
 <body>
-
-<nav class="nav">
-    <div class="navin">
-        <div class="brand" onclick="openPage('home')">
-            <span class="logo" id="siteLogo">M</span>
-            <div><b id="brandName">MoeSystem</b><small id="brandSub">مو سستم</small></div>
-        </div>
-        <button class="menu" id="menuBtn">القائمة</button>
-        <div class="links" id="navLinks">
-            <button class="active" data-page="home" data-k="home">الرئيسية</button>
-            <button data-page="services" data-k="services">خدماتنا</button>
-            <button data-page="products" data-k="products">منتجاتنا</button>
-            <button data-page="about" data-k="about">من نحن</button>
-            <button data-page="faq" data-k="faq">الأسئلة</button>
-            <button data-page="contact" data-k="contact">تواصل</button>
-        </div>
-        <div class="langs">
-            <button data-lang="ar">AR</button>
-            <button data-lang="ku">KU</button>
-            <button data-lang="en">EN</button>
-        </div>
+    <div id="loginBox" class="login box">
+        <h1>دخول الأدمن</h1>
+        <div class="hint">الإيميل المسموح حسب الرولز: <b>mohmmed@admin.com</b>. الصور هنا تنحفظ داخل Firestore في collection اسمه <b>site_images</b> بدون Storage.</div>
+        <label>الإيميل</label><input id="loginEmail" value="mohmmed@admin.com">
+        <label>كلمة المرور</label><input id="loginPass" type="password">
+        <div class="actions"><button id="loginBtn">دخول</button></div>
+        <div id="loginMsg" class="mut"></div>
     </div>
-</nav>
 
-<main id="home" class="page active">
-    <div class="hero">
-        <div class="badge" id="homeBadge"></div>
-        <h1 id="homeTitle"></h1>
-        <div class="subtitle" id="homeSub"></div>
-        <p class="lead" id="homeText"></p>
-        <div class="cta">
-            <a class="btn" id="heroWhats" target="_blank"></a>
-            <button class="btn secondary" data-page="products" data-k="browse"></button>
-        </div>
+    <div id="appBox" class="wrap hidden">
+        <aside class="side">
+            <div class="brand">MoeSystem Admin<br><span class="mut">تحكم Firestore كامل</span><br><span id="userEmail" class="mut"></span></div>
+            <button class="tab active" data-tab="home">الرئيسية</button>
+            <button class="tab" data-tab="content">الأقسام</button>
+            <button class="tab" data-tab="products">المنتجات والصور</button>
+            <button class="tab" data-tab="contact">التواصل</button>
+            <button class="ok" id="saveAll">نشر كل التغييرات</button>
+            <button class="secondary" id="logoutBtn">خروج</button>
+            <a class="btn secondary" href="index.html" target="_blank" style="width:100%;margin-top:8px">فتح الموقع</a>
+        </aside>
+
+        <main class="panel">
+            <div class="status" id="status">جاهز</div>
+            <div class="hint">اختر لغة التحرير، عدّل النصوص، بعدها اضغط نشر. عند رفع صورة يتم حفظها كوثيقة مستقلة داخل <b>site_images</b>، والموقع يقرأها بنفس المعرف.</div>
+            <label>لغة التحرير</label>
+            <select id="editLang">
+                <option value="ar">عربي</option>
+                <option value="ku">کوردی</option>
+                <option value="en">English</option>
+            </select>
+
+            <section id="tab-home">
+                <h1>الرئيسية والهوية</h1>
+                <div class="grid">
+                    <div><label>اسم الشركة</label><input id="brand"></div>
+                    <div><label>الاسم الفرعي</label><input id="brandAr"></div>
+                    <div><label>شارة الواجهة</label><input id="homeBadge"></div>
+                    <div><label>العنوان الكبير</label><input id="homeTitle"></div>
+                    <div class="full"><label>العنوان الفرعي</label><input id="homeSub"></div>
+                    <div class="full"><label>نص الواجهة</label><textarea id="homeText"></textarea></div>
+                    <div class="full">
+                        <label>لوغو الموقع</label>
+                        <div id="siteLogoDrop" class="drop">اضغط أو اسحب لوغو الموقع</div>
+                        <div id="siteLogoPreview" class="preview"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-content" class="hidden">
+                <h1>الخدمات / من نحن / الأسئلة</h1>
+                <div class="grid">
+                    <div><label>عنوان الخدمات</label><input id="servicesTitle"></div>
+                    <div><label>وصف الخدمات</label><textarea id="servicesDesc"></textarea></div>
+                    <div class="full"><label>الخدمات — كل سطر: عنوان | وصف</label><textarea id="servicesLines" class="big"></textarea></div>
+                    <div><label>عنوان من نحن</label><input id="aboutTitle"></div>
+                    <div><label>نص من نحن</label><textarea id="aboutText"></textarea></div>
+                    <div class="full"><label>نقاط من نحن — كل سطر: عنوان | وصف</label><textarea id="aboutLines"></textarea></div>
+                    <div><label>عنوان الأسئلة</label><input id="faqTitle"></div>
+                    <div><label>وصف الأسئلة</label><textarea id="faqDesc"></textarea></div>
+                    <div class="full"><label>الأسئلة — كل سطر: سؤال | جواب</label><textarea id="faqLines" class="big"></textarea></div>
+                </div>
+            </section>
+
+            <section id="tab-products" class="hidden">
+                <h1>المنتجات والصور</h1>
+                <div class="grid">
+                    <div><label>عنوان قسم المنتجات</label><input id="productsTitle"></div>
+                    <div><label>وصف قسم المنتجات</label><textarea id="productsDesc"></textarea></div>
+                </div>
+                <div class="box">
+                    <input type="hidden" id="productIndex">
+                    <div class="grid">
+                        <div><label>ID المنتج</label><input id="p_id" placeholder="labflow"></div>
+                        <div><label>الحالة</label><input id="p_status"></div>
+                        <div class="full"><label>اسم المنتج</label><input id="p_title"></div>
+                        <div class="full"><label>وصف صغير</label><input id="p_subtitle"></div>
+                        <div class="full"><label>شرح المنتج</label><textarea id="p_text"></textarea></div>
+                        <div class="full"><label>المميزات كاملة — كل سطر ميزة</label><textarea id="p_features" class="big"></textarea></div>
+                        <div><label>تطبيق الموبايل</label><textarea id="p_mobile"></textarea></div>
+                        <div><label>نسخة الأونلاين</label><textarea id="p_online"></textarea></div>
+                        <div><label>نسخة الأوفلاين</label><textarea id="p_offline"></textarea></div>
+                        <div class="full">
+                            <label>أسعار النسخ وتفاصيلها</label>
+                            <div class="priceEditGrid">
+                                <div class="priceEditBox">
+                                    <h3>سعر نسخة الأونلاين</h3>
+                                    <input id="p_onlinePrice" placeholder="مثال: 25$ شهرياً أو حسب الطلب">
+                                    <label>تفاصيل السعر</label>
+                                    <textarea id="p_onlinePriceDetails" placeholder="مثال: يشمل الاستضافة والتحديثات والدعم"></textarea>
+                                </div>
+                                <div class="priceEditBox">
+                                    <h3>سعر نسخة الأوفلاين</h3>
+                                    <input id="p_offlinePrice" placeholder="مثال: 250$ دفعة واحدة">
+                                    <label>تفاصيل السعر</label>
+                                    <textarea id="p_offlinePriceDetails" placeholder="مثال: يعمل على جهاز المختبر بدون إنترنت"></textarea>
+                                </div>
+                                <div class="priceEditBox">
+                                    <h3>سعر تطبيق الموبايل</h3>
+                                    <input id="p_mobilePrice" placeholder="مثال: حسب الطلب">
+                                    <label>تفاصيل السعر</label>
+                                    <textarea id="p_mobilePriceDetails" placeholder="مثال: نسخة موبايل للمتابعة والطلبات"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label>لوغو التطبيق</label>
+                            <div id="logoDrop" class="drop">ارفع لوغو التطبيق</div>
+                            <div id="logoPreview" class="preview"></div>
+                        </div>
+                        <div>
+                            <label>صور واجهات التطبيق</label>
+                            <div id="imagesDrop" class="drop">ارفع صور الواجهات</div>
+                            <div id="imagesPreview" class="preview"></div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button id="saveProduct">حفظ/تحديث المنتج</button>
+                        <button class="secondary" id="newProduct">تفريغ منتج جديد</button>
+                        <button class="ok" id="fillLab">تعبئة LabFlow كامل</button>
+                    </div>
+                </div>
+                <div id="productsList"></div>
+            </section>
+
+            <section id="tab-contact" class="hidden">
+                <h1>التواصل</h1>
+                <div class="grid">
+                    <div><label>رقم التواصل ثابت</label><input id="phone" value="07761710745" disabled></div>
+                    <div><label>الإيميل</label><input id="email"></div>
+                    <div><label>عنوان التواصل</label><input id="contactTitle"></div>
+                    <div class="full"><label>وصف التواصل</label><textarea id="contactDesc"></textarea></div>
+                </div>
+            </section>
+        </main>
     </div>
-</main>
-
-<section id="services" class="page">
-    <div class="card">
-        <h2 class="ptitle" id="servicesTitle"></h2>
-        <p class="desc" id="servicesDesc"></p>
-        <div class="grid" id="servicesGrid"></div>
-    </div>
-</section>
-
-<section id="products" class="page">
-    <div class="card">
-        <h2 class="ptitle" id="productsTitle"></h2>
-        <p class="desc" id="productsDesc"></p>
-        <div class="grid" id="productsGrid"></div>
-    </div>
-</section>
-
-<section id="productDetail" class="page">
-    <div class="card detail" id="productDetailBody"></div>
-</section>
-
-<section id="about" class="page">
-    <div class="card">
-        <h2 class="ptitle" id="aboutTitle"></h2>
-        <p class="desc" id="aboutText"></p>
-        <div class="grid" id="aboutGrid"></div>
-    </div>
-</section>
-
-<section id="faq" class="page">
-    <div class="card">
-        <h2 class="ptitle" id="faqTitle"></h2>
-        <p class="desc" id="faqDesc"></p>
-        <div class="faq" id="faqGrid"></div>
-    </div>
-</section>
-
-<section id="contact" class="page">
-    <div class="card">
-        <h2 class="ptitle" id="contactTitle"></h2>
-        <p class="desc" id="contactDesc"></p>
-        <div class="grid" id="contactGrid"></div>
-        <div class="cta" style="justify-content:flex-start">
-            <a class="btn" id="contactWhats" target="_blank"></a>
-            <a class="btn secondary" id="mailBtn"></a>
-        </div>
-    </div>
-</section>
-
-<footer class="footer">MoeSystem © <span id="year"></span></footer>
-<div class="light" id="lightbox" onclick="hideLight()"><img id="lightImg" alt=""></div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 
 const firebaseConfig = { "apiKey": "AIzaSyDpyBsRjSBNgb85nS-goGQxOlO5mJbjk0I", "authDomain": "moesystem-2fa07.firebaseapp.com", "projectId": "moesystem-2fa07", "storageBucket": "moesystem-2fa07.firebasestorage.app", "messagingSenderId": "41192213610", "appId": "1:41192213610:web:1f0562f4e065a085418e13", "measurementId": "G-NJ4LWXGZWX" };
 const DEFAULT_DATA = {"phone":"07761710745","brand":{"ar":"MoeSystem","ku":"MoeSystem","en":"MoeSystem"},"brandAr":{"ar":"مو سستم","ku":"مۆ سیستەم","en":"MoeSystem"},"siteLogoUrl":"","home":{"badge":{"ar":"حلول برمجية حديثة","ku":"چارەسەری بەرنامەیی نوێ","en":"Modern software solutions"},"title":{"ar":"MoeSystem","ku":"MoeSystem","en":"MoeSystem"},"subtitle":{"ar":"أنظمة ذكية لإدارة المختبرات والعيادات والبطولات","ku":"سیستەمی زیرەک بۆ بەڕێوەبردنی تاقیگە و کلینیک و پاڵەوانێتی","en":"Smart systems for labs, clinics and tournaments"},"text":{"ar":"نطوّر تطبيقات عملية وسهلة الاستخدام تساعدك على تنظيم العمل، تقليل الأخطاء، وتحسين تجربة الزبون من مكان واحد.","ku":"ئەپە کارییەکان دروست دەکەین کە ئاسانن بۆ بەکارهێنان و یارمەتیت دەدەن کارەکان ڕێکبخەیت، هەڵە کەم بکەیت و ئەزموونی کڕیار باشتر بکەیت.","en":"We build practical and easy-to-use systems that organize work, reduce errors and improve customer experience from one place."}},"servicesTitle":{"ar":"خدماتنا","ku":"خزمەتگوزارییەکانمان","en":"Our Services"},"servicesDesc":{"ar":"نقدم تصميم وبرمجة أنظمة مخصصة حسب طبيعة عملك.","ku":"سیستەم و ئەپ بە پێی پێویستی کارەکەت دروست دەکەین.","en":"We design and build custom systems for your workflow."},"services":[{"title":{"ar":"تطوير تطبيقات ويب","ku":"دروستکردنی وێب ئەپ","en":"Web app development"},"text":{"ar":"أنظمة تعمل من المتصفح للحاسوب والموبايل.","ku":"سیستەم کە لە براوسەر لەسەر کۆمپیوتەر و مۆبایل کار دەکات.","en":"Browser-based systems for desktop and mobile."}},{"title":{"ar":"تطبيقات موبايل","ku":"ئەپلیکەیشنی مۆبایل","en":"Mobile apps"},"text":{"ar":"واجهات موبايل سريعة ومناسبة للمستخدمين.","ku":"واجهەی مۆبایل خێرا و گونجاو بۆ بەکارهێنەر.","en":"Fast mobile interfaces for users."}},{"title":{"ar":"أنظمة إدارية","ku":"سیستەمی بەڕێوەبردن","en":"Management systems"},"text":{"ar":"مختبرات، عيادات، حسابات، مخزن، موظفين وتقارير.","ku":"تاقیگە، کلینیک، حسابات، کۆگا، کارمەند و ڕاپۆرت.","en":"Labs, clinics, accounts, inventory, employees and reports."}}],"productsTitle":{"ar":"منتجاتنا","ku":"بەرهەمەکانمان","en":"Our Products"},"productsDesc":{"ar":"اضغط على أي تطبيق لعرض الصور والتفاصيل الكاملة.","ku":"کلیک لەسەر هەر ئەپێک بکە بۆ بینینی وێنە و وردەکاری تەواو.","en":"Click any product to view images and full details."},"products":[{"id":"labflow","title":{"ar":"LabFlow","ku":"LabFlow","en":"LabFlow"},"subtitle":{"ar":"نظام إدارة مختبرات طبية","ku":"سیستەمی بەڕێوەبردنی تاقیگەی پزیشکی","en":"Medical lab management system"},"text":{"ar":"نظام LabFlow هو نظام متكامل لإدارة المختبرات الطبية، مصمم لتسهيل العمل اليومي داخل المختبر من لحظة تسجيل المريض إلى تسليم النتيجة وطباعتها ومشاركتها.","ku":"LabFlow سیستەمێکی تەواوە بۆ بەڕێوەبردنی تاقیگەی پزیشکی، لە تۆمارکردنی نەخۆشەوە تا دەرکردنی ئەنجام، چاپکردن و هاوبەشکردنی بە شێوەی ئاسان و ڕێکخراو.","en":"LabFlow is a complete medical laboratory management system, designed to simplify daily work from patient registration to result delivery, printing and sharing."},"logoUrl":"","imageUrls":[],"features":{"ar":["إدارة المرضى — يوفر النظام إمكانية تسجيل المرضى الجدد مع حفظ الاسم، رقم الهاتف، العمر، الجنس، الطبيب المحوّل، والملاحظات. كما يمكن اختيار مريض محفوظ مسبقاً وتعبئة بياناته تلقائياً، مع وجود ملف خاص لكل مريض يحتوي على نتائجه السابقة وسجل زياراته.","طلب تحليل جديد — يدعم النظام إنشاء طلب تحليل جديد بشكل سريع، مع اختيار التحاليل من مكتبة منظمة حسب الأقسام، وإمكانية البحث السريع داخل التحاليل، واختيار أكثر من تحليل لنفس المريض دون فقدان الاختيارات أثناء البحث.","العروض والباقات — يحتوي النظام على قسم خاص للعروض الجاهزة، حيث يمكن إنشاء باقات تحاليل بسعر محدد، وتظهر العروض في واجهة الطلب كسلايد سريع لاختيار العرض مباشرة، مع تطبيق التحاليل والسعر تلقائياً.","إدخال النتائج — يوفر النظام واجهة مخصصة لإدخال نتائج التحاليل، مع إمكانية تعديل النتيجة، الوحدة، الـ Normal Range، والحالة. كما يدعم تحديد القيم المرتفعة والمنخفضة H / L، مع تلوين النتائج غير الطبيعية بشكل واضح.","التنبيه التلقائي للقيم — يقوم النظام بقراءة الـ Normal Range تلقائياً ومقارنة النتيجة المدخلة، فإذا كانت أعلى من الطبيعي تظهر H، وإذا كانت أقل تظهر L، مما يقلل الأخطاء ويسرع عمل المختبر.","طباعة النتائج — يدعم النظام طباعة نتائج التحاليل بورقة احترافية بتصاميم متعددة، مع إمكانية اختيار لون الورقة، شكل الهيدر، شكل الجدول، شكل الفوتر، والقالب الكامل. كما يدعم الطباعة بمقاس A4 مع ترتيب رسمي مناسب للمختبرات.","قوالب طباعة جاهزة — يوفر النظام قوالب طباعة جاهزة تجمع بين الألوان والهيدر والجداول بشكل متناسق، بحيث يستطيع المستخدم اختيار قالب كامل بنقرة واحدة.","معاينة حية للطباعة — توجد معاينة مباشرة لشكل ورقة الطباعة داخل إعدادات الطباعة، تتغير فوراً عند اختيار اللون أو شكل الهيدر أو الجدول، مما يسمح للمستخدم بمشاهدة التصميم قبل الحفظ.","رفع شعار المختبر — يدعم النظام رفع شعار المختبر، ويظهر الشعار في هيدر ورقة الطباعة، كما يمكن استخدامه كعلامة مائية داخل الورقة.","العلامة المائية — يوفر النظام علامة مائية قابلة للتحكم، مع إمكانية تشغيلها أو إيقافها، وتحديد حجمها ودرجة شفافيتها من نافذة مراجعة الطباعة.","الختم الإلكتروني — يدعم النظام إنشاء ختم إلكتروني للمختبر، مع إمكانية اختيار شكل الختم، اللون، النصوص، والرمز الداخلي. كما يمكن إظهار الختم أو إخفاؤه عند الطباعة.","مراجعة قبل الطباعة — قبل طباعة النتيجة، يمكن فتح نافذة مراجعة للنتيجة، تعديل القيم، التحكم بالختم والعلامة المائية، ثم الطباعة أو تحميل PDF.","تحميل PDF — يدعم النظام توليد ملف PDF للنتيجة بشكل مباشر، مع حفظ اسم الملف حسب اسم المريض وتاريخ التحليل.","مشاركة واتساب — يدعم النظام مشاركة النتيجة عبر واتساب، مع تجهيز رسالة منظمة للنتيجة وفتح واتساب لإرسالها للمريض.","الباركود والسيريال — ينشئ النظام رقم سيريال وباركود لكل نتيجة، ويظهر داخل ورقة الطباعة وقسم النتائج، مما يسهل البحث عن النتيجة أو المريض لاحقاً.","قراءة الباركود — يدعم النظام قراءة الباركود من جهاز USB، ويمكن فتح نتيجة المريض أو ملفه مباشرة عند قراءة الباركود.","ساحة العمل — يحتوي النظام على قسم خاص باسم ساحة العمل، يساعد فني المختبر على متابعة الطلب الحالي، عرض التحاليل المطلوبة، فتح طريقة العمل لكل تحليل، واستخدام المؤقتات الخاصة بالتحاليل.","طريقة العمل SOP — لكل تحليل يمكن إضافة طريقة عمل خاصة، تشمل نوع العينة، المواد المطلوبة، خطوات العمل، طريقة قراءة النتيجة، والملاحظات. وتظهر هذه الطريقة داخل ساحة العمل عند اختيار التحليل.","منبهات التحاليل — يدعم النظام منبهات خاصة لكل تحليل داخل ساحة العمل، بحيث يمكن إضافة منبه مستقل لكل تحليل مع اسم التحليل، وقت مخصص، تشغيل، إيقاف، كتم، وحذف.","أصوات التنبيه — يوفر النظام عدة أصوات للتنبيه، مع صوت قوي ومستمر لا يتوقف تلقائياً إلا عند الضغط على إيقاف أو كتم.","إدارة التحاليل — يوفر النظام مكتبة كاملة لإدارة التحاليل، تشمل اسم التحليل، القسم، الوحدة، السعر، والـ Normal Range، مع إمكانية الإضافة والتعديل والحذف.","إدارة الأقسام — يمكن تنظيم التحاليل حسب الأقسام مثل Hematology، Biochemistry، Hormones، Serology، Urine، Stool وغيرها.","إدارة العروض — يوجد قسم خاص لإنشاء وتعديل عروض التحاليل، مع اختيار التحاليل الداخلة ضمن العرض وتحديد سعر خاص للباقة.","إدارة الأطباء — يدعم النظام إضافة الأطباء مع الاسم، الاختصاص، الهاتف، العيادة، العنوان، النسبة، ونوع الحساب، مع ربط كل طلب بالطبيب المحوّل.","حساب أرباح الأطباء — يمكن للنظام حساب أرباح الأطباء حسب النسبة المحددة لكل طبيب، اعتماداً على نتائج المرضى المحولين.","الحسابات اليومية — يعرض النظام الحسابات اليومية، مثل إجمالي الطلبات، المبالغ المدفوعة، المتبقي، الخصومات، المصاريف، وصافي الربح التقريبي.","المصاريف — يوفر النظام قسم لإضافة المصاريف مثل الإيجار، الكهرباء، المواد المختبرية، الرواتب، الصيانة، التعقيم، النقل، والطباعة، مع عرض ملخص حسب نوع المصروف.","الديون والمدفوعات — يدعم النظام تسجيل الدفع الكامل أو الجزئي أو عدم الدفع، مع عرض المبلغ المدفوع والباقي لكل نتيجة.","تسديد لاحق — يمكن تسديد المبالغ المتبقية لاحقاً من قسم النتائج أو الحسابات، مع تحديث الحالة المالية تلقائياً.","إدارة المخزن — يوفر النظام إدارة للمخزون، تشمل المواد، الكمية، الحد الأدنى، تاريخ الانتهاء، والملاحظات.","الخصم التلقائي من المخزن — عند إنشاء طلب جديد، يمكن للنظام خصم المواد المرتبطة بالتحاليل من المخزن تلقائياً، مع تنبيه عند وصول المادة إلى الحد الأدنى.","تنبيهات المخزن — يعرض النظام تنبيهات للمواد القريبة من النفاد أو التي وصلت إلى الحد الأدنى.","إدارة الموظفين — يحتوي النظام على قسم لإدارة الموظفين، يشمل الاسم، الوظيفة، الهاتف، والراتب.","إدارة الشفتات — يدعم النظام بدء وإنهاء الشفتات، مع تسجيل الموظف، نوع الشفت، وقت البداية، وقت النهاية، الصندوق الافتتاحي، وعدد الطلبات خلال الشفت.","حسابات الشفت — عند إنهاء الشفت، يحسب النظام الطلبات، الصافي، المدفوع، والباقي خلال فترة الشفت.","لوحة رئيسية — يحتوي النظام على واجهة رئيسية تعرض ملخصات سريعة عن الطلبات، المرضى، النتائج، الحسابات، التنبيهات، والوصول السريع للأقسام المهمة.","الوضع الداكن والفاتح — يدعم النظام الوضع الداكن والوضع الفاتح، مع تصميم مناسب لكل وضع.","دعم اللغات — يدعم النظام ثلاث لغات: العربية، الإنجليزية، والكردية، مما يجعله مناسباً للاستخدام في المختبرات متعددة اللغات ويسهّل العمل على مختلف المستخدمين.","إعدادات المختبر — يمكن تعديل اسم المختبر بالعربي والإنجليزي، الوصف، العنوان، أرقام الهاتف، البريد الإلكتروني، الموقع، والشعار.","النسخ الاحتياطي — يدعم النظام تصدير نسخة احتياطية كاملة من البيانات بصيغة JSON، واستيراد نسخة احتياطية عند الحاجة.","حماية التفعيل — يدعم النظام شاشة تفعيل برقم الجهاز وكود التفعيل، بحيث لا يفتح النظام إلا بعد التفعيل.","سهولة الاستخدام — تم تصميم النظام ليكون مناسباً للعمل اليومي داخل المختبر، بدون تعقيد، مع أزرار واضحة وأقسام مرتبة.","تقليل الأخطاء — يساعد النظام على تقليل الأخطاء من خلال الحفظ التلقائي، الترتيب الواضح، قراءة الباركود، التنبيه للقيم غير الطبيعية، وربط النتائج بملف المريض.","مناسب للمختبرات الصغيرة والمتوسطة — النظام مناسب للمختبرات التي تحتاج إلى إدارة المرضى، النتائج، الطباعة، الحسابات، الأطباء، المخزن، والموظفين من مكان واحد."],"ku":["بەڕێوەبردنی نەخۆشەکان — تۆمارکردنی نەخۆشی نوێ لەگەڵ ناو، ژمارەی تەلەفۆن، تەمەن، ڕەگەز، پزیشکی ڕەوانەکار و تێبینی؛ هەروەها هەڵبژاردنی نەخۆشی پێشتر تۆمارکراو و پڕکردنەوەی زانیارییەکان بە شێوەی خۆکار، لەگەڵ پەڕگەی تایبەت بۆ هەر نەخۆش.","داواکاری شیکاری نوێ — دروستکردنی داواکاری شیکاری بە خێرایی، هەڵبژاردنی شیکارییەکان لە کتێبخانەی ڕێکخراو بەپێی بەشەکان، گەڕانی خێرا و هەڵبژاردنی چەند شیکارییەک بۆ یەک نەخۆش بەبێ لەدەستدانی هەڵبژاردنەکان.","ئۆفەر و پاکێجەکان — بەشی تایبەت بۆ ئۆفەرە ئامادەکان، دروستکردنی پاکێجی شیکاری بە نرخێکی دیاریکراو، پیشاندانی ئۆفەرەکان لە واجهەی داواکاری و جێبەجێکردنی شیکاری و نرخ بە شێوەی خۆکار.","داخلکردنی ئەنجامەکان — واجهەی تایبەت بۆ داخلکردنی ئەنجامی شیکارییەکان، دەستکاری ئەنجام، یەکە، Normal Range و دۆخ، هەروەها دیاریکردنی H/L و ڕەنگکردنی ئەنجامە نائاساییەکان.","ئاگادارکردنەوەی خۆکاری بەهاکان — خوێندنەوەی Normal Range و بەراوردکردنی ئەنجامی داخلکراو؛ ئەگەر بەرزتر بێت H و ئەگەر نزمتر بێت L دەردەکەوێت بۆ کەمکردنەوەی هەڵەکان.","چاپکردنی ئەنجامەکان — چاپی ئەنجام بە لاپەڕەی پیشەیی و دیزاینە جیاوازەکان، هەڵبژاردنی ڕەنگ، هێدەر، خشتە، فوتر و قاڵبی تەواو بە قەبارەی A4.","قاڵبە چاپییە ئامادەکان — قاڵبە ئامادەکان کە ڕەنگ، هێدەر و خشتەکان بە شێوەی هاوتا ڕێکدەخات، بە یەک کلیک هەڵدەبژێردرێت.","پێشبینینی زیندووی چاپ — پیشاندانی ڕاستەوخۆی شێوازی لاپەڕە لە ڕێکخستنەکانی چاپ، کە دەگۆڕێت کاتێک ڕەنگ یان شێوەی هێدەر و خشتە هەڵدەبژێردرێت.","بارکردنی لۆگۆی تاقیگە — پشتگیری بارکردنی لۆگۆی تاقیگە بۆ هێدەر و بەکارهێنانی وەک ئاوی مارک لە ناو لاپەڕەدا.","ئاوی مارک — ئاوی مارک بە شێوەیەکی قابل بە کۆنترۆڵ، لەکارخستن یان ناچالاککردن، دیاریکردنی قەبارە و شەفافیەت لە پەنجەرەی پێداچوونەوەی چاپ.","مۆری ئەلیکترۆنی — دروستکردنی مۆری ئەلیکترۆنی بۆ تاقیگە، هەڵبژاردنی شێوە، ڕەنگ، دەق و هێمای ناوەکی، لەگەڵ پیشاندان یان شاردنەوە لە چاپدا.","پێداچوونەوە پێش چاپ — پێش چاپکردن دەتوانرێت ئەنجام بکرێتەوە، بەهاکان دەستکاری بکرێن، مۆر و ئاوی مارک کۆنترۆڵ بکرێن، پاشان چاپ یان PDF دابەزێندرێت.","دابەزاندنی PDF — دروستکردنی فایل PDF بە شێوەی ڕاستەوخۆ، لەگەڵ ناونانی فایل بە ناوی نەخۆش و بەرواری شیکاری.","هاوبەشکردن لە واتساپ — ئامادەکردنی نامەی ڕێکخراو و کردنەوەی واتساپ بۆ ناردنی ئەنجام بۆ نەخۆش.","بارکۆد و سریال — دروستکردنی ژمارەی سریال و بارکۆد بۆ هەر ئەنجام، پیشاندانیان لە لاپەڕەی چاپ و بەشی ئەنجامەکان بۆ گەڕانی خێرا.","خوێندنەوەی بارکۆد — پشتگیری خوێنەری USB بارکۆد، و کردنەوەی ئەنجام یان پەڕگەی نەخۆش بە خوێندنەوەی بارکۆد.","شوێنی کار — بەشێکی تایبەت بۆ فنی تاقیگە بۆ بەدواداچوونی داواکاری ئێستا، پیشاندانی شیکارییە داواکراوەکان، SOP و تایمەرەکان.","ڕێنمای کاری SOP — بۆ هەر شیکاری دەتوانرێت ڕێنمای کار زیاد بکرێت: جۆری نمونە، مادە پێویستەکان، هەنگاوەکانی کار، خوێندنەوەی ئەنجام و تێبینی.","ئاگادارکەرەوەکانی شیکاری — زیادکردنی ئاگادارکەرەوەی سەربەخۆ بۆ هەر شیکاری لە شوێنی کار، لەگەڵ ناو، کات، دەستپێکردن، ڕاگرتن، بێدەنگکردن و سڕینەوە.","دەنگەکانی ئاگادارکردنەوە — چەند دەنگێک بۆ ئاگادارکردنەوە، لەگەڵ دەنگی بەهێز و بەردەوام کە تەنها بە ڕاگرتن یان بێدەنگکردن کۆتایی دێت.","بەڕێوەبردنی شیکارییەکان — کتێبخانەی تەواو بۆ ناوی شیکاری، بەش، یەکە، نرخ و Normal Range لەگەڵ زیادکردن، دەستکاری و سڕینەوە.","بەڕێوەبردنی بەشەکان — ڕێکخستنی شیکارییەکان بەپێی بەشەکان وەک Hematology، Biochemistry، Hormones، Serology، Urine، Stool و هیتر.","بەڕێوەبردنی ئۆفەرەکان — بەشی تایبەت بۆ دروستکردن و دەستکاری ئۆفەرەکان، هەڵبژاردنی شیکارییەکانی ناو پاکێج و دانانی نرخێکی تایبەت.","بەڕێوەبردنی پزیشکەکان — زیادکردنی پزیشک لەگەڵ ناو، پسپۆڕی، ژمارە، کلینیک، ناونیشان، ڕێژە و جۆری حساب، لەگەڵ پەیوەستکردنی داواکاری بە پزیشک.","حسابکردنی قازانجی پزیشک — حسابکردنی قازانجی پزیشکەکان بەپێی ڕێژەی دیاریکراو بۆ هەر پزیشک و ئەنجامی نەخۆشە ڕەوانەکراوەکان.","حساباتی ڕۆژانە — پیشاندانی کۆی داواکاری، پارەی دراو، ماوە، داشکاندن، خەرجی و قازانجی نزیکەیی.","خەرجییەکان — زیادکردنی خەرجی وەک کرێ، کارەبا، ماددەی تاقیگە، مووچە، چاکسازی، پاککردنەوە، گواستنەوە و چاپ، لەگەڵ پوختە بەپێی جۆر.","قەرز و پارەدان — تۆمارکردنی پارەدانی تەواو، بەشێکی یان نەدراو، لەگەڵ پیشاندانی پارەی دراو و ماوە بۆ هەر ئەنجام.","پارەدانی دواتر — پارەی ماوە دەتوانرێت دواتر لە بەشی ئەنجامەکان یان حسابات بدرێت و دۆخی دارایی خۆکار نوێ دەبێتەوە.","بەڕێوەبردنی کۆگا — بەڕێوەبردنی ماددەکان، بڕ، سنووری کەمترین، بەرواری بەسەرچوون و تێبینی.","کەمکردنەوەی خۆکار لە کۆگا — کاتێک داواکاری نوێ دروست دەکرێت، ماددەی پەیوەندیدار بە شیکارییەکان خۆکار لە کۆگا کەم دەکرێتەوە و ئاگادارکردنەوە دەردەکەوێت.","ئاگادارکردنەوەی کۆگا — پیشاندانی ماددە نزیکبووەکان لە تەواوبوون یان گەیشتوو بە سنووری کەمترین.","بەڕێوەبردنی کارمەندان — بەشی کارمەندان لەگەڵ ناو، پۆست، ژمارەی تەلەفۆن و مووچە.","بەڕێوەبردنی شیفتەکان — دەستپێکردن و کۆتاییهێنانی شیفت، تۆمارکردنی کارمەند، جۆری شیفت، کاتی دەستپێک، کۆتایی، سندووقی سەرەتایی و ژمارەی داواکاری.","حساباتی شیفت — کاتێک شیفت کۆتایی دێت، سیستەم داواکاری، صافی، پارەی دراو و ماوە لە ماوەی شیفت حساب دەکات.","داشبۆردی سەرەکی — واجهەی سەرەکی کە پوختەی داواکاری، نەخۆش، ئەنجام، حسابات، ئاگادارکردنەوە و دەستگەیشتنی خێرا پیشان دەدات.","دۆخی تاریک و ڕووناک — پشتگیری دۆخی تاریک و ڕووناک لەگەڵ دیزاینێکی گونجاو بۆ هەر دۆخ.","پشتگیری زمانەکان — پشتگیری سێ زمان: عەرەبی، ئینگلیزی و کوردی بۆ تاقیگەی چەندزمانە و ئاسانکردنی کار.","ڕێکخستنی تاقیگە — دەستکاری ناوی تاقیگە بە عەرەبی و ئینگلیزی، وەسف، ناونیشان، ژمارەکان، ئیمەیڵ، شوێن و لۆگۆ.","کۆپی پاشەکەوت — دەرکردنی کۆپی پاشەکەوتی تەواوی داتا بە JSON و هاوردەکردنی کۆپی کاتێک پێویست بێت.","پاراستنی چالاککردن — شاشەی چالاککردن بە ژمارەی ئامێر و کۆدی چالاککردن، بەجۆرێک سیستەم تەنها دوای چالاککردن دەکرێتەوە.","ئاسانی بەکارهێنان — دیزاین کراوە بۆ کاری ڕۆژانەی تاقیگە بەبێ ئاڵۆزی، لەگەڵ دوگمەی ڕوون و بەشە ڕێکخراوەکان.","کەمکردنەوەی هەڵەکان — یارمەتی کەمکردنەوەی هەڵەکان دەدات بە پاشەکەوتی خۆکار، ڕێکخستن، بارکۆد، ئاگادارکردنەوەی بەهای نائاسایی و پەیوەستکردنی ئەنجام بە پەڕگەی نەخۆش.","گونجاو بۆ تاقیگەی بچووک و مامناوەند — گونجاوە بۆ تاقیگەکان کە پێویستیان بە بەڕێوەبردنی نەخۆش، ئەنجام، چاپ، حسابات، پزیشک، کۆگا و کارمەندان لە یەک شوێن هەیە."],"en":["Patient management — Register new patients with name, phone, age, gender, referring doctor and notes, or select an existing patient and auto-fill their information, with a dedicated file for previous results and visits.","New test request — Create a new lab request quickly, choose tests from organized categories, search inside tests, and select multiple tests for one patient without losing selections.","Packages and offers — Create ready-made test bundles with a special price and show them as quick slides in the request screen with automatic test and price application.","Result entry — Dedicated screen for entering results, editing value, unit, normal range and status, with H/L flags and clear color highlighting for abnormal values.","Automatic value alerts — Reads the normal range and compares the entered result; it shows H for high and L for low to reduce mistakes and speed up work.","Result printing — Professional printed reports with multiple designs, paper colors, header styles, table styles, footer styles and full templates on A4.","Ready print templates — Complete ready templates that combine colors, headers and tables consistently and can be selected in one click.","Live print preview — Direct preview of the report design inside print settings, updating immediately when color, header or table style changes.","Lab logo upload — Upload the laboratory logo and show it in the print header or use it as a watermark inside the report.","Watermark control — Enable or disable the watermark and control its size and transparency from the print review window.","Electronic stamp — Create a lab electronic stamp, choose its style, color, texts and internal symbol, and show or hide it when printing.","Review before print — Open a review window before printing, edit values, control stamp and watermark, then print or download PDF.","PDF download — Generate a result PDF directly and name the file by patient name and test date.","WhatsApp sharing — Prepare an organized result message and open WhatsApp to send the result to the patient.","Barcode and serial — Generate a serial number and barcode for each result, shown on the report and result section for quick lookup.","Barcode reading — Supports USB barcode scanners to open the patient result or file directly after scanning.","Work area — Dedicated workspace for lab technicians to follow current requests, view requested tests, open SOPs and use timers.","SOP workflow — Add a work procedure for each test including sample type, required materials, steps, result reading method and notes.","Test timers — Add independent timers for each test with test name, custom time, start, stop, mute and delete controls.","Alert sounds — Multiple alert sounds including a strong continuous sound that stops only by stop or mute.","Test management — Full test library with test name, category, unit, price and normal range, with add, edit and delete.","Category management — Organize tests by sections such as Hematology, Biochemistry, Hormones, Serology, Urine and Stool.","Offer management — Create and edit test offers by selecting included tests and setting a special package price.","Doctor management — Add doctors with name, specialty, phone, clinic, address, percentage and account type, and connect each request to the referring doctor.","Doctor profit calculation — Calculate doctor profits based on each doctor percentage and referred patient results.","Daily accounts — Shows total requests, paid amounts, remaining balances, discounts, expenses and approximate net profit.","Expenses — Add expenses such as rent, electricity, lab materials, salaries, maintenance, sterilization, transport and printing, with summaries by type.","Debts and payments — Record full, partial or unpaid status and show paid and remaining amount for every result.","Later payment — Settle remaining amounts later from results or accounts with automatic financial status update.","Inventory management — Manage materials, quantity, minimum limit, expiration date and notes.","Automatic inventory deduction — When creating a new request, linked materials can be deducted automatically from inventory with low-stock alerts.","Inventory alerts — Shows alerts for materials that are near shortage or reached the minimum limit.","Employee management — Manage employees with name, job, phone and salary.","Shift management — Start and end shifts with employee, shift type, start/end time, opening cash and number of requests during the shift.","Shift accounting — At shift closing, the system calculates requests, net amount, paid and remaining amounts during that shift.","Main dashboard — Shows quick summaries for requests, patients, results, accounts, alerts and shortcuts to important sections.","Dark and light mode — Supports both dark and light modes with suitable design for each.","Language support — Supports Arabic, English and Kurdish for multilingual laboratories and different users.","Lab settings — Edit Arabic/English lab name, description, address, phone numbers, email, location and logo.","Backup — Export a full backup as JSON and import it again when needed.","Activation protection — Activation screen with device number and activation code so the system opens only after activation.","Ease of use — Designed for daily laboratory work without complexity, with clear buttons and organized sections.","Error reduction — Reduces mistakes through auto-save, clear organization, barcode reading, abnormal value alerts and linking results to patient files.","For small and medium labs — Suitable for labs that need patient, result, print, accounting, doctor, inventory and employee management from one place."]},"mobile":{"ar":"يتوفر للنظام واجهة موبايل مخصصة وسريعة لعرض النتائج، متابعة الطلبات، مشاركة واتساب، والوصول للأقسام المهمة من الهاتف بشكل مناسب وسهل.","ku":"سیستەم واجهەی مۆبایلی تایبەتی هەیە بۆ بینینی ئەنجامەکان، بەدواداچوونی داواکاری، ناردنی واتساپ و گەیشتن بە بەشە گرنگەکان بە شێوەی ئاسان.","en":"The system includes a mobile-friendly interface for viewing results, following requests, sharing through WhatsApp and accessing key sections easily."},"online":{"ar":"نسخة الأونلاين تعمل عبر Firebase/Cloud حتى يمكن حفظ البيانات ومزامنتها بين الأجهزة المصرح بها، مع إمكانية الوصول من أي مكان حسب صلاحيات المستخدم.","ku":"وەشانی ئۆنلاین لە ڕێگەی Firebase/Cloud کار دەکات بۆ پاشەکەوت و هاوکاتکردنی داتا لە نێوان ئامێرە ڕێپێدراوەکان، لەگەڵ گەیشتن لە هەر شوێنێک بەپێی مۆڵەتی بەکارهێنەر.","en":"The online version works through Firebase/Cloud to save and sync data across authorized devices, with access from anywhere based on permissions."},"offline":{"ar":"نسخة الأوفلاين مناسبة للمختبرات التي تريد العمل المحلي على جهاز واحد أو شبكة داخلية، مع إمكانية النسخ الاحتياطي واستيراد البيانات عند الحاجة.","ku":"وەشانی ئۆفلاین گونجاوە بۆ تاقیگەکان کە دەیانەوێت لەسەر یەک ئامێر یان تۆڕی ناوخۆ کار بکەن، لەگەڵ کۆپی پاشەکەوت و هاوردەکردنی داتا کاتێک پێویست بێت.","en":"The offline version is suitable for labs that want local work on one device or an internal network, with backup and data import when needed."},"status":{"ar":"متاح","ku":"بەردەستە","en":"Available"},"logoImageId":"","imageIds":[]}],"aboutTitle":{"ar":"من نحن","ku":"دەربارەی ئێمە","en":"About us"},"aboutText":{"ar":"MoeSystem شركة برمجية تهتم ببناء أنظمة عملية، سهلة، وسريعة تناسب السوق والعمل اليومي.","ku":"MoeSystem کۆمپانیایەکی بەرنامەسازییە کە سیستەمی کاری، ئاسان و خێرا دروست دەکات بۆ بازاڕ و کاری ڕۆژانە.","en":"MoeSystem builds practical, easy and fast systems for real daily work."},"faqTitle":{"ar":"الأسئلة الشائعة","ku":"پرسیارە باوەکان","en":"FAQ"},"faqDesc":{"ar":"أجوبة سريعة عن المنتجات وطريقة الطلب.","ku":"وەڵامی خێرا دەربارەی بەرهەمەکان و شێوازی داواکاری.","en":"Quick answers about products and ordering."},"faq":[{"question":{"ar":"هل يمكن تجربة التطبيق؟","ku":"دەتوانم ئەپەکە تاقی بکەمەوە؟","en":"Can I try the app?"},"answer":{"ar":"نعم، اضغط طلب نسخة تجريبية وسيتم فتح واتساب برسالة جاهزة.","ku":"بەڵێ، کلیک لەسەر داواکاری وەشانی تاقیکاری بکە و واتساپ بە نامەی ئامادە دەکرێتەوە.","en":"Yes, click request trial and WhatsApp will open with a ready message."}},{"question":{"ar":"هل يمكن تخصيص النظام؟","ku":"دەتوانرێت سیستەم تایبەت بکرێت؟","en":"Can the system be customized?"},"answer":{"ar":"نعم، يمكن تعديل الألوان، الشعار، الأقسام، الصلاحيات وبعض تفاصيل العمل حسب احتياج الزبون.","ku":"بەڵێ، ڕەنگ، لۆگۆ، بەشەکان، مۆڵەتەکان و وردەکاری کار دەتوانرێت بەپێی پێویستی کڕیار بگۆڕدرێت.","en":"Yes, colors, logo, sections, permissions and workflow details can be customized."}},{"question":{"ar":"هل توجد نسخة أونلاين وأوفلاين؟","ku":"وەشانی ئۆنلاین و ئۆفلاین هەیە؟","en":"Is there online and offline?"},"answer":{"ar":"نعم، حسب نوع المشروع والحاجة يمكن تجهيز نسخة أونلاين أو أوفلاين أو الاثنين معاً.","ku":"بەڵێ، بەپێی جۆری پڕۆژە دەتوانرێت وەشانی ئۆنلاین یان ئۆفلاین یان هەردووکیان ئامادە بکرێت.","en":"Yes, based on the project we can prepare online, offline or both versions."}}],"contactTitle":{"ar":"تواصل معنا","ku":"پەیوەندیمان پێوە بکە","en":"Contact us"},"contactDesc":{"ar":"للطلب أو الاستفسار اضغط واتساب وسيتم إرسال رسالة جاهزة.","ku":"بۆ داواکاری یان پرسیار کلیک لەسەر واتساپ بکە و نامەی ئامادە دەنێردرێت.","en":"For orders or questions, click WhatsApp to send a ready message."},"email":"moe.system.m@gmail.com","siteLogoImageId":""};
 
-let DATA = DEFAULT_DATA, lang = localStorage.getItem('moe_lang') || 'ar', cache = {};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let data = structuredClone(DEFAULT_DATA), lang = 'ar', currentLogoId = '', currentImageIds = [], cache = {};
+const $ = id => document.getElementById(id);
 
-const L = {
-    ar: { home: 'الرئيسية', services: 'خدماتنا', products: 'منتجاتنا', about: 'من نحن', faq: 'الأسئلة', contact: 'تواصل', browse: 'تصفح المنتجات', whatsapp: 'تواصل واتساب', back: 'رجوع للمنتجات', more: 'تحميل المزيد', less: 'عرض أقل', order: 'طلب التطبيق الكامل', trial: 'طلب نسخة تجريبية', mobile: 'تطبيق الموبايل', online: 'نسخة الأونلاين', offline: 'نسخة الأوفلاين', onlinePrice: 'سعر الأونلاين', offlinePrice: 'سعر الأوفلاين', mobilePrice: 'سعر الموبايل', priceDetails: 'تفاصيل السعر', noPrice: 'حسب الطلب', phone: 'رقم التواصل', email: 'الإيميل', company: 'الشركة', noImages: 'لا توجد صور مرفوعة بعد', loadError: 'تعذر جلب بيانات Firebase، تم عرض البيانات الافتراضية' },
-    ku: { home: 'سەرەکی', services: 'خزمەتگوزارییەکان', products: 'بەرهەمەکان', about: 'دەربارەی ئێمە', faq: 'پرسیارەکان', contact: 'پەیوەندی', browse: 'بینینی بەرهەمەکان', whatsapp: 'پەیوەندی واتساپ', back: 'گەڕانەوە بۆ بەرهەمەکان', more: 'زیاتر ببینە', less: 'کەمتر نیشان بدە', order: 'داواکاری ئەپی تەواو', trial: 'داواکاری وەشانی تاقیکردنەوە', mobile: 'ئەپلیکەیشنی مۆبایل', online: 'وەشانی ئۆنلاین', offline: 'وەشانی ئۆفلاین', onlinePrice: 'نرخی ئۆنلاین', offlinePrice: 'نرخی ئۆفلاین', mobilePrice: 'نرخی مۆبایل', priceDetails: 'وردەکاری نرخ', noPrice: 'بەپێی داواکاری', phone: 'ژمارەی پەیوەندی', email: 'ئیمەیل', company: 'کۆمپانیا', noImages: 'هێشتا هیچ وێنەیەک بارنەکراوە', loadError: 'نەتوانرا زانیاری Firebase بهێنرێت، زانیاری بنەڕەتی نیشان درا' },
-    en: { home: 'Home', services: 'Services', products: 'Products', about: 'About', faq: 'FAQ', contact: 'Contact', browse: 'Browse products', whatsapp: 'WhatsApp', back: 'Back to products', more: 'Load more', less: 'Show less', order: 'Order full app', trial: 'Request trial', mobile: 'Mobile app', online: 'Online version', offline: 'Offline version', onlinePrice: 'Online price', offlinePrice: 'Offline price', mobilePrice: 'Mobile price', priceDetails: 'Price details', noPrice: 'By request', phone: 'Phone', email: 'Email', company: 'Company', noImages: 'No images uploaded yet', loadError: 'Could not load Firebase data; showing defaults' }
-};
-
-function t(k){ return L[lang]?.[k] || L.ar[k] || k; }
-
-function esc(v){
-    return String(v ?? '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[s]));
-}
+function say(x){ status.textContent = x; }
 
 function ml(v){
     if(v && typeof v === 'object' && !Array.isArray(v)) return v[lang] || v.ar || v.ku || v.en || '';
     return v || '';
 }
 
+function setml(obj, key, val){
+    obj[key] = obj[key] && typeof obj[key] === 'object' && !Array.isArray(obj[key]) ? obj[key] : { ar: '', ku: '', en: '' };
+    obj[key][lang] = val;
+}
+
+function splitLines(s){ return String(s || '').split(/\n+/).map(x => x.trim()).filter(Boolean); }
+
+function linesToItems(s, a='title', b='text'){
+    return splitLines(s).map(line => {
+        let parts = line.split('|');
+        return {
+            [a]: { [lang]: (parts[0] || '').trim() },
+            [b]: { [lang]: (parts.slice(1).join('|') || '').trim() }
+        }
+    });
+}
+
+function updateItems(oldArr, lines, a='title', b='text'){
+    let newArr = linesToItems(lines, a, b);
+    newArr.forEach((x, i) => {
+        let old = oldArr?.[i] || { [a]: {}, [b]: {} };
+        old[a] = old[a] || {};
+        old[b] = old[b] || {};
+        old[a][lang] = x[a][lang];
+        old[b][lang] = x[b][lang];
+        newArr[i] = old;
+    });
+    return newArr;
+}
+
+function itemsToLines(arr, a='title', b='text'){
+    return (arr || []).map(x => `${x[a]?.[lang] || ''} | ${x[b]?.[lang] || ''}`).join('\n');
+}
+
 function arr(v){
     if(Array.isArray(v)) return v;
-    if(v && typeof v === 'object') return v[lang] || v.ar || v.en || v.ku || [];
-    return String(v || '').split(/\n+/).filter(Boolean);
+    if(v && typeof v === 'object') return v[lang] || [];
+    return splitLines(v);
 }
 
-function wa(text = ''){
-    let n = '07761710745';
-    n = n.startsWith('0') ? '964' + n.slice(1) : n;
-    return 'https://wa.me/' + n + '?text=' + encodeURIComponent(text);
-}
-
-function msg(p, type){
-    return type === 'trial' ? `مرحبا، أريد نسخة تجريبية من تطبيق: ${ml(p.title)}` : `مرحبا، أريد طلب التطبيق الكامل: ${ml(p.title)}`;
-}
-
-function getPricing(p, k){
-    let pr = p.pricing?.[k] || {};
-    return { price: pr.price || '', details: ml(pr.details) || '' };
-}
-
-function priceLabel(k){
-    return k === 'online' ? t('onlinePrice') : k === 'offline' ? t('offlinePrice') : t('mobilePrice');
-}
-
-function priceMiniHtml(p){
-    return ['online', 'offline', 'mobile'].map(k => {
-        let pr = getPricing(p, k);
-        return `<div class="pricePill"><small>${priceLabel(k)}</small><b>${esc(pr.price || t('noPrice'))}</b></div>`;
-    }).join('');
-}
-
-function priceCardsHtml(p){
-    return `<div class="priceCards">${['online', 'offline', 'mobile'].map(k => {
-        let pr = getPricing(p, k);
-        return `<div class="priceCard"><h3>${priceLabel(k)}</h3><strong>${esc(pr.price || t('noPrice'))}</strong><p>${esc(pr.details || t('priceDetails'))}</p></div>`;
-    }).join('')}</div>`;
+function setArr(obj, key, text){
+    obj[key] = obj[key] && typeof obj[key] === 'object' && !Array.isArray(obj[key]) ? obj[key] : { ar: [], ku: [], en: [] };
+    obj[key][lang] = splitLines(text);
 }
 
 async function readImage(id){
@@ -255,161 +263,324 @@ async function readImage(id){
         cache[id] = d;
         return d;
     } catch(e) {
-        console.warn('image read failed', id, e);
+        console.warn(e);
         return '';
     }
 }
 
-async function srcFrom(id, url, inline){
-    return inline || url || await readImage(id);
+async function uploadImage(file){
+    if(!file || !file.type.startsWith('image/')) throw Error('اختار صورة فقط');
+    let dataUrl = await compress(file);
+    let size = Math.round(dataUrl.length * 0.75);
+    if(size > 760 * 1024) throw Error('الصورة كبيرة حتى بعد الضغط، اختار صورة أصغر');
+    let r = await addDoc(collection(db, 'site_images'), {
+        dataUrl,
+        name: file.name,
+        type: 'image/webp',
+        createdAt: serverTimestamp()
+    });
+    cache[r.id] = dataUrl;
+    return r.id;
 }
 
-async function loadData(){
-    try {
-        let s = await getDoc(doc(db, 'site', 'main'));
-        if(s.exists()) DATA = { ...DEFAULT_DATA, ...s.data() };
-    } catch(e) {
-        console.warn('site/main read failed', e);
-    }
-    renderAll();
-}
-
-async function renderAll(){
-    document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
-    document.documentElement.lang = lang;
-    
-    document.querySelectorAll('[data-k]').forEach(e => e.textContent = t(e.dataset.k));
-    document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-    
-    brandName.textContent = ml(DATA.brand) || 'MoeSystem';
-    brandSub.textContent = ml(DATA.brandAr) || '';
-    
-    let sl = await srcFrom(DATA.siteLogoImageId, DATA.siteLogoUrl, DATA.siteLogo);
-    siteLogo.innerHTML = sl ? `<img src="${esc(sl)}" alt="logo">` : 'M';
-    
-    homeBadge.textContent = ml(DATA.home?.badge);
-    homeTitle.textContent = ml(DATA.home?.title);
-    homeSub.textContent = ml(DATA.home?.subtitle);
-    homeText.textContent = ml(DATA.home?.text);
-    
-    heroWhats.textContent = t('whatsapp');
-    heroWhats.href = wa('مرحبا، أريد الاستفسار عن خدمات MoeSystem');
-    
-    contactWhats.textContent = t('whatsapp');
-    contactWhats.href = wa('مرحبا، أريد التواصل مع MoeSystem');
-    
-    document.querySelector('[data-k="browse"]').textContent = t('browse');
-    
-    servicesTitle.textContent = ml(DATA.servicesTitle);
-    servicesDesc.textContent = ml(DATA.servicesDesc);
-    servicesGrid.innerHTML = (DATA.services || []).map(x => `<div class="item"><h3>${esc(ml(x.title))}</h3><p>${esc(ml(x.text))}</p></div>`).join('');
-    
-    productsTitle.textContent = ml(DATA.productsTitle);
-    productsDesc.textContent = ml(DATA.productsDesc);
-    await renderProducts();
-    
-    aboutTitle.textContent = ml(DATA.aboutTitle);
-    aboutText.textContent = ml(DATA.aboutText);
-    aboutGrid.innerHTML = (DATA.aboutItems || []).map(x => `<div class="item"><h3>${esc(ml(x.title))}</h3><p>${esc(ml(x.text))}</p></div>`).join('');
-    
-    faqTitle.textContent = ml(DATA.faqTitle);
-    faqDesc.textContent = ml(DATA.faqDesc);
-    faqGrid.innerHTML = (DATA.faq || []).map(x => `<div class="item"><h3>${esc(ml(x.question || x.q))}</h3><p>${esc(ml(x.answer || x.a))}</p></div>`).join('');
-    
-    contactTitle.textContent = ml(DATA.contactTitle);
-    contactDesc.textContent = ml(DATA.contactDesc);
-    contactGrid.innerHTML = `<div class="item"><h3>${t('phone')}</h3><p>07761710745</p></div><div class="item"><h3>${t('email')}</h3><p>${esc(DATA.email || '')}</p></div><div class="item"><h3>${t('company')}</h3><p>${esc(ml(DATA.brand))}</p></div>`;
-    
-    mailBtn.textContent = t('email');
-    mailBtn.href = 'mailto:' + (DATA.email || '');
-    
-    year.textContent = new Date().getFullYear();
-}
-
-function getProductId(p){
-    return p.id || String(ml(p.title)).toLowerCase().replace(/\s+/g, '-');
-}
-
-function features(p){
-    return arr(p.features);
-}
-
-function fTitle(x){
-    if(typeof x === 'object') return ml(x.title);
-    let s = String(x);
-    return s.includes('—') ? s.split('—')[0].trim() : '';
-}
-
-function fText(x){
-    if(typeof x === 'object') return ml(x.text) || ml(x.title);
-    return String(x || '');
-}
-
-async function renderProducts(){
-    let out = '';
-    for(const p of (DATA.products || [])){
-        let logo = await srcFrom(p.logoImageId, p.logoUrl, p.logo);
-        let fs = features(p).slice(0, 5).map(x => `<div class="miniFeature">${esc(fText(x))}</div>`).join('');
-        out += `<div class="item product" data-product="${esc(getProductId(p))}"><div class="appLogo">${logo ? `<img src="${esc(logo)}">` : `<span class="fallback">${esc((ml(p.title) || 'A')[0])}</span>`}</div><span class="tag">${esc(ml(p.subtitle) || ml(p.status) || '')}</span><h3>${esc(ml(p.title))}</h3><p>${esc(ml(p.text))}</p><div class="miniFeatures">${fs}</div><div class="priceMini">${priceMiniHtml(p)}</div><button class="btn secondary">${t('browse')}</button></div>`;
-    }
-    productsGrid.innerHTML = out;
-    document.querySelectorAll('[data-product]').forEach(c => c.onclick = () => openProduct(c.dataset.product));
-}
-
-function findProduct(id){
-    return (DATA.products || []).find(p => getProductId(p) == id);
-}
-
-async function openProduct(id){
-    let p = findProduct(id);
-    if(!p) return;
-    
-    let logo = await srcFrom(p.logoImageId, p.logoUrl, p.logo);
-    let screens = [];
-    for(const iid of (p.imageIds || [])){
-        let s = await readImage(iid);
-        if(s) screens.push(s);
-    }
-    screens.push(...(p.imageUrls || []).filter(Boolean), ...(p.images || []).filter(Boolean));
-    
-    let screenHtml = screens.length ? screens.map(s => `<div class="screen" onclick="showLight('${esc(s)}')"><img src="${esc(s)}"></div>`).join('') : `<div class="screen"><div class="mock">${t('noImages')}</div></div>`;
-    
-    let fs = features(p);
-    let fhtml = fs.map((x, i) => `<div class="feature extraF" style="${i > 4 ? 'display:none' : ''}">${fTitle(x) ? '<b>' + esc(fTitle(x)) + '</b>' : ''}${esc(fText(x).replace(fTitle(x) + ' —', '').trim())}</div>`).join('');
-    
-    productDetailBody.innerHTML = `<button class="btn secondary" onclick="openPage('products')" style="margin-bottom:18px;width:auto">${t('back')}</button><div class="detailLayout"><div class="screens">${screenHtml}</div><div><div class="detailHead"><div class="detailRow"><div class="detailLogo">${logo ? `<img src="${esc(logo)}">` : `<span class="fallback">${esc((ml(p.title) || 'A')[0])}</span>`}</div><div><span class="tag">${esc(ml(p.subtitle) || ml(p.status) || '')}</span><h2 class="detailTitle">${esc(ml(p.title))}</h2></div></div><p class="desc">${esc(ml(p.text))}</p>${priceCardsHtml(p)}<div class="featureList">${fhtml}</div>${fs.length > 5 ? `<button class="btn secondary" id="moreBtn">${t('more')}</button>` : ''}<div class="boxes"><div class="box"><h3>${t('mobile')}</h3><p>${esc(ml(p.mobile || p.mobileDetails))}</p></div><div class="box"><h3>${t('online')}</h3><p>${esc(ml(p.online || p.onlineDetails))}</p></div><div class="box"><h3>${t('offline')}</h3><p>${esc(ml(p.offline || p.offlineDetails))}</p></div></div><div class="cta" style="justify-content:flex-start"><a class="btn" target="_blank" href="${wa(msg(p, 'order'))}">${t('order')}</a><a class="btn secondary" target="_blank" href="${wa(msg(p, 'trial'))}">${t('trial')}</a></div></div></div></div>`;
-    
-    let mb = document.getElementById('moreBtn');
-    if(mb){
-        mb.onclick = () => {
-            let hidden = [...document.querySelectorAll('.extraF')].some((e, i) => i > 4 && e.style.display === 'none');
-            document.querySelectorAll('.extraF').forEach((e, i) => { if(i > 4) e.style.display = hidden ? 'block' : 'none'; });
-            mb.textContent = hidden ? t('less') : t('more');
+function compress(file){
+    return new Promise((res, rej) => {
+        let img = new Image();
+        img.onload = () => {
+            let max = 900, w = img.width, h = img.height;
+            if(w > h && w > max) { h = Math.round(h * max / w); w = max; }
+            else if(h >= w && h > max) { w = Math.round(w * max / h); h = max; }
+            let c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            let ctx = c.getContext('2d');
+            ctx.fillStyle = '#080812';
+            ctx.fillRect(0, 0, w, h);
+            ctx.drawImage(img, 0, 0, w, h);
+            res(c.toDataURL('image/webp', 0.62));
         };
-    }
-    openPage('productDetail');
+        img.onerror = rej;
+        let r = new FileReader();
+        r.onload = () => img.src = r.result;
+        r.onerror = rej;
+        r.readAsDataURL(file);
+    });
 }
 
-window.openPage = function(id){
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id)?.classList.add('active');
-    document.querySelectorAll('[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === id));
-    navLinks.classList.remove('open');
-    scrollTo({ top: 0, behavior: 'smooth' });
+function makeDrop(el, cb, multi=false){
+    el.onclick = () => {
+        let i = document.createElement('input');
+        i.type = 'file'; i.accept = 'image/*'; i.multiple = multi;
+        i.onchange = () => cb([...i.files]);
+        i.click();
+    };
+    el.ondragover = e => { e.preventDefault(); el.style.borderColor = '#22d3ee'; };
+    el.ondragleave = () => el.style.borderColor = 'rgba(167,139,250,.45)';
+    el.ondrop = e => { e.preventDefault(); el.style.borderColor = 'rgba(167,139,250,.45)'; cb([...e.dataTransfer.files]); };
+}
+
+async function renderPreview(){
+    let siteSrc = await readImage(data.siteLogoImageId);
+    siteLogoPreview.innerHTML = siteSrc ? `<div class="thumb"><img src="${siteSrc}"><button onclick="removeSiteLogo()">×</button></div>` : '';
+    
+    let logoSrc = await readImage(currentLogoId);
+    logoPreview.innerHTML = logoSrc ? `<div class="thumb"><img src="${logoSrc}"><button onclick="removeLogo()">×</button></div>` : '';
+    
+    let html = '';
+    for(let i=0; i<currentImageIds.length; i++){
+        let s = await readImage(currentImageIds[i]);
+        if(s) html += `<div class="thumb"><img src="${s}"><button onclick="removeImg(${i})">×</button></div>`;
+    }
+    imagesPreview.innerHTML = html;
+}
+
+window.removeSiteLogo = () => { data.siteLogoImageId = ''; renderPreview(); };
+window.removeLogo = () => { currentLogoId = ''; renderPreview(); };
+window.removeImg = i => { currentImageIds.splice(i, 1); renderPreview(); };
+
+function saveCurrent(){
+    setml(data, 'brand', $('brand').value);
+    setml(data, 'brandAr', $('brandAr').value);
+    data.home = data.home || { badge: {}, title: {}, subtitle: {}, text: {} };
+    ['badge', 'title', 'subtitle', 'text'].forEach(k => setml(data.home, k, $('home' + (k === 'badge' ? 'Badge' : k === 'title' ? 'Title' : k === 'subtitle' ? 'Sub' : 'Text')).value));
+    setml(data, 'servicesTitle', $('servicesTitle').value);
+    setml(data, 'servicesDesc', $('servicesDesc').value);
+    data.services = updateItems(data.services, $('servicesLines').value);
+    setml(data, 'productsTitle', $('productsTitle').value);
+    setml(data, 'productsDesc', $('productsDesc').value);
+    setml(data, 'aboutTitle', $('aboutTitle').value);
+    setml(data, 'aboutText', $('aboutText').value);
+    data.aboutItems = updateItems(data.aboutItems, $('aboutLines').value);
+    setml(data, 'faqTitle', $('faqTitle').value);
+    setml(data, 'faqDesc', $('faqDesc').value);
+    data.faq = updateItems(data.faq, $('faqLines').value, 'question', 'answer');
+    setml(data, 'contactTitle', $('contactTitle').value);
+    setml(data, 'contactDesc', $('contactDesc').value);
+    data.email = $('email').value;
+    data.phone = '07761710745';
+}
+
+function fillForms(){
+    $('brand').value = ml(data.brand);
+    $('brandAr').value = ml(data.brandAr);
+    $('homeBadge').value = ml(data.home?.badge);
+    $('homeTitle').value = ml(data.home?.title);
+    $('homeSub').value = ml(data.home?.subtitle);
+    $('homeText').value = ml(data.home?.text);
+    $('servicesTitle').value = ml(data.servicesTitle);
+    $('servicesDesc').value = ml(data.servicesDesc);
+    $('servicesLines').value = itemsToLines(data.services);
+    $('productsTitle').value = ml(data.productsTitle);
+    $('productsDesc').value = ml(data.productsDesc);
+    $('aboutTitle').value = ml(data.aboutTitle);
+    $('aboutText').value = ml(data.aboutText);
+    $('aboutLines').value = itemsToLines(data.aboutItems);
+    $('faqTitle').value = ml(data.faqTitle);
+    $('faqDesc').value = ml(data.faqDesc);
+    $('faqLines').value = itemsToLines(data.faq, 'question', 'answer');
+    $('email').value = data.email || '';
+    $('contactTitle').value = ml(data.contactTitle);
+    $('contactDesc').value = ml(data.contactDesc);
+    renderProductsList();
+    renderPreview();
+}
+
+function pval(k){ return $('p_' + k).value; }
+
+function productFromForm(){
+    let idx = $('productIndex').value,
+        p = idx === '' ? { id: pval('id') || ('app_' + Date.now()), title: {}, subtitle: {}, text: {}, status: {}, features: { ar: [], ku: [], en: [] }, mobile: {}, online: {}, offline: {}, pricing: { online: { price: '', details: {} }, offline: { price: '', details: {} }, mobile: { price: '', details: {} } }, logoImageId: '', imageIds: [] } : data.products[+idx];
+    p.id = pval('id') || p.id;
+    ['title', 'subtitle', 'text', 'status', 'mobile', 'online', 'offline'].forEach(k => setml(p, k, pval(k)));
+    p.pricing = p.pricing || {};
+    ['online', 'offline', 'mobile'].forEach(k => {
+        p.pricing[k] = p.pricing[k] || { price: '', details: {} };
+        p.pricing[k].price = $('p_' + k + 'Price').value;
+        setml(p.pricing[k], 'details', $('p_' + k + 'PriceDetails').value);
+    });
+    setArr(p, 'features', pval('features'));
+    p.logoImageId = currentLogoId;
+    p.imageIds = [...currentImageIds];
+    return p;
+}
+
+function saveProductForm(){
+    saveCurrent();
+    let p = productFromForm();
+    if(!ml(p.title)) return say('اكتب اسم المنتج');
+    let idx = $('productIndex').value;
+    if(!data.products) data.products = [];
+    idx === '' ? data.products.push(p) : data.products[+idx] = p;
+    clearProduct();
+    renderProductsList();
+    say('تم حفظ المنتج محلياً، اضغط نشر كل التغييرات');
+}
+
+function clearProduct(){
+    $('productIndex').value = '';
+    ['id', 'status', 'title', 'subtitle', 'text', 'features', 'mobile', 'online', 'offline', 'onlinePrice', 'offlinePrice', 'mobilePrice', 'onlinePriceDetails', 'offlinePriceDetails', 'mobilePriceDetails'].forEach(k => $('p_' + k).value = '');
+    currentLogoId = '';
+    currentImageIds = [];
+    renderPreview();
+}
+
+function editProduct(i){
+    saveCurrent();
+    let p = data.products[i];
+    $('productIndex').value = i;
+    $('p_id').value = p.id || '';
+    $('p_status').value = ml(p.status);
+    $('p_title').value = ml(p.title);
+    $('p_subtitle').value = ml(p.subtitle);
+    $('p_text').value = ml(p.text);
+    $('p_features').value = arr(p.features).join('\n');
+    $('p_mobile').value = ml(p.mobile || p.mobileDetails);
+    $('p_online').value = ml(p.online || p.onlineDetails);
+    $('p_offline').value = ml(p.offline || p.offlineDetails);
+    p.pricing = p.pricing || {};
+    ['online', 'offline', 'mobile'].forEach(k => {
+        let pr = p.pricing?.[k] || {};
+        $('p_' + k + 'Price').value = pr.price || '';
+        $('p_' + k + 'PriceDetails').value = ml(pr.details);
+    });
+    currentLogoId = p.logoImageId || '';
+    currentImageIds = [...(p.imageIds || [])];
+    switchTab('products');
+    renderPreview();
+    say('تعديل حقيقي: بعد التعديل اضغط حفظ/تحديث المنتج');
+}
+window.editProduct = editProduct;
+
+window.delProduct = i => {
+    if(confirm('حذف المنتج؟')){
+        data.products.splice(i, 1);
+        renderProductsList();
+    }
 };
 
-window.showLight = s => { lightImg.src = s; lightbox.classList.add('active'); };
-window.hideLight = () => lightbox.classList.remove('active');
+function priceSummary(p){
+    let pr = p.pricing || {};
+    let chips = ['online', 'offline', 'mobile'].map(k => {
+        let label = k === 'online' ? 'أونلاين' : k === 'offline' ? 'أوفلاين' : 'موبايل';
+        let val = pr[k]?.price || 'بدون سعر';
+        return `<span class="priceChip">${label}: ${val}</span>`;
+    }).join('');
+    return `<div class="priceChips">${chips}</div>`;
+}
 
-document.querySelectorAll('[data-page]').forEach(b => b.onclick = () => openPage(b.dataset.page));
-document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => {
-    lang = b.dataset.lang;
-    localStorage.setItem('moe_lang', lang);
-    renderAll();
+function renderProductsList(){
+    productsList.innerHTML = (data.products || []).map((p, i) => `<div class="productRow"><div><b>${p.title?.ar || p.title?.en || p.id}</b><br><span class="mut">${p.id} — ${(p.imageIds || []).length} صور</span>${priceSummary(p)}</div><div><button onclick="editProduct(${i})">تعديل</button><button class="danger" onclick="delProduct(${i})">حذف</button></div></div>`).join('');
+}
+
+function fillLab(){
+    data = structuredClone(DEFAULT_DATA);
+    fillForms();
+    editProduct(0);
+    say('تمت تعبئة LabFlow كامل، اضغط حفظ/تحديث المنتج ثم نشر');
+}
+
+async function saveCloud(){
+    try {
+        saveCurrent();
+        // التعديل السحري هنا: إذا كنت بصفحة المنتجات واسم المنتج مكتوب، رح يحفظه تلقائياً قبل النشر!
+        if (!$('tab-products').classList.contains('hidden') && $('p_title').value.trim() !== '') {
+            let p = productFromForm();
+            let idx = $('productIndex').value;
+            if(!data.products) data.products = [];
+            idx === '' ? data.products.push(p) : data.products[+idx] = p;
+            renderProductsList();
+        }
+        await setDoc(doc(db, 'site', 'main'), data);
+        say('تم النشر على Firebase بنجاح');
+    } catch(e) {
+        say('فشل الحفظ: ' + e.message);
+    }
+}
+
+async function loadCloud(){
+    try {
+        let s = await getDoc(doc(db, 'site', 'main'));
+        data = s.exists() ? { ...structuredClone(DEFAULT_DATA), ...s.data() } : structuredClone(DEFAULT_DATA);
+        fillForms();
+        say(s.exists() ? 'تم جلب بيانات Firebase' : 'لا توجد بيانات منشورة، استخدمت الافتراضي');
+    } catch(e) {
+        data = structuredClone(DEFAULT_DATA);
+        fillForms();
+        say('فشل الجلب: ' + e.message);
+    }
+}
+
+function switchTab(tab){
+    document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('[id^="tab-"]').forEach(s => s.classList.add('hidden'));
+    $('tab-' + tab).classList.remove('hidden');
+}
+
+document.querySelectorAll('.tab').forEach(b => b.onclick = () => switchTab(b.dataset.tab));
+
+editLang.onchange = () => {
+    saveCurrent();
+    lang = editLang.value;
+    fillForms();
+};
+
+saveAll.onclick = saveCloud;
+saveProduct.onclick = saveProductForm;
+newProduct.onclick = clearProduct;
+fillLab.onclick = fillLab;
+logoutBtn.onclick = () => signOut(auth);
+
+loginBtn.onclick = async () => {
+    try {
+        await signInWithEmailAndPassword(auth, loginEmail.value.trim().toLowerCase(), loginPass.value);
+        loginMsg.textContent = '';
+    } catch(e) {
+        loginMsg.textContent = 'فشل الدخول: ' + e.message;
+    }
+};
+
+onAuthStateChanged(auth, u => {
+    if(u){
+        loginBox.classList.add('hidden');
+        appBox.classList.remove('hidden');
+        userEmail.textContent = u.email;
+        loadCloud();
+    } else {
+        loginBox.classList.remove('hidden');
+        appBox.classList.add('hidden');
+    }
 });
 
-menuBtn.onclick = () => navLinks.classList.toggle('open');
-loadData();
+makeDrop(siteLogoDrop, async files => {
+    try {
+        data.siteLogoImageId = await uploadImage(files[0]);
+        renderPreview();
+        say('تم رفع لوغو الموقع، اضغط نشر');
+    } catch(e) {
+        say(e.message);
+    }
+});
+
+makeDrop(logoDrop, async files => {
+    try {
+        currentLogoId = await uploadImage(files[0]);
+        renderPreview();
+        say('تم رفع لوغو التطبيق، اضغط حفظ المنتج');
+    } catch(e) {
+        say(e.message);
+    }
+});
+
+makeDrop(imagesDrop, async files => {
+    for(const f of files) {
+        try {
+            currentImageIds.push(await uploadImage(f));
+            say('تم رفع صورة');
+        } catch(e) {
+            say(e.message);
+        }
+    }
+    renderPreview();
+}, true);
 </script>
 </body>
 </html>
