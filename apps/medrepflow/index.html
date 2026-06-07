@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -220,110 +219,58 @@ body:not(.auth-lock) .auth-screen { display:none !important; }
 .app-footer{text-align:center;color:var(--mut);font-size:12px;line-height:1.8;padding:16px 12px 22px}.app-footer a{color:var(--p);font-weight:900;text-decoration:none}.brand-name{font-weight:900;color:var(--txt)}
 
 
-.storage-status{margin-top:10px;padding:10px 12px;border-radius:14px;background:var(--soft);color:var(--p);font-size:12px;font-weight:800;line-height:1.7;border:1px solid color-mix(in srgb,var(--p) 20%,transparent)}
-html[data-theme="dark"] .storage-status{background:#142845;color:#93c5fd}
-.install-note{font-size:12px;color:var(--mut);line-height:1.8;margin-top:8px}
 
-
-/* =========================================
-   شاشة تثبيت التطبيق أول فتح
-========================================= */
+/* ===== PWA Install Gate + Security Layer ===== */
 .install-gate{position:fixed;inset:0;z-index:12000;background:radial-gradient(circle at top,rgba(21,94,239,.18),transparent 42%),var(--bg);display:grid;place-items:center;padding:18px}
 .install-gate.hide{display:none!important}
-.install-card{width:100%;max-width:450px;background:var(--card);border:1px solid var(--br);border-radius:30px;padding:24px;box-shadow:0 22px 55px rgba(15,23,42,.18);text-align:center;animation:installPop .25s ease both}
-.install-logo{width:120px;height:120px;border-radius:30px;background:#fff;margin:0 auto 12px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--br);box-shadow:0 14px 30px rgba(21,94,239,.13)}
-.install-logo img{width:100%;height:100%;object-fit:cover;display:block}
-.install-card h2{font-size:25px;margin:8px 0 8px;color:var(--txt);font-weight:900}
-.install-card p{font-size:14px;color:var(--mut);line-height:1.8;margin:0 0 12px}
-.install-big-btn{min-height:62px!important;border-radius:20px!important;font-size:19px!important;margin-top:12px!important;box-shadow:0 14px 30px rgba(21,94,239,.28)!important}
-.install-skip{background:transparent!important;color:var(--mut)!important;border:0!important;box-shadow:none!important;font-size:13px!important;margin-top:4px!important}
-.install-steps{display:none;text-align:right;background:var(--soft);border:1px solid color-mix(in srgb,var(--p) 18%,var(--br));border-radius:20px;padding:14px;margin:12px 0;color:var(--txt);line-height:1.9;font-size:14px}
+.install-card{width:100%;max-width:460px;background:var(--card);border:1px solid var(--br);border-radius:30px;padding:22px;box-shadow:0 22px 55px rgba(15,23,42,.18);text-align:center}
+.install-card .install-logo{width:110px;height:110px;border-radius:28px;margin:0 auto 12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;font-size:38px;font-weight:900;box-shadow:0 16px 32px rgba(21,94,239,.24)}
+.install-card h2{font-size:23px;margin:6px 0 8px;color:var(--txt)}
+.install-card p{font-size:13px;color:var(--mut);line-height:1.8;margin:0 0 12px}
+.install-main-btn{font-size:19px!important;padding:18px!important;border-radius:20px!important;box-shadow:0 12px 26px rgba(21,94,239,.28)!important}
+.install-steps{display:none;text-align:right;background:var(--soft);border:1px solid color-mix(in srgb,var(--p) 24%,var(--br));border-radius:18px;padding:14px;margin:12px 0;color:var(--txt);line-height:1.9;font-size:13px}
 .install-steps.on{display:block}
 .install-steps b{color:var(--p)}
-.install-steps .step{display:flex;gap:8px;align-items:flex-start;margin:7px 0}
-.install-steps .num{min-width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;display:grid;place-items:center;font-size:12px;font-weight:900;line-height:1}
-@keyframes installPop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
-@media(display-mode:standalone){.install-gate{display:none!important}}
-
-
-
-/* =========================================
-   طبقة حماية الواجهة - منع النسخ وأدوات المطور
-========================================= */
-html, body, .app, .wrap, .card, .item, header, .bottom-nav {
-  -webkit-user-select: none !important;
-  user-select: none !important;
-  -webkit-touch-callout: none !important;
-}
-input, textarea, select, [contenteditable="true"] {
-  -webkit-user-select: text !important;
-  user-select: text !important;
-  -webkit-touch-callout: default !important;
-}
-.security-lock-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483647;
-  display: none;
-  place-items: center;
-  padding: 20px;
-  background: rgba(5, 10, 20, .92);
-  color: #fff;
-  text-align: center;
-  backdrop-filter: blur(8px);
-}
-.security-lock-screen.on { display: grid; }
-.security-lock-box {
-  max-width: 430px;
-  width: 100%;
-  border-radius: 26px;
-  padding: 24px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.16);
-  box-shadow: 0 20px 60px rgba(0,0,0,.35);
-}
-.security-lock-box b { display: block; font-size: 22px; margin-bottom: 10px; color: #fff; }
-.security-lock-box p { color: #dbeafe; margin: 0 0 14px; }
-.security-lock-box button { background:#fff !important; color:#0f172a !important; box-shadow:none !important; }
-
+.security-lock{position:fixed;inset:0;z-index:13000;background:rgba(11,18,32,.92);display:none;place-items:center;padding:18px;text-align:center;color:#fff}
+.security-lock.on{display:grid}
+.security-lock .box{max-width:420px;background:#111827;border:1px solid rgba(255,255,255,.12);border-radius:26px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.security-lock h2{color:#fff;font-size:22px;margin:0 0 10px}
+.security-lock p{color:#cbd5e1;font-size:14px;line-height:1.8}
+.security-lock button{background:#fff!important;color:#111827!important;box-shadow:none!important}
+body.secure-ui{-webkit-user-select:none;user-select:none}
+body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:text;-webkit-user-select:text}
 </style>
 
-<!-- PWA iPhone / Android -->
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#155eef">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="MedRep Flow">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 </head><body class="auth-lock">
-
-<div id="installGate" class="install-gate hide" aria-live="polite">
+<div id="installGate" class="install-gate hide" aria-label="تثبيت التطبيق">
   <div class="install-card">
-    <div class="install-logo"><img src="data:image/webp;base64,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" alt="MedRep Flow"></div>
-    <h2>ثبت التطبيق على الآيفون</h2>
-    <p>حتى يفتح MedRep Flow من شاشة الهاتف مثل التطبيق، اضغط زر التثبيت واتبع الخطوات.</p>
-    <button id="installAppBtn" type="button" class="install-big-btn">تثبيت التطبيق</button>
+    <div class="install-logo">MR</div>
+    <h2>ثبّت تطبيق MedRep Flow</h2>
+    <p>حتى يفتح التطبيق من شاشة الآيفون مثل التطبيق العادي ويشتغل بشكل أفضل.</p>
+    <button type="button" id="installAppBtn" class="install-main-btn">تثبيت التطبيق</button>
     <div id="iosInstallSteps" class="install-steps">
-      <b>طريقة التثبيت على الآيفون:</b>
-      <div class="step"><span class="num">1</span><span>اضغط زر المشاركة <b>Share</b> بأسفل Safari.</span></div>
-      <div class="step"><span class="num">2</span><span>اختار <b>Add to Home Screen</b> أو <b>إضافة إلى الشاشة الرئيسية</b>.</span></div>
-      <div class="step"><span class="num">3</span><span>اضغط <b>Add</b> وبعدها افتح التطبيق من الشاشة الرئيسية.</span></div>
+      <b>على الآيفون:</b><br>
+      1) اضغط زر المشاركة في Safari.<br>
+      2) اختر <b>Add to Home Screen</b> أو <b>إضافة إلى الشاشة الرئيسية</b>.<br>
+      3) اضغط <b>Add</b> أو <b>إضافة</b>.
     </div>
-    <button id="continueWebBtn" type="button" class="install-skip">متابعة بدون تثبيت</button>
+    <button type="button" id="continueWebBtn" class="ghost">متابعة بدون تثبيت</button>
   </div>
 </div>
-
-
-
-<div id="securityLockScreen" class="security-lock-screen" aria-hidden="true">
-  <div class="security-lock-box">
-    <b>حماية التطبيق مفعّلة</b>
-    <p>تم إيقاف أمر غير مسموح لحماية ملفات وبيانات التطبيق.</p>
+<div id="securityLockScreen" class="security-lock" aria-hidden="true">
+  <div class="box">
+    <h2>حماية التطبيق مفعّلة</h2>
+    <p>تم منع هذا الأمر لحماية بيانات وملفات التطبيق.</p>
     <button type="button" onclick="SecurityGuard.unlock()">رجوع للتطبيق</button>
   </div>
 </div>
+
 
 <div id="authScreen" class="auth-screen">
   <div class="auth-card">
@@ -439,9 +386,7 @@ input, textarea, select, [contenteditable="true"] {
       </div>
       <div class="card">
         <h2>النسخ الاحتياطي</h2>
-        <p class="backup-note">الحفظ اليومي يتم تلقائياً داخل التطبيق باستخدام IndexedDB. هذه الأزرار فقط لنقل البيانات أو حفظ نسخة أمان.</p>
-        <div id="storageStatus" class="storage-status">جاري فحص الحفظ...</div>
-        <p class="install-note">للآيفون: افتح الرابط من Safari ثم Share ثم Add to Home Screen.</p>
+        <p class="backup-note">الحفظ اليومي يتم تلقائياً داخل التطبيق. هذه الأزرار فقط لنقل البيانات أو حفظ نسخة أمان.</p>
         <button type="button" class="soft" onclick="backup()">حفظ نسخة احتياطية</button>
         <button type="button" class="warn" onclick="document.getElementById('restoreBackupFile').click()">استرجاع نسخة احتياطية</button>
         <input id="restoreBackupFile" class="hide" type="file" accept="application/json" onchange="importData(event)">
@@ -588,27 +533,11 @@ input, textarea, select, [contenteditable="true"] {
 </nav>
 
 <script>
-/* =========================================
-   IndexedDB Storage Layer for PWA/iPhone
-   الحفظ الرئيسي داخل التطبيق + نسخة احتياطية JSON
-========================================= */
-const MEDREP_IDB_NAME='MedRepFlowLocalDB';
-const MEDREP_IDB_VERSION=1;
-const MEDREP_IDB_STORE='records';
-function idbSupported(){return !!window.indexedDB}
-function idbOpen(){return new Promise((resolve,reject)=>{if(!idbSupported())return reject(new Error('IndexedDB غير مدعوم بهذا المتصفح'));const req=indexedDB.open(MEDREP_IDB_NAME,MEDREP_IDB_VERSION);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains(MEDREP_IDB_STORE))db.createObjectStore(MEDREP_IDB_STORE,{keyPath:'key'});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('تعذر فتح قاعدة البيانات'));});}
-function idbSet(key,value){return idbOpen().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction(MEDREP_IDB_STORE,'readwrite');tx.objectStore(MEDREP_IDB_STORE).put({key,value,updatedAt:new Date().toISOString()});tx.oncomplete=()=>{db.close();resolve(true)};tx.onerror=()=>{db.close();reject(tx.error)};}));}
-function idbGet(key,fallback=null){return idbOpen().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction(MEDREP_IDB_STORE,'readonly');const req=tx.objectStore(MEDREP_IDB_STORE).get(key);req.onsuccess=()=>{db.close();resolve(req.result&&'value' in req.result?req.result.value:fallback)};req.onerror=()=>{db.close();reject(req.error)};}));}
-function idbRemove(key){return idbOpen().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction(MEDREP_IDB_STORE,'readwrite');tx.objectStore(MEDREP_IDB_STORE).delete(key);tx.oncomplete=()=>{db.close();resolve(true)};tx.onerror=()=>{db.close();reject(tx.error)};}));}
-function setStorageStatus(text,ok=true){const el=document.getElementById('storageStatus');if(!el)return;el.textContent=text;el.style.color=ok?'var(--p)':'var(--red)';}
-function refreshAppViews(){try{render()}catch(e){}try{toggleDealerFields()}catch(e){}try{fillDocDealerMeds()}catch(e){}try{if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress()}catch(e){}try{if(typeof renderStockDealer==='function')renderStockDealer()}catch(e){}try{applyLang(currentLang())}catch(e){}}
-async function hydrateFromIndexedDB(){if(!idbSupported()){setStorageStatus('تنبيه: هذا المتصفح لا يدعم IndexedDB، سيتم استخدام localStorage فقط.',false);return}try{const saved=await idbGet(K,null);if(saved){db=norm(saved);try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}refreshAppViews();setStorageStatus('الحفظ مفعل داخل التطبيق: IndexedDB ✅');}else{await idbSet(K,db);setStorageStatus('تم إنشاء مخزن الحفظ داخل التطبيق: IndexedDB ✅');}}catch(e){setStorageStatus('تعذر تشغيل IndexedDB، الحفظ الاحتياطي ما زال يعمل داخل localStorage.',false);console.warn(e);}}
-
 const K='medrep_v10_orders_clean',OLD=['medical_rep_mobile_v4','medrep_v9_simple_flow','medrep_v8_orders_target_simple'];let db=load(),edit={order:null,visit:null,client:null,med:null},clientMode='doctor';
 function def(){return{profile:{},doctors:[],pharmacies:[],medicines:[],orders:[],visits:[],targets:[],reports:[],plans:[],expenses:[],stocks:[],dealerNeeds:[]}}
 function load(){let x='';try{if(window.Android&&Android.loadAppData){x=Android.loadAppData();if(x)return norm(JSON.parse(x))}}catch(e){}x=localStorage.getItem(K);if(x)try{return norm(JSON.parse(x))}catch(e){};for(let k of OLD){x=localStorage.getItem(k);if(x)try{return norm(JSON.parse(x))}catch(e){}}return def()}
 function norm(d){let b=def();d=d||{};for(let k in b)b[k]=d[k]||b[k];b.doctors=b.doctors.map(x=>({...x,doctorType:x.doctorType||x.docType||'علمي',zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||''}));b.pharmacies=b.pharmacies.map(x=>({...x,zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||''}));b.medicines=b.medicines.map(x=>({...x,scientific:x.scientific||x.scientificName||'',selling:x.selling||'',type:x.type||''}));b.orders=(b.orders||[]).map(x=>({...x,total:n(x.total)}));return b}
-function save(){let data=JSON.stringify(db);try{localStorage.setItem(K,data)}catch(e){}try{if(window.Android&&Android.saveAppData)Android.saveAppData(data)}catch(e){}if(idbSupported())idbSet(K,db).then(()=>setStorageStatus('تم الحفظ داخل التطبيق: IndexedDB ✅')).catch(e=>{setStorageStatus('تعذر الحفظ في IndexedDB، تم الحفظ الاحتياطي فقط.',false);console.warn(e)});refreshAppViews();}
+function save(){let data=JSON.stringify(db);try{localStorage.setItem(K,data)}catch(e){}try{if(window.MedRepIDB&&MedRepIDB.set)MedRepIDB.set('main',db)}catch(e){}try{if(window.Android&&Android.saveAppData)Android.saveAppData(data)}catch(e){}render();toggleDealerFields();fillDocDealerMeds();if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress();if(typeof renderStockDealer==='function')renderStockDealer();}
 function $(id){return document.getElementById(id)}function v(id){return ($(id)||{}).value?.trim()||''}function set(id,x){if($(id))$(id).value=x??''}function n(x){return +x||0}function fmt(x){return n(x).toLocaleString('en-US')}function today(){return new Date().toISOString().slice(0,10)}function mon(){return today().slice(0,7)}
 
 /* الإصلاح الجذري لحماية النصوص (بدون استخدام رموز تسبب أخطاء) */
@@ -738,62 +667,7 @@ function cancelMed(no){
     if(!no) render();
 }
 
-function medPdf(id){let m=med(id);if(!m)return;let w=open('','_blank'),html=`<html dir="rtl"><head><title>${esc(m.name)}</title><style>body{font-family:Tahoma;padding:28px;color:#111}h1{color:#0b5ed7}.box{border:1px solid #ddd;border-radius:14px;padding:14px;margin:10px 0;line-height:1.8}</style></head><body><h1>${esc(m.name)}</h1><div class="box"><b>الاسم العلمي:</b> ${esc(m.scientific||'-')}<br><b>الشركة:</b> ${esc(m.company||'-')}<br><b>النوع:</b> ${esc(m.type||'-')}<br><b>السعر:</b> ${fmt(m.price)} د.ع<br><b>الجرعة / الشكل:</b> ${esc(m.dose||'-')}</div><div class="box"><b>شرح الدواء:</b><br>${esc(m.desc||'-')}</div><div class="box"><b>نقاط البيع:</b><br>${esc(m.selling||'-')}</div><scr`+`ipt>print()<\/scr`+`ipt>
-<script>
-(function(){
-  let deferredInstallPrompt=null;
-  const gate=()=>document.getElementById('installGate');
-  const steps=()=>document.getElementById('iosInstallSteps');
-  const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
-  const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
-
-  window.addEventListener('beforeinstallprompt',function(e){
-    e.preventDefault();
-    deferredInstallPrompt=e;
-    const g=gate();
-    if(g && !isStandalone() && localStorage.getItem('medrep_install_dismissed')!=='1') g.classList.remove('hide');
-  });
-
-  window.addEventListener('appinstalled',function(){
-    localStorage.setItem('medrep_install_dismissed','1');
-    const g=gate();
-    if(g) g.classList.add('hide');
-  });
-
-  function showInstallGate(){
-    const g=gate();
-    if(!g || isStandalone()) return;
-    if(localStorage.getItem('medrep_install_dismissed')==='1') return;
-    g.classList.remove('hide');
-    if(isIOS()) steps()?.classList.remove('on');
-  }
-
-  document.addEventListener('DOMContentLoaded',function(){
-    setTimeout(showInstallGate,350);
-
-    document.getElementById('installAppBtn')?.addEventListener('click',async function(){
-      if(deferredInstallPrompt){
-        deferredInstallPrompt.prompt();
-        const choice=await deferredInstallPrompt.userChoice.catch(()=>null);
-        if(choice && choice.outcome==='accepted'){
-          localStorage.setItem('medrep_install_dismissed','1');
-          gate()?.classList.add('hide');
-        }
-        deferredInstallPrompt=null;
-        return;
-      }
-      steps()?.classList.add('on');
-    });
-
-    document.getElementById('continueWebBtn')?.addEventListener('click',function(){
-      localStorage.setItem('medrep_install_dismissed','1');
-      gate()?.classList.add('hide');
-    });
-  });
-})();
-</script>
-
-</body></html>`;w.document.write(html);w.document.close()}
+function medPdf(id){let m=med(id);if(!m)return;let w=open('','_blank'),html=`<html dir="rtl"><head><title>${esc(m.name)}</title><style>body{font-family:Tahoma;padding:28px;color:#111}h1{color:#0b5ed7}.box{border:1px solid #ddd;border-radius:14px;padding:14px;margin:10px 0;line-height:1.8}</style></head><body><h1>${esc(m.name)}</h1><div class="box"><b>الاسم العلمي:</b> ${esc(m.scientific||'-')}<br><b>الشركة:</b> ${esc(m.company||'-')}<br><b>النوع:</b> ${esc(m.type||'-')}<br><b>السعر:</b> ${fmt(m.price)} د.ع<br><b>الجرعة / الشكل:</b> ${esc(m.dose||'-')}</div><div class="box"><b>شرح الدواء:</b><br>${esc(m.desc||'-')}</div><div class="box"><b>نقاط البيع:</b><br>${esc(m.selling||'-')}</div><scr`+`ipt>print()<\/scr`+`ipt></body></html>`;w.document.write(html);w.document.close()}
 function saveProfile(){db.profile={name:v('repName'),job:v('repJob'),zone:v('repZone'),company:v('repCompany'),phone:v('repPhone'),defaultCompany:v('defaultMedCompany'),reportStyle:v('reportStyle')};save();alert('تم حفظ الإعدادات')}
 function saveTarget(){let m=v('targetMonth')||mon(),old=db.targets.find(x=>x.month==m),o={month:m,target:n(v('targetValue')),manual:n(v('manualAchieved'))};old?Object.assign(old,o):db.targets.unshift(o);save();alert('تم حفظ التاركت')}
 
@@ -829,25 +703,7 @@ function saveReport(){let text=v('reportOutput');if(!text)return alert('كوّن
 function copyText(t){navigator.clipboard?.writeText(t||'');alert('تم النسخ')}
 function csv(rows){return rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\n')}function down(nm,c,t='text/csv;charset=utf-8'){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=nm;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),300)}
 function exportCSV(){down('medical-rep-v10.csv',csv([['section','date','client','product','qty','bonus','price','discount','total','status'],...db.orders.map(o=>['order',o.date,clientName(o.clientType,o.clientId),o.product,o.qty,o.bonus,o.price,o.discount,o.total,o.status]),...db.visits.map(v=>['visit',v.date,clientName(v.type,v.clientId),v.product,'','','','','',v.status]),...db.doctors.map(d=>['doctor','',d.name,d.doctorType,d.spec,'','','','',d.zone]),...db.pharmacies.map(p=>['pharmacy','',p.name,p.owner,'','','','','',p.zone])]))}
-async function backup(){
-  let exportDb=db;
-  try{exportDb=await idbGet(K,db)}catch(e){}
-  const d=new Date().toISOString().slice(0,10);
-  down('MedRep-Flow-backup-'+d+'.json',JSON.stringify(exportDb,null,2),'application/json');
-}
-function importData(e){
-  let f=e.target.files[0];if(!f)return;
-  let r=new FileReader();
-  r.onload=async()=>{
-    try{
-      db=norm(JSON.parse(r.result));
-      try{await idbSet(K,db)}catch(e){}
-      save();
-      alert('تم استرجاع النسخة الاحتياطية بنجاح');
-    }catch(_){alert('ملف غير صالح')}
-  };
-  r.readAsText(f);e.target.value='';
-}
+function backup(){const d=new Date().toISOString().slice(0,10);down('MedicalRep-backup-'+d+'.json',JSON.stringify(db,null,2),'application/json')}function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=norm(JSON.parse(r.result));save();alert('تم استرجاع النسخة الاحتياطية بنجاح')}catch(_){alert('ملف غير صالح')}};r.readAsText(f);e.target.value=''}
 
 function uniqueCompanies(){
   const set=new Set();
@@ -1144,7 +1000,6 @@ moreTab('settings');
 clientTab('doctor');
 if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress();
 if(typeof renderStockDealer==='function')renderStockDealer();
-hydrateFromIndexedDB();
 </script>
 <script id="lang-switch-script">
 const I18N={"en": {"نظام المندوب العلمي": "Medical Representative System", "طلبيات، زيارات، عملاء، تاركت": "Orders, visits, clients, target", "لوحة التحكم": "Dashboard", "مندوب علمي": "Medical representative", "أكمل بياناتك من المزيد": "Complete your details from More", "الرئيسية": "Home", "الطلبيات": "Orders", "العملاء": "Clients", "المزيد": "More", "إضافة": "Add", "إضافة سريع": "Quick add", "طلبية جديدة": "New order", "تسجيل بيع أو طلبية": "Record sale or order", "زيارة": "Visit", "تسجيل زيارة فقط": "Record visit only", "طبيب": "Doctor", "إضافة طبيب جديد": "Add new doctor", "صيدلية": "Pharmacy", "إضافة صيدلية جديدة": "Add new pharmacy", "دواء": "Medicine", "إضافة مادة جديدة": "Add new item", "مخزون": "Stock", "المخزون": "Stock", "سامبلات / فري": "Samples / Free items", "مصروف": "Expense", "وقود أو ضيافة": "Fuel or hospitality", "خط سير": "Route plan", "إضافة عميل للخطة": "Add client to plan", "إلغاء": "Cancel", "المطلوب": "Required", "المتحقق": "Achieved", "طلبيات اليوم": "Today's orders", "متابعات اليوم": "Today's follow-ups", "آخر الطلبيات": "Latest orders", "مؤشرات سريعة": "Quick indicators", "أكثر الأدوية مبيعاً والمصاريف اليومية": "Top-selling medicines and daily expenses", "لا توجد طلبيات بعد": "No orders yet", "لا توجد مبيعات مؤكدة": "No confirmed sales", "مصاريف اليوم": "Today's expenses", "طلبية": "Order", "تعديل طلبية": "Edit order", "اختر العميل": "Select client", "اختر دواء حتى تظهر تفاصيله هنا.": "Select a medicine to show details here.", "اسم المنتج": "Product name", "الكمية": "Quantity", "بونص مجاني": "Free bonus", "سعر المفرد": "Unit price", "خصم بالدينار": "Discount in IQD", "ملاحظات الطلبية": "Order notes", "الصافي": "Net", "البونص": "Bonus", "تنحسب على التاركت": "Counts toward target", "لا تنحسب على التاركت": "Does not count toward target", "حفظ الطلبية": "Save order", "إلغاء التعديل": "Cancel edit", "كل الحالات": "All statuses", "بيع مؤكد": "Confirmed sale", "تم التسليم": "Delivered", "ملغي": "Cancelled", "بحث": "Search", "تعديل": "Edit", "حذف": "Delete", "تسجيل زيارة": "Record visit", "ملاحظات الزيارة فقط": "Visit notes only", "حفظ الزيارة": "Save visit", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "Orders are now separate; this screen is only for visits and notes.", "سجل الزيارات": "Visit log", "تمت": "Done", "لم تتم": "Not done", "مؤجلة": "Postponed", "يحتاج متابعة": "Needs follow-up", "الأطباء": "Doctors", "الصيدليات": "Pharmacies", "إضافة طبيب": "Add doctor", "اسم الطبيب": "Doctor name", "علمي": "Scientific", "ديلر": "Dealer", "الاختصاص": "Specialty", "الهاتف": "Phone", "الزون": "Zone", "تفاصيل الديلر": "Dealer details", "المادة المطلوبة": "Required item", "نوع الاحتياج": "Need type", "ديل": "Deal", "كسرة": "Break / discount", "سفرة": "Trip", "هدية": "Gift", "دعم": "Support", "أخرى": "Other", "القيمة / العدد": "Value / count", "ملاحظة الديلر": "Dealer note", "مثال: 10 سامبل أو 50,000": "Example: 10 samples or 50,000", "تفاصيل الاتفاق أو الحاجة": "Deal or need details", "المنتجات المهتم بها": "Interested products", "ملاحظة المتابعة": "Follow-up note", "ملاحظات": "Notes", "تثبيت الموقع": "Pin location", "حفظ الطبيب": "Save doctor", "إضافة صيدلية": "Add pharmacy", "اسم الصيدلية": "Pharmacy name", "المسؤول": "Responsible person", "حفظ الصيدلية": "Save pharmacy", "قائمة العملاء": "Client list", "فلتر الزون": "Zone filter", "خريطة": "Map", "الإعدادات": "Settings", "الأدوية": "Medicines", "المصاريف": "Expenses", "التقارير": "Reports", "إعدادات المندوب": "Representative settings", "اسم المندوب": "Representative name", "الوظيفة": "Job title", "الشركة": "Company", "الشركة الافتراضية للأدوية": "Default medicine company", "أسلوب تقرير مختصر": "Short report style", "أسلوب تقرير إداري": "Administrative report style", "أسلوب تقرير تفصيلي": "Detailed report style", "حفظ الإعدادات": "Save settings", "تاركت الشهر": "Monthly target", "قيمة التاركت": "Target value", "مبلغ يدوي إضافي اختياري": "Optional manual achieved amount", "حفظ التاركت": "Save target", "نسخ وتصدير": "Backup and export", "تصدير JSON": "Export JSON", "تصدير CSV": "Export CSV", "إضافة دواء": "Add medicine", "اسم الدواء": "Medicine name", "الاسم العلمي": "Scientific name", "السعر": "Price", "الجرعة / الشكل": "Dose / form", "شرح الدواء": "Medicine description", "نقاط البيع": "Selling points", "حفظ الدواء": "Save medicine", "قائمة الأدوية": "Medicine list", "بدون علمي": "No scientific name", "PDF": "PDF", "خط السير اليومي": "Daily route plan", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "Arrange clients by zone and convert them directly to actual visits.", "إضافة إلى خط السير": "Add to route plan", "تحويل لزيارة": "Convert to visit", "لا توجد خطة لهذا اليوم": "No plan for this day", "المصاريف اليومية": "Daily expenses", "المبلغ": "Amount", "وقود": "Fuel", "ضيافة": "Hospitality", "اتصالات": "Communications", "نثرية": "Miscellaneous", "حفظ المصروف": "Save expense", "لا توجد مصاريف لهذا اليوم": "No expenses for this day", "المخزون الخاص": "Private stock", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "Write samples and free items in one flexible field.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "Samples / free - example: 10 samples + 5 free", "حفظ المخزون": "Save stock", "لا يوجد مخزون محفوظ": "No saved stock", "تقرير جاهز": "Ready report", "تكوين تقرير اليوم": "Generate today's report", "التقرير يظهر هنا": "The report appears here", "نسخ": "Copy", "حفظ": "Save", "التقارير المحفوظة": "Saved reports", "لا توجد تقارير": "No reports", "اختر الدواء": "Select medicine", "اختر المادة": "Select item", "غير محدد": "Not specified", "بدون زون": "No zone", "بدون منتج": "No product", "لا توجد طلبيات": "No orders", "لا توجد زيارات": "No visits", "لا توجد نتائج": "No results", "لا توجد أدوية": "No medicines", "د.ع": "IQD", "الشهر": "Month", "النسبة": "Percentage", "المتبقي": "Remaining", "التاركت": "Target", "البيع المحسوب على التاركت": "Sales counted toward target", "إجمالي المصاريف": "Total expenses", "الملخص": "Summary", "الزيارات": "Visits", "الإجراء القادم": "Next action", "تم حفظ الإعدادات": "Settings saved", "تم حفظ التاركت": "Target saved", "تم النسخ": "Copied", "كوّن التقرير أولاً": "Generate the report first", "اكتب اسم الدواء": "Enter medicine name", "اكتب اسم الطبيب": "Enter doctor name", "اكتب اسم الصيدلية": "Enter pharmacy name", "اكتب المبلغ": "Enter amount", "لا يوجد موقع محفوظ": "No saved location", "تم تثبيت الموقع": "Location pinned", "تعذر جلب الموقع": "Could not get location", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "Location does not work from a direct file. Upload to HTTPS or enter coordinates manually.", "حذف؟": "Delete?", "ملف غير صالح": "Invalid file", "تم الاستيراد": "Imported", "عربي": "Arabic", "کوردی": "Kurdish"}, "ku": {"نظام المندوب العلمي": "سیستەمی نوێنەری زانستی", "طلبيات، زيارات، عملاء، تاركت": "داواکاری، سەردان، کڕیار، تارگێت", "لوحة التحكم": "داشبۆرد", "مندوب علمي": "نوێنەری زانستی", "أكمل بياناتك من المزيد": "زانیارییەکانت لە بەشی زیاتر تەواو بکە", "الرئيسية": "سەرەکی", "الطلبيات": "داواکارییەکان", "العملاء": "کڕیارەکان", "المزيد": "زیاتر", "إضافة": "زیادکردن", "إضافة سريع": "زیادکردنی خێرا", "طلبية جديدة": "داواکاری نوێ", "تسجيل بيع أو طلبية": "فرۆشتن یان داواکاری تۆمار بکە", "زيارة": "سەردان", "تسجيل زيارة فقط": "تەنها سەردان تۆمار بکە", "طبيب": "پزیشک", "إضافة طبيب جديد": "پزیشکی نوێ زیاد بکە", "صيدلية": "دەرمانخانە", "إضافة صيدلية جديدة": "دەرمانخانەی نوێ زیاد بکە", "دواء": "دەرمان", "إضافة مادة جديدة": "مادەی نوێ زیاد بکە", "مخزون": "کۆگا", "المخزون": "کۆگا", "سامبلات / فري": "سامپڵ / فری", "مصروف": "خەرجی", "وقود أو ضيافة": "سووتەمەنی یان میوانداری", "خط سير": "ڕێڕەوی کار", "إضافة عميل للخطة": "کڕیار بۆ پلان زیاد بکە", "إلغاء": "هەڵوەشاندنەوە", "المطلوب": "پێویست", "المتحقق": "بەدەستهاتوو", "طلبيات اليوم": "داواکارییەکانی ئەمڕۆ", "متابعات اليوم": "بەدواداچوونەکانی ئەمڕۆ", "آخر الطلبيات": "دوایین داواکارییەکان", "مؤشرات سريعة": "نیشاندەرە خێراکان", "أكثر الأدوية مبيعاً والمصاريف اليومية": "زۆرترین دەرمانی فرۆشراو و خەرجی ڕۆژانە", "لا توجد طلبيات بعد": "هێشتا داواکاری نییە", "لا توجد مبيعات مؤكدة": "فرۆشتنی پشتڕاستکراو نییە", "مصاريف اليوم": "خەرجی ئەمڕۆ", "طلبية": "داواکاری", "تعديل طلبية": "دەستکاری داواکاری", "اختر العميل": "کڕیار هەڵبژێرە", "اختر دواء حتى تظهر تفاصيله هنا.": "دەرمانێک هەڵبژێرە بۆ ئەوەی وردەکارییەکان لێرە دەربکەون.", "اسم المنتج": "ناوی بەرهەم", "الكمية": "بڕ", "بونص مجاني": "بۆنەسی بێبەرامبەر", "سعر المفرد": "نرخی یەکە", "خصم بالدينار": "داشکاندن بە دینار", "ملاحظات الطلبية": "تێبینی داواکاری", "الصافي": "پاڵاوکراوە", "البونص": "بۆنەس", "تنحسب على التاركت": "بۆ تارگێت هەژمار دەکرێت", "لا تنحسب على التاركت": "بۆ تارگێت هەژمار ناکرێت", "حفظ الطلبية": "داواکاری پاشەکەوت بکە", "إلغاء التعديل": "دەستکاری هەڵبوەشێنەوە", "كل الحالات": "هەموو دۆخەکان", "بيع مؤكد": "فرۆشتنی پشتڕاستکراو", "تم التسليم": "گەیەندرا", "ملغي": "هەڵوەشاوە", "بحث": "گەڕان", "تعديل": "دەستکاری", "حذف": "سڕینەوە", "تسجيل زيارة": "سەردان تۆمار بکە", "ملاحظات الزيارة فقط": "تەنها تێبینی سەردان", "حفظ الزيارة": "سەردان پاشەکەوت بکە", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "داواکاری ئێستا بەشێکی سەربەخۆیە؛ لێرە تەنها سەردان و تێبینی تۆمار دەکرێت.", "سجل الزيارات": "تۆماری سەردانەکان", "تمت": "ئەنجامدرا", "لم تتم": "ئەنجام نەدرا", "مؤجلة": "دواخراوە", "يحتاج متابعة": "پێویستی بەدواداچوونە", "الأطباء": "پزیشکەکان", "الصيدليات": "دەرمانخانەکان", "إضافة طبيب": "پزیشک زیاد بکە", "اسم الطبيب": "ناوی پزیشک", "علمي": "زانستی", "ديلر": "دیلەر", "الاختصاص": "پسپۆڕی", "الهاتف": "ژمارەی مۆبایل", "الزون": "زۆن", "تفاصيل الديلر": "وردەکاریی دیلەر", "المادة المطلوبة": "مادەی داواکراو", "نوع الاحتياج": "جۆری پێویستی", "ديل": "دیل", "كسرة": "کسرە", "سفرة": "گەشت", "هدية": "دیاری", "دعم": "پشتیوانی", "أخرى": "هی تر", "القيمة / العدد": "بها / ژمارە", "ملاحظة الديلر": "تێبینی دیلەر", "مثال: 10 سامبل أو 50,000": "نموونە: ١٠ سامپڵ یان ٥٠,٠٠٠", "تفاصيل الاتفاق أو الحاجة": "وردەکاری ڕێککەوتن یان پێویستی", "المنتجات المهتم بها": "بەرهەمە گرنگەکان", "ملاحظة المتابعة": "تێبینی بەدواداچوون", "ملاحظات": "تێبینییەکان", "تثبيت الموقع": "شوێن دیاری بکە", "حفظ الطبيب": "پزیشک پاشەکەوت بکە", "إضافة صيدلية": "دەرمانخانە زیاد بکە", "اسم الصيدلية": "ناوی دەرمانخانە", "المسؤول": "بەرپرس", "حفظ الصيدلية": "دەرمانخانە پاشەکەوت بکە", "قائمة العملاء": "لیستی کڕیاران", "فلتر الزون": "فلتەری زۆن", "خريطة": "نەخشە", "الإعدادات": "ڕێکخستنەکان", "الأدوية": "دەرمانەکان", "المصاريف": "خەرجییەکان", "التقارير": "ڕاپۆرتەکان", "إعدادات المندوب": "ڕێکخستنی نوێنەر", "اسم المندوب": "ناوی نوێنەر", "الوظيفة": "پیشە", "الشركة": "کۆمپانیا", "الشركة الافتراضية للأدوية": "کۆمپانیای بنەڕەتی بۆ دەرمانەکان", "أسلوب تقرير مختصر": "شێوازی ڕاپۆرتی کورت", "أسلوب تقرير إداري": "شێوازی ڕاپۆرتی ئیداری", "أسلوب تقرير تفصيلي": "شێوازی ڕاپۆرتی ورد", "حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت بکە", "تاركت الشهر": "تارگێتی مانگانە", "قيمة التاركت": "بەهای تارگێت", "مبلغ يدوي إضافي اختياري": "بڕی دەستی زیادە بە ئارەزوو", "حفظ التاركت": "تارگێت پاشەکەوت بکە", "نسخ وتصدير": "کۆپی و هەناردە", "تصدير JSON": "هەناردەی JSON", "تصدير CSV": "هەناردەی CSV", "إضافة دواء": "دەرمان زیاد بکە", "اسم الدواء": "ناوی دەرمان", "الاسم العلمي": "ناوی زانستی", "السعر": "نرخ", "الجرعة / الشكل": "دۆز / شێوە", "شرح الدواء": "ڕوونکردنەوەی دەرمان", "نقاط البيع": "خاڵەکانی فرۆشتن", "حفظ الدواء": "دەرمان پاشەکەوت بکە", "قائمة الأدوية": "لیستی دەرمانەکان", "بدون علمي": "ناوی زانستی نییە", "PDF": "PDF", "خط السير اليومي": "ڕێڕەوی ڕۆژانە", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "کڕیارەکان بە زۆن ڕێکبخە و ڕاستەوخۆ بیانگۆڕە بۆ سەردانی ڕاستەقینە.", "إضافة إلى خط السير": "زیادکردن بۆ ڕێڕەو", "تحويل لزيارة": "گۆڕین بۆ سەردان", "لا توجد خطة لهذا اليوم": "بۆ ئەم ڕۆژە پلان نییە", "المصاريف اليومية": "خەرجی ڕۆژانە", "المبلغ": "بڕ", "وقود": "سووتەمەنی", "ضيافة": "میوانداری", "اتصالات": "پەیوەندییەکان", "نثرية": "خەرجی ورد", "حفظ المصروف": "خەرجی پاشەکەوت بکە", "لا توجد مصاريف لهذا اليوم": "بۆ ئەم ڕۆژە خەرجی نییە", "المخزون الخاص": "کۆگای تایبەت", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "سامپڵ و فری لە یەک خانە بنووسە بۆ ئەوەی ئاسان بێت.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "سامپڵ / فری - نموونە: ١٠ سامپڵ + ٥ فری", "حفظ المخزون": "کۆگا پاشەکەوت بکە", "لا يوجد مخزون محفوظ": "کۆگای پاشەکەوتکراو نییە", "تقرير جاهز": "ڕاپۆرتی ئامادە", "تكوين تقرير اليوم": "ڕاپۆرتی ئەمڕۆ دروست بکە", "التقرير يظهر هنا": "ڕاپۆرتەکە لێرە دەردەکەوێت", "نسخ": "کۆپی", "حفظ": "پاشەکەوت", "التقارير المحفوظة": "ڕاپۆرتە پاشەکەوتکراوەکان", "لا توجد تقارير": "ڕاپۆرت نییە", "اختر الدواء": "دەرمان هەڵبژێرە", "اختر المادة": "مادە هەڵبژێرە", "غير محدد": "دیاری نەکراو", "بدون زون": "بێ زۆن", "بدون منتج": "بێ بەرهەم", "لا توجد طلبيات": "داواکاری نییە", "لا توجد زيارات": "سەردان نییە", "لا توجد نتائج": "ئەنجام نییە", "لا توجد أدوية": "دەرمان نییە", "د.ع": "د.ع", "الشهر": "مانگ", "النسبة": "ڕێژە", "المتبقي": "ماوە", "التاركت": "تارگێت", "البيع المحسوب على التاركت": "فرۆشتنی هەژمارکراو بۆ تارگێت", "إجمالي المصاريف": "کۆی خەرجی", "الملخص": "پوختە", "الزيارات": "سەردانەکان", "الإجراء القادم": "هەنگاوی داهاتوو", "تم حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت کران", "تم حفظ التاركت": "تارگێت پاشەکەوت کرا", "تم النسخ": "کۆپی کرا", "كوّن التقرير أولاً": "سەرەتا ڕاپۆرتەکە دروست بکە", "اكتب اسم الدواء": "ناوی دەرمان بنووسە", "اكتب اسم الطبيب": "ناوی پزیشک بنووسە", "اكتب اسم الصيدلية": "ناوی دەرمانخانە بنووسە", "اكتب المبلغ": "بڕەکە بنووسە", "لا يوجد موقع محفوظ": "شوێنی پاشەکەوتکراو نییە", "تم تثبيت الموقع": "شوێن دیاری کرا", "تعذر جلب الموقع": "نەتوانرا شوێن وەربگیرێت", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "شوێن لە فایلێکی ڕاستەوخۆ کار ناکات. بیخە سەر HTTPS یان کۆئۆردیناتەکان دەستی بنووسە.", "حذف؟": "بسڕدرێتەوە؟", "ملف غير صالح": "فایلی نادروست", "تم الاستيراد": "هاوردە کرا", "عربي": "عەرەبی", "کوردی": "کوردی"}};
@@ -1158,13 +1013,189 @@ function wrapI18n(name){const old=window[name];if(typeof old==='function'&&!old.
 ['render','go','moreTab','clientTab','sheet','fillOrderClients','fillVisitClients','fillPlanClients','medToOrder','calcOrder','dayReport','cancelMed','editMed'].forEach(wrapI18n);
 setTimeout(()=>applyLang(currentLang()),80);
 </script>
-\n<script id="security-guard-script">\n(function(){\n  'use strict';\n\n  const BLOCKED_KEYS = new Set(['F12']);\n  const ALLOW_IN_FIELDS = ['INPUT','TEXTAREA','SELECT'];\n\n  function isEditableTarget(el){\n    if(!el) return false;\n    return ALLOW_IN_FIELDS.includes(el.tagName) || el.isContentEditable;\n  }\n\n  function showSecurityNotice(){\n    const box = document.getElementById('securityLockScreen');\n    if(box){\n      box.classList.add('on');\n      box.setAttribute('aria-hidden','false');\n    } else {\n      alert('حماية التطبيق مفعّلة');\n    }\n  }\n\n  function block(e){\n    if(e){\n      e.preventDefault();\n      e.stopPropagation();\n      if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();\n    }\n    showSecurityNotice();\n    return false;\n  }\n\n  function shouldBlockKey(e){\n    const key = String(e.key || '').toLowerCase();\n    const code = String(e.code || '').toLowerCase();\n    const ctrl = e.ctrlKey || e.metaKey;\n    const shift = e.shiftKey;\n\n    if(BLOCKED_KEYS.has(e.key)) return true;\n    if(key === 'f12' || code === 'f12') return true;\n\n    // View source / save page / devtools / inspector / console\n    if(ctrl && ['u','s'].includes(key)) return true;\n    if(ctrl && shift && ['i','j','c','k'].includes(key)) return true;\n\n    // منع النسخ/القص خارج حقول الإدخال فقط\n    if(ctrl && ['c','x'].includes(key) && !isEditableTarget(e.target)) return true;\n\n    return false;\n  }\n\n  document.addEventListener('keydown', function(e){\n    if(shouldBlockKey(e)) return block(e);\n  }, true);\n\n  document.addEventListener('contextmenu', block, true);\n  document.addEventListener('dragstart', block, true);\n\n  document.addEventListener('copy', function(e){\n    if(!isEditableTarget(e.target)) return block(e);\n  }, true);\n\n  document.addEventListener('cut', function(e){\n    if(!isEditableTarget(e.target)) return block(e);\n  }, true);\n\n  document.addEventListener('selectstart', function(e){\n    if(!isEditableTarget(e.target)) return false;\n  }, true);\n\n  // تقليل فتح التطبيق داخل iframe غير معروف\n  try {\n    if(window.top !== window.self){\n      window.top.location = window.self.location.href;\n    }\n  } catch(err) {}\n\n  // كشف بسيط عند فتح أدوات المطور بحجم نافذة غير طبيعي\n  let lastWarn = 0;\n  setInterval(function(){\n    const threshold = 170;\n    const opened = (window.outerWidth - window.innerWidth > threshold) || (window.outerHeight - window.innerHeight > threshold);\n    if(opened && Date.now() - lastWarn > 3500){\n      lastWarn = Date.now();\n      showSecurityNotice();\n    }\n  }, 1400);\n\n  window.SecurityGuard = {\n    unlock(){\n      const box = document.getElementById('securityLockScreen');\n      if(box){\n        box.classList.remove('on');\n        box.setAttribute('aria-hidden','true');\n      }\n    }\n  };\n})();\n</script>\n
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+
+<script id="medrep-pwa-safe-scripts">
+(function(){
+  'use strict';
+
+  const DB_NAME='MedRepFlowIndexedDB';
+  const DB_VERSION=1;
+  const STORE='records';
+
+  function openDB(){
+    return new Promise((resolve,reject)=>{
+      if(!('indexedDB' in window)) return reject(new Error('IndexedDB not supported'));
+      const req=indexedDB.open(DB_NAME,DB_VERSION);
+      req.onupgradeneeded=()=>{
+        const db=req.result;
+        if(!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE,{keyPath:'key'});
+      };
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error);
+    });
+  }
+
+  async function idbSet(key,value){
+    const database=await openDB();
+    return new Promise((resolve,reject)=>{
+      const tx=database.transaction(STORE,'readwrite');
+      tx.objectStore(STORE).put({key,value,updatedAt:new Date().toISOString()});
+      tx.oncomplete=()=>resolve(true);
+      tx.onerror=()=>reject(tx.error);
+    });
+  }
+
+  async function idbGet(key,fallback=null){
+    const database=await openDB();
+    return new Promise((resolve,reject)=>{
+      const tx=database.transaction(STORE,'readonly');
+      const req=tx.objectStore(STORE).get(key);
+      req.onsuccess=()=>resolve(req.result && 'value' in req.result ? req.result.value : fallback);
+      req.onerror=()=>reject(req.error);
+    });
+  }
+
+  window.MedRepIDB={set:idbSet,get:idbGet};
+
+  async function hydrateFromIndexedDB(){
+    try{
+      if(typeof window.db==='undefined') return;
+      const fromDB=await idbGet('main',null);
+      if(fromDB && typeof norm==='function'){
+        window.db=norm(fromDB);
+        try{localStorage.setItem(K,JSON.stringify(window.db));}catch(e){}
+        if(typeof render==='function') render();
+      }else if(window.db){
+        await idbSet('main',window.db);
+      }
+    }catch(e){}
+  }
+
+  window.exportMedRepBackup=async function(){
+    try{
+      const data=(typeof window.db!=='undefined' && window.db) ? window.db : await idbGet('main',{});
+      const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download='medrep-flow-backup.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),800);
+    }catch(e){ alert('تعذر إنشاء النسخة الاحتياطية'); }
+  };
+
+  window.importMedRepBackup=function(fileInput){
+    const file=fileInput && fileInput.files && fileInput.files[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=async function(){
+      try{
+        const data=JSON.parse(reader.result);
+        if(typeof norm==='function') window.db=norm(data); else window.db=data;
+        await idbSet('main',window.db);
+        try{localStorage.setItem(K,JSON.stringify(window.db));}catch(e){}
+        if(typeof render==='function') render();
+        alert('تم استرجاع النسخة الاحتياطية بنجاح');
+      }catch(e){ alert('ملف النسخة الاحتياطية غير صحيح'); }
+      fileInput.value='';
+    };
+    reader.readAsText(file);
+  };
+
+  function addBackupButtons(){
+    if(document.getElementById('backupToolsCard')) return;
+    const more=document.getElementById('more') || document.querySelector('.page#more') || document.querySelector('.page:last-of-type');
+    if(!more) return;
+    const card=document.createElement('div');
+    card.id='backupToolsCard';
+    card.className='card';
+    card.innerHTML='<h3>الحفظ والنسخ الاحتياطي</h3><p class="muted">الحفظ المحلي مفعل داخل IndexedDB. استخدم النسخ الاحتياطي لحفظ ملف داخل ملفات الآيفون أو لنقل البيانات.</p><button type="button" onclick="exportMedRepBackup()">حفظ نسخة احتياطية</button><input id="restoreMedRepBackupFile" type="file" accept="application/json" style="display:none" onchange="importMedRepBackup(this)"><button type="button" class="ghost" onclick="document.getElementById(\'restoreMedRepBackupFile\').click()">استرجاع نسخة احتياطية</button>';
+    more.appendChild(card);
+  }
+
+  function setupInstallGate(){
+    let deferredInstallPrompt=null;
+    const gate=()=>document.getElementById('installGate');
+    const steps=()=>document.getElementById('iosInstallSteps');
+    const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+    const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+
+    window.addEventListener('beforeinstallprompt',function(e){
+      e.preventDefault();
+      deferredInstallPrompt=e;
+      const g=gate();
+      if(g && !isStandalone() && localStorage.getItem('medrep_install_dismissed')!=='1') g.classList.remove('hide');
+    });
+
+    window.addEventListener('appinstalled',function(){
+      localStorage.setItem('medrep_install_dismissed','1');
+      const g=gate();
+      if(g) g.classList.add('hide');
+    });
+
+    setTimeout(function(){
+      const g=gate();
+      if(g && !isStandalone() && localStorage.getItem('medrep_install_dismissed')!=='1') g.classList.remove('hide');
+    },350);
+
+    document.getElementById('installAppBtn')?.addEventListener('click',async function(){
+      if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        const choice=await deferredInstallPrompt.userChoice.catch(()=>null);
+        if(choice && choice.outcome==='accepted'){
+          localStorage.setItem('medrep_install_dismissed','1');
+          gate()?.classList.add('hide');
+        }
+        deferredInstallPrompt=null;
+        return;
+      }
+      steps()?.classList.add('on');
+      if(isIOS()) steps()?.classList.add('on');
+    });
+
+    document.getElementById('continueWebBtn')?.addEventListener('click',function(){
+      localStorage.setItem('medrep_install_dismissed','1');
+      gate()?.classList.add('hide');
+    });
+  }
+
+  function setupSecurity(){
+    document.body.classList.add('secure-ui');
+    const editable=(el)=>el && (['INPUT','TEXTAREA','SELECT'].includes(el.tagName) || el.isContentEditable);
+    const show=()=>{
+      const box=document.getElementById('securityLockScreen');
+      if(box){box.classList.add('on');box.setAttribute('aria-hidden','false');}
+    };
+    const block=(e)=>{e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();show();return false;};
+    document.addEventListener('keydown',function(e){
+      const key=String(e.key||'').toLowerCase();
+      const code=String(e.code||'').toLowerCase();
+      const ctrl=e.ctrlKey||e.metaKey;
+      const shift=e.shiftKey;
+      if(key==='f12'||code==='f12') return block(e);
+      if(ctrl && ['u','s'].includes(key)) return block(e);
+      if(ctrl && shift && ['i','j','c','k'].includes(key)) return block(e);
+      if(ctrl && ['c','x'].includes(key) && !editable(e.target)) return block(e);
+    },true);
+    document.addEventListener('contextmenu',block,true);
+    document.addEventListener('dragstart',block,true);
+    document.addEventListener('copy',function(e){if(!editable(e.target)) return block(e);},true);
+    document.addEventListener('cut',function(e){if(!editable(e.target)) return block(e);},true);
+    document.addEventListener('selectstart',function(e){if(!editable(e.target)){e.preventDefault();return false;}},true);
+    try{ if(window.top!==window.self) window.top.location=window.self.location.href; }catch(e){}
+    window.SecurityGuard={unlock:function(){const box=document.getElementById('securityLockScreen');if(box){box.classList.remove('on');box.setAttribute('aria-hidden','true');}}};
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    hydrateFromIndexedDB();
+    addBackupButtons();
+    setupInstallGate();
+    setupSecurity();
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js').catch(function(){}); }
   });
-}
+})();
 </script>
 </body>
 </html>
