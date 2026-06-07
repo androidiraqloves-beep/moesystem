@@ -1,0 +1,1170 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>نظام المندوب العلمي</title>
+<style>
+/* =========================================
+   1. المتغيرات والأساسيات (Variables & Base)
+========================================= */
+:root {
+  --bg: #f3f6fb; --card: #ffffff; --txt: #0f172a; --mut: #64748b; 
+  --p: #155eef; --p2: #3386ff; --soft: #eaf2ff; --br: #e2e8f0; 
+  --red: #dc2626; --amber: #b45309; --sh: 0 10px 26px rgba(15,23,42,.08);
+  --input: #ffffff; --hero1: #0f46b8; --hero2: #3386ff;
+}
+html[data-theme="dark"] {
+  --bg: #0b1220; --card: #121b2b; --txt: #eef4ff; --mut: #94a3b8; 
+  --p: #4f8cff; --p2: #74a8ff; --soft: #142845; --br: #24344d; 
+  --red: #fb7185; --amber: #fbbf24; --sh: 0 10px 28px rgba(0,0,0,.32);
+  --input: #0f172a; --hero1: #123c8c; --hero2: #245bd8;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: var(--bg); color: var(--txt); font-family: Tahoma, Arial, sans-serif; padding-bottom: 96px; }
+.app, .wrap { max-width: 900px; margin: auto; padding: 12px; }
+.hide { display: none !important; }
+
+/* =========================================
+   2. الهيدر (Header)
+========================================= */
+header { position: sticky; top: 0; z-index: 50; background: var(--card); padding: 14px 16px; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--br); box-shadow: 0 2px 12px rgba(15,23,42,.05); }
+.logo { width: 52px; height: 52px; border-radius: 18px; background:#fff; display:grid; place-items:center; overflow:hidden; box-shadow:0 6px 16px rgba(15,23,42,.08); border:1px solid var(--br); }
+.logo img { width:100%; height:100%; object-fit:cover; display:block; }
+header h1 { font-size: 17px; margin: 0; color: var(--txt); }
+header p { margin: 4px 0 0; color: var(--mut); font-size: 12px; }
+.theme-toggle { width: 44px !important; height: 44px !important; border-radius: 14px !important; background: var(--soft) !important; color: var(--p) !important; border: 1px solid color-mix(in srgb, var(--p) 20%, transparent) !important; box-shadow: none !important; margin: 0 !important; font-size: 18px !important; padding: 0 !important; display: grid; place-items: center; }
+
+/* =========================================
+   3. شريط اللغات (Language Bar)
+========================================= */
+.langBar { position: sticky; top: 76px; z-index: 48; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 16px; background: var(--card); border-bottom: 1px solid var(--br); box-shadow: 0 4px 14px rgba(15,23,42,.04); }
+.langBar button { margin: 0 !important; padding: 8px 4px !important; border-radius: 12px !important; background: var(--soft) !important; color: var(--p) !important; border: 0 !important; box-shadow: none !important; font-size: 12px !important; font-weight: 800 !important; min-height: 40px !important; }
+.langBar button.active { background: linear-gradient(135deg, var(--p), var(--p2)) !important; color: #fff !important; box-shadow: 0 4px 12px rgba(21,94,239,.25) !important; }
+html[dir="ltr"] body { text-align: left; }
+html[dir="ltr"] input, html[dir="ltr"] textarea, html[dir="ltr"] select { direction: ltr; text-align: left; }
+html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { direction: rtl; text-align: right; }
+
+/* =========================================
+   4. الأقسام والبطاقات (Pages & Cards)
+========================================= */
+.page { display: none; animation: fade .2s ease; }
+.page.on { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.card, .item { background: var(--card); border: 1px solid var(--br); border-radius: 22px; padding: 16px; margin-bottom: 12px; box-shadow: var(--sh); }
+.grid { display: grid; gap: 12px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tools { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+h2, h3 { font-size: 16px; margin: 0 0 12px; color: var(--txt); }
+p, .muted, .small { color: var(--mut); margin: 4px 0; font-size: 13px; line-height: 1.6; }
+.empty { text-align: center; color: var(--mut); padding: 20px; border: 1px dashed var(--br); border-radius: 16px; font-size: 14px; }
+.total, .report { background: color-mix(in srgb, var(--p) 6%, var(--card)); color: var(--txt); border: 1px solid color-mix(in srgb, var(--p) 15%, var(--br)); border-radius: 16px; padding: 12px; line-height: 1.8; margin-bottom: 8px; }
+.ok { color: var(--p); font-weight: 900; } .bad { color: var(--red); font-weight: 900; }
+.badge { display: inline-block; background: color-mix(in srgb, var(--p) 8%, var(--card)); color: var(--txt); border: 1px solid var(--br); border-radius: 99px; padding: 6px 10px; margin: 3px; font-size: 12px; font-weight: bold; }
+
+/* =========================================
+   5. الإدخال والأزرار الأساسية (Inputs & Buttons)
+========================================= */
+input, select, textarea { width: 100%; border-radius: 14px; border: 1px solid var(--br); padding: 14px; margin: 6px 0; background: var(--input); color: var(--txt); font: inherit; outline: none; transition: 0.2s; }
+input:focus, select:focus, textarea:focus { border-color: var(--p); box-shadow: 0 0 0 3px color-mix(in srgb, var(--p) 20%, transparent); }
+textarea { min-height: 86px; resize: vertical; }
+
+/* الأزرار الرئيسية (الزرقاء) */
+button { width: 100%; padding: 14px; margin: 6px 0; border-radius: 14px; font-size: 15px; font-family: inherit; font-weight: 800; cursor: pointer; outline: none; transition: 0.2s; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border: 0; box-shadow: 0 8px 18px rgba(21,94,239,.22); }
+button:active { transform: scale(0.98); }
+
+/* الأزرار الفرعية (بالكلاسات) */
+button.soft { background: var(--soft) !important; color: var(--p) !important; box-shadow: none !important; border: 1px solid color-mix(in srgb, var(--p) 25%, transparent) !important; }
+button.ghost { background: var(--card) !important; color: var(--txt) !important; box-shadow: none !important; border: 1px solid var(--br) !important; }
+button.danger { background: color-mix(in srgb, var(--red) 12%, var(--card)) !important; color: var(--red) !important; box-shadow: none !important; border: 1px solid color-mix(in srgb, var(--red) 30%, transparent) !important; }
+button.warn { background: color-mix(in srgb, var(--amber) 12%, var(--card)) !important; color: var(--amber) !important; box-shadow: none !important; border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent) !important; }
+button.smallbtn { padding: 9px !important; font-size: 13px !important; border-radius: 12px !important; min-height: 42px !important; }
+
+/* إصلاح ألوان الدارك مود للأزرار الفرعية */
+html[data-theme="dark"] button.soft { background: #1e3a8a !important; color: #93c5fd !important; border-color: #1e40af !important; }
+html[data-theme="dark"] button.danger { background: #7f1d1d !important; color: #fca5a5 !important; border-color: #991b1b !important; }
+html[data-theme="dark"] button.ghost { background: #1e293b !important; color: #cbd5e1 !important; border-color: #334155 !important; }
+
+/* =========================================
+   6. التبويبات المدمجة (Segmented Controls)
+========================================= */
+.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--soft); padding: 6px; border-radius: 16px; margin-bottom: 14px; }
+.tabs button { margin: 0 !important; min-height: 46px !important; padding: 8px !important; font-size: 14px !important; border-radius: 12px !important; background: transparent !important; color: var(--p) !important; box-shadow: none !important; border: 0 !important; font-weight: 800 !important; }
+.tabs button.on { background: linear-gradient(135deg, var(--p), var(--p2)) !important; color: #fff !important; box-shadow: 0 4px 12px rgba(21,94,239,.25) !important; }
+
+.more-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: var(--soft); padding: 6px; border-radius: 18px; margin-bottom: 16px; }
+.more-tabs button { margin: 0 !important; min-height: 44px !important; padding: 4px !important; font-size: 12.5px !important; border-radius: 14px !important; font-weight: 800 !important; background: transparent !important; color: var(--p) !important; box-shadow: none !important; border: 0 !important; }
+.more-tabs button.active { background: linear-gradient(135deg, var(--p), var(--p2)) !important; color: #fff !important; box-shadow: 0 4px 14px rgba(21,94,239,.25) !important; }
+.more-panel { display: none; animation: fade .2s ease; }
+.more-panel.active { display: block; }
+html[data-theme="dark"] .tabs, html[data-theme="dark"] .more-tabs { background: #142845; }
+html[data-theme="dark"] .tabs button:not(.on), html[data-theme="dark"] .more-tabs button:not(.active) { color: #74a8ff !important; }
+
+/* =========================================
+   7. مكونات مخصصة (Hero, Stats, Sliders)
+========================================= */
+.hero { background: linear-gradient(135deg, var(--hero1), var(--hero2)); color: #fff; border: 0; padding: 20px; overflow: hidden; position: relative; }
+.hero h2, .hero b, .hero p, .hero strong { color: #fff; } .hero .muted { color: #dbeafe; }
+.heroGrid { display: grid; grid-template-columns: 1fr; gap: 14px; align-items: center; }
+.heroIcon { width: 90px; height: 90px; border-radius: 26px; background: rgba(255,255,255,0.15); display: grid; place-items: center; }
+.heroIcon svg { width: 50px; height: 50px; fill: #fff; }
+.heroIcon img { width:100%; height:100%; object-fit:cover; border-radius:24px; }
+.hero strong { display: block; font-size: 32px; margin: 6px 0; }
+.bar { height: 12px; background: rgba(255,255,255,0.2); border-radius: 99px; overflow: hidden; margin: 12px 0; }
+.bar i { display: block; height: 100%; background: #fff; border-radius: 99px; }
+
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+.stat { background: var(--card); border: 1px solid var(--br); border-radius: 20px; padding: 16px; box-shadow: var(--sh); }
+.statIcon { width: 44px; height: 44px; border-radius: 14px; background: var(--soft); color: var(--p); display: grid; place-items: center; margin-bottom: 10px; }
+.statIcon svg { width: 22px; height: 22px; fill: currentColor; }
+.stat span { display: block; color: var(--mut); font-size: 13px; }
+.stat b { display: block; font-size: 24px; margin-top: 4px; color: var(--txt); }
+
+/* سلايدر نوع الدواء (Chips) - شبكة ملتفة */
+.med-type-slider { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.med-type-slider label { flex: 1 1 calc(30% - 8px); cursor: pointer; }
+.med-type-slider input { display: none; }
+.med-type-slider span { display: block; padding: 10px 4px; background: var(--input); border: 1px solid var(--br); border-radius: 14px; font-size: 13px; color: var(--mut); transition: 0.2s; text-align: center; font-weight:bold; }
+.med-type-slider input:checked + span { background: linear-gradient(135deg,var(--p),var(--p2)); color: #fff; border-color: transparent; box-shadow: 0 4px 12px rgba(21,94,239,.2); }
+html[data-theme="dark"] .med-type-slider span { background: var(--card); }
+
+.doc-product-tools { margin: 6px 0 10px; }
+.doc-product-chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:6px; }
+.doc-product-chips button { width:auto !important; margin:0 !important; padding:8px 10px !important; border-radius:999px !important; font-size:12px !important; background:var(--soft) !important; color:var(--p) !important; border:1px solid color-mix(in srgb,var(--p) 22%,transparent) !important; box-shadow:none !important; }
+.receipt-actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:10px; }
+@media(max-width:430px){ .receipt-actions { grid-template-columns:1fr; } }
+
+
+/* التنبيهات الذكية وهدف اليوم */
+.alerts-container { margin-bottom: 12px; }
+.alert-item { background: #fff5f5; border-right: 4px solid var(--red); padding: 12px 16px; border-radius: 16px; margin-bottom: 8px; font-size: 13px; color: #bc2f2f; font-weight: bold; box-shadow: 0 4px 12px rgba(220,38,38,0.08); }
+html[data-theme="dark"] .alert-item { background: #450a0a; color: #fecaca; border-color: #ef4444; }
+.daily-target-card { background: linear-gradient(135deg, var(--p), var(--p2)) !important; color: white !important; padding: 20px !important; border: none !important; margin-bottom: 12px; box-shadow: 0 10px 24px rgba(21,94,239,0.2) !important; border-radius: 22px; }
+.daily-header { display: flex; justify-content: space-between; font-size: 14px; opacity: 0.9; align-items: center; }
+.days-badge { background: rgba(255,255,255,0.25); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; color: #fff; }
+.daily-amount { font-size: 28px; font-weight: 900; margin: 12px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1); color: #fff; }
+
+/* أشرطة التقدم والمصاريف */
+.clean-progress { height: 10px; background: var(--soft); border-radius: 99px; overflow: hidden; margin-top: 8px; }
+.clean-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--p), var(--p2)); border-radius: 99px; min-width: 3px; }
+.progress-container { background: rgba(255,255,255,0.2); height: 8px; border-radius: 99px; overflow: hidden; }
+.progress-bar { background: #fff; height: 100%; width: 0%; transition: 0.5s; border-radius: 99px; }
+.rank-list { display: flex; flex-direction: column; gap: 10px; }
+.rank-item { border: 1px solid var(--br); border-radius: 16px; padding: 12px; background: var(--card); }
+
+/* =========================================
+   8. القائمة السفلية (Bottom Navigation)
+========================================= */
+.bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--card); border-top: 1px solid var(--br); padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); box-shadow: 0 -6px 20px rgba(15,23,42,.06); }
+.nav-grid { max-width: 900px; margin: auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; align-items: end; }
+.nav-btn { background: transparent !important; border: 0 !important; margin: 0 !important; padding: 8px 2px !important; color: var(--mut) !important; box-shadow: none !important; font-size: 11px !important; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border-radius: 16px !important; }
+.nav-btn svg { width: 22px; height: 22px; fill: currentColor; }
+.nav-btn.on { background: var(--soft) !important; color: var(--p) !important; }
+.nav-btn.center { transform: translateY(-24px); position: relative; }
+.nav-btn.center .fab { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--p), var(--p2)); display: grid; place-items: center; color: #fff; box-shadow: 0 14px 28px rgba(21,94,239,.3); margin-bottom: 4px; }
+.nav-btn.center .fab svg { fill: #fff; width: 28px; height: 28px; }
+
+/* النافذة المنبثقة (Bottom Sheet) */
+.sheetbg { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.4); z-index: 70; backdrop-filter: blur(2px); }
+.sheetbg.on { display: block; }
+.sheet { position: fixed; left: 0; right: 0; bottom: -100%; z-index: 80; background: var(--card); border-radius: 30px 30px 0 0; transition: 0.3s cubic-bezier(0.1, 0.8, 0.3, 1); box-shadow: 0 -12px 40px rgba(15,23,42,.15); padding: 16px 20px 30px; max-width: 900px; margin: auto; }
+.sheet.on { bottom: 0; }
+.sheetHandle { width: 60px; height: 6px; border-radius: 999px; background: var(--br); margin: 4px auto 16px; }
+.sheetActions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sheetActions button { background: var(--input) !important; border: 1px solid var(--br) !important; color: var(--txt) !important; text-align: right !important; padding: 16px !important; box-shadow: none !important; border-radius: 20px !important; }
+.sheetActions button b { display: block; font-size: 15px; margin-bottom: 4px; color: var(--p); }
+.sheetActions button span { display: block; font-size: 12px; color: var(--mut); font-weight: normal; }
+
+/* ديلر */
+.dealer-extra { display: none; background: var(--soft); border: 1px solid color-mix(in srgb, var(--p) 20%, transparent); border-radius: 18px; padding: 14px; margin: 8px 0 12px; }
+.dealer-extra.show { display: block; }
+.dealer-extra h3 { color: var(--p); margin-bottom: 10px; }
+
+@media(min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } .grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width: 430px) { .row, .tools { grid-template-columns: 1fr; } .heroGrid { grid-template-columns: 1fr; } }
+
+
+/* الردود المدعمة بالذكاء - بدون زر عائم */
+.ai-reply-bg{display:none;position:fixed;inset:0;background:rgba(15,23,42,.38);z-index:90;backdrop-filter:blur(2px)}
+.ai-reply-bg.on{display:block}
+.ai-reply-sheet{position:fixed;left:0;right:0;bottom:-100%;z-index:91;max-width:900px;margin:auto;background:var(--card);border-radius:28px 28px 0 0;padding:16px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -14px 36px rgba(15,23,42,.18);transition:.25s ease;border:1px solid var(--br);border-bottom:0;max-height:88vh;overflow:auto}
+.ai-reply-sheet.on{bottom:0}
+.ai-chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;margin-bottom:4px}
+.ai-chips button{width:auto!important;min-width:max-content!important;margin:0!important;padding:10px 13px!important;border-radius:999px!important;background:var(--soft)!important;color:var(--p)!important;box-shadow:none!important;border:1px solid color-mix(in srgb,var(--p) 20%,transparent)!important;font-size:12.5px!important}
+.ai-chips button.on{background:linear-gradient(135deg,var(--p),var(--p2))!important;color:#fff!important}
+.ai-output{background:var(--input);border:1px solid var(--br);border-radius:18px;padding:14px;min-height:100px;white-space:pre-wrap;line-height:1.8;color:var(--txt);font-size:14px;margin:8px 0}
+.ai-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.ai-title-row .badge{margin:0}
+
+
+/* =========================================
+   شاشة الدخول والتفعيل المحلي
+========================================= */
+.auth-lock .wrap, .auth-lock .bottom-nav, .auth-lock .sheetbg, .auth-lock .sheet { display:none !important; }
+.auth-screen { position:fixed; inset:0; z-index:9999; background:radial-gradient(circle at top,rgba(21,94,239,.12),transparent 38%),var(--bg); display:grid; place-items:center; padding:18px; }
+.auth-card { width:100%; max-width:430px; background:var(--card); border:1px solid var(--br); border-radius:28px; padding:22px; box-shadow:0 18px 45px rgba(15,23,42,.16); }
+.auth-logo { width:122px; height:122px; border-radius:30px; margin:0 auto 10px; background:#fff; overflow:hidden; display:grid; place-items:center; border:1px solid var(--br); box-shadow:0 12px 28px rgba(15,23,42,.08); }
+.auth-logo img { width:100%; height:100%; object-fit:cover; display:block; }
+.auth-card h2 { text-align:center; font-size:24px; margin:0 0 14px; letter-spacing:.2px; color:var(--txt); }
+.auth-card .device-box { direction:ltr; text-align:center; background:var(--soft); border:1px dashed color-mix(in srgb,var(--p) 35%,var(--br)); color:var(--p); border-radius:16px; padding:12px; font-weight:900; letter-spacing:1px; margin:8px 0 10px; user-select:all; }
+.auth-card .auth-note { text-align:center; color:var(--mut); font-size:12px; margin-bottom:12px; }
+.auth-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.auth-error { min-height:20px; color:var(--red); text-align:center; font-weight:800; font-size:13px; margin-top:8px; }
+body:not(.auth-lock) .auth-screen { display:none !important; }
+.backup-note { font-size:12px; color:var(--mut); line-height:1.7; margin-top:6px; }
+
+.auth-device-label{font-size:12px;color:var(--mut);text-align:center;margin-top:2px;font-weight:800}
+.splash-screen{position:fixed;inset:0;z-index:10000;background:radial-gradient(circle at top,rgba(21,94,239,.14),transparent 40%),var(--bg);display:grid;place-items:center;text-align:center;padding:22px}
+.splash-box{animation:splashPop .75s ease both}.splash-box img{width:170px;height:170px;border-radius:38px;object-fit:cover;background:#fff;box-shadow:0 20px 45px rgba(21,94,239,.16);animation:splashFloat 1.7s ease-in-out infinite}.splash-box h1{font-size:31px;margin:18px 0 4px;color:var(--txt);font-weight:900}.splash-box p{color:var(--mut);font-weight:800;margin:0}.splash-line{width:150px;height:6px;background:var(--soft);border-radius:99px;margin:18px auto 0;overflow:hidden}.splash-line i{display:block;height:100%;width:40%;background:linear-gradient(135deg,var(--p),var(--p2));border-radius:99px;animation:splashLoad 1.8s ease-in-out infinite}@keyframes splashPop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}@keyframes splashFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}@keyframes splashLoad{0%{transform:translateX(-120%)}100%{transform:translateX(280%)}}
+.app-footer{text-align:center;color:var(--mut);font-size:12px;line-height:1.8;padding:16px 12px 22px}.app-footer a{color:var(--p);font-weight:900;text-decoration:none}.brand-name{font-weight:900;color:var(--txt)}
+
+
+.storage-status{margin-top:10px;padding:10px 12px;border-radius:14px;background:var(--soft);color:var(--p);font-size:12px;font-weight:800;line-height:1.7;border:1px solid color-mix(in srgb,var(--p) 20%,transparent)}
+html[data-theme="dark"] .storage-status{background:#142845;color:#93c5fd}
+.install-note{font-size:12px;color:var(--mut);line-height:1.8;margin-top:8px}
+
+
+/* =========================================
+   شاشة تثبيت التطبيق أول فتح
+========================================= */
+.install-gate{position:fixed;inset:0;z-index:12000;background:radial-gradient(circle at top,rgba(21,94,239,.18),transparent 42%),var(--bg);display:grid;place-items:center;padding:18px}
+.install-gate.hide{display:none!important}
+.install-card{width:100%;max-width:450px;background:var(--card);border:1px solid var(--br);border-radius:30px;padding:24px;box-shadow:0 22px 55px rgba(15,23,42,.18);text-align:center;animation:installPop .25s ease both}
+.install-logo{width:120px;height:120px;border-radius:30px;background:#fff;margin:0 auto 12px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--br);box-shadow:0 14px 30px rgba(21,94,239,.13)}
+.install-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.install-card h2{font-size:25px;margin:8px 0 8px;color:var(--txt);font-weight:900}
+.install-card p{font-size:14px;color:var(--mut);line-height:1.8;margin:0 0 12px}
+.install-big-btn{min-height:62px!important;border-radius:20px!important;font-size:19px!important;margin-top:12px!important;box-shadow:0 14px 30px rgba(21,94,239,.28)!important}
+.install-skip{background:transparent!important;color:var(--mut)!important;border:0!important;box-shadow:none!important;font-size:13px!important;margin-top:4px!important}
+.install-steps{display:none;text-align:right;background:var(--soft);border:1px solid color-mix(in srgb,var(--p) 18%,var(--br));border-radius:20px;padding:14px;margin:12px 0;color:var(--txt);line-height:1.9;font-size:14px}
+.install-steps.on{display:block}
+.install-steps b{color:var(--p)}
+.install-steps .step{display:flex;gap:8px;align-items:flex-start;margin:7px 0}
+.install-steps .num{min-width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;display:grid;place-items:center;font-size:12px;font-weight:900;line-height:1}
+@keyframes installPop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@media(display-mode:standalone){.install-gate{display:none!important}}
+
+
+
+/* =========================================
+   طبقة حماية الواجهة - منع النسخ وأدوات المطور
+========================================= */
+html, body, .app, .wrap, .card, .item, header, .bottom-nav {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+input, textarea, select, [contenteditable="true"] {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}
+.security-lock-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: rgba(5, 10, 20, .92);
+  color: #fff;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+.security-lock-screen.on { display: grid; }
+.security-lock-box {
+  max-width: 430px;
+  width: 100%;
+  border-radius: 26px;
+  padding: 24px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+.security-lock-box b { display: block; font-size: 22px; margin-bottom: 10px; color: #fff; }
+.security-lock-box p { color: #dbeafe; margin: 0 0 14px; }
+.security-lock-box button { background:#fff !important; color:#0f172a !important; box-shadow:none !important; }
+
+</style>
+
+<!-- PWA iPhone / Android -->
+<meta name="theme-color" content="#155eef">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MedRep Flow">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+</head><body class="auth-lock">
+
+<div id="installGate" class="install-gate hide" aria-live="polite">
+  <div class="install-card">
+    <div class="install-logo"><img src="data:image/webp;base64,UklGRlImAABXRUJQVlA4IEYmAAAwqQCdASr0AfQBPkkkkUYioiGhIldYoFAJCWVu/HRWA+N/xsJBMU7T+o7KapHX/73+y/9u/b/5fKn/SP61+if7L+0vys7mefv+B6EPjn5h/kf67/jv/L/lf/////oX/wf7v7uP0n/uPcA/jH8n/0v9b/v37JfER6l/3K/G74Af0b/Gf+X/K/v/8v/+S/6X+J9yP9c/c79bvkA/mn+Q/7X5//Gt7B/7lewN+1X/y9cb9uPg9/pv+u/+P+q/f////Yt/Rv8F/5fz/+QD/8+oB/9+J0/v/bv/hf6/3mvtP8r+Xe/eYI/tb+y/tH7geyH+78SeAL+L/zb/Ufllw5oAPq5/yv8B4reqJ4c9gD9d+JToB/ob1Zv6j9tPPd+hf6v/5f6f4Ff6D/cv+n2I/SwVCjLZkIxzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHv8K1+WJASAkBICQEgJASAkBICQEgJANMqjLZkIxzjnHOOcc45xzjnHNsVAQK1+WI0TDEakih/2cvXn4Z+7zjgGi7qUt4+MgJASAkBICQEgJARiWUJ4VLZ/ys3FOFsO8+TElteryXb/GlSrXlUix4HOOcc45xzjnHFvYnXzNSgv2ja+zz4VJ64fePHyoRl2y0GIlZQ6dTaF0HvyxICQEgJASAZDqEcaR9GhrvCOJIVaf4z3F05OQHiThtfVdhbz7mHmCVa1CAkBICQEgJAR+K8oTKkCYgISmNNG7NUTjYJ6VSTZ5X6FOs8tBQTcehv07UpyTr8sSAkBICQEgJBkmRQEtuq4NkdV+H5cL5QwF8AibNZrOeiuJ/nU00GbxzCdTxtAQK1+WJASAkBIDEPJ/wXa3FbvuFBf/K+yjiIgl+jVcvxZZtJUMNmFJwggBfDMQ4kBICQEgJASAjH5dHOf/OqzuMqZ64X4ZpkKOZSWSAYMLg0mofxzwrW9eWJASAkBGOCTX99EAZ0YrV3fg4jhNTPtmeBBhhaZAfa81fvFtz8UDCtfliQEgJAR+TSnNsI2rCwFtubZsipUazSMDuSzEuUDkrPDw0CHzIRjnHOOcc444Rl88q8s4WSnsUJsAX/hGFdWfpq5lkbRuvzth7hU2FlsyEY5xzjnHNnDzOG6v5GuUXxix5o/VbEyiM4N0tl+5GjFyYU+9hfgDr4dfliQEgJASAkBKsaEoGM9AgVr8sSAj8UwDkM4fuI3/HAgeWwNTuwXkD6vGFeWCDrzjwyfPhPkxwom/hFEuG92JASAkBH5hohZYuCY2zKO1MNgmxU7Qpm/noJURmthLAKvKCL/9TCpGwc+6Xks6YSsXIpltLW/H3YF3mbIMUaVQ0gNuFIboMGUWh3l4/GG5Fwoczv1103TeAek7QYAzUlOo5g4jvkQcxReXfkjCqEMgbEh9Bdu7PS09tezmIdGNnmfxozNzTuRlsw1v4bqPBBeZpXrBymZfDD8JLKS8Zvsx+hy+xH627SpSM6QlNWF4jMxaXxlxbNuyd698Vn6pUQMTJVR7AlVhok/EWCUx+0EsJXvPa5bdWxXdJj3BN/RfdVeH/zi4u6TJ+nwgEGJ1kfbF9xvg7+13AOM+7ov5Lwi2MKHwf3hzy4uKYO/v3aly0vDAtrCIj04TNVr8sSAkBICQEqxUZbMhGOcc45xzjnHOOcc45xzjnF3vDnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOO6HOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xd7uxRHOks8OJALgAA/v7LUa3tGAAAAk2lcBiMSwGwzfQHIGAAC0KaCI5cAAgzP3wjrAS0gTIwWud4GKO4UHRaoj1hPKX+ciltwd+uU983LSDWDhHO28PDNU5n+A9f6eJhGNhluHAJAfmA8bHvL5BkO2P5e3GHSK5qTIuWNOwpEsOkksE+8hP/y3pfydVVxpR/KNLFR8TcCx7nmNDK5zZkam4cmzHq5xQW8M9evAD5KMvn6FvGLMXLC2uwST/iedtN0rtvxSvhaGzY7M2z89Q+NP4cb3kFeOYi/BCq1AKt2zMbSBExKFM/2NQ5vLZYiFyHUvK3KMMvSptywvilhfpQAckWvqoc+O4yHdKaP7qp6mJ537FRUVi1pMxD+pPfZ4Kvgl4W514bAdIlWxyiMHZmYklM+T4Kof5t00vhMJSym8q95xEamvXYLiyKwalhWCrCMxCM4cM+v3+zZx/Nj7Tq+kzZvaOm+rjSgZ4J1BK1LKGKqIRVmmlG4X6bgUelWtC7tUEVI1qREbwziFkzprYyyHDBich77AfVm2VAEK/RdnJsLoaAL3nuTbjbHISGNiplsq+oUSpyk4dFB3sFWf3/Qxc0ZsD2e2c3H1SGBLmxYcoZGEXbraQYYAWhHUKhqP2sObG9RjeOixe06whE0MM7dgTaCZvrKZ8qH6m1n/6hiHu24qd86AEuhcQfeOA3HFHnWv5ES8iFAyRB1SclzFwEa5th504MEbJXsVVlqam3MeshVvOULuPjfGdermxtHQaUX3dkACw930cMZCwfAXMVd+CnadhHPRe77qoFIl4FtDbohOS0nf8nfkUHQR/jffZnyRUsi7aiIktA6DjqzdSZBoZWLo/XdL31/ew3DwZFKGxfOdVHmtoRK+0X8spJdZJWfBSXXkvoXplWLn55PmqbWBhtXisKHrAVHvV58ptufOU9k8jV0o8K7K9IQ1uTvUTjQSzRbJmWEW2SaPlc5sBl2NN4PCV0R3ArqLPKykT+d9e4Ty7yXo2zxsAv++SqMhJAZcCtXU3LGDuOwIX6vKnoQXGcjlo/ZX50cbdqNg0vEOHMsyx4WtIDLUmyaOYcRa6yqAEB3PTZlX4vQtwZP29ASzTyCj60CV2c3qGFYnXvqf4FCmDsNRhqYUWwHsu0WGNNe63RaIqNNSl0hoxXa8h+3ko0uIkMtOGZrHrsfLQxfdYYp+1Omc9saEU0dd0pBmmyXBP7PFzOTAIF3/w3Jlgkp5nNZX9FfRdQH1iWIc2ulOxYv99LEX7YxxMU9waR5REU7sEjAT8EHeKcbjTzvys99kEoNUC7Fm6F4lEcL/CPY/4+j1eYLf6IRJupRYGoz7rsuHygOLSDup19vHxVLd0bVU70s9jBSRAAbAlkF8XI0prXotWLz/NRl+0wnGmfXQCSFgncJW1Lr43PGEK+pn/wq8Ufo7XshDpuFL/3X9YmmBqZhV8a8Hntxdd4UwtWjlUwBkfq/h9ipuDgjT9QV3rmqXXW92XP0T+JqgJo0C8vkr57Pe62IfudVD3yYW7fHSt07adF8pNXfZAq/ZOl71NlSsCI2gWIl2N3dxPtZ3NsBhONWF59Ef/mfO9HbdIhI6Z3Sb5XEL0RTCGcfy0O9UgD4Efq/pMNhXeP6MZQB+bNPMM2JITXP572RB9qP37eBKXM8JxDWL1sxIM2R7ObXg+SEdO2oFkn+jtEk3jZJJAeDcxa4tjTlsrO3HHqGjtpSota7Gh9OMeEf0vkYiPyJwtJMKlKZK0MrtDCn4LUnP4kG8sD2lN/cjsZnl0pYqFDN2igayGo3+Pe7knIxeURuhgmIhJQ0n/FcNUvFtIs9Fjlq6iBjnvZp5/SkMiV3Uo1jujW4fC6fWoMSC4V+N0qJbJFPh3PMXvGgTw9+k+E0B064h736mfcKxnMUmmoRjVeLZ5FzBVxlwHg9NJ8ahmBO64VzhkEDZSwtqompEIS49UOzYhhQhjJVHzIt+uN1vnHiB9UOPHAcaQvo+12i5x1LAnQkPo57KMYIH6/v32mXkf9Wd7eaw3qNB03aWY6SRNQdwbOGzlCRWjYP63O3KDaX3yDbPQ4Dp+fBIXzT0YUFtKYbKDQ2t+RGIWRLElQqs1iMzltx03RNHEM88m5zMDPCo6yorts3IovDxG+hlYP0h7Yky43Wrz6buOh6yMim8/vSheW6cpdce3fcRiCqOo02SgKCMBVXgBYiQK8OvkodvF/8l9iauAi5uAViPXMJ5eKdGraInOZ5nONYqfSW8EZUygiOYKRVnBVSnOG9xHAYroHcbxdhQfIa4wm+ZS795gIvhtYvYSt/HFdgIFFMC8nW8zLm51OkrjYJS1u9pCNx3883DC2vSlBHnxSa5lrz7bgfQnfNZUXlg4aQ0BUP5iquPLNzlqNPYXGVlFOC6QUwcFQ7A7s7wZG7ZfG6ktzDmMRDUOx+91q+CoP2RIY1u+0nBMHaXQMWSQMjzsgC9Z7jFohuusIhaw6oyV+/IkaAUDLldMISULnA9U7+m+wFPIzPTJsMDXt5eVmuDOafAyG+PnOMHeRI8BzeW1ELyU46Zt//McKJtzSfPbopTr1NmKyCNgFBuMHMAWyKB2qzhc8LXzq36TXdT0wv/q/urfUkwt6FfMXSLn5rLIOrxQfC1kA0XHsk4LFCn9/BNWxq/PntfxXRn2m1/sT4Tbt2lVUCusXA2LhC62Z9P15S7d65fQFkRD5JR/DfWsZdH0KEpmhMe12nugwvjKssu9/6RKq5tgZWdHAdr5/DWuehq2spypAy83aztw2I27J9nusdp2dJGaFN93DZn7bWPqeD8FYm9wx3TWI3xlin7KlCEhuEhghY4XuJopzjxLwPGxBx43T1T63FeqBOwpkbENE7hZ0XNprwWQYMYvdX527cTPyrkSrXbDMaPXMGU5YaEVe34aE4TNWj70TgXfO+ae1Vcv8PfZ7/h6TXbmmcF6ZLWcVJVzIPug2K5UyRSn3aR//MSOXwnnTLfSab1+uogFmyXyue+tdzFrcXpW8tRQIMlVblN/gA8wW5O27urccn1AOjw3L+Gozbmb/7ITSJyWyPSZt6CyPAYD+r3etLAhJ1xnE8YYtUpaOMtJA/1QlM1xynqGR+e0NIY95g5YJak6CbRfrIuGU9UbiHpt/xJeSV1E+x+97LtDoT0NHniNjkpFHKsQRj/gM1Er0eQNmdJY5s6Wv2iHeT8Ajv8d4mQC3qCMly2Rkebw106bd7Y1A1cFHLpOlvLbRkKUtlxBG1vOnoD+Whi3jWgJ/ff0mrjR3mX7g7QuORprUBa7HO4OwFUTDIqRHklNi1Zex/qjrYGT3x1SwI75RePl4wXI82f8PmvahAn1aP/tR3VIjCui6lQLx+r0jsDFKlQ0vRVMN9Cq6JocsqyzRNH/jRoTKRBctrdgFhy8rwZzFa+cYjmyZ+yDS9sZ+sxEsxJQw2dusdZiw8088m68VZV1Ymdjf/pyHt0wV4iZ5m3qba/xDgaXq/mNV8iShjRrzDgFKOgm0U5O+Vw9w5toObJFB4xWaAXUKhmSBJEqspgglG7iWBrMWWlilE7ytIKJOoVuKupuPUrY42YMKW4cd9hDbfxuSRo7Vq59TQ+ShL/Gp1uS0rO5F25ALsNbC2ajNqr5Rk3vwCPMgp+isj0yBA0Ev6zAnqCf4CX5ndizo2ga+q34Wut98NaDADbCLt017Z6pEHK7d/hSnMjUVr+zzF0umxwP5nRcualDTQq+gYrSvT2PTu4LGUlTqY/wGN+RwSD0+mN9p65xW4Nl3P6qTTfPH3CitwF62EGF1ITe9ViJeZPPOfO+LZKPD4ZHt7SakgXMxyf3t7fy2xaXqJkqbyR+ZqomS6vZC523Xx56JLak8aD/irshoHo7EbziWzmTAgqDMs+oNDs6jbVH0+CklWAV+wEVYchZ1j8VeRdLRhf0wA16Ru178Mn8a6WglE6cRji8dmi+rI8hcaYR+GEspHBU4IZkjA6lE9PMErZC85NBEsKs3kar0CF/AJn3QUXZG75M6Oz1nPuTxOXyXgHEdMv4N/ua9qeCT6v7FvbGTrdYkBauZOnxqc7abBJ1M6+ycobCZIl5lKkRT2A5BfAH5QDDuYelKNif1L+P7eprCw5EuopHDEnPiczwUhgNRMZfu3QF6apsIXKcw26w8U11BZoFRfTE5KS+BJ1xfOuV8s4Kz215bAG90iqiuGi+MUHKTu+cuGEPqWlJYUFLkoEYkBmcDmYBPi9D295RrmAPCc29N1A/bs3+4JHhDNzG06Bzua8uUJ/T4aGVCN00DiLeb8E2qNofk35GkSKxw4JvToHFrZGoBM1t4w5qeEwqV+FEKSyBotkHM6/g0LdWt5/GdA3lhP9efeXT4rWkHjmkJ/Y4CkUhiyv9QAFmhwty2FlRJvYxCuBOxOReezqM5JtP66pk6u2hVGk6zTG4jO7s5pJyjIEIGYzwLjox+Mp6NwpCTDWM1CiPat0g1ekWmaIR5eZPkuAeuF8Ea51bhDkyYE8Kh/kS6BYAzF57TNoSDoQegvL6KTmVkXFBZQMJqmoanaDcNL0KRIwYTo+jw+P3a0dFY9vXa03s7r/eWxJPokZzAetUvgRvO33atFAUNSAEPxc87qUyXaNobB/Bde5mxPleeBfSbe+wwE1oY0mQ8BB1UC2Nct9MnPfi5EGscDZftTjR7e9dffXN2h0sy/jXW2ZAD1I40gXABr18TgbCzfx3CIbHF8+84rTQB6J1XaWFs6pMVHzbXqrErPpwihxfyRpKuYTLhgac9AfUm/hUwOYJaaXCtwd+QBoLQMgrXeoRmNWmuMlRDIyMPgtlzxpeygzLlVxcz9EJNyAEGqkqNKVP2gz0d11eGnImO7I3bjslCw0I1nd5WsvRE4t4V97AM6pvV/3amN5eJyz79sVXfR+AAmUS4wbZa07pJxqjWQyYpFbCpSCzEYXiDDcqpKGwom8mO36/BPuxC2B1b/jlAmnbj8tOTo64dcLmBK3AF8s8dQ/0vE4CEyOIkqyEdZK/+Qy0CUrpobcV/ebrSl8PbEG/nu1lnIg/ozTmbN+fCgGnkw4ybrrZsxnVBhCi0oB5HgbvCxepd3cCk2W99OHFZHz4ZOFH+4RcBmVIEhVJiuJElrAhbB7S6pHGo8ryFjV8TIERIoN3y7UOSwWIcbFV5FHrm2mlEx82b99aIgn1QPWtDRuJdgunOYQBymBSDUUPxJPS4Co8h+Kay9GD8NO+7dHHiGBV1iRtxsCRn0yGmojaE7UvK2EzTr2ErZb/Q/v6O+vzFvm/oR5voWT8B/Ky4on5U0l6C30nH6V76Z7y8h6Hd+xg4AtRh+TLb1ToAMjECHPh7EtP1FYGbHvn2ZvbM3LJpXvEkE2IU9K1E847AZKrNyX7AukNe2CvWDb2T4hYLO7se8WKPOB3BE9C0XK+y7NvwB2cu+OzT82Ux6CUL4iD1raVF9Zgs5S5XC6x6gEfRWYu/U+qAxzjmEHLjHaUwPIv8RaORZm58G1Aldp447iU8AHPzy6HsxzHNPvynQgWbwsko6iRBADyFFtUxKWoDQBRYX7WubmuubFdtEnd8a5UAB8V2sxmeB42hYGeTuDX/07iNfFK1WUzt+yx5kQ5YZznRV2/KgnEkfb6WyxY5Ylh8vf8QFOWS4KutqlzzPb9fu9rNl9MTlgdguo7xIGhhP8Pb6+Wo9NaXdg7Cot8ifnFrgbE4Noho5RaBbZBjueRf3rPDY/9N8L/6NXxjDbTbRVvmPIr39jIWQ8qhJJ8XVG9R8ho5f51ulpnImexWzAAJF8pmTQdJ9eY+wwgFXUUS3Nfhs9LyCOGg3SR2ukaL/w+oXvRaej64TOK35wiMG/GHFE69g65RdsRNQHqP6uQCI5mRduYRUBtVr0Por5geLSPAIbVw6KxAABlddL1JL2gy0nlnTFsfl6dEoBhbb9yBSEyWtBtKstLknUCDJP6yJWwCcwWF5zqJ613LCqXHd0hI8bkdAj3OybKwYJY3uYqBc6wvRcS8hMSB1i8QcdBv8w6zO8JVRsrXFqbSemo1pU0vzCgKLZDjQ/e6SRAYduZk3FY+pjdU5CMJB0eKmKQ3bMcSxnP8+rVKMQqnz5SIWx1DwA0sMVwcmNp9noNUOwDs0bvXHJ48hNHb7AzwAr7p6EKbaGSPxVTTfV2ogHFR4sCw6gqdE2GpjcHvU1sMAAEMbAJh2AlOZXV5bPxxUvn+8dKArp5Hx9Mdmgs9bbTO/XOlDjn1LQm9n+hQ7LrkqpqEoFZ+cL+db67kjzpfzOGlOgEnRnpiL8mDrryLq7xTDhkbPxr/8H2kbsAg1+Gq2/qWDczem8S9fT/Bhv8gVH/VIrh8ne+0ubewDDXv0oi22VaJTDL6wSlfVKevFprdlhos4XJYarW1hdxADzAK3B4g1xm6ob6gqtHntcmvQ6Vitsv42FOFu6GVRkFX2CqyyN4w1Klaenb0Nc6/HyXAKJDbyWXSt4Tty4X/aPdTL4r6DscnGniV2bqreyQ/VlYWl41/rxXyYsU++hcZDOoFEkKXeIo0ndI7B0QGf4jkg5DNe8/KV7PQmT690oCDt8VHl8Rg75LMZ/Jx3vrFrxDwPnektqSVK+wN7bCEeds6zjy2MuTsgBP068VCqwyycdmV98+y/kncuAPTxemvrARNIK5PQijlYJZs8YLB6tbOSS3dwMApWfk5+P6q0Stko8aC3VGKMvPoFdSbDb8Uej22V/rufrFlrQ/ZgVUUzZzsh5CMbgRLoPX+7kG1/tjzfNIDqyPTgbzYqaRWPw1XSP3PXNObQ7b/XV0FsmHFrauI+r9BQN2he25kvNn2qOJMa2e6AdhwCf37ietP7ThX0wCSMIHbsxN8kXP/iZZyxkylTgaa3gX3nHqLiZQEG4SdOTNpPaD/AOq594dGST+EeD++MjUbdFhexmSOtuDWFe1LBj5v+yfZjVMWTrxF+hngYPHN+3ldzUICYjlrw8eN1udb2Mq4nHSV/6anPn1CkwAYCBq/fs8/cuFA2zbvOgNusbL7l5uH3JFIXkxBN2eCPWArZF+Po12xIxmIkfhDNH6M8lGbB3HMhJvRnBC+Id+j0DrKqSRmgjwBn9Q3WZHeLcGlNG4txu+V/jF+v5Y4C5hHdnIEnkU5yVnl5HLgHsw04vBbKN/CuKAOeVC1L9PiDxsimkR3qXabEMeEMQiRQiMAlT0OD4w1KcCBO92DQzrnW/sCQZ06TM/c1kO7tENo44QN5lkDmKF6J9YWsKNqqtrx61zn8rv3GqHoTO1FifhTNNmAFLWi51b3pjrrzXm7h9gWWacWVwYmnzdGDX+aZXUCO8fy2wFo7D6YMTTHI/Una/ykwBNxrfGNzxsv0aR9ZtnTOWmrGB0SwPLGvztoS/nZS/cG+TquJk+vtV/ftnjC6hfUGk2mqTshxIJb6p65QC1UZScnEqcuBSjAO4l0ptFPwpt0/ZRiZo9HdF88lYhojMXOw53PtFoRI3gxnt02XbayxDtGYDlelq30r2lhEUbLYPhYfAj57hUTmNvHF7rN2Hn8C9tibWbPnwKHqGdAemwnxPw6s51ijpYeW6Gm89jIxlBWzGKgMy0hs63niPrRmz1YdpbDpBlOXvo1idfn2r3JYSNOctfT2Q7n+Va21FuUHaUiTlS4Ei2fzUbbjVdWngPWju2ojGuicP3/7ID6nLWMyHd0eg6wgAGcJ3eAt02skdjs0Z6OfN1yziPYRjJuRhxkOIZdyDvqvft0fFwdF/QV39RL3iCoP7U1oLOPx42LN8FtzfORPJ5YRm1Qg1JBxmoBDLRzz9cGYP1JPMojINzuJZMcXx0/D5t/FdRbUR/XJ7z+HW+7pHMMh3QpCCYQhh6zusUZ83SA/9GmuDNjFl9YP4m4H8kaXJtdkE9GPxlURgpOJCce10n212IxRAG9AyGdaXcvWenSNidO18B8Vk7AFaBgdepWsKc6ANnixdKX9v0ngeeBulHxQKa/LnPVsxxl1arq0jUVlIasil540H8jxNnLbU2NhOt9bjB1gttyI7cKTKwo2npLptrqLPE0dqdH/r8/9e0tVGdtaCz9j/0lxLSZ3Pg+2ibEAkL33b/8Vqd544k/GABWYpirrKj0DNv1wbUCGGFge6xem9f9n14fE2kHYFIFi0GNotREp+oUxFGHzexx1BFL/9NjbJoTyInVpzRTZeFmsPl7CB08H4QN9P8XBoPAYjYLlFLVxS0ig7AWCSrAEwEc72tixN/IYmPvd2f+4yQp0fIWoTV6EbMM/wGwcZAH+gZ2jmCipKCBh044SlCNvSnozmv7hJ3zrmkXPSL3nDwwixcVQ4d5si4H/X9zFRwJWHW7W9XPjOQ/E52prZYTf2EYU5N7Jz24yUl4YpAzWQOiX0IX94jVBjFfe8aJ8ot1qvbV9//kN9qJSxaVwSpaqcKzjO4gdjDXsQ2367ZNNnb5vminPS6Hq58n/nd+IJG2nFI89d7nPAAVJucsJ5SOvOEJRb2BXpUT39BCoR3FdKWUInM4RPUifuZV7dJyn084hqDsF43SD2IrI0xXon4gF75r6PGXSYOWMdL71AijiASsQGlkgttagtJg/CmqxFSekZ4v0kew1Z3s9jiv8YDJkVNMIw6+ZGZjxkXyXgJw2p6Qz8PX4/BLrV3lMp7saavyrgI5GGDFXbuYHvrQpvTDDA3jSNc3CWZbu81cj8ZxcNHEr96lmfTkGpgGB2RIYV++lMgaXL5vLRaUcoh9JK1Ap3cwBh7TNeBG0S0xhADGiVFowMqAdefiX3qGTbDZGWwGvH3bGjbY3sKGcOQX9jP9RB9M5odq6VKYsm9ITyDNPcjfWFeR3Aec3543R+tDJ7c0VsVaQTstCQZzBXadeENi91a54GDFtcNnDAJlp0emzA8ZitOBn3gguNi/hwTaXdfYfn8qh6qGSCkutlI/RVo2acHEqZr24tGWCOkhEnANLodOx3XXHJAOSXp294HZBL+wMHm2zqCev8JsA0pWt156gC9Bc4uiNmE/qnKlplJNB2GZN0SPz6PwdyVGbMr5tQryh9ieqiWPpL7sUMiUUviCh6H53Rtql1inwnOgt95lSdZC1MIAA5CGlu17ftiauYulwKa1BgDTOkUppoChMUyKy/ge1kqo/5zhawt1vxJhxxKKrUYvS+1szSsJ5gA3Iyo+gJ+38PbiXkVSoNleKFFb+RFnjRRWT/c4BjBcrlvWjgx1ghkouEVs1JyYsCA0YVETc+CmZq+rYQpUunt9bG+aG5BocjsWZVhqLF6bOaYPV618Hzofk6pEVml6EeSXl0TmA+VEA6ZMaj6sZvibMdaWtuFSivm19CgbHHSQRo1ovgbXilOdq1iNvWXgSPz790/6/PwUHzhgcsx/btFXldszV5BcWt/KVbtXMTcSUOYRw9LMsmm6jmfpRTqeOZD3IfVAKVZT7IYh7xO3AqHExpWba4RcS2P1TMmrdcNP/FvARInFOV/XYvR8cbzGJMM04NHqBj7a4nXs5DFWpUsuuOw/w44zRRFwPgjdvIZrcF2xT8xgCxNd99vPeDz5udHpXLR/oT5iBWymTrjtoLk4X9MdAnmwMzM+yb9oElf+BRVfLvuLVnf/p1joGiHauj1Wou4NsiJVy2DUY4CwKD3kXnPKbzd8lOcXLb7mcgkfkI+3pk/wCB5J+eugi1Ar503MkTXwhKZHzYKd+Q13vdM23j8Kb424aFnhNGTV19Rb9Kg9VZ+OYtoSFZ6f3an7yuViudpv4EauVTSrZgeOTnTxbXSgT3d3z/tuH2yyj4+I+/hnzrE5B/qNssgBwEuDmsy8ViIFS6mkv5ejiIo6YYik0FrWrUbHpYk53Ht8DlMjIVgJ4OsHXmzo8zNcRZkEqqOKFpjY6eOO+0SQXAlv9JGm5oe0MK0otMRx0eujclyk2LpGzaH+Y87aZV7q3OTPexMI8GyaN0LqgsBTOXQriPCWXHUxC0Hg71uP0pVgDCXEfU2mAkHGG7fFr4QyjHvhEMxiF3k3J0iLEIaXz83bhTImlc/65JSN1TAdfjBjpT8oyLRyTI5JLd/hBnHhSW6RHQF0d4yIKNWfMHC0qywT+uOCIvQG2VXtfwjlG5NxtmkhHHKdx70UXOsqyVS7bt0fSFueD0MXZ3wyKAVw2ItNuf1qYMc+PIqaABa8M1em0d41E1hAH9abYZhSwqRR56kK2r/aBtBWV13W0X6+RpW0uAVz1sJU/l0doz90VHF3405OjrNQaaQZ7ZvP4/pJKfFQJeMG7s+SO5pfGQWDh2SAJOCr5PILOsnvOY2/jAcQRBnUBhfw7agYpbpe3Oaqw/12aOi0VnvOXZ/Wq7bb3pP924pmXPVyFscwDx/g/MzUPhQ/twQlpSIGVt3PvQmJRrFB3dsU/YFx6P87zECBuWf0MJdUp5QbMS73pXLugw+mRxV+WERSyfPSTRAL5sW7ArY/04CTMm6VPYNTSlrExeYaqfMg3ZSv8V7kAPA1okYiS3OQfLOnICAahPH368jOmDypekzghItjjzVYs9izXfFmLBhSERDJ78o8GXbWPRZ4zXKgs6TGwfBfFi50JuWnAlJ8MZt4PTyzAd3WFOUUOUxBWIT0mpiKXvAgOrpzXvFIPmmYPFMDIyy9XsFitU63jEuFgedCkQV3LjTBVWKMpRXCw1Mv2c1L/1ZOJCBqt6fACtik7Vb2qWXE8OxODyCAjpspGAdhcmczGR4+9/YI1ayiGh1W1Gb4WA5DTXvyl+3GKEdxwDKzb/vR40Hhae23kBA5kXRup2aR6tHukw+o2WwmJVCSMs2ENLIrVVWCBvPRC7yszyKpqi5WPyTCYDGMf76Donh9HzoV6aur9I70/+qD4VXIlajSnAQ4+VF8dnu7Q/A4NqJHVje4FbR65ye5w4po5Op6nfGSO+q+DymDE8dfsDuSALcUtlOrdeabcH7Go0ClJ45xpAA8UZstZddmJIKatgTNEon0BqX4k8864RLtjQ7+bts0h+wMNk/MmC+Hl/pXmwQsVlOm7iFfcVU6rK5UVNwkPxdXg007QFtLG2u8FsSavF4hoLIzCIOZoWPW3GpBPZ1moB/hAdCKHOOUlrKjGOW0uhOHH/I798MmxSGvn3UbJSQIA3t+k6ZuNjjwZi6UhlUu/HQWUAAAAAqAABEbjgRukN36xZzrPHPcK6WmqgBMDQzOHY2OalU7OLC9B0A/Lgd70e1eZcCkGSBDSC0H3VPuMArAASuQqIytcsIAL6pcQAAETEltYfHABrbEJ9LV1VnJwVhaeK1WQo6dkHAAAAMbgmuAAAA=" alt="MedRep Flow"></div>
+    <h2>ثبت التطبيق على الآيفون</h2>
+    <p>حتى يفتح MedRep Flow من شاشة الهاتف مثل التطبيق، اضغط زر التثبيت واتبع الخطوات.</p>
+    <button id="installAppBtn" type="button" class="install-big-btn">تثبيت التطبيق</button>
+    <div id="iosInstallSteps" class="install-steps">
+      <b>طريقة التثبيت على الآيفون:</b>
+      <div class="step"><span class="num">1</span><span>اضغط زر المشاركة <b>Share</b> بأسفل Safari.</span></div>
+      <div class="step"><span class="num">2</span><span>اختار <b>Add to Home Screen</b> أو <b>إضافة إلى الشاشة الرئيسية</b>.</span></div>
+      <div class="step"><span class="num">3</span><span>اضغط <b>Add</b> وبعدها افتح التطبيق من الشاشة الرئيسية.</span></div>
+    </div>
+    <button id="continueWebBtn" type="button" class="install-skip">متابعة بدون تثبيت</button>
+  </div>
+</div>
+
+
+
+<div id="securityLockScreen" class="security-lock-screen" aria-hidden="true">
+  <div class="security-lock-box">
+    <b>حماية التطبيق مفعّلة</b>
+    <p>تم إيقاف أمر غير مسموح لحماية ملفات وبيانات التطبيق.</p>
+    <button type="button" onclick="SecurityGuard.unlock()">رجوع للتطبيق</button>
+  </div>
+</div>
+
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo"><img src="data:image/webp;base64,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" alt="MedRep Flow"></div>
+    <h2>MedRep Flow</h2>
+    <input id="loginUser" autocomplete="username" placeholder="اسم المستخدم">
+    <input id="loginPass" type="password" autocomplete="current-password" placeholder="كلمة المرور">
+    <input id="loginCode" dir="ltr" style="text-align:center" placeholder="كود التفعيل">
+    <div class="auth-device-label">رقم الجهاز</div>
+    <div class="device-box" id="deviceIdBox">----</div>
+    <button type="button" class="ghost smallbtn" onclick="copyDeviceId()">نسخ رقم الجهاز</button>
+    <button type="button" onclick="activateOfflineLogin()">دخول</button>
+    <div id="authMsg" class="auth-error"></div>
+  </div>
+</div>
+
+<div id="appSplash" class="splash-screen hide">
+  <div class="splash-box">
+    <img src="data:image/webp;base64,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" alt="MedRep Flow">
+    <h1>MedRep Flow</h1>
+    <p>moe system</p>
+    <div class="splash-line"><i></i></div>
+  </div>
+</div>
+
+<div class="wrap">
+<header><div class="logo"><img src="data:image/webp;base64,UklGRlImAABXRUJQVlA4IEYmAAAwqQCdASr0AfQBPkkkkUYioiGhIldYoFAJCWVu/HRWA+N/xsJBMU7T+o7KapHX/73+y/9u/b/5fKn/SP61+if7L+0vys7mefv+B6EPjn5h/kf67/jv/L/lf/////oX/wf7v7uP0n/uPcA/jH8n/0v9b/v37JfER6l/3K/G74Af0b/Gf+X/K/v/8v/+S/6X+J9yP9c/c79bvkA/mn+Q/7X5//Gt7B/7lewN+1X/y9cb9uPg9/pv+u/+P+q/f////Yt/Rv8F/5fz/+QD/8+oB/9+J0/v/bv/hf6/3mvtP8r+Xe/eYI/tb+y/tH7geyH+78SeAL+L/zb/Ufllw5oAPq5/yv8B4reqJ4c9gD9d+JToB/ob1Zv6j9tPPd+hf6v/5f6f4Ff6D/cv+n2I/SwVCjLZkIxzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHv8K1+WJASAkBICQEgJASAkBICQEgJANMqjLZkIxzjnHOOcc45xzjnHNsVAQK1+WI0TDEakih/2cvXn4Z+7zjgGi7qUt4+MgJASAkBICQEgJARiWUJ4VLZ/ys3FOFsO8+TElteryXb/GlSrXlUix4HOOcc45xzjnHFvYnXzNSgv2ja+zz4VJ64fePHyoRl2y0GIlZQ6dTaF0HvyxICQEgJASAZDqEcaR9GhrvCOJIVaf4z3F05OQHiThtfVdhbz7mHmCVa1CAkBICQEgJAR+K8oTKkCYgISmNNG7NUTjYJ6VSTZ5X6FOs8tBQTcehv07UpyTr8sSAkBICQEgJBkmRQEtuq4NkdV+H5cL5QwF8AibNZrOeiuJ/nU00GbxzCdTxtAQK1+WJASAkBIDEPJ/wXa3FbvuFBf/K+yjiIgl+jVcvxZZtJUMNmFJwggBfDMQ4kBICQEgJASAjH5dHOf/OqzuMqZ64X4ZpkKOZSWSAYMLg0mofxzwrW9eWJASAkBGOCTX99EAZ0YrV3fg4jhNTPtmeBBhhaZAfa81fvFtz8UDCtfliQEgJAR+TSnNsI2rCwFtubZsipUazSMDuSzEuUDkrPDw0CHzIRjnHOOcc444Rl88q8s4WSnsUJsAX/hGFdWfpq5lkbRuvzth7hU2FlsyEY5xzjnHNnDzOG6v5GuUXxix5o/VbEyiM4N0tl+5GjFyYU+9hfgDr4dfliQEgJASAkBKsaEoGM9AgVr8sSAj8UwDkM4fuI3/HAgeWwNTuwXkD6vGFeWCDrzjwyfPhPkxwom/hFEuG92JASAkBH5hohZYuCY2zKO1MNgmxU7Qpm/noJURmthLAKvKCL/9TCpGwc+6Xks6YSsXIpltLW/H3YF3mbIMUaVQ0gNuFIboMGUWh3l4/GG5Fwoczv1103TeAek7QYAzUlOo5g4jvkQcxReXfkjCqEMgbEh9Bdu7PS09tezmIdGNnmfxozNzTuRlsw1v4bqPBBeZpXrBymZfDD8JLKS8Zvsx+hy+xH627SpSM6QlNWF4jMxaXxlxbNuyd698Vn6pUQMTJVR7AlVhok/EWCUx+0EsJXvPa5bdWxXdJj3BN/RfdVeH/zi4u6TJ+nwgEGJ1kfbF9xvg7+13AOM+7ov5Lwi2MKHwf3hzy4uKYO/v3aly0vDAtrCIj04TNVr8sSAkBICQEqxUZbMhGOcc45xzjnHOOcc45xzjnF3vDnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOO6HOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xzjnHOOcc45xd7uxRHOks8OJALgAA/v7LUa3tGAAAAk2lcBiMSwGwzfQHIGAAC0KaCI5cAAgzP3wjrAS0gTIwWud4GKO4UHRaoj1hPKX+ciltwd+uU983LSDWDhHO28PDNU5n+A9f6eJhGNhluHAJAfmA8bHvL5BkO2P5e3GHSK5qTIuWNOwpEsOkksE+8hP/y3pfydVVxpR/KNLFR8TcCx7nmNDK5zZkam4cmzHq5xQW8M9evAD5KMvn6FvGLMXLC2uwST/iedtN0rtvxSvhaGzY7M2z89Q+NP4cb3kFeOYi/BCq1AKt2zMbSBExKFM/2NQ5vLZYiFyHUvK3KMMvSptywvilhfpQAckWvqoc+O4yHdKaP7qp6mJ537FRUVi1pMxD+pPfZ4Kvgl4W514bAdIlWxyiMHZmYklM+T4Kof5t00vhMJSym8q95xEamvXYLiyKwalhWCrCMxCM4cM+v3+zZx/Nj7Tq+kzZvaOm+rjSgZ4J1BK1LKGKqIRVmmlG4X6bgUelWtC7tUEVI1qREbwziFkzprYyyHDBich77AfVm2VAEK/RdnJsLoaAL3nuTbjbHISGNiplsq+oUSpyk4dFB3sFWf3/Qxc0ZsD2e2c3H1SGBLmxYcoZGEXbraQYYAWhHUKhqP2sObG9RjeOixe06whE0MM7dgTaCZvrKZ8qH6m1n/6hiHu24qd86AEuhcQfeOA3HFHnWv5ES8iFAyRB1SclzFwEa5th504MEbJXsVVlqam3MeshVvOULuPjfGdermxtHQaUX3dkACw930cMZCwfAXMVd+CnadhHPRe77qoFIl4FtDbohOS0nf8nfkUHQR/jffZnyRUsi7aiIktA6DjqzdSZBoZWLo/XdL31/ew3DwZFKGxfOdVHmtoRK+0X8spJdZJWfBSXXkvoXplWLn55PmqbWBhtXisKHrAVHvV58ptufOU9k8jV0o8K7K9IQ1uTvUTjQSzRbJmWEW2SaPlc5sBl2NN4PCV0R3ArqLPKykT+d9e4Ty7yXo2zxsAv++SqMhJAZcCtXU3LGDuOwIX6vKnoQXGcjlo/ZX50cbdqNg0vEOHMsyx4WtIDLUmyaOYcRa6yqAEB3PTZlX4vQtwZP29ASzTyCj60CV2c3qGFYnXvqf4FCmDsNRhqYUWwHsu0WGNNe63RaIqNNSl0hoxXa8h+3ko0uIkMtOGZrHrsfLQxfdYYp+1Omc9saEU0dd0pBmmyXBP7PFzOTAIF3/w3Jlgkp5nNZX9FfRdQH1iWIc2ulOxYv99LEX7YxxMU9waR5REU7sEjAT8EHeKcbjTzvys99kEoNUC7Fm6F4lEcL/CPY/4+j1eYLf6IRJupRYGoz7rsuHygOLSDup19vHxVLd0bVU70s9jBSRAAbAlkF8XI0prXotWLz/NRl+0wnGmfXQCSFgncJW1Lr43PGEK+pn/wq8Ufo7XshDpuFL/3X9YmmBqZhV8a8Hntxdd4UwtWjlUwBkfq/h9ipuDgjT9QV3rmqXXW92XP0T+JqgJo0C8vkr57Pe62IfudVD3yYW7fHSt07adF8pNXfZAq/ZOl71NlSsCI2gWIl2N3dxPtZ3NsBhONWF59Ef/mfO9HbdIhI6Z3Sb5XEL0RTCGcfy0O9UgD4Efq/pMNhXeP6MZQB+bNPMM2JITXP572RB9qP37eBKXM8JxDWL1sxIM2R7ObXg+SEdO2oFkn+jtEk3jZJJAeDcxa4tjTlsrO3HHqGjtpSota7Gh9OMeEf0vkYiPyJwtJMKlKZK0MrtDCn4LUnP4kG8sD2lN/cjsZnl0pYqFDN2igayGo3+Pe7knIxeURuhgmIhJQ0n/FcNUvFtIs9Fjlq6iBjnvZp5/SkMiV3Uo1jujW4fC6fWoMSC4V+N0qJbJFPh3PMXvGgTw9+k+E0B064h736mfcKxnMUmmoRjVeLZ5FzBVxlwHg9NJ8ahmBO64VzhkEDZSwtqompEIS49UOzYhhQhjJVHzIt+uN1vnHiB9UOPHAcaQvo+12i5x1LAnQkPo57KMYIH6/v32mXkf9Wd7eaw3qNB03aWY6SRNQdwbOGzlCRWjYP63O3KDaX3yDbPQ4Dp+fBIXzT0YUFtKYbKDQ2t+RGIWRLElQqs1iMzltx03RNHEM88m5zMDPCo6yorts3IovDxG+hlYP0h7Yky43Wrz6buOh6yMim8/vSheW6cpdce3fcRiCqOo02SgKCMBVXgBYiQK8OvkodvF/8l9iauAi5uAViPXMJ5eKdGraInOZ5nONYqfSW8EZUygiOYKRVnBVSnOG9xHAYroHcbxdhQfIa4wm+ZS795gIvhtYvYSt/HFdgIFFMC8nW8zLm51OkrjYJS1u9pCNx3883DC2vSlBHnxSa5lrz7bgfQnfNZUXlg4aQ0BUP5iquPLNzlqNPYXGVlFOC6QUwcFQ7A7s7wZG7ZfG6ktzDmMRDUOx+91q+CoP2RIY1u+0nBMHaXQMWSQMjzsgC9Z7jFohuusIhaw6oyV+/IkaAUDLldMISULnA9U7+m+wFPIzPTJsMDXt5eVmuDOafAyG+PnOMHeRI8BzeW1ELyU46Zt//McKJtzSfPbopTr1NmKyCNgFBuMHMAWyKB2qzhc8LXzq36TXdT0wv/q/urfUkwt6FfMXSLn5rLIOrxQfC1kA0XHsk4LFCn9/BNWxq/PntfxXRn2m1/sT4Tbt2lVUCusXA2LhC62Z9P15S7d65fQFkRD5JR/DfWsZdH0KEpmhMe12nugwvjKssu9/6RKq5tgZWdHAdr5/DWuehq2spypAy83aztw2I27J9nusdp2dJGaFN93DZn7bWPqeD8FYm9wx3TWI3xlin7KlCEhuEhghY4XuJopzjxLwPGxBx43T1T63FeqBOwpkbENE7hZ0XNprwWQYMYvdX527cTPyrkSrXbDMaPXMGU5YaEVe34aE4TNWj70TgXfO+ae1Vcv8PfZ7/h6TXbmmcF6ZLWcVJVzIPug2K5UyRSn3aR//MSOXwnnTLfSab1+uogFmyXyue+tdzFrcXpW8tRQIMlVblN/gA8wW5O27urccn1AOjw3L+Gozbmb/7ITSJyWyPSZt6CyPAYD+r3etLAhJ1xnE8YYtUpaOMtJA/1QlM1xynqGR+e0NIY95g5YJak6CbRfrIuGU9UbiHpt/xJeSV1E+x+97LtDoT0NHniNjkpFHKsQRj/gM1Er0eQNmdJY5s6Wv2iHeT8Ajv8d4mQC3qCMly2Rkebw106bd7Y1A1cFHLpOlvLbRkKUtlxBG1vOnoD+Whi3jWgJ/ff0mrjR3mX7g7QuORprUBa7HO4OwFUTDIqRHklNi1Zex/qjrYGT3x1SwI75RePl4wXI82f8PmvahAn1aP/tR3VIjCui6lQLx+r0jsDFKlQ0vRVMN9Cq6JocsqyzRNH/jRoTKRBctrdgFhy8rwZzFa+cYjmyZ+yDS9sZ+sxEsxJQw2dusdZiw8088m68VZV1Ymdjf/pyHt0wV4iZ5m3qba/xDgaXq/mNV8iShjRrzDgFKOgm0U5O+Vw9w5toObJFB4xWaAXUKhmSBJEqspgglG7iWBrMWWlilE7ytIKJOoVuKupuPUrY42YMKW4cd9hDbfxuSRo7Vq59TQ+ShL/Gp1uS0rO5F25ALsNbC2ajNqr5Rk3vwCPMgp+isj0yBA0Ev6zAnqCf4CX5ndizo2ga+q34Wut98NaDADbCLt017Z6pEHK7d/hSnMjUVr+zzF0umxwP5nRcualDTQq+gYrSvT2PTu4LGUlTqY/wGN+RwSD0+mN9p65xW4Nl3P6qTTfPH3CitwF62EGF1ITe9ViJeZPPOfO+LZKPD4ZHt7SakgXMxyf3t7fy2xaXqJkqbyR+ZqomS6vZC523Xx56JLak8aD/irshoHo7EbziWzmTAgqDMs+oNDs6jbVH0+CklWAV+wEVYchZ1j8VeRdLRhf0wA16Ru178Mn8a6WglE6cRji8dmi+rI8hcaYR+GEspHBU4IZkjA6lE9PMErZC85NBEsKs3kar0CF/AJn3QUXZG75M6Oz1nPuTxOXyXgHEdMv4N/ua9qeCT6v7FvbGTrdYkBauZOnxqc7abBJ1M6+ycobCZIl5lKkRT2A5BfAH5QDDuYelKNif1L+P7eprCw5EuopHDEnPiczwUhgNRMZfu3QF6apsIXKcw26w8U11BZoFRfTE5KS+BJ1xfOuV8s4Kz215bAG90iqiuGi+MUHKTu+cuGEPqWlJYUFLkoEYkBmcDmYBPi9D295RrmAPCc29N1A/bs3+4JHhDNzG06Bzua8uUJ/T4aGVCN00DiLeb8E2qNofk35GkSKxw4JvToHFrZGoBM1t4w5qeEwqV+FEKSyBotkHM6/g0LdWt5/GdA3lhP9efeXT4rWkHjmkJ/Y4CkUhiyv9QAFmhwty2FlRJvYxCuBOxOReezqM5JtP66pk6u2hVGk6zTG4jO7s5pJyjIEIGYzwLjox+Mp6NwpCTDWM1CiPat0g1ekWmaIR5eZPkuAeuF8Ea51bhDkyYE8Kh/kS6BYAzF57TNoSDoQegvL6KTmVkXFBZQMJqmoanaDcNL0KRIwYTo+jw+P3a0dFY9vXa03s7r/eWxJPokZzAetUvgRvO33atFAUNSAEPxc87qUyXaNobB/Bde5mxPleeBfSbe+wwE1oY0mQ8BB1UC2Nct9MnPfi5EGscDZftTjR7e9dffXN2h0sy/jXW2ZAD1I40gXABr18TgbCzfx3CIbHF8+84rTQB6J1XaWFs6pMVHzbXqrErPpwihxfyRpKuYTLhgac9AfUm/hUwOYJaaXCtwd+QBoLQMgrXeoRmNWmuMlRDIyMPgtlzxpeygzLlVxcz9EJNyAEGqkqNKVP2gz0d11eGnImO7I3bjslCw0I1nd5WsvRE4t4V97AM6pvV/3amN5eJyz79sVXfR+AAmUS4wbZa07pJxqjWQyYpFbCpSCzEYXiDDcqpKGwom8mO36/BPuxC2B1b/jlAmnbj8tOTo64dcLmBK3AF8s8dQ/0vE4CEyOIkqyEdZK/+Qy0CUrpobcV/ebrSl8PbEG/nu1lnIg/ozTmbN+fCgGnkw4ybrrZsxnVBhCi0oB5HgbvCxepd3cCk2W99OHFZHz4ZOFH+4RcBmVIEhVJiuJElrAhbB7S6pHGo8ryFjV8TIERIoN3y7UOSwWIcbFV5FHrm2mlEx82b99aIgn1QPWtDRuJdgunOYQBymBSDUUPxJPS4Co8h+Kay9GD8NO+7dHHiGBV1iRtxsCRn0yGmojaE7UvK2EzTr2ErZb/Q/v6O+vzFvm/oR5voWT8B/Ky4on5U0l6C30nH6V76Z7y8h6Hd+xg4AtRh+TLb1ToAMjECHPh7EtP1FYGbHvn2ZvbM3LJpXvEkE2IU9K1E847AZKrNyX7AukNe2CvWDb2T4hYLO7se8WKPOB3BE9C0XK+y7NvwB2cu+OzT82Ux6CUL4iD1raVF9Zgs5S5XC6x6gEfRWYu/U+qAxzjmEHLjHaUwPIv8RaORZm58G1Aldp447iU8AHPzy6HsxzHNPvynQgWbwsko6iRBADyFFtUxKWoDQBRYX7WubmuubFdtEnd8a5UAB8V2sxmeB42hYGeTuDX/07iNfFK1WUzt+yx5kQ5YZznRV2/KgnEkfb6WyxY5Ylh8vf8QFOWS4KutqlzzPb9fu9rNl9MTlgdguo7xIGhhP8Pb6+Wo9NaXdg7Cot8ifnFrgbE4Noho5RaBbZBjueRf3rPDY/9N8L/6NXxjDbTbRVvmPIr39jIWQ8qhJJ8XVG9R8ho5f51ulpnImexWzAAJF8pmTQdJ9eY+wwgFXUUS3Nfhs9LyCOGg3SR2ukaL/w+oXvRaej64TOK35wiMG/GHFE69g65RdsRNQHqP6uQCI5mRduYRUBtVr0Por5geLSPAIbVw6KxAABlddL1JL2gy0nlnTFsfl6dEoBhbb9yBSEyWtBtKstLknUCDJP6yJWwCcwWF5zqJ613LCqXHd0hI8bkdAj3OybKwYJY3uYqBc6wvRcS8hMSB1i8QcdBv8w6zO8JVRsrXFqbSemo1pU0vzCgKLZDjQ/e6SRAYduZk3FY+pjdU5CMJB0eKmKQ3bMcSxnP8+rVKMQqnz5SIWx1DwA0sMVwcmNp9noNUOwDs0bvXHJ48hNHb7AzwAr7p6EKbaGSPxVTTfV2ogHFR4sCw6gqdE2GpjcHvU1sMAAEMbAJh2AlOZXV5bPxxUvn+8dKArp5Hx9Mdmgs9bbTO/XOlDjn1LQm9n+hQ7LrkqpqEoFZ+cL+db67kjzpfzOGlOgEnRnpiL8mDrryLq7xTDhkbPxr/8H2kbsAg1+Gq2/qWDczem8S9fT/Bhv8gVH/VIrh8ne+0ubewDDXv0oi22VaJTDL6wSlfVKevFprdlhos4XJYarW1hdxADzAK3B4g1xm6ob6gqtHntcmvQ6Vitsv42FOFu6GVRkFX2CqyyN4w1Klaenb0Nc6/HyXAKJDbyWXSt4Tty4X/aPdTL4r6DscnGniV2bqreyQ/VlYWl41/rxXyYsU++hcZDOoFEkKXeIo0ndI7B0QGf4jkg5DNe8/KV7PQmT690oCDt8VHl8Rg75LMZ/Jx3vrFrxDwPnektqSVK+wN7bCEeds6zjy2MuTsgBP068VCqwyycdmV98+y/kncuAPTxemvrARNIK5PQijlYJZs8YLB6tbOSS3dwMApWfk5+P6q0Stko8aC3VGKMvPoFdSbDb8Uej22V/rufrFlrQ/ZgVUUzZzsh5CMbgRLoPX+7kG1/tjzfNIDqyPTgbzYqaRWPw1XSP3PXNObQ7b/XV0FsmHFrauI+r9BQN2he25kvNn2qOJMa2e6AdhwCf37ietP7ThX0wCSMIHbsxN8kXP/iZZyxkylTgaa3gX3nHqLiZQEG4SdOTNpPaD/AOq594dGST+EeD++MjUbdFhexmSOtuDWFe1LBj5v+yfZjVMWTrxF+hngYPHN+3ldzUICYjlrw8eN1udb2Mq4nHSV/6anPn1CkwAYCBq/fs8/cuFA2zbvOgNusbL7l5uH3JFIXkxBN2eCPWArZF+Po12xIxmIkfhDNH6M8lGbB3HMhJvRnBC+Id+j0DrKqSRmgjwBn9Q3WZHeLcGlNG4txu+V/jF+v5Y4C5hHdnIEnkU5yVnl5HLgHsw04vBbKN/CuKAOeVC1L9PiDxsimkR3qXabEMeEMQiRQiMAlT0OD4w1KcCBO92DQzrnW/sCQZ06TM/c1kO7tENo44QN5lkDmKF6J9YWsKNqqtrx61zn8rv3GqHoTO1FifhTNNmAFLWi51b3pjrrzXm7h9gWWacWVwYmnzdGDX+aZXUCO8fy2wFo7D6YMTTHI/Una/ykwBNxrfGNzxsv0aR9ZtnTOWmrGB0SwPLGvztoS/nZS/cG+TquJk+vtV/ftnjC6hfUGk2mqTshxIJb6p65QC1UZScnEqcuBSjAO4l0ptFPwpt0/ZRiZo9HdF88lYhojMXOw53PtFoRI3gxnt02XbayxDtGYDlelq30r2lhEUbLYPhYfAj57hUTmNvHF7rN2Hn8C9tibWbPnwKHqGdAemwnxPw6s51ijpYeW6Gm89jIxlBWzGKgMy0hs63niPrRmz1YdpbDpBlOXvo1idfn2r3JYSNOctfT2Q7n+Va21FuUHaUiTlS4Ei2fzUbbjVdWngPWju2ojGuicP3/7ID6nLWMyHd0eg6wgAGcJ3eAt02skdjs0Z6OfN1yziPYRjJuRhxkOIZdyDvqvft0fFwdF/QV39RL3iCoP7U1oLOPx42LN8FtzfORPJ5YRm1Qg1JBxmoBDLRzz9cGYP1JPMojINzuJZMcXx0/D5t/FdRbUR/XJ7z+HW+7pHMMh3QpCCYQhh6zusUZ83SA/9GmuDNjFl9YP4m4H8kaXJtdkE9GPxlURgpOJCce10n212IxRAG9AyGdaXcvWenSNidO18B8Vk7AFaBgdepWsKc6ANnixdKX9v0ngeeBulHxQKa/LnPVsxxl1arq0jUVlIasil540H8jxNnLbU2NhOt9bjB1gttyI7cKTKwo2npLptrqLPE0dqdH/r8/9e0tVGdtaCz9j/0lxLSZ3Pg+2ibEAkL33b/8Vqd544k/GABWYpirrKj0DNv1wbUCGGFge6xem9f9n14fE2kHYFIFi0GNotREp+oUxFGHzexx1BFL/9NjbJoTyInVpzRTZeFmsPl7CB08H4QN9P8XBoPAYjYLlFLVxS0ig7AWCSrAEwEc72tixN/IYmPvd2f+4yQp0fIWoTV6EbMM/wGwcZAH+gZ2jmCipKCBh044SlCNvSnozmv7hJ3zrmkXPSL3nDwwixcVQ4d5si4H/X9zFRwJWHW7W9XPjOQ/E52prZYTf2EYU5N7Jz24yUl4YpAzWQOiX0IX94jVBjFfe8aJ8ot1qvbV9//kN9qJSxaVwSpaqcKzjO4gdjDXsQ2367ZNNnb5vminPS6Hq58n/nd+IJG2nFI89d7nPAAVJucsJ5SOvOEJRb2BXpUT39BCoR3FdKWUInM4RPUifuZV7dJyn084hqDsF43SD2IrI0xXon4gF75r6PGXSYOWMdL71AijiASsQGlkgttagtJg/CmqxFSekZ4v0kew1Z3s9jiv8YDJkVNMIw6+ZGZjxkXyXgJw2p6Qz8PX4/BLrV3lMp7saavyrgI5GGDFXbuYHvrQpvTDDA3jSNc3CWZbu81cj8ZxcNHEr96lmfTkGpgGB2RIYV++lMgaXL5vLRaUcoh9JK1Ap3cwBh7TNeBG0S0xhADGiVFowMqAdefiX3qGTbDZGWwGvH3bGjbY3sKGcOQX9jP9RB9M5odq6VKYsm9ITyDNPcjfWFeR3Aec3543R+tDJ7c0VsVaQTstCQZzBXadeENi91a54GDFtcNnDAJlp0emzA8ZitOBn3gguNi/hwTaXdfYfn8qh6qGSCkutlI/RVo2acHEqZr24tGWCOkhEnANLodOx3XXHJAOSXp294HZBL+wMHm2zqCev8JsA0pWt156gC9Bc4uiNmE/qnKlplJNB2GZN0SPz6PwdyVGbMr5tQryh9ieqiWPpL7sUMiUUviCh6H53Rtql1inwnOgt95lSdZC1MIAA5CGlu17ftiauYulwKa1BgDTOkUppoChMUyKy/ge1kqo/5zhawt1vxJhxxKKrUYvS+1szSsJ5gA3Iyo+gJ+38PbiXkVSoNleKFFb+RFnjRRWT/c4BjBcrlvWjgx1ghkouEVs1JyYsCA0YVETc+CmZq+rYQpUunt9bG+aG5BocjsWZVhqLF6bOaYPV618Hzofk6pEVml6EeSXl0TmA+VEA6ZMaj6sZvibMdaWtuFSivm19CgbHHSQRo1ovgbXilOdq1iNvWXgSPz790/6/PwUHzhgcsx/btFXldszV5BcWt/KVbtXMTcSUOYRw9LMsmm6jmfpRTqeOZD3IfVAKVZT7IYh7xO3AqHExpWba4RcS2P1TMmrdcNP/FvARInFOV/XYvR8cbzGJMM04NHqBj7a4nXs5DFWpUsuuOw/w44zRRFwPgjdvIZrcF2xT8xgCxNd99vPeDz5udHpXLR/oT5iBWymTrjtoLk4X9MdAnmwMzM+yb9oElf+BRVfLvuLVnf/p1joGiHauj1Wou4NsiJVy2DUY4CwKD3kXnPKbzd8lOcXLb7mcgkfkI+3pk/wCB5J+eugi1Ar503MkTXwhKZHzYKd+Q13vdM23j8Kb424aFnhNGTV19Rb9Kg9VZ+OYtoSFZ6f3an7yuViudpv4EauVTSrZgeOTnTxbXSgT3d3z/tuH2yyj4+I+/hnzrE5B/qNssgBwEuDmsy8ViIFS6mkv5ejiIo6YYik0FrWrUbHpYk53Ht8DlMjIVgJ4OsHXmzo8zNcRZkEqqOKFpjY6eOO+0SQXAlv9JGm5oe0MK0otMRx0eujclyk2LpGzaH+Y87aZV7q3OTPexMI8GyaN0LqgsBTOXQriPCWXHUxC0Hg71uP0pVgDCXEfU2mAkHGG7fFr4QyjHvhEMxiF3k3J0iLEIaXz83bhTImlc/65JSN1TAdfjBjpT8oyLRyTI5JLd/hBnHhSW6RHQF0d4yIKNWfMHC0qywT+uOCIvQG2VXtfwjlG5NxtmkhHHKdx70UXOsqyVS7bt0fSFueD0MXZ3wyKAVw2ItNuf1qYMc+PIqaABa8M1em0d41E1hAH9abYZhSwqRR56kK2r/aBtBWV13W0X6+RpW0uAVz1sJU/l0doz90VHF3405OjrNQaaQZ7ZvP4/pJKfFQJeMG7s+SO5pfGQWDh2SAJOCr5PILOsnvOY2/jAcQRBnUBhfw7agYpbpe3Oaqw/12aOi0VnvOXZ/Wq7bb3pP924pmXPVyFscwDx/g/MzUPhQ/twQlpSIGVt3PvQmJRrFB3dsU/YFx6P87zECBuWf0MJdUp5QbMS73pXLugw+mRxV+WERSyfPSTRAL5sW7ArY/04CTMm6VPYNTSlrExeYaqfMg3ZSv8V7kAPA1okYiS3OQfLOnICAahPH368jOmDypekzghItjjzVYs9izXfFmLBhSERDJ78o8GXbWPRZ4zXKgs6TGwfBfFi50JuWnAlJ8MZt4PTyzAd3WFOUUOUxBWIT0mpiKXvAgOrpzXvFIPmmYPFMDIyy9XsFitU63jEuFgedCkQV3LjTBVWKMpRXCw1Mv2c1L/1ZOJCBqt6fACtik7Vb2qWXE8OxODyCAjpspGAdhcmczGR4+9/YI1ayiGh1W1Gb4WA5DTXvyl+3GKEdxwDKzb/vR40Hhae23kBA5kXRup2aR6tHukw+o2WwmJVCSMs2ENLIrVVWCBvPRC7yszyKpqi5WPyTCYDGMf76Donh9HzoV6aur9I70/+qD4VXIlajSnAQ4+VF8dnu7Q/A4NqJHVje4FbR65ye5w4po5Op6nfGSO+q+DymDE8dfsDuSALcUtlOrdeabcH7Go0ClJ45xpAA8UZstZddmJIKatgTNEon0BqX4k8864RLtjQ7+bts0h+wMNk/MmC+Hl/pXmwQsVlOm7iFfcVU6rK5UVNwkPxdXg007QFtLG2u8FsSavF4hoLIzCIOZoWPW3GpBPZ1moB/hAdCKHOOUlrKjGOW0uhOHH/I798MmxSGvn3UbJSQIA3t+k6ZuNjjwZi6UhlUu/HQWUAAAAAqAABEbjgRukN36xZzrPHPcK6WmqgBMDQzOHY2OalU7OLC9B0A/Lgd70e1eZcCkGSBDSC0H3VPuMArAASuQqIytcsIAL6pcQAAETEltYfHABrbEJ9LV1VnJwVhaeK1WQo6dkHAAAAMbgmuAAAA=" alt="MedRep Flow"></div><div style="flex:1"><h1>MedRep Flow</h1><p id="headSub">نظام المندوب العلمي</p></div><button class="theme-toggle" type="button" onclick="toggleTheme()" title="تبديل الوضع">☾</button></header>
+<div class="langBar" id="langBar"><button type="button" data-lang="ar" class="active" onclick="setLang('ar')">عربي</button><button type="button" data-lang="en" onclick="setLang('en')">English</button><button type="button" data-lang="ku" onclick="setLang('ku')">کوردی</button></div>
+
+<section id="home" class="page on">
+<div class="card hero"><div class="heroGrid"><div><small>لوحة التحكم</small><strong id="homeName">MedRep Flow</strong><div id="homeInfo" class="muted">أكمل بياناتك من المزيد</div><div class="bar"><i id="targetBar" style="width:0%"></i></div><p id="targetLine" style="margin:0;font-size:13px;color:#eaf2ff">التاركت: 0% | المتبقي: 0 د.ع</p></div></div></div>
+
+<div id="smartAlerts" class="alerts-container"></div>
+<div class="card daily-target-card">
+    <div class="daily-header">
+        <span>🎯 هدف اليوم المطلوب</span>
+        <span id="daysLeft" class="days-badge"></span>
+    </div>
+    <div class="daily-amount" id="dailyAmount">0 د.ع</div>
+    <div class="progress-container">
+        <div id="dailyBar" class="progress-bar"></div>
+    </div>
+    <p class="muted small" id="dailyStatus" style="color:rgba(255,255,255,0.8)!important;">يتم حساب البيانات...</p>
+</div>
+
+<div class="stats"><div class="stat"><div class="statIcon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4Zm3 4v2h10V8Zm0 4v2h10v-2Zm0 4v2h6v-2Z"/></svg></div><span>المطلوب</span><b id="hTarget">0</b></div><div class="stat"><div class="statIcon"><svg viewBox="0 0 24 24"><path d="m9 16.2-3.5-3.5L4 14.2 9 19 20 8l-1.5-1.5Z"/></svg></div><span>المتحقق</span><b id="hAch">0</b></div><div class="stat"><div class="statIcon"><svg viewBox="0 0 24 24"><path d="M7 2h10v2h3v18H4V4h3Zm2 2h6V3H9Zm-2 5h10v2H7Zm0 4h10v2H7Zm0 4h7v2H7Z"/></svg></div><span>طلبيات اليوم</span><b id="hOrders">0</b></div><div class="stat"><div class="statIcon"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4Z"/></svg></div><span>متابعات اليوم</span><b id="hFollow">0</b></div></div>
+
+<div class="grid"><div class="card"><h2>آخر الطلبيات</h2><div id="homeOrders"></div></div><div class="card"><h2>متابعات اليوم</h2><div id="homeFollows"></div></div></div>
+
+<div class="card">
+  <div class="card-title"><div><h2>مؤشرات سريعة</h2><p class="muted">أكثر الأدوية مبيعاً والمصاريف اليومية</p></div></div>
+  <div id="dashboardProgress" class="rank-list"></div>
+</div>
+</section>
+
+<section id="orders" class="page">
+<div class="grid"><div class="card"><h2 id="orderTitle">طلبية جديدة</h2><input id="orderDate" type="date"><div class="row"><select id="orderClientType" onchange="fillOrderClients()"><option value="pharmacy">صيدلية</option><option value="doctor">طبيب</option></select><select id="orderClient"></select></div><select id="orderMed" onchange="medToOrder()"></select><input id="orderProduct" placeholder="اسم المنتج"><div id="orderMedInfo" class="total muted">اختر دواء حتى تظهر تفاصيله هنا.</div><div class="row"><input id="orderQty" type="number" placeholder="الكمية" oninput="calcOrder()"><input id="orderBonus" type="number" placeholder="بونص مجاني" oninput="calcOrder()"></div><div class="row"><input id="orderPrice" type="number" placeholder="سعر المفرد" oninput="calcOrder()" onblur="autoZero(this)"><input id="orderDiscount" type="number" placeholder="خصم بالدينار" oninput="calcOrder()" onblur="autoZero(this)"></div><select id="orderStatus" onchange="calcOrder()"><option>طلبية جديدة</option><option>بيع مؤكد</option><option>تم التسليم</option><option>ملغي</option></select><textarea id="orderNote" placeholder="ملاحظات الطلبية"></textarea><div id="orderCalc" class="total">الصافي: 0 د.ع</div><button type="button" onclick="saveOrder()">حفظ الطلبية</button><button type="button" id="orderCancel" class="ghost hide" onclick="cancelOrder()">إلغاء التعديل</button></div>
+<div class="card"><h2>الطلبيات</h2><div class="row"><input id="orderSearch" oninput="render()" placeholder="بحث"><select id="orderFilter" onchange="render()"><option value="">كل الحالات</option><option>طلبية جديدة</option><option>بيع مؤكد</option><option>تم التسليم</option><option>ملغي</option></select></div><div id="orderList"></div></div></div>
+</section>
+
+<section id="visits" class="page">
+<div class="grid"><div class="card"><h2 id="visitTitle">تسجيل زيارة</h2><input id="visitDate" type="date"><div class="row"><select id="visitType" onchange="fillVisitClients()"><option value="doctor">طبيب</option><option value="pharmacy">صيدلية</option></select><select id="visitClient"></select></div><select id="visitProduct"></select><select id="visitStatus"><option>تمت</option><option>لم تتم</option><option>مؤجلة</option><option>يحتاج متابعة</option></select><textarea id="visitNote" placeholder="ملاحظات الزيارة فقط"></textarea><button type="button" onclick="saveVisit()">حفظ الزيارة</button><button type="button" id="visitCancel" class="ghost hide" onclick="cancelVisit()">إلغاء التعديل</button><p class="muted">الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.</p></div><div class="card"><h2>سجل الزيارات</h2><input id="visitSearch" oninput="render()" placeholder="بحث"><div id="visitList"></div></div></div>
+</section>
+
+<section id="clients" class="page">
+<div class="tabs"><button type="button" id="docTab" class="on" onclick="clientTab('doctor')">الأطباء</button><button type="button" id="phTab" onclick="clientTab('pharmacy')">الصيدليات</button></div>
+<div id="doctorBox"><div class="card"><h2 id="docTitle">إضافة طبيب</h2><input id="docName" placeholder="اسم الطبيب"><div class="row"><select id="docType" onchange="toggleDealerFields()"><option>علمي</option><option>ديلر</option></select><input id="docSpec" placeholder="الاختصاص"></div><div class="row"><input id="docPhone" placeholder="الهاتف"><input id="docZone" placeholder="الزون"></div><select id="docImportance"><option>A</option><option>B</option><option>C</option></select>
+<div id="dealerExtraFields" class="dealer-extra">
+  <h3>تفاصيل الديلر</h3>
+  <div class="row">
+    <div class="field"><label class="small muted">المادة المطلوبة</label><select id="docDealerMed"></select></div>
+    <div class="field"><label class="small muted">نوع الاحتياج</label><select id="docDealerNeedType"><option>ديل</option><option>كسرة</option><option>سفرة</option><option>هدية</option><option>دعم</option><option>أخرى</option></select></div>
+  </div>
+  <div class="row">
+    <div class="field"><label class="small muted">القيمة / العدد</label><input id="docDealerNeedValue" placeholder="مثال: 10 سامبل"></div>
+    <div class="field"><label class="small muted">ملاحظة الديلر</label><input id="docDealerNeedNotes" placeholder="تفاصيل الاتفاق"></div>
+  </div>
+</div>
+<input id="docProducts" list="doctorProductsList" placeholder="المنتجات المهتم بها"><datalist id="doctorProductsList"></datalist><div class="doc-product-tools"><div id="docProductChips" class="doc-product-chips"></div></div><div class="row"><input id="docFollowDate" type="date"><input id="docFollowNote" placeholder="ملاحظة المتابعة"></div><div class="row"><input id="docLat" placeholder="Latitude"><input id="docLng" placeholder="Longitude"></div><textarea id="docNotes" placeholder="ملاحظات"></textarea><button type="button" class="soft" onclick="locate('doc')">تثبيت الموقع</button><button type="button" onclick="saveDoctor()">حفظ الطبيب</button><button type="button" id="docCancel" class="ghost hide" onclick="cancelClient()">إلغاء التعديل</button></div></div>
+<div id="phBox" class="hide"><div class="card"><h2 id="phTitle">إضافة صيدلية</h2><input id="phName" placeholder="اسم الصيدلية"><div class="row"><input id="phOwner" placeholder="المسؤول"><input id="phPhone" placeholder="الهاتف"></div><div class="row"><input id="phZone" placeholder="الزون"><select id="phImportance"><option>A</option><option>B</option><option>C</option></select></div><div class="row"><input id="phFollowDate" type="date"><input id="phFollowNote" placeholder="ملاحظة المتابعة"></div><div class="row"><input id="phLat" placeholder="Latitude"><input id="phLng" placeholder="Longitude"></div><textarea id="phNotes" placeholder="ملاحظات"></textarea><button type="button" class="soft" onclick="locate('ph')">تثبيت الموقع</button><button type="button" onclick="savePharmacy()">حفظ الصيدلية</button><button type="button" id="phCancel" class="ghost hide" onclick="cancelClient()">إلغاء التعديل</button></div></div>
+<div class="card"><h2>قائمة العملاء</h2><div class="row"><input id="clientSearch" oninput="render()" placeholder="بحث"><input id="zoneFilter" oninput="render()" placeholder="فلتر الزون"></div><div id="clientList"></div></div>
+</section>
+
+<section id="more" class="page">
+  <div class="more-tabs" id="moreTabs">
+    <button class="active" type="button" onclick="moreTab('settings')">الإعدادات</button>
+    <button type="button" onclick="moreTab('meds')">الأدوية</button>
+    <button type="button" onclick="moreTab('plan')">خط السير</button>
+    <button type="button" onclick="moreTab('expenses')">المصاريف</button>
+    <button type="button" onclick="moreTab('stock')">المخزون</button>
+    <button type="button" onclick="moreTab('reports')">التقارير</button>
+  </div>
+
+  <div id="more-settings" class="more-panel active">
+    <div class="grid">
+      <div class="card">
+        <h2>إعدادات المندوب</h2>
+        <input id="repName" placeholder="اسم المندوب">
+        <div class="row"><input id="repJob" placeholder="الوظيفة"><input id="repZone" placeholder="الزون"></div>
+        <input id="repCompany" placeholder="الشركة">
+        <input id="defaultMedCompany" placeholder="الشركة الافتراضية للأدوية">
+        <input id="repPhone" placeholder="الهاتف">
+        <select id="reportStyle"><option value="مختصر">أسلوب تقرير مختصر</option><option value="إداري">أسلوب تقرير إداري</option><option value="تفصيلي">أسلوب تقرير تفصيلي</option></select>
+        <button type="button" onclick="saveProfile()">حفظ الإعدادات</button>
+      </div>
+      <div class="card">
+        <h2>تاركت الشهر</h2>
+        <input id="targetMonth" type="month">
+        <input id="targetValue" type="number" placeholder="قيمة التاركت" onblur="autoZero(this)">
+        <input id="manualAchieved" type="number" placeholder="مبلغ يدوي إضافي اختياري" onblur="autoZero(this)">
+        <button type="button" onclick="saveTarget()">حفظ التاركت</button>
+        <div id="targetSummary" class="total"></div>
+      </div>
+      <div class="card">
+        <h2>النسخ الاحتياطي</h2>
+        <p class="backup-note">الحفظ اليومي يتم تلقائياً داخل التطبيق باستخدام IndexedDB. هذه الأزرار فقط لنقل البيانات أو حفظ نسخة أمان.</p>
+        <div id="storageStatus" class="storage-status">جاري فحص الحفظ...</div>
+        <p class="install-note">للآيفون: افتح الرابط من Safari ثم Share ثم Add to Home Screen.</p>
+        <button type="button" class="soft" onclick="backup()">حفظ نسخة احتياطية</button>
+        <button type="button" class="warn" onclick="document.getElementById('restoreBackupFile').click()">استرجاع نسخة احتياطية</button>
+        <input id="restoreBackupFile" class="hide" type="file" accept="application/json" onchange="importData(event)">
+        <button type="button" class="ghost" onclick="logoutApp()">تسجيل خروج / إعادة تفعيل</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="more-meds" class="more-panel">
+    <div class="grid">
+      <div class="card">
+        <h2 id="medTitle">إضافة دواء</h2>
+        <input id="medName" placeholder="اسم الدواء">
+        <input id="medScientific" placeholder="الاسم العلمي">
+        <input id="medCompany" list="companyList" onfocus="fillDefaultMedCompany()" placeholder="الشركة">
+        <datalist id="companyList"></datalist>
+        
+        <div class="med-type-slider">
+           <label><input type="radio" name="medType" value="أقراص"><span>أقراص</span></label>
+           <label><input type="radio" name="medType" value="شراب"><span>شراب</span></label>
+           <label><input type="radio" name="medType" value="أمبول"><span>أمبول</span></label>
+           <label><input type="radio" name="medType" value="فيال"><span>فيال</span></label>
+           <label><input type="radio" name="medType" value="كبسول"><span>كبسول</span></label>
+           <label><input type="radio" name="medType" value="قطرات"><span>قطرات</span></label>
+           <label><input type="radio" name="medType" value="مرهم/كريم"><span>مرهم/كريم</span></label>
+           <label><input type="radio" name="medType" value="أخرى"><span>أخرى</span></label>
+        </div>
+
+        <div class="row">
+            <input id="medPrice" type="number" placeholder="السعر" onblur="autoZero(this)">
+            <input id="medDose" placeholder="الجرعة / الشكل">
+        </div>
+        <textarea id="medDesc" placeholder="شرح الدواء"></textarea>
+        <textarea id="medSelling" placeholder="نقاط البيع"></textarea>
+        <button type="button" onclick="saveMed()">حفظ الدواء</button>
+        <button type="button" id="medCancel" class="ghost hide" onclick="cancelMed()">إلغاء التعديل</button>
+      </div>
+      <div class="card">
+        <h2>قائمة الأدوية</h2>
+        <input id="medSearch" oninput="render()" placeholder="بحث">
+        <div id="medList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="more-plan" class="more-panel">
+    <div class="card" id="planCard">
+      <h2>خط السير اليومي</h2>
+      <p class="muted">رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.</p>
+      <div class="row"><input id="planDate" type="date"><select id="planType" onchange="fillPlanClients()"><option value="doctor">طبيب</option><option value="pharmacy">صيدلية</option></select></div>
+      <select id="planClient"></select>
+      <button type="button" onclick="addPlanItem()">إضافة إلى خط السير</button>
+      <div id="planList" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div id="more-expenses" class="more-panel">
+    <div class="card" id="expenseCard">
+      <h2>المصاريف اليومية</h2>
+      <div class="row"><input id="expenseDate" type="date"><input id="expenseAmount" type="number" placeholder="المبلغ" onblur="autoZero(this)"></div>
+      <select id="expenseType"><option>وقود</option><option>ضيافة</option><option>اتصالات</option><option>نثرية</option></select>
+      <textarea id="expenseNotes" placeholder="ملاحظات"></textarea>
+      <button type="button" onclick="addExpense()">حفظ المصروف</button>
+      <div id="expenseList" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div id="more-stock" class="more-panel">
+    <div class="card" id="stockCard">
+      <h2>المخزون الخاص</h2>
+      <p class="muted">اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.</p>
+      <select id="stockMed"></select>
+      <input id="stockCombined" placeholder="سامبلات / فري - مثال: 10 سامبلات + 5 فري">
+      <input id="stockNotes" placeholder="ملاحظات">
+      <button type="button" onclick="saveStock()">حفظ المخزون</button>
+      <div id="stockList" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div id="more-reports" class="more-panel">
+    <div class="grid">
+      <div class="card">
+        <h2>تقرير جاهز</h2>
+        <input id="reportDate" type="date">
+        <button type="button" class="soft" onclick="dayReport()">تكوين تقرير اليوم</button>
+        <textarea id="reportOutput" placeholder="التقرير يظهر هنا"></textarea>
+        <div class="tools"><button type="button" class="ghost" onclick="copyText(v('reportOutput'))">نسخ</button><button type="button" onclick="saveReport()">حفظ</button></div>
+      </div>
+      <div class="card">
+        <h2>التقارير المحفوظة</h2>
+        <input id="reportSearch" oninput="render()" placeholder="بحث">
+        <div id="reportList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="app-footer">
+  <a href="https://Moesystem.online" target="_blank" rel="noopener" class="brand-name">All rights reserved by moe system</a>
+</footer>
+
+</div>
+
+<div id="bg" class="sheetbg" onclick="sheet(0)"></div>
+<div id="sheet" class="sheet">
+  <div class="sheetHandle"></div>
+  <h2>إضافة سريع</h2>
+  <div class="sheetActions">
+    <button type="button" onclick="sheet(0);aiReplySheet(1)"><b>رد ذكي</b><span>اكتب الاعتراض والنظام يكمل الرد</span></button>
+    <button type="button" onclick="go('orders');sheet(0)"><b>طلبية جديدة</b><span>تسجيل بيع أو طلبية</span></button>
+    <button type="button" onclick="go('visits');sheet(0)"><b>زيارة</b><span>تسجيل زيارة فقط</span></button>
+    <button type="button" onclick="go('clients');clientTab('doctor');sheet(0)"><b>طبيب</b><span>إضافة طبيب جديد</span></button>
+    <button type="button" onclick="go('clients');clientTab('pharmacy');sheet(0)"><b>صيدلية</b><span>إضافة صيدلية جديدة</span></button>
+    <button type="button" onclick="go('more');moreTab('meds');sheet(0)"><b>دواء</b><span>إضافة مادة جديدة</span></button>
+    <button type="button" onclick="go('more');moreTab('stock');sheet(0)"><b>مخزون</b><span>سامبلات / فري</span></button>
+    <button type="button" onclick="go('more');moreTab('expenses');sheet(0)"><b>مصروف</b><span>وقود أو ضيافة</span></button>
+    <button type="button" onclick="go('more');moreTab('plan');sheet(0)"><b>خط سير</b><span>إضافة عميل للخطة</span></button>
+  </div>
+  <button type="button" class="ghost" onclick="sheet(0)" style="margin-top:14px">إلغاء</button>
+</div>
+
+
+
+<div id="aiReplyBg" class="ai-reply-bg" onclick="aiReplySheet(0)"></div>
+<div id="aiReplySheet" class="ai-reply-sheet">
+  <div class="sheetHandle"></div>
+  <div class="ai-title-row"><h2 style="margin:0">ردود مدعمة بالذكاء</h2><span class="badge" id="aiPickBadge">اعتراض السعر</span></div>
+  <p class="muted">اختر نوع الاعتراض، اكتب ملاحظة قصيرة، ثم ولّد رد جاهز بأسلوب يناسب الطبيب أو الصيدلية.</p>
+  <div class="ai-chips" id="aiTypes"></div>
+  <div class="ai-chips" id="aiStyles"></div>
+  <textarea id="aiNote" placeholder="اشرح شوية الاعتراض... مثال: الدكتور يكول السعر غالي أو يريد بديل أرخص"></textarea>
+  <div class="tools"><button type="button" onclick="makeAiReply()">توليد الرد</button><button type="button" class="ghost" onclick="copyAiReply()">نسخ الرد</button></div>
+  <div id="aiReplyOut" class="ai-output">اكتب ملاحظة قصيرة واضغط توليد الرد.</div>
+  <button type="button" class="ghost" onclick="aiReplySheet(0)" style="margin-top:10px">إغلاق</button>
+</div>
+
+<nav class="bottom-nav">
+  <div class="nav-grid">
+    <button type="button" id="nhome" class="nav-btn on" onclick="go('home')"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8Z"/></svg><span>الرئيسية</span></button>
+    <button type="button" id="norders" class="nav-btn" onclick="go('orders')"><svg viewBox="0 0 24 24"><path d="M7 2h10v2h3v18H4V4h3Zm2 2h6V3H9Zm-2 5h10v2H7Zm0 4h10v2H7Zm0 4h7v2H7Z"/></svg><span>الطلبيات</span></button>
+    <button type="button" class="nav-btn center" onclick="sheet(1)"><div class="fab"><svg viewBox="0 0 24 24"><path d="M19 11H13V5h-2v6H5v2h6v6h2v-6h6Z"/></svg></div><span>إضافة</span></button>
+    <button type="button" id="nclients" class="nav-btn" onclick="go('clients')"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-8 1a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.33 0-6 1.34-6 3v1h8v-1c0-1.02.39-1.96 1.05-2.74A10.7 10.7 0 0 0 8 14Zm8 0a9.93 9.93 0 0 0-3.05.46A3.97 3.97 0 0 1 14 17v1h8v-1c0-1.66-2.67-3-6-3Z"/></svg><span>العملاء</span></button>
+    <button type="button" id="nmore" class="nav-btn" onclick="go('more')"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4Zm0 5h16v2H4Zm0 5h16v2H4Z"/></svg><span>المزيد</span></button>
+  </div>
+</nav>
+
+<script>
+/* =========================================
+   IndexedDB Storage Layer for PWA/iPhone
+   الحفظ الرئيسي داخل التطبيق + نسخة احتياطية JSON
+========================================= */
+const MEDREP_IDB_NAME='MedRepFlowLocalDB';
+const MEDREP_IDB_VERSION=1;
+const MEDREP_IDB_STORE='records';
+function idbSupported(){return !!window.indexedDB}
+function idbOpen(){return new Promise((resolve,reject)=>{if(!idbSupported())return reject(new Error('IndexedDB غير مدعوم بهذا المتصفح'));const req=indexedDB.open(MEDREP_IDB_NAME,MEDREP_IDB_VERSION);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains(MEDREP_IDB_STORE))db.createObjectStore(MEDREP_IDB_STORE,{keyPath:'key'});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('تعذر فتح قاعدة البيانات'));});}
+function idbSet(key,value){return idbOpen().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction(MEDREP_IDB_STORE,'readwrite');tx.objectStore(MEDREP_IDB_STORE).put({key,value,updatedAt:new Date().toISOString()});tx.oncomplete=()=>{db.close();resolve(true)};tx.onerror=()=>{db.close();reject(tx.error)};}));}
+function idbGet(key,fallback=null){return idbOpen().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction(MEDREP_IDB_STORE,'readonly');const req=tx.objectStore(MEDREP_IDB_STORE).get(key);req.onsuccess=()=>{db.close();resolve(req.result&&'value' in req.result?req.result.value:fallback)};req.onerror=()=>{db.close();reject(req.error)};}));}
+function idbRemove(key){return idbOpen().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction(MEDREP_IDB_STORE,'readwrite');tx.objectStore(MEDREP_IDB_STORE).delete(key);tx.oncomplete=()=>{db.close();resolve(true)};tx.onerror=()=>{db.close();reject(tx.error)};}));}
+function setStorageStatus(text,ok=true){const el=document.getElementById('storageStatus');if(!el)return;el.textContent=text;el.style.color=ok?'var(--p)':'var(--red)';}
+function refreshAppViews(){try{render()}catch(e){}try{toggleDealerFields()}catch(e){}try{fillDocDealerMeds()}catch(e){}try{if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress()}catch(e){}try{if(typeof renderStockDealer==='function')renderStockDealer()}catch(e){}try{applyLang(currentLang())}catch(e){}}
+async function hydrateFromIndexedDB(){if(!idbSupported()){setStorageStatus('تنبيه: هذا المتصفح لا يدعم IndexedDB، سيتم استخدام localStorage فقط.',false);return}try{const saved=await idbGet(K,null);if(saved){db=norm(saved);try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}refreshAppViews();setStorageStatus('الحفظ مفعل داخل التطبيق: IndexedDB ✅');}else{await idbSet(K,db);setStorageStatus('تم إنشاء مخزن الحفظ داخل التطبيق: IndexedDB ✅');}}catch(e){setStorageStatus('تعذر تشغيل IndexedDB، الحفظ الاحتياطي ما زال يعمل داخل localStorage.',false);console.warn(e);}}
+
+const K='medrep_v10_orders_clean',OLD=['medical_rep_mobile_v4','medrep_v9_simple_flow','medrep_v8_orders_target_simple'];let db=load(),edit={order:null,visit:null,client:null,med:null},clientMode='doctor';
+function def(){return{profile:{},doctors:[],pharmacies:[],medicines:[],orders:[],visits:[],targets:[],reports:[],plans:[],expenses:[],stocks:[],dealerNeeds:[]}}
+function load(){let x='';try{if(window.Android&&Android.loadAppData){x=Android.loadAppData();if(x)return norm(JSON.parse(x))}}catch(e){}x=localStorage.getItem(K);if(x)try{return norm(JSON.parse(x))}catch(e){};for(let k of OLD){x=localStorage.getItem(k);if(x)try{return norm(JSON.parse(x))}catch(e){}}return def()}
+function norm(d){let b=def();d=d||{};for(let k in b)b[k]=d[k]||b[k];b.doctors=b.doctors.map(x=>({...x,doctorType:x.doctorType||x.docType||'علمي',zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||''}));b.pharmacies=b.pharmacies.map(x=>({...x,zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||''}));b.medicines=b.medicines.map(x=>({...x,scientific:x.scientific||x.scientificName||'',selling:x.selling||'',type:x.type||''}));b.orders=(b.orders||[]).map(x=>({...x,total:n(x.total)}));return b}
+function save(){let data=JSON.stringify(db);try{localStorage.setItem(K,data)}catch(e){}try{if(window.Android&&Android.saveAppData)Android.saveAppData(data)}catch(e){}if(idbSupported())idbSet(K,db).then(()=>setStorageStatus('تم الحفظ داخل التطبيق: IndexedDB ✅')).catch(e=>{setStorageStatus('تعذر الحفظ في IndexedDB، تم الحفظ الاحتياطي فقط.',false);console.warn(e)});refreshAppViews();}
+function $(id){return document.getElementById(id)}function v(id){return ($(id)||{}).value?.trim()||''}function set(id,x){if($(id))$(id).value=x??''}function n(x){return +x||0}function fmt(x){return n(x).toLocaleString('en-US')}function today(){return new Date().toISOString().slice(0,10)}function mon(){return today().slice(0,7)}
+
+/* الإصلاح الجذري لحماية النصوص (بدون استخدام رموز تسبب أخطاء) */
+function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/* دالة التعبئة التلقائية للأصفار */
+function autoZero(el){
+    if(el && el.value){
+        let val = Number(el.value);
+        if(val > 0 && val < 1000){
+            el.value = val * 1000;
+            if(el.oninput) el.dispatchEvent(new Event('input', {bubbles:true}));
+            if(el.onchange) el.dispatchEvent(new Event('change', {bubbles:true}));
+        }
+    }
+}
+
+function sheet(x){document.getElementById('bg')?.classList.toggle('on',!!x);document.getElementById('sheet')?.classList.toggle('on',!!x)}
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));$(id).classList.add('on');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));if($('n'+id))$('n'+id).classList.add('on');sheet(0);render();scrollTo(0,0)}
+
+function moreTab(tab){
+  const ids=['settings','meds','plan','expenses','stock','reports'];
+  ids.forEach(id=>{
+    const p=$('more-'+id); if(p)p.classList.toggle('active',id===tab);
+  });
+  document.querySelectorAll('#moreTabs button').forEach((b,i)=>b.classList.toggle('active',ids[i]===tab));
+  if(tab==='meds'){setTimeout(()=>{const x=$('medName'); if(x)x.scrollIntoView({block:'nearest'})},50)}
+  if(tab==='stock'){fillStockDealerSelects();renderStockDealer()}
+  if(tab==='plan'){fillPlanClients();if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress()}
+  if(tab==='expenses'){if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress()}
+}
+
+function clientName(t,id){let a=t=='doctor'?db.doctors:db.pharmacies;return (a.find(x=>x.id==id)||{}).name||'غير محدد'}function med(id){return db.medicines.find(x=>x.id==id)||null}function isSale(o){return o.status=='بيع مؤكد'||o.status=='تم التسليم'}function total(q,p,d){return Math.max(n(q)*n(p)-n(d),0)}function target(){return db.targets.find(x=>x.month==mon())||{month:mon(),target:0,manual:0}}function achieved(){return db.orders.filter(o=>isSale(o)&&String(o.date||'').slice(0,7)==mon()).reduce((a,o)=>a+n(o.total),0)+n(target().manual)}
+function fillOrderClients(){let t=v('orderClientType'),arr=t=='doctor'?db.doctors:db.pharmacies;$('orderClient').innerHTML='<option value="">اختر العميل</option>'+arr.map(x=>`<option value="${x.id}">${esc(x.name)} - ${esc(x.zone||'')}</option>`).join('')}
+function fillVisitClients(){let t=v('visitType'),arr=t=='doctor'?db.doctors:db.pharmacies;$('visitClient').innerHTML='<option value="">اختر العميل</option>'+arr.map(x=>`<option value="${x.id}">${esc(x.name)} - ${esc(x.zone||'')}</option>`).join('')}
+function medToOrder(){let m=med(v('orderMed'));if(m){set('orderProduct',m.name);set('orderPrice',m.price||'');$('orderMedInfo').innerHTML=`<b>${esc(m.name)}</b><br>العلمي: ${esc(m.scientific||'-')}<br>الشركة: ${esc(m.company||'-')} | الجرعة: ${esc(m.dose||'-')}<br>${esc(m.desc||'')}<br>${m.selling?'نقاط البيع: '+esc(m.selling):''}`}else $('orderMedInfo').textContent='اختر دواء حتى تظهر تفاصيله هنا.';calcOrder();refreshCompanyList();fillDefaultMedCompany()}
+function calcOrder(){let s=total(v('orderQty'),v('orderPrice'),v('orderDiscount'));$('orderCalc').innerHTML=`الصافي: <b class="ok">${fmt(s)} د.ع</b><br>البونص: ${fmt(v('orderBonus'))} | ${isSale({status:v('orderStatus')})?'تنحسب على التاركت':'لا تنحسب على التاركت'}`;return s}
+function saveOrder(){let cid=v('orderClient');if(!cid)return alert('اختر الطبيب أو الصيدلية');let product=v('orderProduct')||(med(v('orderMed'))||{}).name;if(!product)return alert('اختر أو اكتب المنتج');let old=db.orders.find(x=>x.id==edit.order),o={id:edit.order||Date.now(),date:v('orderDate')||today(),clientType:v('orderClientType'),clientId:cid,medId:v('orderMed'),product,qty:n(v('orderQty')),bonus:n(v('orderBonus')),price:n(v('orderPrice')),discount:n(v('orderDiscount')),total:calcOrder(),status:v('orderStatus'),note:v('orderNote')};old?Object.assign(old,o):db.orders.unshift(o);cancelOrder(1);save()}
+function editOrder(id){let o=db.orders.find(x=>x.id==id);if(!o)return;edit.order=id;set('orderDate',o.date);set('orderClientType',o.clientType);fillOrderClients();set('orderClient',o.clientId);set('orderMed',o.medId);medToOrder();set('orderProduct',o.product);set('orderQty',o.qty);set('orderBonus',o.bonus);set('orderPrice',o.price);set('orderDiscount',o.discount);set('orderStatus',o.status);set('orderNote',o.note);$('orderTitle').textContent='تعديل طلبية';$('orderCancel').classList.remove('hide');calcOrder();go('orders')}
+function cancelOrder(no){edit.order=null;['orderProduct','orderQty','orderBonus','orderPrice','orderDiscount','orderNote'].forEach(x=>set(x,''));set('orderDate',today());set('orderClientType','pharmacy');set('orderClient','');set('orderMed','');set('orderStatus','طلبية جديدة');$('orderTitle').textContent='طلبية جديدة';$('orderCancel').classList.add('hide');medToOrder();if(!no)render()}
+function saveVisit(){let cid=v('visitClient');if(!cid)return alert('اختر العميل');let old=db.visits.find(x=>x.id==edit.visit),vo={id:edit.visit||Date.now(),date:v('visitDate')||today(),type:v('visitType'),clientId:cid,productId:v('visitProduct'),product:(med(v('visitProduct'))||{}).name||'',status:v('visitStatus'),note:v('visitNote')};old?Object.assign(old,vo):db.visits.unshift(vo);cancelVisit(1);save()}
+function editVisit(id){let x=db.visits.find(v=>v.id==id);if(!x)return;edit.visit=id;set('visitDate',x.date);set('visitType',x.type);fillVisitClients();set('visitClient',x.clientId);set('visitProduct',x.productId);set('visitStatus',x.status);set('visitNote',x.note);$('visitTitle').textContent='تعديل زيارة';$('visitCancel').classList.remove('hide');go('visits')}
+function cancelVisit(no){edit.visit=null;['visitNote'].forEach(x=>set(x,''));set('visitDate',today());set('visitType','doctor');fillVisitClients();set('visitClient','');set('visitProduct','');set('visitStatus','تمت');$('visitTitle').textContent='تسجيل زيارة';$('visitCancel').classList.add('hide');if(!no)render()}
+function clientTab(t){clientMode=t;$('doctorBox').classList.toggle('hide',t!='doctor');$('phBox').classList.toggle('hide',t!='pharmacy');$('docTab').classList.toggle('on',t=='doctor');$('phTab').classList.toggle('on',t=='pharmacy');render()}
+function saveDoctor(){if(!v('docName'))return alert('اكتب اسم الطبيب');let old=db.doctors.find(x=>x.id==edit.client),o={id:edit.client||Date.now(),name:v('docName'),doctorType:v('docType'),spec:v('docSpec'),phone:v('docPhone'),zone:v('docZone'),importance:v('docImportance')||'B',products:v('docProducts'),followDate:v('docFollowDate'),followNote:v('docFollowNote'),lat:v('docLat'),lng:v('docLng'),notes:v('docNotes')};old?Object.assign(old,o):db.doctors.unshift(o);saveDealerFromDoctor(o.id);cancelClient(1);save()}
+function savePharmacy(){if(!v('phName'))return alert('اكتب اسم الصيدلية');let old=db.pharmacies.find(x=>x.id==edit.client),o={id:edit.client||Date.now(),name:v('phName'),owner:v('phOwner'),phone:v('phPhone'),zone:v('phZone'),importance:v('phImportance')||'B',followDate:v('phFollowDate'),followNote:v('phFollowNote'),lat:v('phLat'),lng:v('phLng'),notes:v('phNotes')};old?Object.assign(old,o):db.pharmacies.unshift(o);cancelClient(1);save()}
+function editClient(t,id){let x=(t=='doctor'?db.doctors:db.pharmacies).find(a=>a.id==id);if(!x)return;edit.client=id;if(t=='doctor'){['Name','Spec','Phone','Zone','Products','FollowDate','FollowNote','Lat','Lng','Notes'].forEach(k=>set('doc'+k,x[k[0].toLowerCase()+k.slice(1)]));set('docType',x.doctorType);set('docImportance',x.importance);toggleDealerFields();$('docTitle').textContent='تعديل طبيب';$('docCancel').classList.remove('hide');clientTab('doctor')}else{['Name','Owner','Phone','Zone','FollowDate','FollowNote','Lat','Lng','Notes'].forEach(k=>set('ph'+k,x[k[0].toLowerCase()+k.slice(1)]));set('phImportance',x.importance);$('phTitle').textContent='تعديل صيدلية';$('phCancel').classList.remove('hide');clientTab('pharmacy')}go('clients')}
+function cancelClient(no){edit.client=null;['docName','docSpec','docPhone','docZone','docProducts','docFollowDate','docFollowNote','docLat','docLng','docNotes','phName','phOwner','phPhone','phZone','phFollowDate','phFollowNote','phLat','phLng','phNotes'].forEach(x=>set(x,''));set('docType','علمي');set('docDealerMed','');set('docDealerNeedValue','');set('docDealerNeedNotes','');toggleDealerFields();set('docImportance','B');set('phImportance','B');$('docTitle').textContent='إضافة طبيب';$('phTitle').textContent='إضافة صيدلية';$('docCancel').classList.add('hide');$('phCancel').classList.add('hide');if(!no)render()}
+function locate(t){
+  const latId=t==='doc'?'docLat':'phLat',lngId=t==='doc'?'docLng':'phLng';
+  if(!navigator.geolocation)return alert('خدمة الموقع غير مدعومة على هذا الجهاز.');
+  navigator.geolocation.getCurrentPosition(
+    p=>{set(latId,p.coords.latitude.toFixed(6));set(lngId,p.coords.longitude.toFixed(6));alert('تم تثبيت الموقع بنجاح')},
+    ()=>alert('تعذر جلب الموقع. تأكد من تفعيل GPS ومنح صلاحية الموقع للتطبيق.'),
+    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
+  );
+}
+function map(lat,lng){if(!lat||!lng)return alert('لا يوجد موقع محفوظ');open('https://www.google.com/maps?q='+lat+','+lng,'_blank')}
+
+function medOptionsHtml(){return (db.medicines||[]).map(m=>`<option value="${esc(m.name)}">${esc(m.scientific||m.company||'')}</option>`).join('')}
+function refreshDoctorProducts(){
+  const dl=$('doctorProductsList'); if(dl)dl.innerHTML=medOptionsHtml();
+  const box=$('docProductChips'); if(!box)return;
+  const meds=(db.medicines||[]).slice(0,24);
+  box.innerHTML=meds.length?meds.map(m=>`<button type="button" onclick="addDocProduct('${String(m.id).replace(/'/g,'')}')">${esc(m.name)}</button>`).join(''):'<span class="muted small">احفظ الأدوية أولاً حتى تظهر هنا للاختيار السريع.</span>';
+}
+function addDocProduct(id){
+  const m=(db.medicines||[]).find(x=>String(x.id)===String(id)); if(!m)return;
+  const el=$('docProducts'); if(!el)return;
+  const list=el.value.split(',').map(x=>x.trim()).filter(Boolean);
+  if(!list.includes(m.name))list.push(m.name);
+  el.value=list.join(', ');
+}
+
+
+/* دوال التعديل على الأدوية */
+function saveMed(){
+    if(!v('medName'))return alert('اكتب اسم الدواء');
+    let typeVal = document.querySelector('input[name="medType"]:checked')?.value || '';
+    let mObj = {
+        id: edit.med || Date.now(),
+        name: v('medName'),
+        scientific: v('medScientific'),
+        company: v('medCompany')||((db.profile&&db.profile.defaultCompany)||''),
+        price: n(v('medPrice')),
+        dose: v('medDose'),
+        type: typeVal,
+        desc: v('medDesc'),
+        selling: v('medSelling')
+    };
+    if(edit.med){
+        let old = db.medicines.find(x => x.id == edit.med);
+        if(old) Object.assign(old, mObj);
+    } else {
+        db.medicines.unshift(mObj);
+    }
+    if(v('medCompany')) localStorage.setItem('last_med_company',v('medCompany'));
+    cancelMed(1);
+    fillDefaultMedCompany();
+    save();
+}
+function editMed(id){
+    let m = db.medicines.find(x => x.id == id);
+    if(!m) return;
+    edit.med = id;
+    set('medName', m.name);
+    set('medScientific', m.scientific);
+    set('medCompany', m.company);
+    set('medPrice', m.price);
+    set('medDose', m.dose);
+    set('medDesc', m.desc);
+    set('medSelling', m.selling);
+    document.querySelectorAll('input[name="medType"]').forEach(r => r.checked = (r.value === m.type));
+    $('medTitle').textContent = 'تعديل دواء';
+    $('medCancel').classList.remove('hide');
+    window.scrollTo({top:0, behavior:'smooth'});
+}
+function cancelMed(no){
+    edit.med = null;
+    ['medName','medScientific','medPrice','medDose','medDesc','medSelling'].forEach(x=>set(x,''));
+    document.querySelectorAll('input[name="medType"]').forEach(r => r.checked = false);
+    $('medTitle').textContent = 'إضافة دواء';
+    if($('medCancel')) $('medCancel').classList.add('hide');
+    if(!no) render();
+}
+
+function medPdf(id){let m=med(id);if(!m)return;let w=open('','_blank'),html=`<html dir="rtl"><head><title>${esc(m.name)}</title><style>body{font-family:Tahoma;padding:28px;color:#111}h1{color:#0b5ed7}.box{border:1px solid #ddd;border-radius:14px;padding:14px;margin:10px 0;line-height:1.8}</style></head><body><h1>${esc(m.name)}</h1><div class="box"><b>الاسم العلمي:</b> ${esc(m.scientific||'-')}<br><b>الشركة:</b> ${esc(m.company||'-')}<br><b>النوع:</b> ${esc(m.type||'-')}<br><b>السعر:</b> ${fmt(m.price)} د.ع<br><b>الجرعة / الشكل:</b> ${esc(m.dose||'-')}</div><div class="box"><b>شرح الدواء:</b><br>${esc(m.desc||'-')}</div><div class="box"><b>نقاط البيع:</b><br>${esc(m.selling||'-')}</div><scr`+`ipt>print()<\/scr`+`ipt>
+<script>
+(function(){
+  let deferredInstallPrompt=null;
+  const gate=()=>document.getElementById('installGate');
+  const steps=()=>document.getElementById('iosInstallSteps');
+  const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+  const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();
+    deferredInstallPrompt=e;
+    const g=gate();
+    if(g && !isStandalone() && localStorage.getItem('medrep_install_dismissed')!=='1') g.classList.remove('hide');
+  });
+
+  window.addEventListener('appinstalled',function(){
+    localStorage.setItem('medrep_install_dismissed','1');
+    const g=gate();
+    if(g) g.classList.add('hide');
+  });
+
+  function showInstallGate(){
+    const g=gate();
+    if(!g || isStandalone()) return;
+    if(localStorage.getItem('medrep_install_dismissed')==='1') return;
+    g.classList.remove('hide');
+    if(isIOS()) steps()?.classList.remove('on');
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    setTimeout(showInstallGate,350);
+
+    document.getElementById('installAppBtn')?.addEventListener('click',async function(){
+      if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        const choice=await deferredInstallPrompt.userChoice.catch(()=>null);
+        if(choice && choice.outcome==='accepted'){
+          localStorage.setItem('medrep_install_dismissed','1');
+          gate()?.classList.add('hide');
+        }
+        deferredInstallPrompt=null;
+        return;
+      }
+      steps()?.classList.add('on');
+    });
+
+    document.getElementById('continueWebBtn')?.addEventListener('click',function(){
+      localStorage.setItem('medrep_install_dismissed','1');
+      gate()?.classList.add('hide');
+    });
+  });
+})();
+</script>
+
+</body></html>`;w.document.write(html);w.document.close()}
+function saveProfile(){db.profile={name:v('repName'),job:v('repJob'),zone:v('repZone'),company:v('repCompany'),phone:v('repPhone'),defaultCompany:v('defaultMedCompany'),reportStyle:v('reportStyle')};save();alert('تم حفظ الإعدادات')}
+function saveTarget(){let m=v('targetMonth')||mon(),old=db.targets.find(x=>x.month==m),o={month:m,target:n(v('targetValue')),manual:n(v('manualAchieved'))};old?Object.assign(old,o):db.targets.unshift(o);save();alert('تم حفظ التاركت')}
+
+function orderNumber(o){return 'MRF-'+String(o.id||Date.now()).slice(-8)}
+function orderReceiptHtml(id){
+  const o=(db.orders||[]).find(x=>String(x.id)===String(id)); if(!o)return '';
+  const p=db.profile||{},m=med(o.medId)||{},client=clientName(o.clientType,o.clientId),type=o.clientType==='doctor'?'طبيب':'صيدلية';
+  const rep=p.name||'MedRep Flow',company=p.company||'moe system',zone=p.zone||'-',receiptNo=orderNumber(o);
+  return `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Order Receipt ${receiptNo}</title><style>
+  *{box-sizing:border-box}body{margin:0;background:#eef3f8;color:#111827;font-family:Tahoma,Arial,sans-serif;line-height:1.55}.actions{display:flex;gap:8px;width:94%;max-width:760px;margin:12px auto}.actions button{flex:1;border:0;border-radius:12px;padding:12px 10px;background:#155eef;color:#fff;font-weight:900;font-family:inherit}.actions .ghost{background:#e8eef8;color:#155eef}.paper{width:94%;max-width:760px;margin:0 auto 18px;background:#fff;border:1px solid #d7e0eb;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(15,23,42,.12)}
+  .head{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:22px 24px;background:linear-gradient(135deg,#f8fbff,#eef5ff);border-bottom:1px solid #d7e0eb}.brand{display:flex;gap:14px;align-items:center}.mark{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#155eef,#12b8b0);color:#fff;display:grid;place-items:center;font-weight:900;font-size:20px;letter-spacing:.5px}.brand h1{margin:0;font-size:25px;color:#0f172a}.brand p{margin:3px 0 0;color:#64748b;font-size:12px}.docbox{text-align:center;border:1px solid #cbd8ea;background:#fff;border-radius:16px;padding:10px 14px;min-width:145px}.docbox b{display:block;color:#155eef;font-size:13px}.docbox span{display:block;margin-top:3px;font-weight:900;color:#0f172a;font-size:15px}.title{padding:18px 24px 4px;text-align:center}.title h2{margin:0;color:#0f172a;font-size:22px}.title p{margin:4px 0 0;color:#64748b;font-size:12px}
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 24px}.field{border:1px solid #e2e8f0;border-radius:14px;padding:10px 12px;background:#fbfdff;min-height:62px}.field b{display:block;color:#64748b;font-size:11px;margin-bottom:4px}.field span{display:block;color:#111827;font-size:14px;font-weight:900;word-break:break-word}.section{padding:0 24px 20px}.section h3{margin:10px 0 10px;font-size:15px;color:#0f172a}.items{width:100%;border-collapse:separate;border-spacing:0;border:1px solid #dbe3ef;border-radius:14px;overflow:hidden}.items th{background:#0f46b8;color:#fff;padding:11px 10px;font-size:12px;text-align:right}.items td{padding:12px 10px;border-bottom:1px solid #e5edf6;font-size:13px;font-weight:700}.items tr:last-child td{border-bottom:0}.items td.num{text-align:center;white-space:nowrap}.summary{display:grid;grid-template-columns:1fr 210px;gap:12px;margin-top:14px;align-items:stretch}.note{border:1px dashed #c6d3e3;border-radius:14px;padding:12px;color:#334155;background:#fbfdff;font-size:13px;min-height:70px}.total{background:linear-gradient(135deg,#0f172a,#155eef);color:#fff;border-radius:14px;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}.total small{opacity:.85}.total b{font-size:24px;margin-top:3px}.signs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.sign{height:68px;border:1px solid #e2e8f0;border-radius:14px;padding:10px;color:#64748b;font-size:12px}.foot{border-top:1px solid #e2e8f0;padding:12px 24px;text-align:center;color:#64748b;font-size:11px;background:#fbfdff}.foot a{color:#155eef;text-decoration:none;font-weight:900}
+  @media(max-width:620px){.head{grid-template-columns:1fr}.meta{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr}.items{font-size:12px}.items th,.items td{padding:9px 6px}.brand h1{font-size:22px}}
+  @media print{@page{size:A4;margin:12mm}body{background:#fff}.actions{display:none}.paper{width:100%;max-width:none;margin:0;border-radius:0;box-shadow:none;border:0}.head{background:#f7fbff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.total,.items th{ -webkit-print-color-adjust:exact;print-color-adjust:exact}.foot a{color:#155eef!important}.meta{grid-template-columns:repeat(3,1fr)}}
+  </style></head><body><div class="actions"><button onclick="window.print()">تحميل / طباعة PDF</button><button class="ghost" onclick="history.back()">رجوع</button></div><main class="paper"><header class="head"><div class="brand"><div class="mark">MR</div><div><h1>MedRep Flow</h1><p>${esc(company)}</p></div></div><div class="docbox"><b>Order Receipt</b><span>${receiptNo}</span></div></header><div class="title"><h2>وصل طلبية رسمي</h2><p>هذا الوصل صادر من تطبيق MedRep Flow</p></div><section class="meta"><div class="field"><b>التاريخ</b><span>${esc(o.date||today())}</span></div><div class="field"><b>حالة الطلبية</b><span>${esc(o.status||'-')}</span></div><div class="field"><b>نوع العميل</b><span>${type}</span></div><div class="field"><b>اسم العميل</b><span>${esc(client)}</span></div><div class="field"><b>اسم المندوب</b><span>${esc(rep)}</span></div><div class="field"><b>الزون</b><span>${esc(zone)}</span></div></section><section class="section"><h3>تفاصيل الطلبية</h3><table class="items"><thead><tr><th>المنتج</th><th>الشركة</th><th>الكمية</th><th>البونص</th><th>سعر المفرد</th><th>الخصم</th></tr></thead><tbody><tr><td>${esc(o.product||'-')}</td><td>${esc(m.company||company||'-')}</td><td class="num">${fmt(o.qty)}</td><td class="num">${fmt(o.bonus)}</td><td class="num">${fmt(o.price)} د.ع</td><td class="num">${fmt(o.discount)} د.ع</td></tr></tbody></table><div class="summary"><div class="note"><b>ملاحظات الطلبية</b><br>${o.note?esc(o.note):'لا توجد ملاحظات.'}</div><div class="total"><small>الصافي الكلي</small><b>${fmt(o.total)} د.ع</b></div></div><div class="signs"><div class="sign">توقيع المندوب</div><div class="sign">توقيع / ختم العميل</div></div></section><footer class="foot"><a href="https://Moesystem.online">All rights reserved by moe system</a></footer></main></body></html>`;
+}
+function openOrderReceipt(id){
+  const html=orderReceiptHtml(id); if(!html)return alert('لم يتم العثور على الطلبية');
+  const w=window.open('','_blank');
+  if(w){w.document.open();w.document.write(html);w.document.close();}
+  else {document.body.insertAdjacentHTML('beforeend','<iframe id="receiptFrame" style="position:fixed;left:-9999px;top:0;width:1px;height:1px"></iframe>');let f=$('receiptFrame');f.contentDocument.open();f.contentDocument.write(html);f.contentDocument.close();setTimeout(()=>f.contentWindow.print(),300)}
+}
+function downloadOrderReceiptPdf(id){
+  const html=orderReceiptHtml(id); if(!html)return alert('لم يتم العثور على الطلبية');
+  const title='وصل-طلبية-'+orderNumber((db.orders||[]).find(x=>String(x.id)===String(id)))+'.pdf';
+  try{if(window.Android&&Android.printHtml){Android.printHtml(title,html);return}}catch(e){}
+  openOrderReceipt(id);
+}
+
+function del(arr,id){if(confirm('حذف؟')){db[arr]=db[arr].filter(x=>String(x.id)!=String(id));save()}}
+function dayReport(){let d=v('reportDate')||today(),p=db.profile||{},ords=db.orders.filter(o=>o.date==d),vis=db.visits.filter(x=>x.date==d),sales=ords.filter(isSale),sum=sales.reduce((a,o)=>a+n(o.total),0),style=p.reportStyle||'مختصر';let details=ords.map(o=>`- ${clientName(o.clientType,o.clientId)} | ${o.product} | كمية ${o.qty} | صافي ${fmt(o.total)} | ${o.status}`).join('\n')||'لا توجد طلبيات.';let visits=vis.map(x=>`- ${clientName(x.type,x.clientId)} | ${x.status} | ${x.product||'بدون منتج'}`).join('\n')||'لا توجد زيارات.';let txt=`تقرير يومي ${style} بتاريخ ${d}\n\nالمندوب: ${p.name||'غير محدد'}\nالشركة: ${p.company||'غير محددة'}\nالزون: ${p.zone||'غير محدد'}\n\nالملخص:\nعدد الطلبيات: ${ords.length}\nعدد الزيارات: ${vis.length}\nالبيع المحسوب على التاركت: ${fmt(sum)} د.ع\n\nالطلبيات:\n${details}\n\nالزيارات:\n${visits}\n\nالإجراء القادم:\nمتابعة الطلبيات غير المؤكدة والعملاء المحددين للمتابعة.`;set('reportOutput',txt);go('more');moreTab('reports')}
+function saveReport(){let text=v('reportOutput');if(!text)return alert('كوّن التقرير أولاً');db.reports.unshift({id:Date.now(),date:v('reportDate')||today(),text});save()}
+function copyText(t){navigator.clipboard?.writeText(t||'');alert('تم النسخ')}
+function csv(rows){return rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\n')}function down(nm,c,t='text/csv;charset=utf-8'){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=nm;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),300)}
+function exportCSV(){down('medical-rep-v10.csv',csv([['section','date','client','product','qty','bonus','price','discount','total','status'],...db.orders.map(o=>['order',o.date,clientName(o.clientType,o.clientId),o.product,o.qty,o.bonus,o.price,o.discount,o.total,o.status]),...db.visits.map(v=>['visit',v.date,clientName(v.type,v.clientId),v.product,'','','','','',v.status]),...db.doctors.map(d=>['doctor','',d.name,d.doctorType,d.spec,'','','','',d.zone]),...db.pharmacies.map(p=>['pharmacy','',p.name,p.owner,'','','','','',p.zone])]))}
+async function backup(){
+  let exportDb=db;
+  try{exportDb=await idbGet(K,db)}catch(e){}
+  const d=new Date().toISOString().slice(0,10);
+  down('MedRep-Flow-backup-'+d+'.json',JSON.stringify(exportDb,null,2),'application/json');
+}
+function importData(e){
+  let f=e.target.files[0];if(!f)return;
+  let r=new FileReader();
+  r.onload=async()=>{
+    try{
+      db=norm(JSON.parse(r.result));
+      try{await idbSet(K,db)}catch(e){}
+      save();
+      alert('تم استرجاع النسخة الاحتياطية بنجاح');
+    }catch(_){alert('ملف غير صالح')}
+  };
+  r.readAsText(f);e.target.value='';
+}
+
+function uniqueCompanies(){
+  const set=new Set();
+  if(db.profile&&db.profile.defaultCompany)set.add(db.profile.defaultCompany);
+  if(db.profile&&db.profile.company)set.add(db.profile.company);
+  (db.medicines||[]).forEach(m=>{if(m.company)set.add(m.company)});
+  return Array.from(set);
+}
+function refreshCompanyList(){
+  const dl=$('companyList'); if(!dl)return;
+  dl.innerHTML=uniqueCompanies().map(c=>`<option value="${esc(c)}"></option>`).join('');
+}
+function fillDefaultMedCompany(){
+  const el=$('medCompany'); if(!el || el.value)return;
+  const c=(db.profile&&db.profile.defaultCompany)||localStorage.getItem('last_med_company')||(db.profile&&db.profile.company)||'';
+  if(c)el.value=c;
+}
+
+function clientDisplay(type,id){
+  const arr=type==='doctor'?db.doctors:db.pharmacies;
+  const x=(arr||[]).find(a=>String(a.id)===String(id));
+  return x?x.name:'غير محدد';
+}
+function clientZone(type,id){
+  const arr=type==='doctor'?db.doctors:db.pharmacies;
+  const x=(arr||[]).find(a=>String(a.id)===String(id));
+  return x?(x.zone||x.area||'بدون زون'):'بدون زون';
+}
+function fillPlanClients(){
+  const sel=$('planClient'); if(!sel)return;
+  const type=v('planType')||'doctor';
+  const arr=type==='doctor'?db.doctors:db.pharmacies;
+  sel.innerHTML='<option value="">اختر العميل</option>'+(arr||[]).map(x=>`<option value="${x.id}">${esc(x.name)} - ${esc(x.zone||x.area||'')}</option>`).join('');
+}
+function addPlanItem(){
+  const date=(v('planDate')||today());
+  const type=v('planType')||'doctor';
+  const clientId=v('planClient');
+  if(!clientId)return alert('اختر العميل');
+  db.plans=db.plans||[];
+  db.plans.push({id:Date.now(),date,type,clientId,zone:clientZone(type,clientId),done:false});
+  save();
+}
+function planToVisit(id){
+  const p=(db.plans||[]).find(x=>String(x.id)===String(id));
+  if(!p)return;
+  go('visits');
+  if($('visitType')){$('visitType').value=p.type; fillVisitClients();}
+  if($('visitClient'))$('visitClient').value=p.clientId;
+  p.done=true; save();
+}
+function addExpense(){
+  const amount=n(v('expenseAmount'));
+  if(!amount)return alert('اكتب مبلغ المصروف');
+  db.expenses=db.expenses||[];
+  db.expenses.push({id:Date.now(),date:v('expenseDate')||today(),amount,type:v('expenseType'),notes:v('expenseNotes')});
+  ['expenseAmount','expenseNotes'].forEach(id=>{if($(id))$(id).value=''});
+  save();
+}
+function totalExpenses(date){
+  return (db.expenses||[]).filter(e=>!date||e.date===date).reduce((s,e)=>s+(+e.amount||0),0);
+}
+function topMedicines(){
+  const map={};
+  (db.orders||[]).forEach(o=>{
+    if(!(o.status==='بيع مؤكد'||o.status==='تم التسليم'))return;
+    const name=o.product||o.medicine||'غير محدد';
+    map[name]=(map[name]||0)+(+o.total||(+o.qty||0)*(+o.price||0));
+  });
+  return Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,3);
+}
+
+/* دالة تحديث التنبيهات الذكية وهدف اليوم (Smart Dashboard) */
+function updateSmartDashboard() {
+    const now = new Date();
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const remainingDays = lastDay - now.getDate() + 1;
+    
+    let tg = target();
+    let totalTarget = n(tg.target) || 0;
+    let ach = achieved();
+    let remainingAmount = totalTarget - ach;
+    if (remainingAmount < 0) remainingAmount = 0;
+    
+    let dailyGoal = remainingDays > 0 ? Math.round(remainingAmount / remainingDays) : remainingAmount;
+
+    if($('dailyAmount')) $('dailyAmount').innerText = fmt(dailyGoal) + " د.ع";
+    if($('daysLeft')) $('daysLeft').innerText = `متبقي ${remainingDays} يوم`;
+    
+    let dailyProgress = totalTarget > 0 ? (ach / totalTarget) * 100 : 0; 
+    if($('dailyBar')) $('dailyBar').style.width = (dailyProgress > 100 ? 100 : dailyProgress) + "%";
+    if($('dailyStatus')) $('dailyStatus').innerText = `باقي ${fmt(remainingAmount)} من الهدف الكلي لهذا الشهر`;
+
+    let alerts = [];
+    (db.stocks || []).forEach(s => {
+        let numMatch = String(s.combined).match(/\d+/);
+        if (numMatch && parseInt(numMatch[0]) < 5) {
+            alerts.push(`⚠️ مخزون السامبل لـ (${medDisplayName(s.medId)}) قارب على النفاذ!`);
+        }
+    });
+    if(totalTarget === 0) {
+        alerts.push(`💡 لم تقم بتحديد تاركت هذا الشهر! اذهب للمزيد -> الإعدادات.`);
+    }
+    if($('smartAlerts')) $('smartAlerts').innerHTML = alerts.map(msg => `<div class="alert-item">${msg}</div>`).join('');
+}
+
+function renderPlanExpensesProgress(){
+  if($('planDate')&&!$('planDate').value)$('planDate').value=today();
+  if($('expenseDate')&&!$('expenseDate').value)$('expenseDate').value=today();
+  fillPlanClients();
+  const d=today();
+  if($('planList')){
+    const list=(db.plans||[]).filter(p=>p.date===($('planDate').value||d)).sort((a,b)=>String(a.zone).localeCompare(String(b.zone)));
+    $('planList').innerHTML=list.length?list.map(p=>`<div class="item plan-row"><div><h3>${esc(clientDisplay(p.type,p.clientId))}</h3><p class="small">${p.type==='doctor'?'طبيب':'صيدلية'} | ${p.zone||'بدون زون'} ${p.done?'| تم التحويل':''}</p></div><button type="button" class="btn-soft" onclick="planToVisit(${p.id})">تحويل لزيارة</button></div>`).join(''):'<div class="empty">لا توجد خطة لهذا اليوم</div>';
+  }
+  if($('expenseList')){
+    const ex=(db.expenses||[]).filter(e=>e.date===($('expenseDate').value||d));
+    $('expenseList').innerHTML=ex.length?ex.map(e=>`<div class="item"><h3>${e.type} - ${fmt(e.amount)} د.ع</h3><p class="small">${esc(e.notes||'')}</p><div class="item-actions"><button type="button" class="btn-danger" onclick="db.expenses=db.expenses.filter(x=>x.id!==${e.id});save()">حذف</button></div></div>`).join(''):'<div class="empty">لا توجد مصاريف لهذا اليوم</div>';
+  }
+  if($('dashboardProgress')){
+    const tops=topMedicines();
+    const max=Math.max(1,...tops.map(x=>x[1]));
+    const exp=totalExpenses(d);
+    const tg=(db.targets||[])[0]?.target||1;
+    const expPct=Math.min(100,Math.round(exp/tg*100));
+    const meds=tops.length?tops.map(([name,val])=>`<div class="rank-item"><b>${esc(name)}</b><div class="small">${fmt(val)} د.ع</div><div class="clean-progress"><span style="width:${Math.round(val/max*100)}%"></span></div></div>`).join(''):'<div class="empty">لا توجد مبيعات مؤكدة بعد</div>';
+    $('dashboardProgress').innerHTML=meds+`<div class="rank-item"><b>مصاريف اليوم</b><div class="small">${fmt(exp)} د.ع من التاركت</div><div class="clean-progress"><span style="width:${expPct}%"></span></div></div>`;
+  }
+}
+
+function toggleDealerFields(){
+  const box=$('dealerExtraFields'); if(!box)return;
+  const isDealer=(($('docType')&&$('docType').value)||'')==='ديلر';
+  box.classList.toggle('show',isDealer);
+  fillDocDealerMeds();
+}
+function fillDocDealerMeds(){
+  const sel=$('docDealerMed'); if(!sel)return;
+  sel.innerHTML='<option value="">اختر المادة</option>'+(db.medicines||[]).map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('');
+}
+function saveDealerFromDoctor(doctorId){
+  if(!doctorId || !$('docType') || $('docType').value!=='ديلر')return;
+  const medId=v('docDealerMed');
+  const value=v('docDealerNeedValue');
+  const notes=v('docDealerNeedNotes');
+  if(!medId && !value && !notes)return;
+  db.dealerNeeds=db.dealerNeeds||[];
+  db.dealerNeeds.push({id:Date.now(),doctorId,medId,type:v('docDealerNeedType')||'ديل',value,notes,date:today()});
+}
+
+function fillStockDealerSelects(){
+  const medOptions='<option value="">اختر المادة</option>'+(db.medicines||[]).map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('');
+  if($('stockMed'))$('stockMed').innerHTML=medOptions;
+}
+function saveStock(){
+  const medId=v('stockMed');
+  if(!medId)return alert('اختر المادة');
+  db.stocks=db.stocks||[];
+  const old=db.stocks.find(x=>String(x.medId)===String(medId));
+  const combined=v('stockCombined');
+  const notes=v('stockNotes');
+  const obj={id:old?old.id:Date.now(),medId,combined,notes};
+  old?Object.assign(old,obj):db.stocks.push(obj);
+  ['stockCombined','stockNotes'].forEach(id=>{if($(id))$(id).value=''});
+  save();
+}
+function medDisplayName(id){
+  const m=(db.medicines||[]).find(x=>String(x.id)===String(id));
+  return m?m.name:'غير محددة';
+}
+function renderStockDealer(){
+  fillStockDealerSelects();
+  if($('stockList')){
+    const rows=(db.stocks||[]);
+    $('stockList').innerHTML=rows.length?rows.map(s=>`<div class="item"><h3>${medDisplayName(s.medId)}</h3><div class="total"><b>سامبلات / فري:</b><br>${esc(s.combined||'-')}</div>${s.notes?`<p class="small">${esc(s.notes)}</p>`:''}<div class="item-actions"><button type="button" class="btn-danger" onclick="db.stocks=db.stocks.filter(x=>x.id!==${s.id});save()">حذف</button></div></div>`).join(''):'<div class="empty">لا يوجد مخزون محفوظ</div>';
+  }
+}
+
+function render(){let p=db.profile||{};['repName','repJob','repZone','repCompany','repPhone','defaultMedCompany'].forEach(id=>set(id,(id==='defaultMedCompany'?p.defaultCompany:p[id.replace('rep','').toLowerCase()])||''));set('reportStyle',p.reportStyle||'مختصر');$('homeName').textContent=p.name||'مندوب علمي';$('homeInfo').textContent=[p.job,p.zone,p.company].filter(Boolean).join(' | ')||'أكمل بياناتك من المزيد';$('headSub').textContent=p.company?`شركة ${p.company} | زون ${p.zone||'-'}`:'طلبيات، زيارات، عملاء، تاركت';
+if(!v('orderDate'))set('orderDate',today());if(!v('visitDate'))set('visitDate',today());if(!v('reportDate'))set('reportDate',today());if(!v('planDate'))set('planDate',today());if(!v('expenseDate'))set('expenseDate',today());if(!v('targetMonth'))set('targetMonth',mon());refreshDoctorProducts();
+let medOpts='<option value="">اختر دواء محفوظ</option>'+db.medicines.map(m=>`<option value="${m.id}">${esc(m.name)} - ${fmt(m.price)}</option>`).join('');$('orderMed').innerHTML=medOpts;$('visitProduct').innerHTML=medOpts;fillOrderClients();fillVisitClients();
+let tg=target(),ach=achieved(),rem=Math.max(n(tg.target)-ach,0),per=tg.target?Math.round(ach/tg.target*100):0;$('hTarget').textContent=fmt(tg.target);$('hAch').textContent=fmt(ach);$('hOrders').textContent=db.orders.filter(o=>o.date==today()).length;let follows=[...db.doctors.map(x=>({...x,type:'طبيب'})),...db.pharmacies.map(x=>({...x,type:'صيدلية'}))].filter(x=>x.followDate==today());$('hFollow').textContent=follows.length;$('targetBar').style.width=Math.min(per,100)+'%';$('targetLine').textContent=`التاركت: ${per}% | المتبقي: ${fmt(rem)} د.ع`;
+$('homeOrders').innerHTML=db.orders.slice(0,4).map(o=>`<div class="item"><b>${esc(clientName(o.clientType,o.clientId))}</b><p class="muted">${esc(o.product)} | ${fmt(o.total)} د.ع | ${esc(o.status)}</p></div>`).join('')||'<div class="empty">لا توجد طلبيات بعد</div>';$('homeFollows').innerHTML=follows.map(x=>`<div class="item"><b>${esc(x.type)}: ${esc(x.name)}</b><p class="muted">${esc(x.followNote||'متابعة')}</p></div>`).join('')||'<div class="empty">لا توجد متابعات اليوم</div>';
+let os=v('orderSearch').toLowerCase(),of=v('orderFilter');$('orderList').innerHTML=db.orders.filter(o=>(clientName(o.clientType,o.clientId)+o.product+o.status).toLowerCase().includes(os)&&(!of||o.status==of)).slice(0,50).map(o=>`<div class="item"><h3>${esc(clientName(o.clientType,o.clientId))}</h3><span class="badge">${esc(o.clientType=='doctor'?'طبيب':'صيدلية')}</span><span class="badge">${esc(o.status)}</span><p>${esc(o.product)} | كمية: ${fmt(o.qty)} | بونص: ${fmt(o.bonus)}</p><p class="muted">خصم: ${fmt(o.discount)} | صافي: <b>${fmt(o.total)}</b> د.ع</p><div class="receipt-actions"><button type="button" class="btn-soft smallbtn" onclick="editOrder(${o.id})">تعديل</button><button type="button" class="btn-soft smallbtn" onclick="downloadOrderReceiptPdf(${o.id})">وصل PDF</button><button type="button" class="btn-danger smallbtn" onclick="del('orders',${o.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد طلبيات</div>';
+let vs=v('visitSearch').toLowerCase();$('visitList').innerHTML=db.visits.filter(x=>(clientName(x.type,x.clientId)+x.status+x.product+x.note).toLowerCase().includes(vs)).slice(0,40).map(x=>`<div class="item"><h3>${esc(clientName(x.type,x.clientId))}</h3><span class="badge">${esc(x.type=='doctor'?'طبيب':'صيدلية')}</span><span class="badge">${esc(x.status)}</span><p class="muted">${esc(x.product||'بدون منتج')} | ${esc(x.date)}</p><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editVisit(${x.id})">تعديل</button><button type="button" class="btn-danger smallbtn" onclick="del('visits',${x.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد زيارات</div>';
+let cs=v('clientSearch').toLowerCase(),zf=v('zoneFilter').toLowerCase(),arr=clientMode=='doctor'?db.doctors:db.pharmacies;$('clientList').innerHTML=arr.filter(x=>(x.name+(x.spec||'')+(x.owner||'')+x.zone+x.phone+(x.doctorType||'')).toLowerCase().includes(cs)&&(!zf||(x.zone||'').toLowerCase().includes(zf))).slice(0,50).map(x=>`<div class="item"><h3>${esc(x.name)}</h3>${clientMode=='doctor'?`<span class="badge">${esc(x.doctorType)}</span>`:''}<span class="badge">${esc(x.zone||'بدون زون')}</span><span class="badge">${esc(x.importance||'عادي')}</span><p class="muted">${esc(x.phone||'')} ${x.spec?'| '+esc(x.spec):''}${x.owner?'| '+esc(x.owner):''}</p><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="go('orders');set('orderClientType','${clientMode}');fillOrderClients();set('orderClient','${x.id}')">طلبية</button><button type="button" class="btn-outline smallbtn" onclick="editClient('${clientMode}',${x.id})">تعديل</button><button type="button" class="btn-outline smallbtn" onclick="map('${esc(x.lat)}','${esc(x.lng)}')">خريطة</button><button type="button" class="btn-danger smallbtn" onclick="del('${clientMode=='doctor'?'doctors':'pharmacies'}',${x.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد نتائج</div>';
+let ms=v('medSearch').toLowerCase();$('medList').innerHTML=db.medicines.filter(m=>(m.name+m.company+(m.scientific||'')+(m.type||'')).toLowerCase().includes(ms)).slice(0,50).map(m=>`<div class="item"><h3>${esc(m.name)}</h3><span class="badge">${esc(m.scientific||'بدون علمي')}</span><span class="badge">${fmt(m.price)} د.ع</span>${m.type?`<span class="badge">${esc(m.type)}</span>`:''}<p class="muted">${esc(m.company||'')} | ${esc(m.dose||'')}</p><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editMed(${m.id})">تعديل</button><button type="button" class="btn-soft smallbtn" onclick="medPdf(${m.id})">PDF</button><button type="button" class="btn-danger smallbtn" onclick="del('medicines',${m.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد أدوية</div>';
+set('targetValue',tg.target||'');set('manualAchieved',tg.manual||'');$('targetSummary').innerHTML=`الشهر: ${esc(tg.month)}<br>المطلوب: <b>${fmt(tg.target)}</b> د.ع<br>المتحقق: <b class="ok">${fmt(ach)}</b> د.ع<br>المتبقي: <b class="bad">${fmt(rem)}</b> د.ع<br>النسبة: ${per}%`;
+let rs=v('reportSearch').toLowerCase();$('reportList').innerHTML=db.reports.filter(r=>(r.text+r.date).toLowerCase().includes(rs)).slice(0,30).map(r=>`<div class="item"><h3>${esc(r.date)}</h3><div class="report">${esc(r.text)}</div><button type="button" class="btn-outline" onclick='copyText(${JSON.stringify(''+(r.text||''))})'>نسخ</button><button type="button" class="btn-danger" onclick="del('reports',${r.id})">حذف</button></div>`).join('')||'<div class="empty">لا توجد تقارير</div>';calcOrder();refreshCompanyList();fillDefaultMedCompany();updateSmartDashboard();}
+
+
+const aiReplyTypes=[
+  {id:'price',title:'اعتراض السعر',hint:'اكتب شوية عن اعتراض السعر: غالي، يريد خصم، يقارن بمنتج أرخص',base:'أفهم ملاحظتك بخصوص السعر، وهذا اعتراض طبيعي ومهم. الفكرة أن المنتج لا يُقاس بالسعر فقط، بل بثبات الجودة، راحة المريض، وتقليل الحاجة لتبديل العلاج أو رجوع الشكوى. لذلك يكون اختياره مناسباً عندما نريد نتيجة موثوقة وتجربة علاجية أهدأ.'},
+  {id:'alternative',title:'توفر بديل',hint:'اكتب اسم البديل أو سبب مقارنة الطبيب بالبدائل',base:'صحيح دكتور، البدائل موجودة بالسوق، لكن فرقنا يكون بطريقة تقديم المنتج وجودته وتوفره المستمر. الهدف ليس استبدال قناعتك، وإنما إضافة خيار عملي للحالات المناسبة حتى تقارنه بالتجربة وتشوف النتيجة بنفسك.'},
+  {id:'not_convinced',title:'غير مقتنع',hint:'اكتب شنو سبب عدم الاقتناع حتى الرد يصير أقوى',base:'أحترم رأيك دكتور، والقناعة لا تأتي من الكلام فقط. خلينا نبدأ بتجربة محدودة على الحالات المناسبة، وبعدها الحكم يكون على النتيجة العملية وراحة المريض، وإذا ما شفت فرق واضح نبقى على ملاحظتك بكل احترام.'},
+  {id:'thanks',title:'شكر بعد الزيارة',hint:'اكتب اسم الطبيب أو ملاحظة الزيارة إذا تحب',base:'دكتور، شكراً جزيلاً على وقتك واستقبالك الراقي. سعدت بالنقاش وياك، وأي ملاحظة أو احتياج بخصوص المنتج أنا حاضر بخدمتك، وإن شاء الله تكون الزيارة القادمة أكثر فائدة.'},
+  {id:'follow',title:'متابعة طلبية',hint:'اكتب شنو تريد تتابع: كمية، موعد تجهيز، ملاحظة على الطلبية',base:'أستاذي العزيز، أحب أتابع وياك بخصوص الطلبية الأخيرة. إذا تحتاج كمية إضافية، تعديل، أو عندك أي ملاحظة على المنتج، بلغني حتى أرتبها إلك بأسرع وقت وبأفضل طريقة.'},
+  {id:'availability',title:'توفر المنتج',hint:'اكتب مشكلة التوفر أو الكمية المطلوبة',base:'بخصوص التوفر، راح أتابع الموضوع بشكل مباشر وأبلغك بأقرب تحديث. المهم عندي ما يصير عندك انقطاع أو إحراج ويا المريض، ونحاول نوفر الكمية المناسبة حسب احتياجك.'}
+];
+const aiReplyStyles=[
+  {id:'pro',title:'احترافي'},
+  {id:'friendly',title:'ودي'},
+  {id:'short',title:'مختصر'},
+  {id:'strong',title:'إقناعي قوي'},
+  {id:'doctor',title:'مناسب للطبيب'},
+  {id:'pharmacy',title:'مناسب للصيدلية'},
+  {id:'whatsapp',title:'واتساب'},
+  {id:'formal',title:'رسمي'}
+];
+let aiPick={type:'price',style:'pro',last:''};
+function aiReplySheet(show){
+  const bg=$('aiReplyBg'),sh=$('aiReplySheet');
+  if(bg)bg.classList.toggle('on',!!show);
+  if(sh)sh.classList.toggle('on',!!show);
+  if(show)renderAiReplyOptions();
+}
+function renderAiReplyOptions(){
+  const tb=$('aiTypes'),sb=$('aiStyles');
+  if(tb)tb.innerHTML=aiReplyTypes.map(x=>`<button type="button" class="${aiPick.type===x.id?'on':''}" onclick="pickAiType('${x.id}')">${esc(x.title)}</button>`).join('');
+  if(sb)sb.innerHTML=aiReplyStyles.map(x=>`<button type="button" class="${aiPick.style===x.id?'on':''}" onclick="pickAiStyle('${x.id}')">${esc(x.title)}</button>`).join('');
+  const t=aiReplyTypes.find(x=>x.id===aiPick.type)||aiReplyTypes[0];
+  if($('aiPickBadge'))$('aiPickBadge').textContent=t.title;
+  if($('aiNote'))$('aiNote').placeholder=t.hint;
+}
+function pickAiType(id){aiPick.type=id;renderAiReplyOptions();makeAiReply();}
+function pickAiStyle(id){aiPick.style=id;renderAiReplyOptions();makeAiReply();}
+function makeAiReply(){
+  const t=aiReplyTypes.find(x=>x.id===aiPick.type)||aiReplyTypes[0];
+  const note=v('aiNote');
+  let intro='',tail='';
+  if(aiPick.style==='friendly'){intro='حبيبي دكتور، ';tail=' وأني حاضر بأي وقت حتى أتابع وياك الموضوع خطوة بخطوة.';}
+  else if(aiPick.style==='short'){intro='دكتور، ';tail=' الخلاصة: نجربه على الحالات المناسبة والحكم يكون على النتيجة.';}
+  else if(aiPick.style==='strong'){intro='دكتور، بصراحة وبدون مبالغة، ';tail=' لأن المنتج القوي يثبت نفسه بالتجربة، مو بالكلام فقط.';}
+  else if(aiPick.style==='doctor'){intro='دكتور، من الناحية العملية، ';tail=' ونخليه خيار للحالات اللي تحتاج ثبات واستجابة أفضل.';}
+  else if(aiPick.style==='pharmacy'){intro='أستاذي العزيز، ';tail=' وهذا يساعدك توفر خيار مطلوب ومقنع للزبون بدون إحراج.';}
+  else if(aiPick.style==='whatsapp'){intro='دكتور العزيز، ';tail=' تحياتي إلك، وأي ملاحظة أني حاضر.';}
+  else if(aiPick.style==='formal'){intro='دكتورنا الفاضل، ';tail=' مع خالص التقدير والاحترام.';}
+  else {intro='دكتور، ';tail=' وإذا تحب نرتب تجربة بسيطة حتى تكون القناعة مبنية على نتيجة واضحة.';}
+  const extra=note?`\n\nوبالنسبة للملاحظة التي ذكرتها: ${note}، راح أتعامل وياها بجدية وأرتب لك الحل الأنسب حسب الحالة والاحتياج.`:'';
+  aiPick.last=(intro+t.base+extra+tail).replace(/\s+/g,' ').replace(/\. /g,'.\n').trim();
+  if($('aiReplyOut'))$('aiReplyOut').textContent=aiPick.last;
+}
+function copyAiReply(){
+  const text=aiPick.last||($('aiReplyOut')?$('aiReplyOut').textContent:'');
+  if(!text||text.includes('اكتب ملاحظة'))return alert('ولّد الرد أولاً');
+  const done=()=>alert('تم النسخ');
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));}
+  else fallbackCopy(text,done);
+}
+function fallbackCopy(text,cb){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);
+  ta.focus();ta.select();document.execCommand('copy');ta.remove();cb&&cb();
+}
+
+/* التحكم بالثيم (فاتح/داكن) */
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',cur);
+  localStorage.setItem('medrep_theme',cur);
+  const b=document.querySelector('.theme-toggle'); if(b)b.textContent=cur==='dark'?'☀':'☾';
+}
+
+/* تسجيل الدخول والتفعيل المحلي - أوفلاين */
+const AUTH_KEY='medrep_offline_license_v1';
+const DEVICE_KEY='medrep_device_id_v1';
+const APP_SECRET='MRFLOW-LOCAL-2026';
+function cleanCode(x){return String(x||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+function strongHash(str){let h1=0xdeadbeef,h2=0x41c6ce57,h3=0x9e3779b9;str=String(str||'');for(let i=0;i<str.length;i++){let ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);h3=Math.imul(h3^ch,2246822507);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h3^(h3>>>13),3266489909);h3=Math.imul(h3^(h3>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return [(h1>>>0),(h2>>>0),(h3>>>0)].map(x=>x.toString(36).toUpperCase().padStart(7,'0')).join('')}
+function makeActivationCode(user,pass,device){let raw=[String(user||'').trim().toLowerCase(),String(pass||''),String(device||''),APP_SECRET].join('|');let mix=strongHash(raw)+'-'+strongHash(raw.split('').reverse().join('|'));let c=cleanCode(mix).slice(0,24);return 'MRF-'+c.match(/.{1,4}/g).join('-')}
+function getDeviceId(){try{if(window.Android&&Android.getDeviceId){let id=Android.getDeviceId();if(id)return String(id)}}catch(e){}let id=localStorage.getItem(DEVICE_KEY);if(!id){id='MR-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,8).toUpperCase();localStorage.setItem(DEVICE_KEY,id)}return id}
+function getLicense(){try{return JSON.parse(localStorage.getItem(AUTH_KEY)||'null')}catch(e){return null}}
+function saveLicense(obj){localStorage.setItem(AUTH_KEY,JSON.stringify(obj));try{if(window.Android&&Android.saveLicense)Android.saveLicense(JSON.stringify(obj))}catch(e){}}
+function validLicense(){let l=getLicense(),d=getDeviceId();return !!(l&&l.activated&&l.deviceId===d&&l.username)}
+function showAppSplash(){let sp=$('appSplash');if(!sp)return;sp.classList.remove('hide');setTimeout(()=>sp.classList.add('hide'),2000)}
+function unlockApp(withSplash){document.body.classList.remove('auth-lock');try{render();applyLang(currentLang())}catch(e){}if(withSplash)showAppSplash()}
+function lockApp(){document.body.classList.add('auth-lock');let box=$('deviceIdBox');if(box)box.textContent=getDeviceId()}
+function checkAuth(){if(validLicense())unlockApp();else lockApp()}
+function activateOfflineLogin(){let u=v('loginUser'),p=v('loginPass'),c=cleanCode(v('loginCode')),d=getDeviceId(),msg=$('authMsg');if(msg)msg.textContent='';if(!u||!p||!c){if(msg)msg.textContent='اكتب اسم المستخدم وكلمة المرور وكود التفعيل';return}let correct=cleanCode(makeActivationCode(u,p,d));if(c!==correct){if(msg)msg.textContent='كود التفعيل غير صحيح لهذا الجهاز';return}saveLicense({username:u,deviceId:d,activated:true,activatedAt:new Date().toISOString()});set('loginPass','');set('loginCode','');unlockApp(true)}
+function copyDeviceId(){let d=getDeviceId();navigator.clipboard?.writeText(d);alert('تم نسخ رقم الجهاز')}
+function logoutApp(){if(confirm('هل تريد تسجيل الخروج وإظهار شاشة التفعيل؟')){localStorage.removeItem(AUTH_KEY);lockApp()}}
+
+function initTheme(){
+  const cur=localStorage.getItem('medrep_theme')||'light';
+  document.documentElement.setAttribute('data-theme',cur);
+  const b=document.querySelector('.theme-toggle'); if(b)b.textContent=cur==='dark'?'☀':'☾';
+}
+
+/* تهيئة التطبيق عند البداية */
+initTheme();
+render();
+checkAuth();
+moreTab('settings');
+clientTab('doctor');
+if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress();
+if(typeof renderStockDealer==='function')renderStockDealer();
+hydrateFromIndexedDB();
+</script>
+<script id="lang-switch-script">
+const I18N={"en": {"نظام المندوب العلمي": "Medical Representative System", "طلبيات، زيارات، عملاء، تاركت": "Orders, visits, clients, target", "لوحة التحكم": "Dashboard", "مندوب علمي": "Medical representative", "أكمل بياناتك من المزيد": "Complete your details from More", "الرئيسية": "Home", "الطلبيات": "Orders", "العملاء": "Clients", "المزيد": "More", "إضافة": "Add", "إضافة سريع": "Quick add", "طلبية جديدة": "New order", "تسجيل بيع أو طلبية": "Record sale or order", "زيارة": "Visit", "تسجيل زيارة فقط": "Record visit only", "طبيب": "Doctor", "إضافة طبيب جديد": "Add new doctor", "صيدلية": "Pharmacy", "إضافة صيدلية جديدة": "Add new pharmacy", "دواء": "Medicine", "إضافة مادة جديدة": "Add new item", "مخزون": "Stock", "المخزون": "Stock", "سامبلات / فري": "Samples / Free items", "مصروف": "Expense", "وقود أو ضيافة": "Fuel or hospitality", "خط سير": "Route plan", "إضافة عميل للخطة": "Add client to plan", "إلغاء": "Cancel", "المطلوب": "Required", "المتحقق": "Achieved", "طلبيات اليوم": "Today's orders", "متابعات اليوم": "Today's follow-ups", "آخر الطلبيات": "Latest orders", "مؤشرات سريعة": "Quick indicators", "أكثر الأدوية مبيعاً والمصاريف اليومية": "Top-selling medicines and daily expenses", "لا توجد طلبيات بعد": "No orders yet", "لا توجد مبيعات مؤكدة": "No confirmed sales", "مصاريف اليوم": "Today's expenses", "طلبية": "Order", "تعديل طلبية": "Edit order", "اختر العميل": "Select client", "اختر دواء حتى تظهر تفاصيله هنا.": "Select a medicine to show details here.", "اسم المنتج": "Product name", "الكمية": "Quantity", "بونص مجاني": "Free bonus", "سعر المفرد": "Unit price", "خصم بالدينار": "Discount in IQD", "ملاحظات الطلبية": "Order notes", "الصافي": "Net", "البونص": "Bonus", "تنحسب على التاركت": "Counts toward target", "لا تنحسب على التاركت": "Does not count toward target", "حفظ الطلبية": "Save order", "إلغاء التعديل": "Cancel edit", "كل الحالات": "All statuses", "بيع مؤكد": "Confirmed sale", "تم التسليم": "Delivered", "ملغي": "Cancelled", "بحث": "Search", "تعديل": "Edit", "حذف": "Delete", "تسجيل زيارة": "Record visit", "ملاحظات الزيارة فقط": "Visit notes only", "حفظ الزيارة": "Save visit", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "Orders are now separate; this screen is only for visits and notes.", "سجل الزيارات": "Visit log", "تمت": "Done", "لم تتم": "Not done", "مؤجلة": "Postponed", "يحتاج متابعة": "Needs follow-up", "الأطباء": "Doctors", "الصيدليات": "Pharmacies", "إضافة طبيب": "Add doctor", "اسم الطبيب": "Doctor name", "علمي": "Scientific", "ديلر": "Dealer", "الاختصاص": "Specialty", "الهاتف": "Phone", "الزون": "Zone", "تفاصيل الديلر": "Dealer details", "المادة المطلوبة": "Required item", "نوع الاحتياج": "Need type", "ديل": "Deal", "كسرة": "Break / discount", "سفرة": "Trip", "هدية": "Gift", "دعم": "Support", "أخرى": "Other", "القيمة / العدد": "Value / count", "ملاحظة الديلر": "Dealer note", "مثال: 10 سامبل أو 50,000": "Example: 10 samples or 50,000", "تفاصيل الاتفاق أو الحاجة": "Deal or need details", "المنتجات المهتم بها": "Interested products", "ملاحظة المتابعة": "Follow-up note", "ملاحظات": "Notes", "تثبيت الموقع": "Pin location", "حفظ الطبيب": "Save doctor", "إضافة صيدلية": "Add pharmacy", "اسم الصيدلية": "Pharmacy name", "المسؤول": "Responsible person", "حفظ الصيدلية": "Save pharmacy", "قائمة العملاء": "Client list", "فلتر الزون": "Zone filter", "خريطة": "Map", "الإعدادات": "Settings", "الأدوية": "Medicines", "المصاريف": "Expenses", "التقارير": "Reports", "إعدادات المندوب": "Representative settings", "اسم المندوب": "Representative name", "الوظيفة": "Job title", "الشركة": "Company", "الشركة الافتراضية للأدوية": "Default medicine company", "أسلوب تقرير مختصر": "Short report style", "أسلوب تقرير إداري": "Administrative report style", "أسلوب تقرير تفصيلي": "Detailed report style", "حفظ الإعدادات": "Save settings", "تاركت الشهر": "Monthly target", "قيمة التاركت": "Target value", "مبلغ يدوي إضافي اختياري": "Optional manual achieved amount", "حفظ التاركت": "Save target", "نسخ وتصدير": "Backup and export", "تصدير JSON": "Export JSON", "تصدير CSV": "Export CSV", "إضافة دواء": "Add medicine", "اسم الدواء": "Medicine name", "الاسم العلمي": "Scientific name", "السعر": "Price", "الجرعة / الشكل": "Dose / form", "شرح الدواء": "Medicine description", "نقاط البيع": "Selling points", "حفظ الدواء": "Save medicine", "قائمة الأدوية": "Medicine list", "بدون علمي": "No scientific name", "PDF": "PDF", "خط السير اليومي": "Daily route plan", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "Arrange clients by zone and convert them directly to actual visits.", "إضافة إلى خط السير": "Add to route plan", "تحويل لزيارة": "Convert to visit", "لا توجد خطة لهذا اليوم": "No plan for this day", "المصاريف اليومية": "Daily expenses", "المبلغ": "Amount", "وقود": "Fuel", "ضيافة": "Hospitality", "اتصالات": "Communications", "نثرية": "Miscellaneous", "حفظ المصروف": "Save expense", "لا توجد مصاريف لهذا اليوم": "No expenses for this day", "المخزون الخاص": "Private stock", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "Write samples and free items in one flexible field.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "Samples / free - example: 10 samples + 5 free", "حفظ المخزون": "Save stock", "لا يوجد مخزون محفوظ": "No saved stock", "تقرير جاهز": "Ready report", "تكوين تقرير اليوم": "Generate today's report", "التقرير يظهر هنا": "The report appears here", "نسخ": "Copy", "حفظ": "Save", "التقارير المحفوظة": "Saved reports", "لا توجد تقارير": "No reports", "اختر الدواء": "Select medicine", "اختر المادة": "Select item", "غير محدد": "Not specified", "بدون زون": "No zone", "بدون منتج": "No product", "لا توجد طلبيات": "No orders", "لا توجد زيارات": "No visits", "لا توجد نتائج": "No results", "لا توجد أدوية": "No medicines", "د.ع": "IQD", "الشهر": "Month", "النسبة": "Percentage", "المتبقي": "Remaining", "التاركت": "Target", "البيع المحسوب على التاركت": "Sales counted toward target", "إجمالي المصاريف": "Total expenses", "الملخص": "Summary", "الزيارات": "Visits", "الإجراء القادم": "Next action", "تم حفظ الإعدادات": "Settings saved", "تم حفظ التاركت": "Target saved", "تم النسخ": "Copied", "كوّن التقرير أولاً": "Generate the report first", "اكتب اسم الدواء": "Enter medicine name", "اكتب اسم الطبيب": "Enter doctor name", "اكتب اسم الصيدلية": "Enter pharmacy name", "اكتب المبلغ": "Enter amount", "لا يوجد موقع محفوظ": "No saved location", "تم تثبيت الموقع": "Location pinned", "تعذر جلب الموقع": "Could not get location", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "Location does not work from a direct file. Upload to HTTPS or enter coordinates manually.", "حذف؟": "Delete?", "ملف غير صالح": "Invalid file", "تم الاستيراد": "Imported", "عربي": "Arabic", "کوردی": "Kurdish"}, "ku": {"نظام المندوب العلمي": "سیستەمی نوێنەری زانستی", "طلبيات، زيارات، عملاء، تاركت": "داواکاری، سەردان، کڕیار، تارگێت", "لوحة التحكم": "داشبۆرد", "مندوب علمي": "نوێنەری زانستی", "أكمل بياناتك من المزيد": "زانیارییەکانت لە بەشی زیاتر تەواو بکە", "الرئيسية": "سەرەکی", "الطلبيات": "داواکارییەکان", "العملاء": "کڕیارەکان", "المزيد": "زیاتر", "إضافة": "زیادکردن", "إضافة سريع": "زیادکردنی خێرا", "طلبية جديدة": "داواکاری نوێ", "تسجيل بيع أو طلبية": "فرۆشتن یان داواکاری تۆمار بکە", "زيارة": "سەردان", "تسجيل زيارة فقط": "تەنها سەردان تۆمار بکە", "طبيب": "پزیشک", "إضافة طبيب جديد": "پزیشکی نوێ زیاد بکە", "صيدلية": "دەرمانخانە", "إضافة صيدلية جديدة": "دەرمانخانەی نوێ زیاد بکە", "دواء": "دەرمان", "إضافة مادة جديدة": "مادەی نوێ زیاد بکە", "مخزون": "کۆگا", "المخزون": "کۆگا", "سامبلات / فري": "سامپڵ / فری", "مصروف": "خەرجی", "وقود أو ضيافة": "سووتەمەنی یان میوانداری", "خط سير": "ڕێڕەوی کار", "إضافة عميل للخطة": "کڕیار بۆ پلان زیاد بکە", "إلغاء": "هەڵوەشاندنەوە", "المطلوب": "پێویست", "المتحقق": "بەدەستهاتوو", "طلبيات اليوم": "داواکارییەکانی ئەمڕۆ", "متابعات اليوم": "بەدواداچوونەکانی ئەمڕۆ", "آخر الطلبيات": "دوایین داواکارییەکان", "مؤشرات سريعة": "نیشاندەرە خێراکان", "أكثر الأدوية مبيعاً والمصاريف اليومية": "زۆرترین دەرمانی فرۆشراو و خەرجی ڕۆژانە", "لا توجد طلبيات بعد": "هێشتا داواکاری نییە", "لا توجد مبيعات مؤكدة": "فرۆشتنی پشتڕاستکراو نییە", "مصاريف اليوم": "خەرجی ئەمڕۆ", "طلبية": "داواکاری", "تعديل طلبية": "دەستکاری داواکاری", "اختر العميل": "کڕیار هەڵبژێرە", "اختر دواء حتى تظهر تفاصيله هنا.": "دەرمانێک هەڵبژێرە بۆ ئەوەی وردەکارییەکان لێرە دەربکەون.", "اسم المنتج": "ناوی بەرهەم", "الكمية": "بڕ", "بونص مجاني": "بۆنەسی بێبەرامبەر", "سعر المفرد": "نرخی یەکە", "خصم بالدينار": "داشکاندن بە دینار", "ملاحظات الطلبية": "تێبینی داواکاری", "الصافي": "پاڵاوکراوە", "البونص": "بۆنەس", "تنحسب على التاركت": "بۆ تارگێت هەژمار دەکرێت", "لا تنحسب على التاركت": "بۆ تارگێت هەژمار ناکرێت", "حفظ الطلبية": "داواکاری پاشەکەوت بکە", "إلغاء التعديل": "دەستکاری هەڵبوەشێنەوە", "كل الحالات": "هەموو دۆخەکان", "بيع مؤكد": "فرۆشتنی پشتڕاستکراو", "تم التسليم": "گەیەندرا", "ملغي": "هەڵوەشاوە", "بحث": "گەڕان", "تعديل": "دەستکاری", "حذف": "سڕینەوە", "تسجيل زيارة": "سەردان تۆمار بکە", "ملاحظات الزيارة فقط": "تەنها تێبینی سەردان", "حفظ الزيارة": "سەردان پاشەکەوت بکە", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "داواکاری ئێستا بەشێکی سەربەخۆیە؛ لێرە تەنها سەردان و تێبینی تۆمار دەکرێت.", "سجل الزيارات": "تۆماری سەردانەکان", "تمت": "ئەنجامدرا", "لم تتم": "ئەنجام نەدرا", "مؤجلة": "دواخراوە", "يحتاج متابعة": "پێویستی بەدواداچوونە", "الأطباء": "پزیشکەکان", "الصيدليات": "دەرمانخانەکان", "إضافة طبيب": "پزیشک زیاد بکە", "اسم الطبيب": "ناوی پزیشک", "علمي": "زانستی", "ديلر": "دیلەر", "الاختصاص": "پسپۆڕی", "الهاتف": "ژمارەی مۆبایل", "الزون": "زۆن", "تفاصيل الديلر": "وردەکاریی دیلەر", "المادة المطلوبة": "مادەی داواکراو", "نوع الاحتياج": "جۆری پێویستی", "ديل": "دیل", "كسرة": "کسرە", "سفرة": "گەشت", "هدية": "دیاری", "دعم": "پشتیوانی", "أخرى": "هی تر", "القيمة / العدد": "بها / ژمارە", "ملاحظة الديلر": "تێبینی دیلەر", "مثال: 10 سامبل أو 50,000": "نموونە: ١٠ سامپڵ یان ٥٠,٠٠٠", "تفاصيل الاتفاق أو الحاجة": "وردەکاری ڕێککەوتن یان پێویستی", "المنتجات المهتم بها": "بەرهەمە گرنگەکان", "ملاحظة المتابعة": "تێبینی بەدواداچوون", "ملاحظات": "تێبینییەکان", "تثبيت الموقع": "شوێن دیاری بکە", "حفظ الطبيب": "پزیشک پاشەکەوت بکە", "إضافة صيدلية": "دەرمانخانە زیاد بکە", "اسم الصيدلية": "ناوی دەرمانخانە", "المسؤول": "بەرپرس", "حفظ الصيدلية": "دەرمانخانە پاشەکەوت بکە", "قائمة العملاء": "لیستی کڕیاران", "فلتر الزون": "فلتەری زۆن", "خريطة": "نەخشە", "الإعدادات": "ڕێکخستنەکان", "الأدوية": "دەرمانەکان", "المصاريف": "خەرجییەکان", "التقارير": "ڕاپۆرتەکان", "إعدادات المندوب": "ڕێکخستنی نوێنەر", "اسم المندوب": "ناوی نوێنەر", "الوظيفة": "پیشە", "الشركة": "کۆمپانیا", "الشركة الافتراضية للأدوية": "کۆمپانیای بنەڕەتی بۆ دەرمانەکان", "أسلوب تقرير مختصر": "شێوازی ڕاپۆرتی کورت", "أسلوب تقرير إداري": "شێوازی ڕاپۆرتی ئیداری", "أسلوب تقرير تفصيلي": "شێوازی ڕاپۆرتی ورد", "حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت بکە", "تاركت الشهر": "تارگێتی مانگانە", "قيمة التاركت": "بەهای تارگێت", "مبلغ يدوي إضافي اختياري": "بڕی دەستی زیادە بە ئارەزوو", "حفظ التاركت": "تارگێت پاشەکەوت بکە", "نسخ وتصدير": "کۆپی و هەناردە", "تصدير JSON": "هەناردەی JSON", "تصدير CSV": "هەناردەی CSV", "إضافة دواء": "دەرمان زیاد بکە", "اسم الدواء": "ناوی دەرمان", "الاسم العلمي": "ناوی زانستی", "السعر": "نرخ", "الجرعة / الشكل": "دۆز / شێوە", "شرح الدواء": "ڕوونکردنەوەی دەرمان", "نقاط البيع": "خاڵەکانی فرۆشتن", "حفظ الدواء": "دەرمان پاشەکەوت بکە", "قائمة الأدوية": "لیستی دەرمانەکان", "بدون علمي": "ناوی زانستی نییە", "PDF": "PDF", "خط السير اليومي": "ڕێڕەوی ڕۆژانە", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "کڕیارەکان بە زۆن ڕێکبخە و ڕاستەوخۆ بیانگۆڕە بۆ سەردانی ڕاستەقینە.", "إضافة إلى خط السير": "زیادکردن بۆ ڕێڕەو", "تحويل لزيارة": "گۆڕین بۆ سەردان", "لا توجد خطة لهذا اليوم": "بۆ ئەم ڕۆژە پلان نییە", "المصاريف اليومية": "خەرجی ڕۆژانە", "المبلغ": "بڕ", "وقود": "سووتەمەنی", "ضيافة": "میوانداری", "اتصالات": "پەیوەندییەکان", "نثرية": "خەرجی ورد", "حفظ المصروف": "خەرجی پاشەکەوت بکە", "لا توجد مصاريف لهذا اليوم": "بۆ ئەم ڕۆژە خەرجی نییە", "المخزون الخاص": "کۆگای تایبەت", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "سامپڵ و فری لە یەک خانە بنووسە بۆ ئەوەی ئاسان بێت.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "سامپڵ / فری - نموونە: ١٠ سامپڵ + ٥ فری", "حفظ المخزون": "کۆگا پاشەکەوت بکە", "لا يوجد مخزون محفوظ": "کۆگای پاشەکەوتکراو نییە", "تقرير جاهز": "ڕاپۆرتی ئامادە", "تكوين تقرير اليوم": "ڕاپۆرتی ئەمڕۆ دروست بکە", "التقرير يظهر هنا": "ڕاپۆرتەکە لێرە دەردەکەوێت", "نسخ": "کۆپی", "حفظ": "پاشەکەوت", "التقارير المحفوظة": "ڕاپۆرتە پاشەکەوتکراوەکان", "لا توجد تقارير": "ڕاپۆرت نییە", "اختر الدواء": "دەرمان هەڵبژێرە", "اختر المادة": "مادە هەڵبژێرە", "غير محدد": "دیاری نەکراو", "بدون زون": "بێ زۆن", "بدون منتج": "بێ بەرهەم", "لا توجد طلبيات": "داواکاری نییە", "لا توجد زيارات": "سەردان نییە", "لا توجد نتائج": "ئەنجام نییە", "لا توجد أدوية": "دەرمان نییە", "د.ع": "د.ع", "الشهر": "مانگ", "النسبة": "ڕێژە", "المتبقي": "ماوە", "التاركت": "تارگێت", "البيع المحسوب على التاركت": "فرۆشتنی هەژمارکراو بۆ تارگێت", "إجمالي المصاريف": "کۆی خەرجی", "الملخص": "پوختە", "الزيارات": "سەردانەکان", "الإجراء القادم": "هەنگاوی داهاتوو", "تم حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت کران", "تم حفظ التاركت": "تارگێت پاشەکەوت کرا", "تم النسخ": "کۆپی کرا", "كوّن التقرير أولاً": "سەرەتا ڕاپۆرتەکە دروست بکە", "اكتب اسم الدواء": "ناوی دەرمان بنووسە", "اكتب اسم الطبيب": "ناوی پزیشک بنووسە", "اكتب اسم الصيدلية": "ناوی دەرمانخانە بنووسە", "اكتب المبلغ": "بڕەکە بنووسە", "لا يوجد موقع محفوظ": "شوێنی پاشەکەوتکراو نییە", "تم تثبيت الموقع": "شوێن دیاری کرا", "تعذر جلب الموقع": "نەتوانرا شوێن وەربگیرێت", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "شوێن لە فایلێکی ڕاستەوخۆ کار ناکات. بیخە سەر HTTPS یان کۆئۆردیناتەکان دەستی بنووسە.", "حذف؟": "بسڕدرێتەوە؟", "ملف غير صالح": "فایلی نادروست", "تم الاستيراد": "هاوردە کرا", "عربي": "عەرەبی", "کوردی": "کوردی"}};
+function currentLang(){return localStorage.getItem('medrep_lang')||'ar'}
+function trText(str,lang=currentLang()){if(!str||lang==='ar')return str;const dict=I18N[lang]||{};if(dict[str])return dict[str];let out=String(str);Object.keys(dict).sort((a,b)=>b.length-a.length).forEach(k=>{if(k&&out.includes(k))out=out.split(k).join(dict[k]);});return out;}
+function markAndTranslateNode(node,lang){if(!node||!node.nodeValue||!node.nodeValue.trim())return;const p=node.parentElement;if(!p||['SCRIPT','STYLE','TEXTAREA','INPUT','OPTION'].includes(p.tagName))return;if(!node._baseText)node._baseText=node.nodeValue;node.nodeValue=trText(node._baseText,lang);}
+function applyLang(lang=currentLang()){localStorage.setItem('medrep_lang',lang);document.documentElement.lang=lang==='ku'?'ckb':lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';document.body.dir=document.documentElement.dir;document.querySelectorAll('#langBar button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));document.querySelectorAll('input,textarea').forEach(el=>{if(el.placeholder){if(!el.dataset.phBase)el.dataset.phBase=el.placeholder;el.placeholder=trText(el.dataset.phBase,lang);}});document.querySelectorAll('button,title,h1,h2,h3,p,span,small,strong,b,label,option,div.badge,div.total,div.empty').forEach(el=>{if(el.tagName==='OPTION'){if(!el.dataset.baseText){el.dataset.baseText=el.textContent;if(!el.hasAttribute('value'))el.value=el.dataset.baseText;}el.textContent=trText(el.dataset.baseText,lang);return;}if(el.childNodes.length===1&&el.childNodes[0].nodeType===3){if(!el.dataset.baseText)el.dataset.baseText=el.textContent;el.textContent=trText(el.dataset.baseText,lang);}});const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){return n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});let n;while(n=walker.nextNode())markAndTranslateNode(n,lang);}
+function setLang(lang){applyLang(lang)}
+const _oldAlert=window.alert;window.alert=function(msg){_oldAlert(trText(String(msg),currentLang()))};
+function wrapI18n(name){const old=window[name];if(typeof old==='function'&&!old._i18nWrapped){window[name]=function(...args){const r=old.apply(this,args);setTimeout(()=>applyLang(currentLang()),0);return r};window[name]._i18nWrapped=true;}}
+['render','go','moreTab','clientTab','sheet','fillOrderClients','fillVisitClients','fillPlanClients','medToOrder','calcOrder','dayReport','cancelMed','editMed'].forEach(wrapI18n);
+setTimeout(()=>applyLang(currentLang()),80);
+</script>
+\n<script id="security-guard-script">\n(function(){\n  'use strict';\n\n  const BLOCKED_KEYS = new Set(['F12']);\n  const ALLOW_IN_FIELDS = ['INPUT','TEXTAREA','SELECT'];\n\n  function isEditableTarget(el){\n    if(!el) return false;\n    return ALLOW_IN_FIELDS.includes(el.tagName) || el.isContentEditable;\n  }\n\n  function showSecurityNotice(){\n    const box = document.getElementById('securityLockScreen');\n    if(box){\n      box.classList.add('on');\n      box.setAttribute('aria-hidden','false');\n    } else {\n      alert('حماية التطبيق مفعّلة');\n    }\n  }\n\n  function block(e){\n    if(e){\n      e.preventDefault();\n      e.stopPropagation();\n      if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();\n    }\n    showSecurityNotice();\n    return false;\n  }\n\n  function shouldBlockKey(e){\n    const key = String(e.key || '').toLowerCase();\n    const code = String(e.code || '').toLowerCase();\n    const ctrl = e.ctrlKey || e.metaKey;\n    const shift = e.shiftKey;\n\n    if(BLOCKED_KEYS.has(e.key)) return true;\n    if(key === 'f12' || code === 'f12') return true;\n\n    // View source / save page / devtools / inspector / console\n    if(ctrl && ['u','s'].includes(key)) return true;\n    if(ctrl && shift && ['i','j','c','k'].includes(key)) return true;\n\n    // منع النسخ/القص خارج حقول الإدخال فقط\n    if(ctrl && ['c','x'].includes(key) && !isEditableTarget(e.target)) return true;\n\n    return false;\n  }\n\n  document.addEventListener('keydown', function(e){\n    if(shouldBlockKey(e)) return block(e);\n  }, true);\n\n  document.addEventListener('contextmenu', block, true);\n  document.addEventListener('dragstart', block, true);\n\n  document.addEventListener('copy', function(e){\n    if(!isEditableTarget(e.target)) return block(e);\n  }, true);\n\n  document.addEventListener('cut', function(e){\n    if(!isEditableTarget(e.target)) return block(e);\n  }, true);\n\n  document.addEventListener('selectstart', function(e){\n    if(!isEditableTarget(e.target)) return false;\n  }, true);\n\n  // تقليل فتح التطبيق داخل iframe غير معروف\n  try {\n    if(window.top !== window.self){\n      window.top.location = window.self.location.href;\n    }\n  } catch(err) {}\n\n  // كشف بسيط عند فتح أدوات المطور بحجم نافذة غير طبيعي\n  let lastWarn = 0;\n  setInterval(function(){\n    const threshold = 170;\n    const opened = (window.outerWidth - window.innerWidth > threshold) || (window.outerHeight - window.innerHeight > threshold);\n    if(opened && Date.now() - lastWarn > 3500){\n      lastWarn = Date.now();\n      showSecurityNotice();\n    }\n  }, 1400);\n\n  window.SecurityGuard = {\n    unlock(){\n      const box = document.getElementById('securityLockScreen');\n      if(box){\n        box.classList.remove('on');\n        box.setAttribute('aria-hidden','true');\n      }\n    }\n  };\n})();\n</script>\n
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
