@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>نظام المندوب العلمي</title>
+<title>MedRep Flow</title>
+<meta name="theme-color" content="#155eef">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MedRep Flow">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="application-name" content="MedRep Flow">
+<link rel="manifest" href="./manifest.json?v=commercial2">
+<link rel="icon" type="image/png" sizes="32x32" href="./icon-32.png?v=commercial2">
+<link rel="icon" type="image/png" sizes="96x96" href="./icon-96.png?v=commercial2">
+<link rel="apple-touch-icon" href="./icon-180.png?v=commercial2">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png?v=commercial2">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="./icon-180.png?v=commercial2">
 <style>
 /* =========================================
    1. المتغيرات والأساسيات (Variables & Base)
@@ -120,7 +132,7 @@ html[data-theme="dark"] .tabs button:not(.on), html[data-theme="dark"] .more-tab
 .stat span { display: block; color: var(--mut); font-size: 13px; }
 .stat b { display: block; font-size: 24px; margin-top: 4px; color: var(--txt); }
 
-/* سلايدر نوع الدواء (Chips) - شبكة ملتفة */
+/* سلايدر نوع المنتج (Chips) - شبكة ملتفة */
 .med-type-slider { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
 .med-type-slider label { flex: 1 1 calc(30% - 8px); cursor: pointer; }
 .med-type-slider input { display: none; }
@@ -131,6 +143,22 @@ html[data-theme="dark"] .med-type-slider span { background: var(--card); }
 .doc-product-tools { margin: 6px 0 10px; }
 .doc-product-chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:6px; }
 .doc-product-chips button { width:auto !important; margin:0 !important; padding:8px 10px !important; border-radius:999px !important; font-size:12px !important; background:var(--soft) !important; color:var(--p) !important; border:1px solid color-mix(in srgb,var(--p) 22%,transparent) !important; box-shadow:none !important; }
+.pharmacy-slider { display:flex; gap:8px; overflow-x:auto; padding:6px 0 10px; margin:4px 0 8px; scroll-snap-type:x proximity; }
+.pharmacy-slider button { width:auto !important; min-width:142px !important; margin:0 !important; padding:10px 12px !important; border-radius:16px !important; background:var(--input) !important; color:var(--txt) !important; border:1px solid var(--br) !important; box-shadow:none !important; text-align:right !important; scroll-snap-align:start; }
+.pharmacy-slider button b { display:block; font-size:13px; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pharmacy-slider button small { display:block; color:var(--mut); font-size:11px; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pharmacy-slider button.on { background:linear-gradient(135deg,var(--p),var(--p2)) !important; color:#fff !important; border-color:transparent !important; box-shadow:0 6px 14px rgba(21,94,239,.20) !important; }
+.pharmacy-slider button.on b, .pharmacy-slider button.on small { color:#fff; }
+.pharmacy-slider .empty { min-width:100%; margin:0; }
+
+.product-img-row { display:flex; gap:10px; align-items:center; margin:6px 0 10px; }
+.product-img-preview { width:72px; height:72px; border-radius:18px; border:1px solid var(--br); background:var(--soft); display:grid; place-items:center; overflow:hidden; color:var(--mut); font-size:12px; flex:0 0 72px; }
+.product-img-preview img { width:100%; height:100%; object-fit:cover; }
+.product-thumb { width:58px; height:58px; border-radius:16px; object-fit:cover; border:1px solid var(--br); background:var(--soft); float:left; margin:0 10px 8px 0; }
+.linked-mini { display:flex; flex-wrap:wrap; gap:5px; margin:6px 0; }
+.linked-mini b { width:100%; color:var(--mut); font-size:12px; margin-bottom:2px; }
+.linked-mini span { background:var(--soft); color:var(--p); border:1px solid color-mix(in srgb,var(--p) 18%,transparent); border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; }
+select[multiple] { min-height:96px; padding:8px; }
 .receipt-actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:10px; }
 @media(max-width:430px){ .receipt-actions { grid-template-columns:1fr; } }
 
@@ -219,6 +247,52 @@ body:not(.auth-lock) .auth-screen { display:none !important; }
 .app-footer{text-align:center;color:var(--mut);font-size:12px;line-height:1.8;padding:16px 12px 22px}.app-footer a{color:var(--p);font-weight:900;text-decoration:none}.brand-name{font-weight:900;color:var(--txt)}
 
 
+/* مخزن المنتجات التجاري */
+.product-stock-box { background: color-mix(in srgb, var(--p) 7%, var(--card)); border: 1px solid color-mix(in srgb, var(--p) 18%, var(--br)); border-radius: 16px; padding: 10px; margin: 8px 0; }
+.product-stock-box label { display:block; font-size:12px; font-weight:900; color:var(--p); margin-bottom:4px; }
+.stock-badge { display:inline-block; background: color-mix(in srgb, var(--p) 10%, var(--card)); border:1px solid color-mix(in srgb, var(--p) 22%, var(--br)); color:var(--txt); border-radius:999px; padding:6px 10px; margin:3px; font-size:12px; font-weight:900; }
+.stock-badge.low { background: color-mix(in srgb, var(--amber) 13%, var(--card)); border-color: color-mix(in srgb, var(--amber) 32%, var(--br)); color: var(--amber); }
+.stock-badge.out { background: color-mix(in srgb, var(--red) 12%, var(--card)); border-color: color-mix(in srgb, var(--red) 32%, var(--br)); color: var(--red); }
+.stock-count-card { display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center; border:1px solid var(--br); border-radius:16px; padding:12px; margin:8px 0; background:var(--card); }
+.stock-count-card b { color:var(--txt); }
+.stock-count-card small { color:var(--mut); }
+
+/* قوائم الصيدليات والديلات */
+.deals-mini { border:1px solid var(--br); border-radius:16px; padding:10px; margin:8px 0; background:color-mix(in srgb,var(--p) 5%,var(--card)); }
+.deals-mini b { display:block; color:var(--txt); font-size:13px; margin-bottom:6px; }
+.deals-mini span { display:inline-block; border:1px solid var(--br); background:var(--card); color:var(--txt); border-radius:999px; padding:5px 9px; margin:3px; font-size:11px; font-weight:800; }
+.record-card { border:1px solid var(--br); border-radius:18px; padding:12px; margin:8px 0; background:var(--card); box-shadow:0 4px 12px rgba(15,23,42,.04); }
+.record-card h3 { margin:0 0 6px; font-size:15px; color:var(--txt); }
+.client-file-bg { display:none; position:fixed; inset:0; background:rgba(15,23,42,.48); z-index:90; backdrop-filter:blur(3px); }
+.client-file-bg.on { display:block; }
+.client-file-sheet { display:none; position:fixed; left:0; right:0; bottom:0; z-index:95; max-width:900px; max-height:88vh; overflow-y:auto; margin:auto; background:var(--card); border-radius:30px 30px 0 0; padding:16px 16px 28px; box-shadow:0 -14px 42px rgba(15,23,42,.22); }
+.client-file-sheet.on { display:block; animation:fade .18s ease; }
+.client-file-head { display:flex; align-items:center; gap:10px; justify-content:space-between; margin-bottom:12px; }
+.client-file-head h2 { margin:0; font-size:18px; }
+.close-file { width:42px !important; height:42px !important; padding:0 !important; margin:0 !important; border-radius:14px !important; }
+.file-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:10px 0; }
+.file-stat { border:1px solid var(--br); background:color-mix(in srgb,var(--p) 5%,var(--card)); border-radius:16px; padding:10px; }
+.file-stat span { display:block; color:var(--mut); font-size:11px; font-weight:800; }
+.file-stat b { display:block; color:var(--txt); font-size:18px; margin-top:3px; }
+.file-section { border:1px solid var(--br); border-radius:18px; padding:12px; margin:10px 0; background:var(--card); }
+.file-section h3 { margin:0 0 10px; font-size:15px; color:var(--txt); }
+.file-record { border:1px solid var(--br); border-radius:14px; padding:10px; margin:7px 0; background:color-mix(in srgb,var(--p) 4%,var(--card)); }
+.file-record b { color:var(--txt); }
+.file-record small { display:block; color:var(--mut); line-height:1.7; }
+.product-mini-row { display:flex; justify-content:space-between; gap:8px; align-items:center; border:1px solid var(--br); border-radius:14px; padding:9px 10px; margin:6px 0; background:var(--card); }
+.product-mini-row span { color:var(--mut); font-size:12px; font-weight:800; }
+.inline-mini-form { display:grid; gap:8px; }
+.inline-mini-form .row { margin:0; }
+@media(max-width:430px){ .file-stats { grid-template-columns:1fr; } }
+
+.record-row { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+.record-row span { background:color-mix(in srgb,var(--p) 8%,var(--card)); border:1px solid color-mix(in srgb,var(--p) 16%,var(--br)); color:var(--txt); border-radius:999px; padding:5px 9px; font-size:11px; font-weight:800; }
+.status-pill { border-radius:999px; padding:5px 10px; font-size:11px; font-weight:900; display:inline-block; }
+.status-pill.due { background:color-mix(in srgb,var(--red) 11%,var(--card)); color:var(--red); border:1px solid color-mix(in srgb,var(--red) 28%,var(--br)); }
+.status-pill.pay { background:color-mix(in srgb,var(--amber) 13%,var(--card)); color:var(--amber); border:1px solid color-mix(in srgb,var(--amber) 30%,var(--br)); }
+.status-pill.done { background:color-mix(in srgb,var(--p) 10%,var(--card)); color:var(--p); border:1px solid color-mix(in srgb,var(--p) 25%,var(--br)); }
+
+
 
 /* ===== PWA Install Gate + Security Layer ===== */
 .install-gate{position:fixed;inset:0;z-index:12000;background:radial-gradient(circle at top,rgba(21,94,239,.18),transparent 42%),var(--bg);display:grid;place-items:center;padding:18px}
@@ -240,13 +314,6 @@ body:not(.auth-lock) .auth-screen { display:none !important; }
 body.secure-ui{-webkit-user-select:none;user-select:none}
 body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:text;-webkit-user-select:text}
 </style>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#155eef">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="MedRep Flow">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
 </head><body class="auth-lock">
 <div id="installGate" class="install-gate hide" aria-label="تثبيت التطبيق">
   <div class="install-card">
@@ -272,9 +339,11 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
 </div>
 
 
+
+
 <div id="authScreen" class="auth-screen">
   <div class="auth-card">
-    <div class="auth-logo"><img src="data:image/webp;base64,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" alt="MedRep Flow"></div>
+    <div class="auth-logo"><img src="./icon-180.png?v=commercial2" alt="MedRep Flow"></div>
     <h2>MedRep Flow</h2>
     <input id="loginUser" autocomplete="username" placeholder="اسم المستخدم">
     <input id="loginPass" type="password" autocomplete="current-password" placeholder="كلمة المرور">
@@ -289,7 +358,7 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
 
 <div id="appSplash" class="splash-screen hide">
   <div class="splash-box">
-    <img src="data:image/webp;base64,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" alt="MedRep Flow">
+    <img src="./icon-180.png?v=commercial2" alt="MedRep Flow">
     <h1>MedRep Flow</h1>
     <p>moe system</p>
     <div class="splash-line"><i></i></div>
@@ -321,13 +390,13 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
 <div class="grid"><div class="card"><h2>آخر الطلبيات</h2><div id="homeOrders"></div></div><div class="card"><h2>متابعات اليوم</h2><div id="homeFollows"></div></div></div>
 
 <div class="card">
-  <div class="card-title"><div><h2>مؤشرات سريعة</h2><p class="muted">أكثر الأدوية مبيعاً والمصاريف اليومية</p></div></div>
+  <div class="card-title"><div><h2>مؤشرات سريعة</h2><p class="muted">أكثر المنتجات مبيعاً والمصاريف اليومية</p></div></div>
   <div id="dashboardProgress" class="rank-list"></div>
 </div>
 </section>
 
 <section id="orders" class="page">
-<div class="grid"><div class="card"><h2 id="orderTitle">طلبية جديدة</h2><input id="orderDate" type="date"><div class="row"><select id="orderClientType" onchange="fillOrderClients()"><option value="pharmacy">صيدلية</option><option value="doctor">طبيب</option></select><select id="orderClient"></select></div><select id="orderMed" onchange="medToOrder()"></select><input id="orderProduct" placeholder="اسم المنتج"><div id="orderMedInfo" class="total muted">اختر دواء حتى تظهر تفاصيله هنا.</div><div class="row"><input id="orderQty" type="number" placeholder="الكمية" oninput="calcOrder()"><input id="orderBonus" type="number" placeholder="بونص مجاني" oninput="calcOrder()"></div><div class="row"><input id="orderPrice" type="number" placeholder="سعر المفرد" oninput="calcOrder()" onblur="autoZero(this)"><input id="orderDiscount" type="number" placeholder="خصم بالدينار" oninput="calcOrder()" onblur="autoZero(this)"></div><select id="orderStatus" onchange="calcOrder()"><option>طلبية جديدة</option><option>بيع مؤكد</option><option>تم التسليم</option><option>ملغي</option></select><textarea id="orderNote" placeholder="ملاحظات الطلبية"></textarea><div id="orderCalc" class="total">الصافي: 0 د.ع</div><button type="button" onclick="saveOrder()">حفظ الطلبية</button><button type="button" id="orderCancel" class="ghost hide" onclick="cancelOrder()">إلغاء التعديل</button></div>
+<div class="grid"><div class="card"><h2 id="orderTitle">طلبية جديدة</h2><input id="orderDate" type="date"><div class="row"><select id="orderClientType" onchange="fillOrderClients()"><option value="pharmacy">صيدلية</option><option value="doctor">طبيب</option></select><select id="orderClient"></select></div><select id="orderMed" onchange="medToOrder()"></select><input id="orderProduct" placeholder="اسم المنتج"><div id="orderMedInfo" class="total muted">اختر منتج حتى تظهر تفاصيله هنا.</div><div class="row"><input id="orderQty" type="number" placeholder="الكمية" oninput="calcOrder()"><input id="orderBonus" type="number" placeholder="عدد البونصات / الفري" oninput="calcOrder()"></div><div class="row"><input id="orderPrice" type="number" placeholder="سعر المفرد" oninput="calcOrder()" onblur="autoZero(this)"><input id="orderDiscount" type="number" placeholder="خصم بالدينار" oninput="calcOrder()" onblur="autoZero(this)"></div><div class="row"><select id="orderSource" onchange="orderSourceChanged()"><option value="مباشر">طلبية مباشرة</option><option value="من مذخر">طلبية من مذخر</option></select><select id="orderDelivery" onchange="calcOrder()"><option>تم التوصيل</option><option>لم يتم التوصيل</option></select></div><div class="row"><select id="orderStatus" onchange="calcOrder()"><option>طلبية جديدة</option><option>بيع مؤكد</option><option>تم التسليم</option><option>ملغي</option></select><input id="orderPaid" type="number" placeholder="المبلغ المدفوع" oninput="calcOrder()" onblur="autoZero(this)"></div><textarea id="orderNote" placeholder="ملاحظات الطلبية"></textarea><div id="orderCalc" class="total">الصافي: 0 د.ع</div><button type="button" onclick="saveOrder()">حفظ الطلبية</button><button type="button" id="orderCancel" class="ghost hide" onclick="cancelOrder()">إلغاء التعديل</button></div>
 <div class="card"><h2>الطلبيات</h2><div class="row"><input id="orderSearch" oninput="render()" placeholder="بحث"><select id="orderFilter" onchange="render()"><option value="">كل الحالات</option><option>طلبية جديدة</option><option>بيع مؤكد</option><option>تم التسليم</option><option>ملغي</option></select></div><div id="orderList"></div></div></div>
 </section>
 
@@ -349,7 +418,7 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
     <div class="field"><label class="small muted">ملاحظة الديلر</label><input id="docDealerNeedNotes" placeholder="تفاصيل الاتفاق"></div>
   </div>
 </div>
-<input id="docProducts" list="doctorProductsList" placeholder="المنتجات المهتم بها"><datalist id="doctorProductsList"></datalist><div class="doc-product-tools"><div id="docProductChips" class="doc-product-chips"></div></div><div class="row"><input id="docFollowDate" type="date"><input id="docFollowNote" placeholder="ملاحظة المتابعة"></div><div class="row"><input id="docLat" placeholder="Latitude"><input id="docLng" placeholder="Longitude"></div><textarea id="docNotes" placeholder="ملاحظات"></textarea><button type="button" class="soft" onclick="locate('doc')">تثبيت الموقع</button><button type="button" onclick="saveDoctor()">حفظ الطبيب</button><button type="button" id="docCancel" class="ghost hide" onclick="cancelClient()">إلغاء التعديل</button></div></div>
+<input id="docProducts" list="doctorProductsList" placeholder="المنتجات المهتم بها"><datalist id="doctorProductsList"></datalist><div class="doc-product-tools"><div id="docProductChips" class="doc-product-chips"></div></div><label class="small muted">ربط الطبيب بصيدليات محددة</label><div id="docPharmacySlider" class="pharmacy-slider"></div><select id="docPharmacies" multiple class="hide"></select><p class="muted small">اختار الصيدليات المرتبطة بهذا الطبيب من السلايدات، وراح تظهر داخل ملف الطبيب.</p><div class="row"><input id="docFollowDate" type="date"><input id="docFollowNote" placeholder="ملاحظة المتابعة"></div><div class="row"><input id="docLat" placeholder="Latitude"><input id="docLng" placeholder="Longitude"></div><textarea id="docNotes" placeholder="ملاحظات"></textarea><button type="button" class="soft" onclick="locate('doc')">تثبيت الموقع</button><button type="button" onclick="saveDoctor()">حفظ الطبيب</button><button type="button" id="docCancel" class="ghost hide" onclick="cancelClient()">إلغاء التعديل</button></div></div>
 <div id="phBox" class="hide"><div class="card"><h2 id="phTitle">إضافة صيدلية</h2><input id="phName" placeholder="اسم الصيدلية"><div class="row"><input id="phOwner" placeholder="المسؤول"><input id="phPhone" placeholder="الهاتف"></div><div class="row"><input id="phZone" placeholder="الزون"><select id="phImportance"><option>A</option><option>B</option><option>C</option></select></div><div class="row"><input id="phFollowDate" type="date"><input id="phFollowNote" placeholder="ملاحظة المتابعة"></div><div class="row"><input id="phLat" placeholder="Latitude"><input id="phLng" placeholder="Longitude"></div><textarea id="phNotes" placeholder="ملاحظات"></textarea><button type="button" class="soft" onclick="locate('ph')">تثبيت الموقع</button><button type="button" onclick="savePharmacy()">حفظ الصيدلية</button><button type="button" id="phCancel" class="ghost hide" onclick="cancelClient()">إلغاء التعديل</button></div></div>
 <div class="card"><h2>قائمة العملاء</h2><div class="row"><input id="clientSearch" oninput="render()" placeholder="بحث"><input id="zoneFilter" oninput="render()" placeholder="فلتر الزون"></div><div id="clientList"></div></div>
 </section>
@@ -357,7 +426,7 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
 <section id="more" class="page">
   <div class="more-tabs" id="moreTabs">
     <button class="active" type="button" onclick="moreTab('settings')">الإعدادات</button>
-    <button type="button" onclick="moreTab('meds')">الأدوية</button>
+    <button type="button" onclick="moreTab('meds')">المنتجات</button>
     <button type="button" onclick="moreTab('plan')">خط السير</button>
     <button type="button" onclick="moreTab('expenses')">المصاريف</button>
     <button type="button" onclick="moreTab('stock')">المخزون</button>
@@ -371,7 +440,8 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
         <input id="repName" placeholder="اسم المندوب">
         <div class="row"><input id="repJob" placeholder="الوظيفة"><input id="repZone" placeholder="الزون"></div>
         <input id="repCompany" placeholder="الشركة">
-        <input id="defaultMedCompany" placeholder="الشركة الافتراضية للأدوية">
+        <select id="businessType" onchange="applyBusinessMode()"><option value="medical">مندوب أدوية</option><option value="commercial">مندوب تجاري</option></select>
+        <input id="defaultMedCompany" placeholder="الشركة الافتراضية / البراند">
         <input id="repPhone" placeholder="الهاتف">
         <select id="reportStyle"><option value="مختصر">أسلوب تقرير مختصر</option><option value="إداري">أسلوب تقرير إداري</option><option value="تفصيلي">أسلوب تقرير تفصيلي</option></select>
         <button type="button" onclick="saveProfile()">حفظ الإعدادات</button>
@@ -398,34 +468,40 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
   <div id="more-meds" class="more-panel">
     <div class="grid">
       <div class="card">
-        <h2 id="medTitle">إضافة دواء</h2>
-        <input id="medName" placeholder="اسم الدواء">
-        <input id="medScientific" placeholder="الاسم العلمي">
-        <input id="medCompany" list="companyList" onfocus="fillDefaultMedCompany()" placeholder="الشركة">
+        <h2 id="medTitle">إضافة منتج</h2>
+        <input id="medName" placeholder="اسم المنتج">
+        <input id="medScientific" placeholder="الاسم العلمي / وصف مختصر">
+        <input id="medCompany" list="companyList" onfocus="fillDefaultMedCompany()" placeholder="الشركة / البراند">
         <datalist id="companyList"></datalist>
+        <div class="product-img-row"><div id="medImagePreview" class="product-img-preview">صورة</div><div style="flex:1"><input id="medImageFile" type="file" accept="image/*" onchange="loadMedImage(event)"><p class="muted small">اختياري: ارفع صورة المنتج، تنحفظ داخل التطبيق.</p></div></div>
         
         <div class="med-type-slider">
+           <label><input type="radio" name="medType" value="منتج"><span>منتج</span></label>
            <label><input type="radio" name="medType" value="أقراص"><span>أقراص</span></label>
-           <label><input type="radio" name="medType" value="شراب"><span>شراب</span></label>
            <label><input type="radio" name="medType" value="أمبول"><span>أمبول</span></label>
-           <label><input type="radio" name="medType" value="فيال"><span>فيال</span></label>
-           <label><input type="radio" name="medType" value="كبسول"><span>كبسول</span></label>
-           <label><input type="radio" name="medType" value="قطرات"><span>قطرات</span></label>
-           <label><input type="radio" name="medType" value="مرهم/كريم"><span>مرهم/كريم</span></label>
+           <label><input type="radio" name="medType" value="كوزمتك"><span>كوزمتك</span></label>
+           <label><input type="radio" name="medType" value="تجاري"><span>تجاري</span></label>
+           <label><input type="radio" name="medType" value="عناية"><span>عناية</span></label>
+           <label><input type="radio" name="medType" value="جهاز"><span>جهاز</span></label>
            <label><input type="radio" name="medType" value="أخرى"><span>أخرى</span></label>
         </div>
 
         <div class="row">
             <input id="medPrice" type="number" placeholder="السعر" onblur="autoZero(this)">
-            <input id="medDose" placeholder="الجرعة / الشكل">
+            <input id="medDose" placeholder="الجرعة / الموديل / الحجم">
         </div>
-        <textarea id="medDesc" placeholder="شرح الدواء"></textarea>
+        <div id="productStockBox" class="product-stock-box">
+          <label id="productStockLabel">عدد المنتجات المتوفرة بالمخزن</label>
+          <input id="medStockQty" type="number" min="0" placeholder="مثال: 50">
+          <p class="muted small" id="productStockHint">للمنتجات التجارية: ينقص العدد تلقائياً عند حفظ بيع مؤكد أو تم التسليم.</p>
+        </div>
+        <textarea id="medDesc" placeholder="شرح المنتج"></textarea>
         <textarea id="medSelling" placeholder="نقاط البيع"></textarea>
-        <button type="button" onclick="saveMed()">حفظ الدواء</button>
+        <button type="button" onclick="saveMed()">حفظ المنتج</button>
         <button type="button" id="medCancel" class="ghost hide" onclick="cancelMed()">إلغاء التعديل</button>
       </div>
       <div class="card">
-        <h2>قائمة الأدوية</h2>
+        <h2>قائمة المنتجات</h2>
         <input id="medSearch" oninput="render()" placeholder="بحث">
         <div id="medList"></div>
       </div>
@@ -456,10 +532,14 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
 
   <div id="more-stock" class="more-panel">
     <div class="card" id="stockCard">
-      <h2>المخزون الخاص</h2>
-      <p class="muted">اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.</p>
-      <select id="stockMed"></select>
-      <input id="stockCombined" placeholder="سامبلات / فري - مثال: 10 سامبلات + 5 فري">
+      <h2 id="stockTitle">المخزون الخاص</h2>
+      <p class="muted" id="stockHelp">للمندوب التجاري: اكتب عدد المنتج المتوفر، وعند البيع ينقص تلقائياً. للمندوب العلمي تقدر تستخدم خانة السامبلات والفري.</p>
+      <select id="stockMed" onchange="stockMedChanged()"></select>
+      <div class="row">
+        <input id="stockQty" type="number" min="0" placeholder="عدد المنتجات المتوفرة">
+        <input id="stockMinQty" type="number" min="0" placeholder="تنبيه عند أقل من">
+      </div>
+      <input id="stockCombined" placeholder="سامبلات / فري / ملاحظات مخزن - مثال: 10 سامبلات + 5 فري">
       <input id="stockNotes" placeholder="ملاحظات">
       <button type="button" onclick="saveStock()">حفظ المخزون</button>
       <div id="stockList" style="margin-top:12px"></div>
@@ -499,8 +579,9 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
     <button type="button" onclick="go('visits');sheet(0)"><b>زيارة</b><span>تسجيل زيارة فقط</span></button>
     <button type="button" onclick="go('clients');clientTab('doctor');sheet(0)"><b>طبيب</b><span>إضافة طبيب جديد</span></button>
     <button type="button" onclick="go('clients');clientTab('pharmacy');sheet(0)"><b>صيدلية</b><span>إضافة صيدلية جديدة</span></button>
-    <button type="button" onclick="go('more');moreTab('meds');sheet(0)"><b>دواء</b><span>إضافة مادة جديدة</span></button>
+    <button type="button" onclick="go('more');moreTab('meds');sheet(0)"><b>منتج</b><span>إضافة مادة جديدة</span></button>
     <button type="button" onclick="go('more');moreTab('stock');sheet(0)"><b>مخزون</b><span>سامبلات / فري</span></button>
+    <button type="button" onclick="go('more');moreTab('deals');sheet(0)"><b>قائمة/ديل</b><span>صيدلية أو طبيب</span></button>
     <button type="button" onclick="go('more');moreTab('expenses');sheet(0)"><b>مصروف</b><span>وقود أو ضيافة</span></button>
     <button type="button" onclick="go('more');moreTab('plan');sheet(0)"><b>خط سير</b><span>إضافة عميل للخطة</span></button>
   </div>
@@ -522,6 +603,13 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
   <button type="button" class="ghost" onclick="aiReplySheet(0)" style="margin-top:10px">إغلاق</button>
 </div>
 
+
+<div id="clientFileBg" class="client-file-bg" onclick="clientFile(0)"></div>
+<div id="clientFileSheet" class="client-file-sheet">
+  <div class="client-file-head"><h2 id="clientFileTitle">ملف العميل</h2><button type="button" class="ghost close-file" onclick="clientFile(0)">×</button></div>
+  <div id="clientFileBody"></div>
+</div>
+
 <nav class="bottom-nav">
   <div class="nav-grid">
     <button type="button" id="nhome" class="nav-btn on" onclick="go('home')"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8Z"/></svg><span>الرئيسية</span></button>
@@ -533,11 +621,11 @@ body.secure-ui input,body.secure-ui textarea,body.secure-ui select{user-select:t
 </nav>
 
 <script>
-const K='medrep_v10_orders_clean',OLD=['medical_rep_mobile_v4','medrep_v9_simple_flow','medrep_v8_orders_target_simple'];let db=load(),edit={order:null,visit:null,client:null,med:null},clientMode='doctor';
-function def(){return{profile:{},doctors:[],pharmacies:[],medicines:[],orders:[],visits:[],targets:[],reports:[],plans:[],expenses:[],stocks:[],dealerNeeds:[]}}
+const K='medrep_v10_orders_clean',OLD=['medical_rep_mobile_v4','medrep_v9_simple_flow','medrep_v8_orders_target_simple'];var db=load(),edit={order:null,visit:null,client:null,med:null,phList:null,docDeal:null},clientMode='doctor';let medImageData='';
+function def(){return{profile:{},doctors:[],pharmacies:[],medicines:[],orders:[],visits:[],targets:[],reports:[],plans:[],expenses:[],stocks:[],dealerNeeds:[],pharmacyLists:[],doctorDeals:[]}}
 function load(){let x='';try{if(window.Android&&Android.loadAppData){x=Android.loadAppData();if(x)return norm(JSON.parse(x))}}catch(e){}x=localStorage.getItem(K);if(x)try{return norm(JSON.parse(x))}catch(e){};for(let k of OLD){x=localStorage.getItem(k);if(x)try{return norm(JSON.parse(x))}catch(e){}}return def()}
-function norm(d){let b=def();d=d||{};for(let k in b)b[k]=d[k]||b[k];b.doctors=b.doctors.map(x=>({...x,doctorType:x.doctorType||x.docType||'علمي',zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||''}));b.pharmacies=b.pharmacies.map(x=>({...x,zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||''}));b.medicines=b.medicines.map(x=>({...x,scientific:x.scientific||x.scientificName||'',selling:x.selling||'',type:x.type||''}));b.orders=(b.orders||[]).map(x=>({...x,total:n(x.total)}));return b}
-function save(){let data=JSON.stringify(db);try{localStorage.setItem(K,data)}catch(e){}try{if(window.MedRepIDB&&MedRepIDB.set)MedRepIDB.set('main',db)}catch(e){}try{if(window.Android&&Android.saveAppData)Android.saveAppData(data)}catch(e){}render();toggleDealerFields();fillDocDealerMeds();if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress();if(typeof renderStockDealer==='function')renderStockDealer();}
+function norm(d){let b=def();d=d||{};for(let k in b)b[k]=d[k]||b[k];b.doctors=b.doctors.map(x=>({...x,doctorType:x.doctorType||x.docType||'علمي',zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||'',pharmacyIds:Array.isArray(x.pharmacyIds)?x.pharmacyIds:(x.pharmacyId?[x.pharmacyId]:[])}));b.pharmacies=b.pharmacies.map(x=>({...x,zone:x.zone||x.area||'',importance:x.importance||'B',followDate:x.followDate||'',followNote:x.followNote||'',lat:x.lat||'',lng:x.lng||''}));b.medicines=b.medicines.map(x=>({...x,scientific:x.scientific||x.scientificName||'',selling:x.selling||'',type:x.type||'',image:x.image||'',stockQty:n(x.stockQty),minStock:n(x.minStock)}));b.orders=(b.orders||[]).map(x=>({...x,total:n(x.total)}));b.pharmacyLists=(b.pharmacyLists||[]).map(x=>{let st=x.status||'لم يتم التسليم حتى الآن';if(st==='مطلوب'||st==='مواصلة')st='لم يتم التسليم حتى الآن';if(st==='مكتمل')st='تم التسليم';return {...x,qty:n(x.qty),bonus:n(x.bonus),price:n(x.price),paid:n(x.paid),total:n(x.total),remaining:n(x.remaining),status:st}});b.doctorDeals=(b.doctorDeals||[]).map(x=>{let st=x.status||'مواصلة';if(st==='مكتمل')st='تم التسليم';return {...x,qty:n(x.qty),status:st,kind:x.kind||'deal'}});return b}
+function save(){let data=JSON.stringify(db);try{localStorage.setItem(K,data)}catch(e){}try{if(window.MedRepIDB&&window.MedRepIDB.set)window.MedRepIDB.set('main',db).catch(function(){});}catch(e){}try{if(window.Android&&Android.saveAppData)Android.saveAppData(data)}catch(e){}render();toggleDealerFields();fillDocDealerMeds();if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress();if(typeof renderStockDealer==='function')renderStockDealer();if(typeof renderListsDeals==='function')renderListsDeals();}
 function $(id){return document.getElementById(id)}function v(id){return ($(id)||{}).value?.trim()||''}function set(id,x){if($(id))$(id).value=x??''}function n(x){return +x||0}function fmt(x){return n(x).toLocaleString('en-US')}function today(){return new Date().toISOString().slice(0,10)}function mon(){return today().slice(0,7)}
 
 /* الإصلاح الجذري لحماية النصوص (بدون استخدام رموز تسبب أخطاء) */
@@ -574,21 +662,92 @@ function moreTab(tab){
 }
 
 function clientName(t,id){let a=t=='doctor'?db.doctors:db.pharmacies;return (a.find(x=>x.id==id)||{}).name||'غير محدد'}function med(id){return db.medicines.find(x=>x.id==id)||null}function isSale(o){return o.status=='بيع مؤكد'||o.status=='تم التسليم'}function total(q,p,d){return Math.max(n(q)*n(p)-n(d),0)}function target(){return db.targets.find(x=>x.month==mon())||{month:mon(),target:0,manual:0}}function achieved(){return db.orders.filter(o=>isSale(o)&&String(o.date||'').slice(0,7)==mon()).reduce((a,o)=>a+n(o.total),0)+n(target().manual)}
+function normalizeBusinessType(x){return x==='commercial'?'commercial':'medical'}
+function businessMode(){return normalizeBusinessType((db.profile&&db.profile.businessType)||v('businessType')||'medical')}
+function businessLabel(){return businessMode()==='commercial'?'مندوب تجاري':'مندوب أدوية'}
+function stockTrackingEnabled(){let b=businessMode();return b==='commercial'}
+function stockLabel(){let b=businessMode();return b==='commercial'?'مخزن المنتجات التجارية':'المخزون الخاص'}
+function productStockText(m){let q=n(m&&m.stockQty),min=n(m&&m.minStock);let cls=q<=0?'out':(min&&q<=min?'low':'');return `<span class="stock-badge ${cls}">المتوفر: ${fmt(q)}</span>`}
+function adjustProductStock(medId,delta){let m=med(medId);if(!m)return;let next=n(m.stockQty)+n(delta);m.stockQty=Math.max(next,0)}
+function orderSourceValue(o){return (o&&o.orderSource)||'مباشر'}
+function orderDeliveryValue(o){return (o&&o.deliveryStatus)||((o&&o.status)==='تم التسليم'?'تم التوصيل':'لم يتم التوصيل')}
+function orderStockQty(o){return n(o&&o.qty)+n(o&&o.bonus)}
+function orderAffectsStock(o){return !!(stockTrackingEnabled()&&o&&isSale(o)&&o.medId&&orderSourceValue(o)==='مباشر'&&orderDeliveryValue(o)==='تم التوصيل')}
+function orderPaidValue(o){if(!o||orderSourceValue(o)!=='مباشر')return 0;if(Object.prototype.hasOwnProperty.call(o,'paidAmount'))return Math.min(n(o.paidAmount),n(o.total));return n(o.total)}
+function orderRemainingValue(o){return orderSourceValue(o)==='مباشر'?Math.max(n(o&&o.total)-orderPaidValue(o),0):0}
+function orderSourceChanged(){let s=total(v('orderQty'),v('orderPrice'),v('orderDiscount'));if(v('orderSource')==='من مذخر')set('orderPaid','0');else set('orderPaid',s);calcOrder()}
+function applyOrderStockDiff(oldO,newO){if(oldO&&orderAffectsStock(oldO))adjustProductStock(oldO.medId,orderStockQty(oldO));if(newO&&orderAffectsStock(newO))adjustProductStock(newO.medId,-orderStockQty(newO))}
+function stockWarningForOrder(o){if(!orderAffectsStock(o))return true;let m=med(o.medId);if(!m)return true;let available=n(m.stockQty);let need=orderStockQty(o);if(need>available){return confirm(`الكمية مع البونص (${fmt(need)}) أكبر من المتوفر بالمخزن (${fmt(available)}). هل تريد الحفظ مع تصفير المخزون؟`)}return true}
+function applyBusinessMode(){let b=normalizeBusinessType(v('businessType')||businessMode());if($('businessType')&&$('businessType').value!==b)$('businessType').value=b;let title=b==='commercial'?'مخزن المنتجات التجارية':'المخزون الخاص';if($('stockTitle'))$('stockTitle').textContent=title;if($('productStockLabel'))$('productStockLabel').textContent=b==='medical'?'عدد المنتج المتوفر (اختياري)':'عدد المنتجات المتوفرة بالمخزن';if($('productStockHint'))$('productStockHint').textContent=b==='medical'?'اختياري إذا تريد تتابع رصيد المنتج.':'ينقص العدد تلقائياً عند الطلبية المباشرة التي تم توصيلها، ويشمل الكمية + البونص.';}
 function fillOrderClients(){let t=v('orderClientType'),arr=t=='doctor'?db.doctors:db.pharmacies;$('orderClient').innerHTML='<option value="">اختر العميل</option>'+arr.map(x=>`<option value="${x.id}">${esc(x.name)} - ${esc(x.zone||'')}</option>`).join('')}
 function fillVisitClients(){let t=v('visitType'),arr=t=='doctor'?db.doctors:db.pharmacies;$('visitClient').innerHTML='<option value="">اختر العميل</option>'+arr.map(x=>`<option value="${x.id}">${esc(x.name)} - ${esc(x.zone||'')}</option>`).join('')}
-function medToOrder(){let m=med(v('orderMed'));if(m){set('orderProduct',m.name);set('orderPrice',m.price||'');$('orderMedInfo').innerHTML=`<b>${esc(m.name)}</b><br>العلمي: ${esc(m.scientific||'-')}<br>الشركة: ${esc(m.company||'-')} | الجرعة: ${esc(m.dose||'-')}<br>${esc(m.desc||'')}<br>${m.selling?'نقاط البيع: '+esc(m.selling):''}`}else $('orderMedInfo').textContent='اختر دواء حتى تظهر تفاصيله هنا.';calcOrder();refreshCompanyList();fillDefaultMedCompany()}
-function calcOrder(){let s=total(v('orderQty'),v('orderPrice'),v('orderDiscount'));$('orderCalc').innerHTML=`الصافي: <b class="ok">${fmt(s)} د.ع</b><br>البونص: ${fmt(v('orderBonus'))} | ${isSale({status:v('orderStatus')})?'تنحسب على التاركت':'لا تنحسب على التاركت'}`;return s}
-function saveOrder(){let cid=v('orderClient');if(!cid)return alert('اختر الطبيب أو الصيدلية');let product=v('orderProduct')||(med(v('orderMed'))||{}).name;if(!product)return alert('اختر أو اكتب المنتج');let old=db.orders.find(x=>x.id==edit.order),o={id:edit.order||Date.now(),date:v('orderDate')||today(),clientType:v('orderClientType'),clientId:cid,medId:v('orderMed'),product,qty:n(v('orderQty')),bonus:n(v('orderBonus')),price:n(v('orderPrice')),discount:n(v('orderDiscount')),total:calcOrder(),status:v('orderStatus'),note:v('orderNote')};old?Object.assign(old,o):db.orders.unshift(o);cancelOrder(1);save()}
-function editOrder(id){let o=db.orders.find(x=>x.id==id);if(!o)return;edit.order=id;set('orderDate',o.date);set('orderClientType',o.clientType);fillOrderClients();set('orderClient',o.clientId);set('orderMed',o.medId);medToOrder();set('orderProduct',o.product);set('orderQty',o.qty);set('orderBonus',o.bonus);set('orderPrice',o.price);set('orderDiscount',o.discount);set('orderStatus',o.status);set('orderNote',o.note);$('orderTitle').textContent='تعديل طلبية';$('orderCancel').classList.remove('hide');calcOrder();go('orders')}
-function cancelOrder(no){edit.order=null;['orderProduct','orderQty','orderBonus','orderPrice','orderDiscount','orderNote'].forEach(x=>set(x,''));set('orderDate',today());set('orderClientType','pharmacy');set('orderClient','');set('orderMed','');set('orderStatus','طلبية جديدة');$('orderTitle').textContent='طلبية جديدة';$('orderCancel').classList.add('hide');medToOrder();if(!no)render()}
+function medToOrder(){let m=med(v('orderMed'));if(m){set('orderProduct',m.name);set('orderPrice',m.price||'');$('orderMedInfo').innerHTML=`<b>${esc(m.name)}</b><br>${productStockText(m)}<br>الوصف: ${esc(m.scientific||'-')}<br>الشركة: ${esc(m.company||'-')} | الجرعة/الموديل: ${esc(m.dose||'-')}<br>${esc(m.desc||'')}<br>${m.selling?'نقاط البيع: '+esc(m.selling):''}`}else $('orderMedInfo').textContent='اختر منتج حتى تظهر تفاصيله هنا.';calcOrder();refreshCompanyList();fillDefaultMedCompany()}
+function calcOrder(){let s=total(v('orderQty'),v('orderPrice'),v('orderDiscount')),src=v('orderSource')||'مباشر';if(src==='مباشر'&&$('orderPaid')&&!$('orderPaid').value)set('orderPaid',s);if(src==='من مذخر'&&$('orderPaid'))set('orderPaid','0');let paid=src==='مباشر'?Math.min(n(v('orderPaid')),s):0,rem=src==='مباشر'?Math.max(s-paid,0):0,delivery=v('orderDelivery')||'تم التوصيل';$('orderCalc').innerHTML=`الصافي: <b class="ok">${fmt(s)} د.ع</b><br>المدفوع: <b>${fmt(paid)} د.ع</b> | المتبقي: <b class="${rem?'bad':'ok'}">${fmt(rem)} د.ع</b><br>البونص: ${fmt(v('orderBonus'))} | ${src==='من مذخر'?'طلبية من مذخر: غير محسوبة ذمة عليك':(delivery==='تم التوصيل'?'تم التوصيل':'لم يتم التوصيل')} | ${isSale({status:v('orderStatus')})?'تنحسب على التاركت':'لا تنحسب على التاركت'}`;return s}
+function saveOrder(){let cid=v('orderClient');if(!cid)return alert('اختر الطبيب أو الصيدلية');let product=v('orderProduct')||(med(v('orderMed'))||{}).name;if(!product)return alert('اختر أو اكتب المنتج');let src=v('orderSource')||'مباشر',ttl=calcOrder(),paid=src==='مباشر'?Math.min(n(v('orderPaid')),ttl):0,old=db.orders.find(x=>x.id==edit.order),oldCopy=old?{...old}:null,o={id:edit.order||Date.now(),date:v('orderDate')||today(),clientType:v('orderClientType'),clientId:cid,medId:v('orderMed'),product,qty:n(v('orderQty')),bonus:n(v('orderBonus')),price:n(v('orderPrice')),discount:n(v('orderDiscount')),total:ttl,paidAmount:paid,remainingAmount:src==='مباشر'?Math.max(ttl-paid,0):0,orderSource:src,deliveryStatus:v('orderDelivery')||'تم التوصيل',status:v('orderStatus'),note:v('orderNote')};if(!stockWarningForOrder(o))return;applyOrderStockDiff(oldCopy,o);old?Object.assign(old,o):db.orders.unshift(o);cancelOrder(1);save()}
+function editOrder(id){let o=db.orders.find(x=>x.id==id);if(!o)return;edit.order=id;set('orderDate',o.date);set('orderClientType',o.clientType);fillOrderClients();set('orderClient',o.clientId);set('orderMed',o.medId);medToOrder();set('orderProduct',o.product);set('orderQty',o.qty);set('orderBonus',o.bonus);set('orderPrice',o.price);set('orderDiscount',o.discount);set('orderSource',orderSourceValue(o));set('orderDelivery',orderDeliveryValue(o));set('orderPaid',orderPaidValue(o));set('orderStatus',o.status);set('orderNote',o.note);$('orderTitle').textContent='تعديل طلبية';$('orderCancel').classList.remove('hide');calcOrder();go('orders')}
+function cancelOrder(no){edit.order=null;['orderProduct','orderQty','orderBonus','orderPrice','orderDiscount','orderPaid','orderNote'].forEach(x=>set(x,''));set('orderDate',today());set('orderClientType','pharmacy');set('orderClient','');set('orderMed','');set('orderSource','مباشر');set('orderDelivery','تم التوصيل');set('orderStatus','طلبية جديدة');$('orderTitle').textContent='طلبية جديدة';$('orderCancel').classList.add('hide');medToOrder();if(!no)render()}
 function saveVisit(){let cid=v('visitClient');if(!cid)return alert('اختر العميل');let old=db.visits.find(x=>x.id==edit.visit),vo={id:edit.visit||Date.now(),date:v('visitDate')||today(),type:v('visitType'),clientId:cid,productId:v('visitProduct'),product:(med(v('visitProduct'))||{}).name||'',status:v('visitStatus'),note:v('visitNote')};old?Object.assign(old,vo):db.visits.unshift(vo);cancelVisit(1);save()}
 function editVisit(id){let x=db.visits.find(v=>v.id==id);if(!x)return;edit.visit=id;set('visitDate',x.date);set('visitType',x.type);fillVisitClients();set('visitClient',x.clientId);set('visitProduct',x.productId);set('visitStatus',x.status);set('visitNote',x.note);$('visitTitle').textContent='تعديل زيارة';$('visitCancel').classList.remove('hide');go('visits')}
 function cancelVisit(no){edit.visit=null;['visitNote'].forEach(x=>set(x,''));set('visitDate',today());set('visitType','doctor');fillVisitClients();set('visitClient','');set('visitProduct','');set('visitStatus','تمت');$('visitTitle').textContent='تسجيل زيارة';$('visitCancel').classList.add('hide');if(!no)render()}
 function clientTab(t){clientMode=t;$('doctorBox').classList.toggle('hide',t!='doctor');$('phBox').classList.toggle('hide',t!='pharmacy');$('docTab').classList.toggle('on',t=='doctor');$('phTab').classList.toggle('on',t=='pharmacy');render()}
-function saveDoctor(){if(!v('docName'))return alert('اكتب اسم الطبيب');let old=db.doctors.find(x=>x.id==edit.client),o={id:edit.client||Date.now(),name:v('docName'),doctorType:v('docType'),spec:v('docSpec'),phone:v('docPhone'),zone:v('docZone'),importance:v('docImportance')||'B',products:v('docProducts'),followDate:v('docFollowDate'),followNote:v('docFollowNote'),lat:v('docLat'),lng:v('docLng'),notes:v('docNotes')};old?Object.assign(old,o):db.doctors.unshift(o);saveDealerFromDoctor(o.id);cancelClient(1);save()}
+
+/* إصلاح اختيار الصيدليات المرتبطة بالطبيب */
+function getSelectedValues(id){
+  const el=$(id);
+  if(!el)return [];
+  return Array.from(el.selectedOptions||[]).map(o=>o.value).filter(Boolean);
+}
+function setSelectedValues(id,vals){
+  const el=$(id);
+  if(!el)return;
+  const selected=new Set((vals||[]).map(String));
+  Array.from(el.options||[]).forEach(o=>{o.selected=selected.has(String(o.value));});
+  if(id==='docPharmacies')renderDocPharmacySlider();
+}
+function fillDoctorPharmacies(){
+  const el=$('docPharmacies');
+  if(!el)return;
+  const keep=new Set(getSelectedValues('docPharmacies').map(String));
+  el.innerHTML=(db.pharmacies||[]).map(p=>`<option value="${p.id}">${esc(p.name)}${p.zone?' - '+esc(p.zone):''}</option>`).join('');
+  const valid=new Set((db.pharmacies||[]).map(p=>String(p.id)));
+  setSelectedValues('docPharmacies',Array.from(keep).filter(id=>valid.has(String(id))));
+  renderDocPharmacySlider();
+}
+function toggleDocPharmacy(id){
+  const selected=new Set(getSelectedValues('docPharmacies').map(String));
+  id=String(id);
+  selected.has(id)?selected.delete(id):selected.add(id);
+  setSelectedValues('docPharmacies',Array.from(selected));
+}
+function renderDocPharmacySlider(){
+  const box=$('docPharmacySlider');
+  if(!box)return;
+  const selected=new Set(getSelectedValues('docPharmacies').map(String));
+  const arr=db.pharmacies||[];
+  if(!arr.length){box.innerHTML='<div class="empty">احفظ صيدلية أولاً حتى تظهر هنا كسلايدات.</div>';return;}
+  box.innerHTML=arr.map(p=>{
+    const on=selected.has(String(p.id));
+    return `<button type="button" class="${on?'on':''}" onclick="toggleDocPharmacy('${String(p.id).replace(/'/g,'')}')"><b>${esc(p.name)}</b><small>${esc(p.zone||p.owner||'صيدلية')}</small></button>`;
+  }).join('');
+}
+
+function pharmacyNames(ids){
+  if(!Array.isArray(ids)){
+    if(!ids)return [];
+    ids=String(ids).split(',').map(x=>x.trim()).filter(Boolean);
+  }
+  const wanted=new Set(ids.map(String));
+  return (db.pharmacies||[]).filter(p=>wanted.has(String(p.id))).map(p=>p.name).filter(Boolean);
+}
+function productImageHtml(m){
+  if(!m || !m.image)return '';
+  return `<img src="${m.image}" class="product-thumb" alt="${esc(m.name||'product')}">`;
+}
+
+function saveDoctor(){if(!v('docName'))return alert('اكتب اسم الطبيب');let old=db.doctors.find(x=>x.id==edit.client),o={id:edit.client||Date.now(),name:v('docName'),doctorType:v('docType'),spec:v('docSpec'),phone:v('docPhone'),zone:v('docZone'),importance:v('docImportance')||'B',products:v('docProducts'),pharmacyIds:getSelectedValues('docPharmacies'),followDate:v('docFollowDate'),followNote:v('docFollowNote'),lat:v('docLat'),lng:v('docLng'),notes:v('docNotes')};old?Object.assign(old,o):db.doctors.unshift(o);saveDealerFromDoctor(o.id);cancelClient(1);save()}
 function savePharmacy(){if(!v('phName'))return alert('اكتب اسم الصيدلية');let old=db.pharmacies.find(x=>x.id==edit.client),o={id:edit.client||Date.now(),name:v('phName'),owner:v('phOwner'),phone:v('phPhone'),zone:v('phZone'),importance:v('phImportance')||'B',followDate:v('phFollowDate'),followNote:v('phFollowNote'),lat:v('phLat'),lng:v('phLng'),notes:v('phNotes')};old?Object.assign(old,o):db.pharmacies.unshift(o);cancelClient(1);save()}
-function editClient(t,id){let x=(t=='doctor'?db.doctors:db.pharmacies).find(a=>a.id==id);if(!x)return;edit.client=id;if(t=='doctor'){['Name','Spec','Phone','Zone','Products','FollowDate','FollowNote','Lat','Lng','Notes'].forEach(k=>set('doc'+k,x[k[0].toLowerCase()+k.slice(1)]));set('docType',x.doctorType);set('docImportance',x.importance);toggleDealerFields();$('docTitle').textContent='تعديل طبيب';$('docCancel').classList.remove('hide');clientTab('doctor')}else{['Name','Owner','Phone','Zone','FollowDate','FollowNote','Lat','Lng','Notes'].forEach(k=>set('ph'+k,x[k[0].toLowerCase()+k.slice(1)]));set('phImportance',x.importance);$('phTitle').textContent='تعديل صيدلية';$('phCancel').classList.remove('hide');clientTab('pharmacy')}go('clients')}
-function cancelClient(no){edit.client=null;['docName','docSpec','docPhone','docZone','docProducts','docFollowDate','docFollowNote','docLat','docLng','docNotes','phName','phOwner','phPhone','phZone','phFollowDate','phFollowNote','phLat','phLng','phNotes'].forEach(x=>set(x,''));set('docType','علمي');set('docDealerMed','');set('docDealerNeedValue','');set('docDealerNeedNotes','');toggleDealerFields();set('docImportance','B');set('phImportance','B');$('docTitle').textContent='إضافة طبيب';$('phTitle').textContent='إضافة صيدلية';$('docCancel').classList.add('hide');$('phCancel').classList.add('hide');if(!no)render()}
+function editClient(t,id){let x=(t=='doctor'?db.doctors:db.pharmacies).find(a=>a.id==id);if(!x)return;edit.client=id;if(t=='doctor'){['Name','Spec','Phone','Zone','Products','FollowDate','FollowNote','Lat','Lng','Notes'].forEach(k=>set('doc'+k,x[k[0].toLowerCase()+k.slice(1)]));set('docType',x.doctorType);set('docImportance',x.importance);fillDoctorPharmacies();setSelectedValues('docPharmacies',x.pharmacyIds||[]);toggleDealerFields();$('docTitle').textContent='تعديل طبيب';$('docCancel').classList.remove('hide');clientTab('doctor')}else{['Name','Owner','Phone','Zone','FollowDate','FollowNote','Lat','Lng','Notes'].forEach(k=>set('ph'+k,x[k[0].toLowerCase()+k.slice(1)]));set('phImportance',x.importance);$('phTitle').textContent='تعديل صيدلية';$('phCancel').classList.remove('hide');clientTab('pharmacy')}go('clients')}
+function cancelClient(no){edit.client=null;['docName','docSpec','docPhone','docZone','docProducts','docFollowDate','docFollowNote','docLat','docLng','docNotes','phName','phOwner','phPhone','phZone','phFollowDate','phFollowNote','phLat','phLng','phNotes'].forEach(x=>set(x,''));set('docType','علمي');setSelectedValues('docPharmacies',[]);set('docDealerMed','');set('docDealerNeedValue','');set('docDealerNeedNotes','');toggleDealerFields();set('docImportance','B');set('phImportance','B');$('docTitle').textContent='إضافة طبيب';$('phTitle').textContent='إضافة صيدلية';$('docCancel').classList.add('hide');$('phCancel').classList.add('hide');if(!no)render()}
 function locate(t){
   const latId=t==='doc'?'docLat':'phLat',lngId=t==='doc'?'docLng':'phLng';
   if(!navigator.geolocation)return alert('خدمة الموقع غير مدعومة على هذا الجهاز.');
@@ -605,7 +764,7 @@ function refreshDoctorProducts(){
   const dl=$('doctorProductsList'); if(dl)dl.innerHTML=medOptionsHtml();
   const box=$('docProductChips'); if(!box)return;
   const meds=(db.medicines||[]).slice(0,24);
-  box.innerHTML=meds.length?meds.map(m=>`<button type="button" onclick="addDocProduct('${String(m.id).replace(/'/g,'')}')">${esc(m.name)}</button>`).join(''):'<span class="muted small">احفظ الأدوية أولاً حتى تظهر هنا للاختيار السريع.</span>';
+  box.innerHTML=meds.length?meds.map(m=>`<button type="button" onclick="addDocProduct('${String(m.id).replace(/'/g,'')}')">${esc(m.name)}</button>`).join(''):'<span class="muted small">احفظ المنتجات أولاً حتى تظهر هنا للاختيار السريع.</span>';
 }
 function addDocProduct(id){
   const m=(db.medicines||[]).find(x=>String(x.id)===String(id)); if(!m)return;
@@ -615,10 +774,41 @@ function addDocProduct(id){
   el.value=list.join(', ');
 }
 
+function setMedImagePreview(src){
+  const box=$('medImagePreview');
+  if(!box)return;
+  box.innerHTML=src?`<img src="${src}" alt="product image">`:'صورة';
+}
+function loadMedImage(event){
+  const file=event&&event.target&&event.target.files?event.target.files[0]:null;
+  if(!file)return;
+  if(!/^image\//.test(file.type||'')){alert('اختر ملف صورة فقط');return;}
+  const reader=new FileReader();
+  reader.onload=function(){
+    const img=new Image();
+    img.onload=function(){
+      const max=720;
+      let w=img.width||max,h=img.height||max;
+      const scale=Math.min(1,max/Math.max(w,h));
+      w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));
+      const canvas=document.createElement('canvas');
+      canvas.width=w;canvas.height=h;
+      const ctx=canvas.getContext('2d');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+      ctx.drawImage(img,0,0,w,h);
+      try{medImageData=canvas.toDataURL('image/jpeg',0.72)}catch(e){medImageData=reader.result||''}
+      setMedImagePreview(medImageData);
+    };
+    img.onerror=function(){medImageData=reader.result||'';setMedImagePreview(medImageData)};
+    img.src=reader.result;
+  };
+  reader.onerror=function(){alert('تعذر قراءة الصورة')};
+  reader.readAsDataURL(file);
+}
 
-/* دوال التعديل على الأدوية */
+/* دوال التعديل على المنتجات */
 function saveMed(){
-    if(!v('medName'))return alert('اكتب اسم الدواء');
+    if(!v('medName'))return alert('اكتب اسم المنتج');
     let typeVal = document.querySelector('input[name="medType"]:checked')?.value || '';
     let mObj = {
         id: edit.med || Date.now(),
@@ -629,9 +819,14 @@ function saveMed(){
         dose: v('medDose'),
         type: typeVal,
         desc: v('medDesc'),
-        selling: v('medSelling')
+        selling: v('medSelling'),
+        stockQty: n(v('medStockQty')),
+        minStock: 0,
+        image: medImageData
     };
     if(edit.med){
+        let oldKeep = db.medicines.find(x => x.id == edit.med);
+        if(!mObj.image && oldKeep && oldKeep.image) mObj.image = oldKeep.image;
         let old = db.medicines.find(x => x.id == edit.med);
         if(old) Object.assign(old, mObj);
     } else {
@@ -653,36 +848,39 @@ function editMed(id){
     set('medDose', m.dose);
     set('medDesc', m.desc);
     set('medSelling', m.selling);
+    set('medStockQty', m.stockQty||0);
+    medImageData=m.image||''; setMedImagePreview(medImageData);
     document.querySelectorAll('input[name="medType"]').forEach(r => r.checked = (r.value === m.type));
-    $('medTitle').textContent = 'تعديل دواء';
+    $('medTitle').textContent = 'تعديل منتج';
     $('medCancel').classList.remove('hide');
     window.scrollTo({top:0, behavior:'smooth'});
 }
 function cancelMed(no){
     edit.med = null;
-    ['medName','medScientific','medPrice','medDose','medDesc','medSelling'].forEach(x=>set(x,''));
+    medImageData=''; setMedImagePreview(''); if($('medImageFile'))$('medImageFile').value='';
+    ['medName','medScientific','medPrice','medDose','medDesc','medSelling','medStockQty'].forEach(x=>set(x,''));
     document.querySelectorAll('input[name="medType"]').forEach(r => r.checked = false);
-    $('medTitle').textContent = 'إضافة دواء';
+    $('medTitle').textContent = 'إضافة منتج';
     if($('medCancel')) $('medCancel').classList.add('hide');
     if(!no) render();
 }
 
-function medPdf(id){let m=med(id);if(!m)return;let w=open('','_blank'),html=`<html dir="rtl"><head><title>${esc(m.name)}</title><style>body{font-family:Tahoma;padding:28px;color:#111}h1{color:#0b5ed7}.box{border:1px solid #ddd;border-radius:14px;padding:14px;margin:10px 0;line-height:1.8}</style></head><body><h1>${esc(m.name)}</h1><div class="box"><b>الاسم العلمي:</b> ${esc(m.scientific||'-')}<br><b>الشركة:</b> ${esc(m.company||'-')}<br><b>النوع:</b> ${esc(m.type||'-')}<br><b>السعر:</b> ${fmt(m.price)} د.ع<br><b>الجرعة / الشكل:</b> ${esc(m.dose||'-')}</div><div class="box"><b>شرح الدواء:</b><br>${esc(m.desc||'-')}</div><div class="box"><b>نقاط البيع:</b><br>${esc(m.selling||'-')}</div><scr`+`ipt>print()<\/scr`+`ipt></body></html>`;w.document.write(html);w.document.close()}
-function saveProfile(){db.profile={name:v('repName'),job:v('repJob'),zone:v('repZone'),company:v('repCompany'),phone:v('repPhone'),defaultCompany:v('defaultMedCompany'),reportStyle:v('reportStyle')};save();alert('تم حفظ الإعدادات')}
+function medPdf(id){let m=med(id);if(!m)return;let w=open('','_blank'),html=`<html dir="rtl"><head><title>${esc(m.name)}</title><style>body{font-family:Tahoma;padding:28px;color:#111}h1{color:#0b5ed7}.box{border:1px solid #ddd;border-radius:14px;padding:14px;margin:10px 0;line-height:1.8}</style></head><body><h1>${esc(m.name)}</h1>${m.image?`<img src="${m.image}" style="width:150px;height:150px;object-fit:cover;border-radius:18px;border:1px solid #ddd">`:''}<div class="box"><b>الاسم العلمي / الوصف:</b> ${esc(m.scientific||'-')}<br><b>الشركة:</b> ${esc(m.company||'-')}<br><b>النوع:</b> ${esc(m.type||'-')}<br><b>السعر:</b> ${fmt(m.price)} د.ع<br><b>المتوفر بالمخزن:</b> ${fmt(m.stockQty)}<br><b>الجرعة / الشكل:</b> ${esc(m.dose||'-')}</div><div class="box"><b>شرح المنتج:</b><br>${esc(m.desc||'-')}</div><div class="box"><b>نقاط البيع:</b><br>${esc(m.selling||'-')}</div><scr`+`ipt>print()<\/scr`+`ipt></body></html>`;w.document.write(html);w.document.close()}
+function saveProfile(){db.profile={name:v('repName'),job:v('repJob'),zone:v('repZone'),company:v('repCompany'),phone:v('repPhone'),businessType:normalizeBusinessType(v('businessType')||'medical'),defaultCompany:v('defaultMedCompany'),reportStyle:v('reportStyle')};save();alert('تم حفظ الإعدادات')}
 function saveTarget(){let m=v('targetMonth')||mon(),old=db.targets.find(x=>x.month==m),o={month:m,target:n(v('targetValue')),manual:n(v('manualAchieved'))};old?Object.assign(old,o):db.targets.unshift(o);save();alert('تم حفظ التاركت')}
 
 function orderNumber(o){return 'MRF-'+String(o.id||Date.now()).slice(-8)}
 function orderReceiptHtml(id){
   const o=(db.orders||[]).find(x=>String(x.id)===String(id)); if(!o)return '';
   const p=db.profile||{},m=med(o.medId)||{},client=clientName(o.clientType,o.clientId),type=o.clientType==='doctor'?'طبيب':'صيدلية';
-  const rep=p.name||'MedRep Flow',company=p.company||'moe system',zone=p.zone||'-',receiptNo=orderNumber(o);
+  const rep=p.name||'MedRep Flow',company=p.company||'moe system',zone=p.zone||'-',receiptNo=orderNumber(o),paid=orderPaidValue(o),remaining=orderRemainingValue(o),src=orderSourceValue(o),delivery=orderDeliveryValue(o);
   return `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Order Receipt ${receiptNo}</title><style>
   *{box-sizing:border-box}body{margin:0;background:#eef3f8;color:#111827;font-family:Tahoma,Arial,sans-serif;line-height:1.55}.actions{display:flex;gap:8px;width:94%;max-width:760px;margin:12px auto}.actions button{flex:1;border:0;border-radius:12px;padding:12px 10px;background:#155eef;color:#fff;font-weight:900;font-family:inherit}.actions .ghost{background:#e8eef8;color:#155eef}.paper{width:94%;max-width:760px;margin:0 auto 18px;background:#fff;border:1px solid #d7e0eb;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(15,23,42,.12)}
   .head{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:22px 24px;background:linear-gradient(135deg,#f8fbff,#eef5ff);border-bottom:1px solid #d7e0eb}.brand{display:flex;gap:14px;align-items:center}.mark{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#155eef,#12b8b0);color:#fff;display:grid;place-items:center;font-weight:900;font-size:20px;letter-spacing:.5px}.brand h1{margin:0;font-size:25px;color:#0f172a}.brand p{margin:3px 0 0;color:#64748b;font-size:12px}.docbox{text-align:center;border:1px solid #cbd8ea;background:#fff;border-radius:16px;padding:10px 14px;min-width:145px}.docbox b{display:block;color:#155eef;font-size:13px}.docbox span{display:block;margin-top:3px;font-weight:900;color:#0f172a;font-size:15px}.title{padding:18px 24px 4px;text-align:center}.title h2{margin:0;color:#0f172a;font-size:22px}.title p{margin:4px 0 0;color:#64748b;font-size:12px}
   .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 24px}.field{border:1px solid #e2e8f0;border-radius:14px;padding:10px 12px;background:#fbfdff;min-height:62px}.field b{display:block;color:#64748b;font-size:11px;margin-bottom:4px}.field span{display:block;color:#111827;font-size:14px;font-weight:900;word-break:break-word}.section{padding:0 24px 20px}.section h3{margin:10px 0 10px;font-size:15px;color:#0f172a}.items{width:100%;border-collapse:separate;border-spacing:0;border:1px solid #dbe3ef;border-radius:14px;overflow:hidden}.items th{background:#0f46b8;color:#fff;padding:11px 10px;font-size:12px;text-align:right}.items td{padding:12px 10px;border-bottom:1px solid #e5edf6;font-size:13px;font-weight:700}.items tr:last-child td{border-bottom:0}.items td.num{text-align:center;white-space:nowrap}.summary{display:grid;grid-template-columns:1fr 210px;gap:12px;margin-top:14px;align-items:stretch}.note{border:1px dashed #c6d3e3;border-radius:14px;padding:12px;color:#334155;background:#fbfdff;font-size:13px;min-height:70px}.total{background:linear-gradient(135deg,#0f172a,#155eef);color:#fff;border-radius:14px;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}.total small{opacity:.85}.total b{font-size:24px;margin-top:3px}.signs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.sign{height:68px;border:1px solid #e2e8f0;border-radius:14px;padding:10px;color:#64748b;font-size:12px}.foot{border-top:1px solid #e2e8f0;padding:12px 24px;text-align:center;color:#64748b;font-size:11px;background:#fbfdff}.foot a{color:#155eef;text-decoration:none;font-weight:900}
   @media(max-width:620px){.head{grid-template-columns:1fr}.meta{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr}.items{font-size:12px}.items th,.items td{padding:9px 6px}.brand h1{font-size:22px}}
   @media print{@page{size:A4;margin:12mm}body{background:#fff}.actions{display:none}.paper{width:100%;max-width:none;margin:0;border-radius:0;box-shadow:none;border:0}.head{background:#f7fbff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.total,.items th{ -webkit-print-color-adjust:exact;print-color-adjust:exact}.foot a{color:#155eef!important}.meta{grid-template-columns:repeat(3,1fr)}}
-  </style></head><body><div class="actions"><button onclick="window.print()">تحميل / طباعة PDF</button><button class="ghost" onclick="history.back()">رجوع</button></div><main class="paper"><header class="head"><div class="brand"><div class="mark">MR</div><div><h1>MedRep Flow</h1><p>${esc(company)}</p></div></div><div class="docbox"><b>Order Receipt</b><span>${receiptNo}</span></div></header><div class="title"><h2>وصل طلبية رسمي</h2><p>هذا الوصل صادر من تطبيق MedRep Flow</p></div><section class="meta"><div class="field"><b>التاريخ</b><span>${esc(o.date||today())}</span></div><div class="field"><b>حالة الطلبية</b><span>${esc(o.status||'-')}</span></div><div class="field"><b>نوع العميل</b><span>${type}</span></div><div class="field"><b>اسم العميل</b><span>${esc(client)}</span></div><div class="field"><b>اسم المندوب</b><span>${esc(rep)}</span></div><div class="field"><b>الزون</b><span>${esc(zone)}</span></div></section><section class="section"><h3>تفاصيل الطلبية</h3><table class="items"><thead><tr><th>المنتج</th><th>الشركة</th><th>الكمية</th><th>البونص</th><th>سعر المفرد</th><th>الخصم</th></tr></thead><tbody><tr><td>${esc(o.product||'-')}</td><td>${esc(m.company||company||'-')}</td><td class="num">${fmt(o.qty)}</td><td class="num">${fmt(o.bonus)}</td><td class="num">${fmt(o.price)} د.ع</td><td class="num">${fmt(o.discount)} د.ع</td></tr></tbody></table><div class="summary"><div class="note"><b>ملاحظات الطلبية</b><br>${o.note?esc(o.note):'لا توجد ملاحظات.'}</div><div class="total"><small>الصافي الكلي</small><b>${fmt(o.total)} د.ع</b></div></div><div class="signs"><div class="sign">توقيع المندوب</div><div class="sign">توقيع / ختم العميل</div></div></section><footer class="foot"><a href="https://Moesystem.online">All rights reserved by moe system</a></footer></main></body></html>`;
+  </style></head><body><div class="actions"><button onclick="window.print()">تحميل / طباعة PDF</button><button class="ghost" onclick="history.back()">رجوع</button></div><main class="paper"><header class="head"><div class="brand"><div class="mark">MR</div><div><h1>MedRep Flow</h1><p>${esc(company)}</p></div></div><div class="docbox"><b>Order Receipt</b><span>${receiptNo}</span></div></header><div class="title"><h2>وصل طلبية رسمي</h2><p>هذا الوصل صادر من تطبيق MedRep Flow</p></div><section class="meta"><div class="field"><b>التاريخ</b><span>${esc(o.date||today())}</span></div><div class="field"><b>حالة الطلبية</b><span>${esc(o.status||'-')}</span></div><div class="field"><b>نوع الطلبية</b><span>${esc(src)}</span></div><div class="field"><b>التوصيل</b><span>${esc(delivery)}</span></div><div class="field"><b>نوع العميل</b><span>${type}</span></div><div class="field"><b>اسم العميل</b><span>${esc(client)}</span></div><div class="field"><b>اسم المندوب</b><span>${esc(rep)}</span></div><div class="field"><b>الزون</b><span>${esc(zone)}</span></div></section><section class="section"><h3>تفاصيل الطلبية</h3><table class="items"><thead><tr><th>المنتج</th><th>الشركة</th><th>الكمية</th><th>البونص</th><th>سعر المفرد</th><th>الخصم</th></tr></thead><tbody><tr><td>${esc(o.product||'-')}</td><td>${esc(m.company||company||'-')}</td><td class="num">${fmt(o.qty)}</td><td class="num">${fmt(o.bonus)}</td><td class="num">${fmt(o.price)} د.ع</td><td class="num">${fmt(o.discount)} د.ع</td></tr></tbody></table><div class="summary"><div class="note"><b>ملاحظات الطلبية</b><br>${o.note?esc(o.note):'لا توجد ملاحظات.'}</div><div class="total"><small>الصافي الكلي</small><b>${fmt(o.total)} د.ع</b><small>المدفوع: ${fmt(paid)} د.ع</small><small>المتبقي: ${fmt(remaining)} د.ع</small></div></div><div class="signs"><div class="sign">توقيع المندوب</div><div class="sign">توقيع / ختم العميل</div></div></section><footer class="foot"><a href="https://Moesystem.online">All rights reserved by moe system</a></footer></main></body></html>`;
 }
 function openOrderReceipt(id){
   const html=orderReceiptHtml(id); if(!html)return alert('لم يتم العثور على الطلبية');
@@ -697,11 +895,34 @@ function downloadOrderReceiptPdf(id){
   openOrderReceipt(id);
 }
 
-function del(arr,id){if(confirm('حذف؟')){db[arr]=db[arr].filter(x=>String(x.id)!=String(id));save()}}
-function dayReport(){let d=v('reportDate')||today(),p=db.profile||{},ords=db.orders.filter(o=>o.date==d),vis=db.visits.filter(x=>x.date==d),sales=ords.filter(isSale),sum=sales.reduce((a,o)=>a+n(o.total),0),style=p.reportStyle||'مختصر';let details=ords.map(o=>`- ${clientName(o.clientType,o.clientId)} | ${o.product} | كمية ${o.qty} | صافي ${fmt(o.total)} | ${o.status}`).join('\n')||'لا توجد طلبيات.';let visits=vis.map(x=>`- ${clientName(x.type,x.clientId)} | ${x.status} | ${x.product||'بدون منتج'}`).join('\n')||'لا توجد زيارات.';let txt=`تقرير يومي ${style} بتاريخ ${d}\n\nالمندوب: ${p.name||'غير محدد'}\nالشركة: ${p.company||'غير محددة'}\nالزون: ${p.zone||'غير محدد'}\n\nالملخص:\nعدد الطلبيات: ${ords.length}\nعدد الزيارات: ${vis.length}\nالبيع المحسوب على التاركت: ${fmt(sum)} د.ع\n\nالطلبيات:\n${details}\n\nالزيارات:\n${visits}\n\nالإجراء القادم:\nمتابعة الطلبيات غير المؤكدة والعملاء المحددين للمتابعة.`;set('reportOutput',txt);go('more');moreTab('reports')}
+function del(arr,id){if(confirm('حذف؟')){let old=(db[arr]||[]).find(x=>String(x.id)===String(id));if(arr==='orders')applyOrderStockDiff(old,null);if(arr==='doctorDeals'&&old&&old.stockDeducted&&old.medId)adjustProductStock(old.medId,n(old.stockDeductQty||old.qty));if(arr==='pharmacyLists'&&old&&old.bonusStockDeducted&&old.medId)adjustProductStock(old.medId,n(old.bonusDeductQty||old.bonus));db[arr]=(db[arr]||[]).filter(x=>String(x.id)!=String(id));save()}}
+function dayReport(){let d=v('reportDate')||today(),p=db.profile||{},ords=db.orders.filter(o=>o.date==d),vis=db.visits.filter(x=>x.date==d),sales=ords.filter(isSale),sum=sales.reduce((a,o)=>a+n(o.total),0),style=p.reportStyle||'مختصر';let details=ords.map(o=>`- ${clientName(o.clientType,o.clientId)} | ${o.product} | كمية ${o.qty} | صافي ${fmt(o.total)} | مدفوع ${fmt(orderPaidValue(o))} | باقي ${fmt(orderRemainingValue(o))} | ${orderSourceValue(o)} | ${orderDeliveryValue(o)} | ${o.status}`).join('\n')||'لا توجد طلبيات.';let visits=vis.map(x=>`- ${clientName(x.type,x.clientId)} | ${x.status} | ${x.product||'بدون منتج'}`).join('\n')||'لا توجد زيارات.';let txt=`تقرير يومي ${style} بتاريخ ${d}\n\nالمندوب: ${p.name||'غير محدد'}\nالشركة: ${p.company||'غير محددة'}\nالزون: ${p.zone||'غير محدد'}\n\nالملخص:\nعدد الطلبيات: ${ords.length}\nعدد الزيارات: ${vis.length}\nالبيع المحسوب على التاركت: ${fmt(sum)} د.ع\n\nالطلبيات:\n${details}\n\nالزيارات:\n${visits}\n\nالإجراء القادم:\nمتابعة الطلبيات غير المؤكدة والعملاء المحددين للمتابعة.`;set('reportOutput',txt);go('more');moreTab('reports')}
 function saveReport(){let text=v('reportOutput');if(!text)return alert('كوّن التقرير أولاً');db.reports.unshift({id:Date.now(),date:v('reportDate')||today(),text});save()}
 function copyText(t){navigator.clipboard?.writeText(t||'');alert('تم النسخ')}
-function csv(rows){return rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\n')}function down(nm,c,t='text/csv;charset=utf-8'){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=nm;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),300)}
+function csv(rows){return rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\n')}
+function down(nm,c,t='text/csv;charset=utf-8'){
+  try{
+    if(window.Android && typeof Android.saveDownload==='function'){
+      const ok = Android.saveDownload(String(nm||'MedRepFlow-backup.json'), String(c||''), String(t||'application/octet-stream'));
+      if(ok){ alert('تم حفظ النسخة داخل مجلد التنزيلات / MedRepFlow'); return true; }
+    }
+  }catch(e){}
+  try{
+    const blob = new Blob([c],{type:t});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nm;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},700);
+    return true;
+  }catch(e){
+    try{navigator.clipboard&&navigator.clipboard.writeText(String(c||''));alert('تعذر تنزيل الملف، تم نسخ محتوى النسخة الاحتياطية.');}catch(_){}
+    return false;
+  }
+}
 function exportCSV(){down('medical-rep-v10.csv',csv([['section','date','client','product','qty','bonus','price','discount','total','status'],...db.orders.map(o=>['order',o.date,clientName(o.clientType,o.clientId),o.product,o.qty,o.bonus,o.price,o.discount,o.total,o.status]),...db.visits.map(v=>['visit',v.date,clientName(v.type,v.clientId),v.product,'','','','','',v.status]),...db.doctors.map(d=>['doctor','',d.name,d.doctorType,d.spec,'','','','',d.zone]),...db.pharmacies.map(p=>['pharmacy','',p.name,p.owner,'','','','','',p.zone])]))}
 function backup(){const d=new Date().toISOString().slice(0,10);down('MedicalRep-backup-'+d+'.json',JSON.stringify(db,null,2),'application/json')}function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{db=norm(JSON.parse(r.result));save();alert('تم استرجاع النسخة الاحتياطية بنجاح')}catch(_){alert('ملف غير صالح')}};r.readAsText(f);e.target.value=''}
 
@@ -834,6 +1055,183 @@ function renderPlanExpensesProgress(){
   }
 }
 
+
+/* قوائم الصيدليات وديلات الأطباء */
+function statusClass(st){st=st||'';return st==='مطلوب'||st==='مواصلة'||st==='لم يتم التسليم حتى الآن'?'due':(st==='دفعة'||st==='تم التجهيز'?'pay':(st==='ملغي'?'bad':'done'))}
+function normalizeListStatus(st){st=st||'لم يتم التسليم حتى الآن';if(st==='مطلوب'||st==='مواصلة')return 'لم يتم التسليم حتى الآن';if(st==='مكتمل')return 'تم التسليم';return st}
+function listDelivered(st){return normalizeListStatus(st)==='تم التسليم'}
+function productName(id){return (med(id)||{}).name||'بدون منتج'}
+function listProductChanged(){let m=med(v('phListProduct'));if(m&&!v('phListPrice'))set('phListPrice',m.price||'')}
+function fillListDealSelects(){
+  const keep={ph:v('phListPharmacy'),prod:v('phListProduct'),doc:v('docDealDoctor'),dprod:v('docDealProduct')};
+  if($('phListPharmacy'))$('phListPharmacy').innerHTML='<option value="">اختر الصيدلية</option>'+(db.pharmacies||[]).map(p=>`<option value="${p.id}">${esc(p.name)}${p.zone?' - '+esc(p.zone):''}</option>`).join('');
+  if($('docDealDoctor'))$('docDealDoctor').innerHTML='<option value="">اختر الطبيب</option>'+(db.doctors||[]).map(d=>`<option value="${d.id}">${esc(d.name)}${d.zone?' - '+esc(d.zone):''}</option>`).join('');
+  const prodOpts='<option value="">اختر المنتج</option>'+(db.medicines||[]).map(m=>`<option value="${m.id}">${esc(m.name)} - ${fmt(m.price)}</option>`).join('');
+  if($('phListProduct'))$('phListProduct').innerHTML=prodOpts;
+  if($('docDealProduct'))$('docDealProduct').innerHTML=prodOpts;
+  set('phListPharmacy',keep.ph);set('phListProduct',keep.prod);set('docDealDoctor',keep.doc);set('docDealProduct',keep.dprod);
+}
+function savePharmacyList(){
+  const phId=v('phListPharmacy');if(!phId)return alert('اختر الصيدلية');
+  const medId=v('phListProduct'),qty=n(v('phListQty')),bonus=n(v('phListBonus')),price=n(v('phListPrice')),paid=n(v('phListPaid'));
+  const product=(med(medId)||{}).name||'';if(!product)return alert('اختر المنتج');
+  const total=qty*price,remaining=Math.max(total-paid,0);
+  db.pharmacyLists=db.pharmacyLists||[];
+  db.pharmacyLists.unshift({id:Date.now(),date:v('phListDate')||today(),pharmacyId:phId,medId,product,qty,bonus,price,paid,total,remaining,status:normalizeListStatus(v('phListStatus')),note:v('phListNote')});
+  ['phListQty','phListBonus','phListPrice','phListPaid','phListNote'].forEach(x=>set(x,''));set('phListStatus','لم يتم التسليم حتى الآن');save();
+}
+function saveDoctorDeal(){
+  const doctorId=v('docDealDoctor');if(!doctorId)return alert('اختر الطبيب');
+  const medId=v('docDealProduct'),m=med(medId),product=(m||{}).name||'';if(!product)return alert('اختر المنتج');
+  const qty=n(v('docDealQty')),status=v('docDealStatus')||'مواصلة';
+  const row={id:Date.now(),date:v('docDealDate')||today(),doctorId,medId,product,qty:v('docDealQty'),status,note:v('docDealNote')};
+  if(status==='تم التسليم'&&qty>0){adjustProductStock(medId,-qty);row.stockDeducted=true;row.stockDeductQty=qty;}
+  db.doctorDeals=db.doctorDeals||[];db.doctorDeals.unshift(row);
+  ['docDealQty','docDealNote'].forEach(x=>set(x,''));set('docDealStatus','مواصلة');save();
+}
+function pharmacySummaryHtml(id){
+  const rows=(db.pharmacyLists||[]).filter(x=>String(x.pharmacyId)===String(id)).slice(0,4);
+  if(!rows.length)return '';
+  return `<div class="deals-mini"><b>قوائم وبونصات الصيدلية:</b>${rows.map(r=>`<span>${esc(r.product)} | ${fmt(r.qty)} + بونص ${fmt(r.bonus)} | ${esc(r.status)} | المتبقي ${fmt(r.remaining)} د.ع</span>`).join('')}</div>`;
+}
+function doctorDealsHtml(id){
+  const rows=[...(db.doctorDeals||[]).filter(x=>String(x.doctorId)===String(id)),...(db.dealerNeeds||[]).filter(x=>String(x.doctorId)===String(id)).map(x=>({id:x.id,date:x.date,product:productName(x.medId),qty:x.value,status:x.status||'مواصلة',note:x.notes}))].slice(0,5);
+  if(!rows.length)return '';
+  return `<div class="deals-mini"><b>ديلات الطبيب:</b>${rows.map(r=>`<span>${esc(r.product||'ديل')} | ${esc(r.qty||'-')} | ${esc(r.status||'مواصلة')}</span>`).join('')}</div>`;
+}
+
+function productOptionsForFile(selected){
+  return '<option value="">اختر المنتج</option>'+(db.medicines||[]).map(m=>`<option value="${m.id}" ${String(selected||'')===String(m.id)?'selected':''}>${esc(m.name)} - ${fmt(m.price||0)} د.ع</option>`).join('');
+}
+function pharmacyFinancialSummary(phId){
+  const orders=(db.orders||[]).filter(o=>o.clientType==='pharmacy'&&String(o.clientId)===String(phId)&&isSale(o));
+  const directOrders=orders.filter(o=>orderSourceValue(o)==='مباشر');
+  const warehouseOrders=orders.filter(o=>orderSourceValue(o)==='من مذخر');
+  const lists=(db.pharmacyLists||[]).filter(x=>String(x.pharmacyId)===String(phId));
+  const listRows=lists.filter(x=>!x.paymentOnly);
+  const payRows=lists.filter(x=>x.paymentOnly);
+  const ordersTotal=directOrders.reduce((a,o)=>a+n(o.total),0);
+  const warehouseTotal=warehouseOrders.reduce((a,o)=>a+n(o.total),0);
+  const listTotal=listRows.reduce((a,r)=>a+n(r.total),0);
+  const paid=directOrders.reduce((a,o)=>a+orderPaidValue(o),0)+listRows.reduce((a,r)=>a+n(r.paid),0)+payRows.reduce((a,r)=>a+n(r.paid),0);
+  const bonus=listRows.reduce((a,r)=>a+n(r.bonus),0)+orders.reduce((a,o)=>a+n(o.bonus),0);
+  const dueBase=listTotal+ordersTotal;
+  return {ordersTotal,warehouseTotal,listTotal,paid,bonus,remaining:Math.max(dueBase-paid,0),ordersCount:orders.length,lists:listRows,payments:payRows,orders,directOrders,warehouseOrders};
+}
+function pharmacyMaterialsSummary(phId){
+  const mapObj={};
+  function add(product,qty,bonus,total){
+    const k=product||'منتج';
+    mapObj[k]=mapObj[k]||{product:k,qty:0,bonus:0,total:0};
+    mapObj[k].qty+=n(qty); mapObj[k].bonus+=n(bonus); mapObj[k].total+=n(total);
+  }
+  (db.orders||[]).filter(o=>o.clientType==='pharmacy'&&String(o.clientId)===String(phId)).forEach(o=>add(o.product,o.qty,o.bonus,o.total));
+  (db.pharmacyLists||[]).filter(r=>String(r.pharmacyId)===String(phId)&&!r.paymentOnly).forEach(r=>add(r.product,r.qty,r.bonus,r.total));
+  return Object.values(mapObj).sort((a,b)=>b.qty-a.qty);
+}
+function clientFile(show){
+  $('clientFileBg')?.classList.toggle('on',!!show);
+  $('clientFileSheet')?.classList.toggle('on',!!show);
+}
+function openPharmacyFile(id){
+  const ph=(db.pharmacies||[]).find(x=>String(x.id)===String(id)); if(!ph)return;
+  if(edit.phList){const e=(db.pharmacyLists||[]).find(x=>String(x.id)===String(edit.phList)); if(!e||String(e.pharmacyId)!==String(id))edit.phList=null;}
+  const s=pharmacyFinancialSummary(id), materials=pharmacyMaterialsSummary(id);
+  $('clientFileTitle').textContent='ملف الصيدلية - '+(ph.name||'');
+  const listRows=s.lists.slice(0,30).map(r=>`<div class="file-record"><b>${esc(r.product)}</b><small>تاريخ: ${esc(r.date||'')} | كمية: ${fmt(r.qty)} | بونص: ${fmt(r.bonus)} | سعر: ${fmt(r.price)} | مجموع: ${fmt(r.total)} | دفع: ${fmt(r.paid)} | حالة التسليم: ${esc(normalizeListStatus(r.status))}</small>${r.note?`<small>ملاحظة: ${esc(r.note)}</small>`:''}<div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editPharmacyFileList(${r.id},${id})">تعديل الحالة</button><button type="button" class="danger smallbtn" onclick="del('pharmacyLists',${r.id});openPharmacyFile(${id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد قوائم محفوظة لهذه الصيدلية</div>';
+  const orderRows=s.orders.slice(0,20).map(o=>`<div class="file-record"><b>${esc(o.product)}</b><small>${esc(o.date||'')} | ${esc(orderSourceValue(o))} | ${esc(orderDeliveryValue(o))} | كمية ${fmt(o.qty)} | بونص ${fmt(o.bonus)} | الصافي ${fmt(o.total)} د.ع | المدفوع ${fmt(orderPaidValue(o))} | الباقي ${fmt(orderRemainingValue(o))} | ${esc(o.status)}</small></div>`).join('')||'<div class="empty">لا توجد طلبيات مباعة</div>';
+  const payRows=s.payments.slice(0,12).map(r=>`<div class="file-record"><b>دفعة مالية</b><small>${esc(r.date||'')} | مبلغ: ${fmt(r.paid)} د.ع ${r.note?' | '+esc(r.note):''}</small><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editPharmacyFileList(${r.id},${id})">تعديل</button><button type="button" class="danger smallbtn" onclick="del('pharmacyLists',${r.id});openPharmacyFile(${id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد دفعات منفصلة</div>';
+  const materialRows=materials.length?materials.map(m=>`<div class="product-mini-row"><b>${esc(m.product)}</b><span>كمية ${fmt(m.qty)} | بونص ${fmt(m.bonus)} | ${fmt(m.total)} د.ع</span></div>`).join(''):'<div class="empty">لا توجد مواد مسجلة</div>';
+  $('clientFileBody').innerHTML=`
+    <div class="file-section"><h3>معلومات الصيدلية</h3><p class="muted">المسؤول: ${esc(ph.owner||'-')} | الهاتف: ${esc(ph.phone||'-')} | الزون: ${esc(ph.zone||'-')}</p><p class="muted">${esc(ph.notes||'')}</p></div>
+    <div class="file-stats"><div class="file-stat"><span>البيع المباشر + القوائم</span><b>${fmt(s.listTotal+s.ordersTotal)} د.ع</b></div><div class="file-stat"><span>المدفوع</span><b>${fmt(s.paid)} د.ع</b></div><div class="file-stat"><span>الباقي علينا تحصيله</span><b>${fmt(s.remaining)} د.ع</b></div><div class="file-stat"><span>طلبيات من مذخر</span><b>${fmt(s.warehouseTotal)} د.ع</b></div><div class="file-stat"><span>البونصات</span><b>${fmt(s.bonus)}</b></div></div>
+    <div class="file-section" id="pfFormSection"><h3>${edit.phList?'تعديل قائمة / حالة التسليم':'إدخال قائمة أو دفعة للصيدلية'}</h3><div class="inline-mini-form"><select id="pfType"><option value="list">قائمة مواد</option><option value="payment">دفعة مالية فقط</option></select><input id="pfDate" type="date" value="${today()}"><select id="pfProduct" onchange="fileListProductChanged()">${productOptionsForFile()}</select><div class="row"><input id="pfQty" type="number" placeholder="الكمية"><input id="pfBonus" type="number" placeholder="البونص المطلوب"></div><div class="row"><input id="pfPrice" type="number" placeholder="سعر المفرد" onblur="autoZero(this)"><input id="pfPaid" type="number" placeholder="دفعة / مبلغ مدفوع" onblur="autoZero(this)"></div><label class="small muted">حالة القائمة</label><select id="pfStatus"><option>لم يتم التسليم حتى الآن</option><option>تم التسليم</option><option>ملغي</option></select><textarea id="pfNote" placeholder="ملاحظات"></textarea><div class="tools"><button id="pfSaveBtn" type="button" onclick="savePharmacyFileList(${id})">${edit.phList?'حفظ التعديل':'حفظ داخل ملف الصيدلية'}</button>${edit.phList?`<button type="button" class="ghost" onclick="cancelPharmacyFileListEdit(${id})">إلغاء التعديل</button>`:''}</div></div><p class="muted small">القوائم والبونصات تبقى بحالة لم يتم التسليم حتى الآن، وتكدر ترجع تعدلها إلى تم التسليم لاحقاً.</p></div>
+    <div class="file-section"><h3>شنو عند الصيدلية من موادنا</h3>${materialRows}</div>
+    <div class="file-section"><h3>قوائم وبونصات الصيدلية</h3>${listRows}</div>
+    <div class="file-section"><h3>الدفعات</h3>${payRows}</div>
+    <div class="file-section"><h3>طلبيات الصيدلية من قسم الطلبيات</h3>${orderRows}</div>`;
+  clientFile(1);
+}
+function fileListProductChanged(){let m=med(v('pfProduct'));if(m&&!v('pfPrice'))set('pfPrice',m.price||'')}
+function editPharmacyFileList(rowId,phId){
+  const r=(db.pharmacyLists||[]).find(x=>String(x.id)===String(rowId)); if(!r)return;
+  edit.phList=rowId; openPharmacyFile(phId);
+  setTimeout(()=>{
+    set('pfType',r.paymentOnly?'payment':'list');set('pfDate',r.date||today());set('pfProduct',r.medId||'');set('pfQty',r.qty||'');set('pfBonus',r.bonus||'');set('pfPrice',r.price||'');set('pfPaid',r.paid||'');set('pfStatus',normalizeListStatus(r.status));set('pfNote',r.note||'');
+    $('pfFormSection')?.scrollIntoView({block:'start',behavior:'smooth'});
+  },30);
+}
+function cancelPharmacyFileListEdit(phId){edit.phList=null;openPharmacyFile(phId)}
+function restorePharmacyListStock(row){if(row&&row.bonusStockDeducted&&row.medId)adjustProductStock(row.medId,n(row.bonusDeductQty||row.bonus))}
+function savePharmacyFileList(phId){
+  const mode=v('pfType')||'list', paid=n(v('pfPaid'));
+  db.pharmacyLists=db.pharmacyLists||[];
+  const old=edit.phList?(db.pharmacyLists||[]).find(x=>String(x.id)===String(edit.phList)):null;
+  if(mode==='payment'){
+    if(!paid)return alert('اكتب مبلغ الدفعة');
+    if(old)restorePharmacyListStock(old);
+    const row={id:old?old.id:Date.now(),date:v('pfDate')||today(),pharmacyId:phId,paymentOnly:true,product:'دفعة مالية',qty:0,bonus:0,price:0,total:0,paid,remaining:0,status:'دفعة',note:v('pfNote')};
+    old?Object.assign(old,row):db.pharmacyLists.unshift(row);edit.phList=null;save();openPharmacyFile(phId);return;
+  }
+  const medId=v('pfProduct'),m=med(medId); if(!m)return alert('اختر المنتج');
+  const qty=n(v('pfQty')),bonus=n(v('pfBonus')),price=n(v('pfPrice')),total=qty*price,status=normalizeListStatus(v('pfStatus'));
+  if(old)restorePharmacyListStock(old);
+  const row={id:old?old.id:Date.now(),date:v('pfDate')||today(),pharmacyId:phId,medId,product:m.name,qty,bonus,price,paid,total,remaining:Math.max(total-paid,0),status,note:v('pfNote'),paymentOnly:false};
+  if(listDelivered(status)&&bonus>0){
+    const available=n(m.stockQty);
+    if(available<bonus&&!confirm('البونص أكبر من المتوفر بالمخزن. تريد الحفظ وتصفير المخزون؟')){if(old&&old.bonusStockDeducted)adjustProductStock(old.medId,-n(old.bonusDeductQty||old.bonus));return;}
+    adjustProductStock(medId,-bonus); row.bonusStockDeducted=true; row.bonusDeductQty=bonus;
+  }
+  old?Object.assign(old,row):db.pharmacyLists.unshift(row);edit.phList=null;save();openPharmacyFile(phId);
+}
+function openDoctorFile(id){
+  const d=(db.doctors||[]).find(x=>String(x.id)===String(id)); if(!d)return;
+  if(edit.docDeal){const e=(db.doctorDeals||[]).find(x=>String(x.id)===String(edit.docDeal)); if(!e||String(e.doctorId)!==String(id))edit.docDeal=null;}
+  const linked=pharmacyNames(d.pharmacyIds||[]);
+  const ownDeals=(db.doctorDeals||[]).filter(x=>String(x.doctorId)===String(id));
+  const legacy=(db.dealerNeeds||[]).filter(x=>String(x.doctorId)===String(id)).map(x=>({id:x.id,date:x.date,product:productName(x.medId),qty:x.value,status:x.status||'مواصلة',note:x.notes,type:x.type,legacy:true}));
+  const rows=[...ownDeals,...legacy];
+  const dealsHtml=rows.length?rows.slice(0,30).map(r=>`<div class="file-record"><b>${esc(r.product||'ديل')}</b><small>${esc(r.date||'')} | العدد/القيمة: ${esc(r.qty||'-')} | حالة الديل: ${esc(r.status||'مواصلة')} ${r.kind==='bonus'?' | بونص / فري':''}${r.type?' | '+esc(r.type):''}</small>${r.note?`<small>ملاحظة: ${esc(r.note)}</small>`:''}${!r.legacy?`<div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editDoctorFileDeal(${r.id},${id})">تعديل الحالة</button><button type="button" class="danger smallbtn" onclick="del('doctorDeals',${r.id});openDoctorFile(${id})">حذف</button></div>`:''}</div>`).join(''):'<div class="empty">لا توجد ديلات أو بونصات محفوظة</div>';
+  $('clientFileTitle').textContent='ملف الطبيب - '+(d.name||'');
+  $('clientFileBody').innerHTML=`
+    <div class="file-section"><h3>معلومات الطبيب</h3><p class="muted">النوع: ${esc(d.doctorType||'-')} | الاختصاص: ${esc(d.spec||'-')} | الهاتف: ${esc(d.phone||'-')} | الزون: ${esc(d.zone||'-')}</p><p class="muted">الصيدليات المرتبطة: ${linked.length?linked.map(esc).join('، '):'لا توجد'}</p><p class="muted">${esc(d.notes||'')}</p></div>
+    <div class="file-section" id="dfFormSection"><h3>${edit.docDeal?'تعديل حالة الديل أو البونص':'إضافة ديل أو بونص للطبيب'}</h3><div class="inline-mini-form"><input id="dfDate" type="date" value="${today()}"><select id="dfProduct">${productOptionsForFile()}</select><div class="row"><select id="dfKind"><option value="deal">ديل</option><option value="bonus">بونص / فري</option></select><input id="dfQty" type="number" placeholder="العدد / القيمة"></div><label class="small muted">حالة الديل</label><select id="dfStatus"><option>مواصلة</option><option>تم التجهيز</option><option>تم التسليم</option><option>ملغي</option></select><textarea id="dfNote" placeholder="ملاحظة الديل أو البونص"></textarea><div class="tools"><button id="dfSaveBtn" type="button" onclick="saveDoctorFileDeal(${id})">${edit.docDeal?'حفظ التعديل':'حفظ داخل ملف الطبيب'}</button>${edit.docDeal?`<button type="button" class="ghost" onclick="cancelDoctorFileDealEdit(${id})">إلغاء التعديل</button>`:''}</div></div><p class="muted small">الديل يبقى بحالة مواصلة إلى أن ترجع وتعدله إلى تم التسليم. إذا كان بونص/فري أو تم التسليم، ينقص العدد من المخزن تلقائياً.</p></div>
+    <div class="file-section"><h3>ديلات وبونصات الطبيب</h3>${dealsHtml}</div>`;
+  clientFile(1);
+}
+function editDoctorFileDeal(rowId,doctorId){
+  const r=(db.doctorDeals||[]).find(x=>String(x.id)===String(rowId)); if(!r)return;
+  edit.docDeal=rowId; openDoctorFile(doctorId);
+  setTimeout(()=>{
+    set('dfDate',r.date||today());set('dfProduct',r.medId||'');set('dfKind',r.kind||'deal');set('dfQty',r.qty||'');set('dfStatus',r.status||'مواصلة');set('dfNote',r.note||'');
+    $('dfFormSection')?.scrollIntoView({block:'start',behavior:'smooth'});
+  },30);
+}
+function cancelDoctorFileDealEdit(doctorId){edit.docDeal=null;openDoctorFile(doctorId)}
+function restoreDoctorDealStock(row){if(row&&row.stockDeducted&&row.medId)adjustProductStock(row.medId,n(row.stockDeductQty||row.qty))}
+function saveDoctorFileDeal(doctorId){
+  const medId=v('dfProduct'),m=med(medId); if(!m)return alert('اختر المنتج');
+  const qty=n(v('dfQty')); if(!qty)return alert('اكتب العدد أو القيمة');
+  const kind=v('dfKind')||'deal',status=v('dfStatus')||'مواصلة';
+  db.doctorDeals=db.doctorDeals||[];
+  const old=edit.docDeal?db.doctorDeals.find(x=>String(x.id)===String(edit.docDeal)):null;
+  if(old)restoreDoctorDealStock(old);
+  const row={id:old?old.id:Date.now(),date:v('dfDate')||today(),doctorId,medId,product:m.name,qty,status,note:v('dfNote'),kind};
+  const shouldDeduct=(kind==='bonus'||status==='تم التسليم')&&status!=='ملغي';
+  if(shouldDeduct){
+    const available=n(m.stockQty);
+    if(available<qty&&!confirm('العدد أكبر من المتوفر بالمخزن. تريد الحفظ وتصفير المخزون؟')){if(old&&old.stockDeducted)adjustProductStock(old.medId,-n(old.stockDeductQty||old.qty));return;}
+    adjustProductStock(medId,-qty); row.stockDeducted=true; row.stockDeductQty=qty;
+  }
+  old?Object.assign(old,row):db.doctorDeals.unshift(row);edit.docDeal=null;save();openDoctorFile(doctorId);
+}
+function renderListsDeals(){
+  fillListDealSelects();
+  if(!v('phListDate'))set('phListDate',today());if(!v('docDealDate'))set('docDealDate',today());
+  if($('pharmacyListRecords'))$('pharmacyListRecords').innerHTML=(db.pharmacyLists||[]).slice(0,30).map(r=>`<div class="record-card"><h3>${esc(clientName('pharmacy',r.pharmacyId))}</h3><span class="status-pill ${statusClass(r.status)}">${esc(r.status)}</span><div class="record-row"><span>${esc(r.product)}</span><span>الكمية: ${fmt(r.qty)}</span><span>البونص: ${fmt(r.bonus)}</span><span>السعر: ${fmt(r.price)} د.ع</span><span>المجموع: ${fmt(r.total)} د.ع</span><span>دفعة: ${fmt(r.paid)} د.ع</span><span>المطلوب: ${fmt(r.remaining)} د.ع</span></div><p class="muted">${esc(r.date||'')} ${r.note?' | '+esc(r.note):''}</p><button type="button" class="danger smallbtn" onclick="del('pharmacyLists',${r.id})">حذف</button></div>`).join('')||'<div class="empty">لا توجد قوائم صيدليات محفوظة</div>';
+  if($('doctorDealRecords'))$('doctorDealRecords').innerHTML=(db.doctorDeals||[]).slice(0,30).map(r=>`<div class="record-card"><h3>${esc(clientName('doctor',r.doctorId))}</h3><span class="status-pill ${statusClass(r.status)}">${esc(r.status)}</span><div class="record-row"><span>${esc(r.product)}</span><span>العدد/القيمة: ${esc(r.qty||'-')}</span></div><p class="muted">${esc(r.date||'')} ${r.note?' | '+esc(r.note):''}</p><button type="button" class="danger smallbtn" onclick="del('doctorDeals',${r.id})">حذف</button></div>`).join('')||'<div class="empty">لا توجد ديلات محفوظة</div>';
+}
+
 function toggleDealerFields(){
   const box=$('dealerExtraFields'); if(!box)return;
   const isDealer=(($('docType')&&$('docType').value)||'')==='ديلر';
@@ -851,23 +1249,36 @@ function saveDealerFromDoctor(doctorId){
   const notes=v('docDealerNeedNotes');
   if(!medId && !value && !notes)return;
   db.dealerNeeds=db.dealerNeeds||[];
-  db.dealerNeeds.push({id:Date.now(),doctorId,medId,type:v('docDealerNeedType')||'ديل',value,notes,date:today()});
+  db.dealerNeeds.push({id:Date.now(),doctorId,medId,type:v('docDealerNeedType')||'ديل',value,notes,status:'مواصلة',date:today()});
+  db.doctorDeals=db.doctorDeals||[];
+  db.doctorDeals.unshift({id:Date.now()+1,doctorId,medId,product:productName(medId),qty:value,status:'مواصلة',note:notes,date:today()});
 }
 
 function fillStockDealerSelects(){
-  const medOptions='<option value="">اختر المادة</option>'+(db.medicines||[]).map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('');
+  const medOptions='<option value="">اختر المنتج</option>'+(db.medicines||[]).map(m=>`<option value="${m.id}">${esc(m.name)} - المتوفر ${fmt(m.stockQty)}</option>`).join('');
   if($('stockMed'))$('stockMed').innerHTML=medOptions;
+}
+function stockMedChanged(){
+  const m=med(v('stockMed'));
+  if(!m)return;
+  set('stockQty',m.stockQty||0);
+  set('stockMinQty',m.minStock||0);
+  const old=(db.stocks||[]).find(x=>String(x.medId)===String(m.id));
+  set('stockCombined',old?old.combined:'');
+  set('stockNotes',old?old.notes:'');
 }
 function saveStock(){
   const medId=v('stockMed');
-  if(!medId)return alert('اختر المادة');
+  if(!medId)return alert('اختر المنتج');
+  const m=med(medId);
+  if(m){m.stockQty=n(v('stockQty'));m.minStock=n(v('stockMinQty'));}
   db.stocks=db.stocks||[];
   const old=db.stocks.find(x=>String(x.medId)===String(medId));
   const combined=v('stockCombined');
   const notes=v('stockNotes');
   const obj={id:old?old.id:Date.now(),medId,combined,notes};
   old?Object.assign(old,obj):db.stocks.push(obj);
-  ['stockCombined','stockNotes'].forEach(id=>{if($(id))$(id).value=''});
+  ['stockCombined','stockNotes','stockQty','stockMinQty'].forEach(id=>{if($(id))$(id).value=''});
   save();
 }
 function medDisplayName(id){
@@ -876,23 +1287,28 @@ function medDisplayName(id){
 }
 function renderStockDealer(){
   fillStockDealerSelects();
+  applyBusinessMode();
   if($('stockList')){
-    const rows=(db.stocks||[]);
-    $('stockList').innerHTML=rows.length?rows.map(s=>`<div class="item"><h3>${medDisplayName(s.medId)}</h3><div class="total"><b>سامبلات / فري:</b><br>${esc(s.combined||'-')}</div>${s.notes?`<p class="small">${esc(s.notes)}</p>`:''}<div class="item-actions"><button type="button" class="btn-danger" onclick="db.stocks=db.stocks.filter(x=>x.id!==${s.id});save()">حذف</button></div></div>`).join(''):'<div class="empty">لا يوجد مخزون محفوظ</div>';
+    const rows=(db.medicines||[]);
+    $('stockList').innerHTML=rows.length?rows.map(m=>{
+      const extra=(db.stocks||[]).find(x=>String(x.medId)===String(m.id));
+      const q=n(m.stockQty),min=n(m.minStock),state=q<=0?'out':(min&&q<=min?'low':'');
+      return `<div class="stock-count-card"><div>${productImageHtml(m)}<b>${esc(m.name)}</b><br><small>${esc(m.company||'')} ${m.type?'| '+esc(m.type):''}</small>${extra&&extra.combined?`<br><small>${esc(extra.combined)}</small>`:''}${extra&&extra.notes?`<br><small>${esc(extra.notes)}</small>`:''}</div><span class="stock-badge ${state}">المتوفر: ${fmt(q)}</span></div>`;
+    }).join(''):'<div class="empty">لا يوجد مخزون محفوظ</div>';
   }
 }
 
-function render(){let p=db.profile||{};['repName','repJob','repZone','repCompany','repPhone','defaultMedCompany'].forEach(id=>set(id,(id==='defaultMedCompany'?p.defaultCompany:p[id.replace('rep','').toLowerCase()])||''));set('reportStyle',p.reportStyle||'مختصر');$('homeName').textContent=p.name||'مندوب علمي';$('homeInfo').textContent=[p.job,p.zone,p.company].filter(Boolean).join(' | ')||'أكمل بياناتك من المزيد';$('headSub').textContent=p.company?`شركة ${p.company} | زون ${p.zone||'-'}`:'طلبيات، زيارات، عملاء، تاركت';
-if(!v('orderDate'))set('orderDate',today());if(!v('visitDate'))set('visitDate',today());if(!v('reportDate'))set('reportDate',today());if(!v('planDate'))set('planDate',today());if(!v('expenseDate'))set('expenseDate',today());if(!v('targetMonth'))set('targetMonth',mon());refreshDoctorProducts();
-let medOpts='<option value="">اختر دواء محفوظ</option>'+db.medicines.map(m=>`<option value="${m.id}">${esc(m.name)} - ${fmt(m.price)}</option>`).join('');$('orderMed').innerHTML=medOpts;$('visitProduct').innerHTML=medOpts;fillOrderClients();fillVisitClients();
+function render(){let p=db.profile||{};if(p.businessType==='cosmetic')p.businessType='commercial';['repName','repJob','repZone','repCompany','repPhone','defaultMedCompany'].forEach(id=>set(id,(id==='defaultMedCompany'?p.defaultCompany:p[id.replace('rep','').toLowerCase()])||''));set('reportStyle',p.reportStyle||'مختصر');set('businessType',normalizeBusinessType(p.businessType||'medical'));applyBusinessMode();let role=businessLabel();$('homeName').textContent=p.name||role;$('homeInfo').textContent=[role,p.job,p.zone,p.company].filter(Boolean).join(' | ')||'أكمل بياناتك من المزيد';$('headSub').textContent=p.company?`${role} | شركة ${p.company} | زون ${p.zone||'-'}`:`${role} | طلبيات، زيارات، عملاء، تاركت`;
+if(!v('orderDate'))set('orderDate',today());if(!v('visitDate'))set('visitDate',today());if(!v('reportDate'))set('reportDate',today());if(!v('planDate'))set('planDate',today());if(!v('expenseDate'))set('expenseDate',today());if(!v('targetMonth'))set('targetMonth',mon());if(!v('phListDate'))set('phListDate',today());if(!v('docDealDate'))set('docDealDate',today());refreshDoctorProducts();
+let medOpts='<option value="">اختر منتج محفوظ</option>'+db.medicines.map(m=>`<option value="${m.id}">${esc(m.name)} - ${fmt(m.price)}</option>`).join('');$('orderMed').innerHTML=medOpts;$('visitProduct').innerHTML=medOpts;fillOrderClients();fillVisitClients();
 let tg=target(),ach=achieved(),rem=Math.max(n(tg.target)-ach,0),per=tg.target?Math.round(ach/tg.target*100):0;$('hTarget').textContent=fmt(tg.target);$('hAch').textContent=fmt(ach);$('hOrders').textContent=db.orders.filter(o=>o.date==today()).length;let follows=[...db.doctors.map(x=>({...x,type:'طبيب'})),...db.pharmacies.map(x=>({...x,type:'صيدلية'}))].filter(x=>x.followDate==today());$('hFollow').textContent=follows.length;$('targetBar').style.width=Math.min(per,100)+'%';$('targetLine').textContent=`التاركت: ${per}% | المتبقي: ${fmt(rem)} د.ع`;
 $('homeOrders').innerHTML=db.orders.slice(0,4).map(o=>`<div class="item"><b>${esc(clientName(o.clientType,o.clientId))}</b><p class="muted">${esc(o.product)} | ${fmt(o.total)} د.ع | ${esc(o.status)}</p></div>`).join('')||'<div class="empty">لا توجد طلبيات بعد</div>';$('homeFollows').innerHTML=follows.map(x=>`<div class="item"><b>${esc(x.type)}: ${esc(x.name)}</b><p class="muted">${esc(x.followNote||'متابعة')}</p></div>`).join('')||'<div class="empty">لا توجد متابعات اليوم</div>';
-let os=v('orderSearch').toLowerCase(),of=v('orderFilter');$('orderList').innerHTML=db.orders.filter(o=>(clientName(o.clientType,o.clientId)+o.product+o.status).toLowerCase().includes(os)&&(!of||o.status==of)).slice(0,50).map(o=>`<div class="item"><h3>${esc(clientName(o.clientType,o.clientId))}</h3><span class="badge">${esc(o.clientType=='doctor'?'طبيب':'صيدلية')}</span><span class="badge">${esc(o.status)}</span><p>${esc(o.product)} | كمية: ${fmt(o.qty)} | بونص: ${fmt(o.bonus)}</p><p class="muted">خصم: ${fmt(o.discount)} | صافي: <b>${fmt(o.total)}</b> د.ع</p><div class="receipt-actions"><button type="button" class="btn-soft smallbtn" onclick="editOrder(${o.id})">تعديل</button><button type="button" class="btn-soft smallbtn" onclick="downloadOrderReceiptPdf(${o.id})">وصل PDF</button><button type="button" class="btn-danger smallbtn" onclick="del('orders',${o.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد طلبيات</div>';
+let os=v('orderSearch').toLowerCase(),of=v('orderFilter');$('orderList').innerHTML=db.orders.filter(o=>(clientName(o.clientType,o.clientId)+o.product+o.status+orderSourceValue(o)+orderDeliveryValue(o)).toLowerCase().includes(os)&&(!of||o.status==of)).slice(0,50).map(o=>`<div class="item"><h3>${esc(clientName(o.clientType,o.clientId))}</h3><span class="badge">${esc(o.clientType=='doctor'?'طبيب':'صيدلية')}</span><span class="badge">${esc(o.status)}</span><span class="badge">${esc(orderSourceValue(o))}</span><span class="badge">${esc(orderDeliveryValue(o))}</span><p>${esc(o.product)} | كمية: ${fmt(o.qty)} | بونص: ${fmt(o.bonus)}</p><p class="muted">خصم: ${fmt(o.discount)} | صافي: <b>${fmt(o.total)}</b> د.ع | مدفوع: <b>${fmt(orderPaidValue(o))}</b> | باقي: <b>${fmt(orderRemainingValue(o))}</b> ${o.medId?' | '+productStockText(med(o.medId)):''}</p><div class="receipt-actions"><button type="button" class="btn-soft smallbtn" onclick="editOrder(${o.id})">تعديل</button><button type="button" class="btn-soft smallbtn" onclick="downloadOrderReceiptPdf(${o.id})">وصل PDF</button><button type="button" class="btn-danger smallbtn" onclick="del('orders',${o.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد طلبيات</div>';
 let vs=v('visitSearch').toLowerCase();$('visitList').innerHTML=db.visits.filter(x=>(clientName(x.type,x.clientId)+x.status+x.product+x.note).toLowerCase().includes(vs)).slice(0,40).map(x=>`<div class="item"><h3>${esc(clientName(x.type,x.clientId))}</h3><span class="badge">${esc(x.type=='doctor'?'طبيب':'صيدلية')}</span><span class="badge">${esc(x.status)}</span><p class="muted">${esc(x.product||'بدون منتج')} | ${esc(x.date)}</p><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editVisit(${x.id})">تعديل</button><button type="button" class="btn-danger smallbtn" onclick="del('visits',${x.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد زيارات</div>';
-let cs=v('clientSearch').toLowerCase(),zf=v('zoneFilter').toLowerCase(),arr=clientMode=='doctor'?db.doctors:db.pharmacies;$('clientList').innerHTML=arr.filter(x=>(x.name+(x.spec||'')+(x.owner||'')+x.zone+x.phone+(x.doctorType||'')).toLowerCase().includes(cs)&&(!zf||(x.zone||'').toLowerCase().includes(zf))).slice(0,50).map(x=>`<div class="item"><h3>${esc(x.name)}</h3>${clientMode=='doctor'?`<span class="badge">${esc(x.doctorType)}</span>`:''}<span class="badge">${esc(x.zone||'بدون زون')}</span><span class="badge">${esc(x.importance||'عادي')}</span><p class="muted">${esc(x.phone||'')} ${x.spec?'| '+esc(x.spec):''}${x.owner?'| '+esc(x.owner):''}</p><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="go('orders');set('orderClientType','${clientMode}');fillOrderClients();set('orderClient','${x.id}')">طلبية</button><button type="button" class="btn-outline smallbtn" onclick="editClient('${clientMode}',${x.id})">تعديل</button><button type="button" class="btn-outline smallbtn" onclick="map('${esc(x.lat)}','${esc(x.lng)}')">خريطة</button><button type="button" class="btn-danger smallbtn" onclick="del('${clientMode=='doctor'?'doctors':'pharmacies'}',${x.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد نتائج</div>';
-let ms=v('medSearch').toLowerCase();$('medList').innerHTML=db.medicines.filter(m=>(m.name+m.company+(m.scientific||'')+(m.type||'')).toLowerCase().includes(ms)).slice(0,50).map(m=>`<div class="item"><h3>${esc(m.name)}</h3><span class="badge">${esc(m.scientific||'بدون علمي')}</span><span class="badge">${fmt(m.price)} د.ع</span>${m.type?`<span class="badge">${esc(m.type)}</span>`:''}<p class="muted">${esc(m.company||'')} | ${esc(m.dose||'')}</p><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editMed(${m.id})">تعديل</button><button type="button" class="btn-soft smallbtn" onclick="medPdf(${m.id})">PDF</button><button type="button" class="btn-danger smallbtn" onclick="del('medicines',${m.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد أدوية</div>';
+let cs=v('clientSearch').toLowerCase(),zf=v('zoneFilter').toLowerCase(),arr=clientMode=='doctor'?db.doctors:db.pharmacies;$('clientList').innerHTML=arr.filter(x=>(x.name+(x.spec||'')+(x.owner||'')+x.zone+x.phone+(x.doctorType||'')+pharmacyNames(x.pharmacyIds).join(' ')).toLowerCase().includes(cs)&&(!zf||(x.zone||'').toLowerCase().includes(zf))).slice(0,50).map(x=>{const linked=clientMode=='doctor'?pharmacyNames(x.pharmacyIds):[];return `<div class="item"><h3>${esc(x.name)}</h3>${clientMode=='doctor'?`<span class="badge">${esc(x.doctorType)}</span>`:''}<span class="badge">${esc(x.zone||'بدون زون')}</span><span class="badge">${esc(x.importance||'عادي')}</span><p class="muted">${esc(x.phone||'')} ${x.spec?'| '+esc(x.spec):''}${x.owner?'| '+esc(x.owner):''}</p>${linked.length?`<div class="linked-mini"><b>الصيدليات المرتبطة:</b>${linked.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}${clientMode==='doctor'?doctorDealsHtml(x.id):pharmacySummaryHtml(x.id)}<div class="tools">${clientMode==='doctor'?`<button type="button" class="btn-soft smallbtn" onclick="openDoctorFile(${x.id})">ملف الطبيب</button>`:`<button type="button" class="btn-soft smallbtn" onclick="openPharmacyFile(${x.id})">ملف الصيدلية</button>`}<button type="button" class="btn-soft smallbtn" onclick="go('orders');set('orderClientType','${clientMode}');fillOrderClients();set('orderClient','${x.id}')">طلبية</button><button type="button" class="btn-outline smallbtn" onclick="editClient('${clientMode}',${x.id})">تعديل</button><button type="button" class="btn-outline smallbtn" onclick="map('${esc(x.lat)}','${esc(x.lng)}')">خريطة</button><button type="button" class="btn-danger smallbtn" onclick="del('${clientMode=='doctor'?'doctors':'pharmacies'}',${x.id})">حذف</button></div></div>`}).join('')||'<div class="empty">لا توجد نتائج</div>';
+let ms=v('medSearch').toLowerCase();$('medList').innerHTML=db.medicines.filter(m=>(m.name+m.company+(m.scientific||'')+(m.type||'')).toLowerCase().includes(ms)).slice(0,50).map(m=>`<div class="item">${productImageHtml(m)}<h3>${esc(m.name)}</h3><span class="badge">${esc(m.scientific||'بدون وصف')}</span><span class="badge">${fmt(m.price)} د.ع</span>${productStockText(m)}${m.type?`<span class="badge">${esc(m.type)}</span>`:''}<p class="muted">${esc(m.company||'')} | ${esc(m.dose||'')}</p><div style="clear:both"></div><div class="tools"><button type="button" class="btn-soft smallbtn" onclick="editMed(${m.id})">تعديل</button><button type="button" class="btn-soft smallbtn" onclick="medPdf(${m.id})">PDF</button><button type="button" class="btn-danger smallbtn" onclick="del('medicines',${m.id})">حذف</button></div></div>`).join('')||'<div class="empty">لا توجد منتجات</div>';
 set('targetValue',tg.target||'');set('manualAchieved',tg.manual||'');$('targetSummary').innerHTML=`الشهر: ${esc(tg.month)}<br>المطلوب: <b>${fmt(tg.target)}</b> د.ع<br>المتحقق: <b class="ok">${fmt(ach)}</b> د.ع<br>المتبقي: <b class="bad">${fmt(rem)}</b> د.ع<br>النسبة: ${per}%`;
-let rs=v('reportSearch').toLowerCase();$('reportList').innerHTML=db.reports.filter(r=>(r.text+r.date).toLowerCase().includes(rs)).slice(0,30).map(r=>`<div class="item"><h3>${esc(r.date)}</h3><div class="report">${esc(r.text)}</div><button type="button" class="btn-outline" onclick='copyText(${JSON.stringify(''+(r.text||''))})'>نسخ</button><button type="button" class="btn-danger" onclick="del('reports',${r.id})">حذف</button></div>`).join('')||'<div class="empty">لا توجد تقارير</div>';calcOrder();refreshCompanyList();fillDefaultMedCompany();updateSmartDashboard();}
+let rs=v('reportSearch').toLowerCase();$('reportList').innerHTML=db.reports.filter(r=>(r.text+r.date).toLowerCase().includes(rs)).slice(0,30).map(r=>`<div class="item"><h3>${esc(r.date)}</h3><div class="report">${esc(r.text)}</div><button type="button" class="btn-outline" onclick='copyText(${JSON.stringify(''+(r.text||''))})'>نسخ</button><button type="button" class="btn-danger" onclick="del('reports',${r.id})">حذف</button></div>`).join('')||'<div class="empty">لا توجد تقارير</div>';fillDoctorPharmacies();calcOrder();refreshCompanyList();fillDefaultMedCompany();updateSmartDashboard();}
 
 
 const aiReplyTypes=[
@@ -974,13 +1390,38 @@ const APP_SECRET='MRFLOW-LOCAL-2026';
 function cleanCode(x){return String(x||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
 function strongHash(str){let h1=0xdeadbeef,h2=0x41c6ce57,h3=0x9e3779b9;str=String(str||'');for(let i=0;i<str.length;i++){let ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);h3=Math.imul(h3^ch,2246822507);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h3^(h3>>>13),3266489909);h3=Math.imul(h3^(h3>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return [(h1>>>0),(h2>>>0),(h3>>>0)].map(x=>x.toString(36).toUpperCase().padStart(7,'0')).join('')}
 function makeActivationCode(user,pass,device){let raw=[String(user||'').trim().toLowerCase(),String(pass||''),String(device||''),APP_SECRET].join('|');let mix=strongHash(raw)+'-'+strongHash(raw.split('').reverse().join('|'));let c=cleanCode(mix).slice(0,24);return 'MRF-'+c.match(/.{1,4}/g).join('-')}
-function getDeviceId(){try{if(window.Android&&Android.getDeviceId){let id=Android.getDeviceId();if(id)return String(id)}}catch(e){}let id=localStorage.getItem(DEVICE_KEY);if(!id){id='MR-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,8).toUpperCase();localStorage.setItem(DEVICE_KEY,id)}return id}
+function setStableDeviceId(id){
+  id=String(id||'').trim();
+  if(!id || id==='UNKNOWN_DEVICE' || id==='----') return '';
+  try{localStorage.setItem(DEVICE_KEY,id)}catch(e){}
+  window.MEDREP_ANDROID_DEVICE_ID=id;
+  const box=$('deviceIdBox');
+  if(box) box.textContent=id;
+  return id;
+}
+function getDeviceId(){
+  try{if(window.MEDREP_ANDROID_DEVICE_ID){let x=setStableDeviceId(window.MEDREP_ANDROID_DEVICE_ID);if(x)return x}}catch(e){}
+  try{
+    if(window.Android && typeof Android.getDeviceId==='function'){
+      let x=setStableDeviceId(Android.getDeviceId());
+      if(x)return x;
+    }
+  }catch(e){}
+  try{let x=localStorage.getItem(DEVICE_KEY);if(x&&String(x).trim())return String(x).trim()}catch(e){}
+  let id='MR-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,8).toUpperCase();
+  return setStableDeviceId(id)||id;
+}
+function refreshDeviceBox(){
+  const box=$('deviceIdBox');
+  if(box) box.textContent=getDeviceId();
+}
+window.medrepSetDeviceId=function(id){return setStableDeviceId(id)};
 function getLicense(){try{return JSON.parse(localStorage.getItem(AUTH_KEY)||'null')}catch(e){return null}}
 function saveLicense(obj){localStorage.setItem(AUTH_KEY,JSON.stringify(obj));try{if(window.Android&&Android.saveLicense)Android.saveLicense(JSON.stringify(obj))}catch(e){}}
 function validLicense(){let l=getLicense(),d=getDeviceId();return !!(l&&l.activated&&l.deviceId===d&&l.username)}
 function showAppSplash(){let sp=$('appSplash');if(!sp)return;sp.classList.remove('hide');setTimeout(()=>sp.classList.add('hide'),2000)}
 function unlockApp(withSplash){document.body.classList.remove('auth-lock');try{render();applyLang(currentLang())}catch(e){}if(withSplash)showAppSplash()}
-function lockApp(){document.body.classList.add('auth-lock');let box=$('deviceIdBox');if(box)box.textContent=getDeviceId()}
+function lockApp(){document.body.classList.add('auth-lock');refreshDeviceBox();setTimeout(refreshDeviceBox,250);setTimeout(refreshDeviceBox,1000)}
 function checkAuth(){if(validLicense())unlockApp();else lockApp()}
 function activateOfflineLogin(){let u=v('loginUser'),p=v('loginPass'),c=cleanCode(v('loginCode')),d=getDeviceId(),msg=$('authMsg');if(msg)msg.textContent='';if(!u||!p||!c){if(msg)msg.textContent='اكتب اسم المستخدم وكلمة المرور وكود التفعيل';return}let correct=cleanCode(makeActivationCode(u,p,d));if(c!==correct){if(msg)msg.textContent='كود التفعيل غير صحيح لهذا الجهاز';return}saveLicense({username:u,deviceId:d,activated:true,activatedAt:new Date().toISOString()});set('loginPass','');set('loginCode','');unlockApp(true)}
 function copyDeviceId(){let d=getDeviceId();navigator.clipboard?.writeText(d);alert('تم نسخ رقم الجهاز')}
@@ -994,31 +1435,33 @@ function initTheme(){
 
 /* تهيئة التطبيق عند البداية */
 initTheme();
-render();
 checkAuth();
-moreTab('settings');
-clientTab('doctor');
-if(typeof renderPlanExpensesProgress==='function')renderPlanExpensesProgress();
-if(typeof renderStockDealer==='function')renderStockDealer();
+try{render()}catch(e){console.warn('render init error',e)}
+try{moreTab('settings')}catch(e){}
+try{clientTab('doctor')}catch(e){}
+if(typeof renderPlanExpensesProgress==='function')try{renderPlanExpensesProgress()}catch(e){}
+if(typeof renderStockDealer==='function')try{renderStockDealer()}catch(e){}
+setTimeout(refreshDeviceBox,100);
+setTimeout(refreshDeviceBox,500);
+setTimeout(refreshDeviceBox,1500);
 </script>
 <script id="lang-switch-script">
-const I18N={"en": {"نظام المندوب العلمي": "Medical Representative System", "طلبيات، زيارات، عملاء، تاركت": "Orders, visits, clients, target", "لوحة التحكم": "Dashboard", "مندوب علمي": "Medical representative", "أكمل بياناتك من المزيد": "Complete your details from More", "الرئيسية": "Home", "الطلبيات": "Orders", "العملاء": "Clients", "المزيد": "More", "إضافة": "Add", "إضافة سريع": "Quick add", "طلبية جديدة": "New order", "تسجيل بيع أو طلبية": "Record sale or order", "زيارة": "Visit", "تسجيل زيارة فقط": "Record visit only", "طبيب": "Doctor", "إضافة طبيب جديد": "Add new doctor", "صيدلية": "Pharmacy", "إضافة صيدلية جديدة": "Add new pharmacy", "دواء": "Medicine", "إضافة مادة جديدة": "Add new item", "مخزون": "Stock", "المخزون": "Stock", "سامبلات / فري": "Samples / Free items", "مصروف": "Expense", "وقود أو ضيافة": "Fuel or hospitality", "خط سير": "Route plan", "إضافة عميل للخطة": "Add client to plan", "إلغاء": "Cancel", "المطلوب": "Required", "المتحقق": "Achieved", "طلبيات اليوم": "Today's orders", "متابعات اليوم": "Today's follow-ups", "آخر الطلبيات": "Latest orders", "مؤشرات سريعة": "Quick indicators", "أكثر الأدوية مبيعاً والمصاريف اليومية": "Top-selling medicines and daily expenses", "لا توجد طلبيات بعد": "No orders yet", "لا توجد مبيعات مؤكدة": "No confirmed sales", "مصاريف اليوم": "Today's expenses", "طلبية": "Order", "تعديل طلبية": "Edit order", "اختر العميل": "Select client", "اختر دواء حتى تظهر تفاصيله هنا.": "Select a medicine to show details here.", "اسم المنتج": "Product name", "الكمية": "Quantity", "بونص مجاني": "Free bonus", "سعر المفرد": "Unit price", "خصم بالدينار": "Discount in IQD", "ملاحظات الطلبية": "Order notes", "الصافي": "Net", "البونص": "Bonus", "تنحسب على التاركت": "Counts toward target", "لا تنحسب على التاركت": "Does not count toward target", "حفظ الطلبية": "Save order", "إلغاء التعديل": "Cancel edit", "كل الحالات": "All statuses", "بيع مؤكد": "Confirmed sale", "تم التسليم": "Delivered", "ملغي": "Cancelled", "بحث": "Search", "تعديل": "Edit", "حذف": "Delete", "تسجيل زيارة": "Record visit", "ملاحظات الزيارة فقط": "Visit notes only", "حفظ الزيارة": "Save visit", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "Orders are now separate; this screen is only for visits and notes.", "سجل الزيارات": "Visit log", "تمت": "Done", "لم تتم": "Not done", "مؤجلة": "Postponed", "يحتاج متابعة": "Needs follow-up", "الأطباء": "Doctors", "الصيدليات": "Pharmacies", "إضافة طبيب": "Add doctor", "اسم الطبيب": "Doctor name", "علمي": "Scientific", "ديلر": "Dealer", "الاختصاص": "Specialty", "الهاتف": "Phone", "الزون": "Zone", "تفاصيل الديلر": "Dealer details", "المادة المطلوبة": "Required item", "نوع الاحتياج": "Need type", "ديل": "Deal", "كسرة": "Break / discount", "سفرة": "Trip", "هدية": "Gift", "دعم": "Support", "أخرى": "Other", "القيمة / العدد": "Value / count", "ملاحظة الديلر": "Dealer note", "مثال: 10 سامبل أو 50,000": "Example: 10 samples or 50,000", "تفاصيل الاتفاق أو الحاجة": "Deal or need details", "المنتجات المهتم بها": "Interested products", "ملاحظة المتابعة": "Follow-up note", "ملاحظات": "Notes", "تثبيت الموقع": "Pin location", "حفظ الطبيب": "Save doctor", "إضافة صيدلية": "Add pharmacy", "اسم الصيدلية": "Pharmacy name", "المسؤول": "Responsible person", "حفظ الصيدلية": "Save pharmacy", "قائمة العملاء": "Client list", "فلتر الزون": "Zone filter", "خريطة": "Map", "الإعدادات": "Settings", "الأدوية": "Medicines", "المصاريف": "Expenses", "التقارير": "Reports", "إعدادات المندوب": "Representative settings", "اسم المندوب": "Representative name", "الوظيفة": "Job title", "الشركة": "Company", "الشركة الافتراضية للأدوية": "Default medicine company", "أسلوب تقرير مختصر": "Short report style", "أسلوب تقرير إداري": "Administrative report style", "أسلوب تقرير تفصيلي": "Detailed report style", "حفظ الإعدادات": "Save settings", "تاركت الشهر": "Monthly target", "قيمة التاركت": "Target value", "مبلغ يدوي إضافي اختياري": "Optional manual achieved amount", "حفظ التاركت": "Save target", "نسخ وتصدير": "Backup and export", "تصدير JSON": "Export JSON", "تصدير CSV": "Export CSV", "إضافة دواء": "Add medicine", "اسم الدواء": "Medicine name", "الاسم العلمي": "Scientific name", "السعر": "Price", "الجرعة / الشكل": "Dose / form", "شرح الدواء": "Medicine description", "نقاط البيع": "Selling points", "حفظ الدواء": "Save medicine", "قائمة الأدوية": "Medicine list", "بدون علمي": "No scientific name", "PDF": "PDF", "خط السير اليومي": "Daily route plan", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "Arrange clients by zone and convert them directly to actual visits.", "إضافة إلى خط السير": "Add to route plan", "تحويل لزيارة": "Convert to visit", "لا توجد خطة لهذا اليوم": "No plan for this day", "المصاريف اليومية": "Daily expenses", "المبلغ": "Amount", "وقود": "Fuel", "ضيافة": "Hospitality", "اتصالات": "Communications", "نثرية": "Miscellaneous", "حفظ المصروف": "Save expense", "لا توجد مصاريف لهذا اليوم": "No expenses for this day", "المخزون الخاص": "Private stock", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "Write samples and free items in one flexible field.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "Samples / free - example: 10 samples + 5 free", "حفظ المخزون": "Save stock", "لا يوجد مخزون محفوظ": "No saved stock", "تقرير جاهز": "Ready report", "تكوين تقرير اليوم": "Generate today's report", "التقرير يظهر هنا": "The report appears here", "نسخ": "Copy", "حفظ": "Save", "التقارير المحفوظة": "Saved reports", "لا توجد تقارير": "No reports", "اختر الدواء": "Select medicine", "اختر المادة": "Select item", "غير محدد": "Not specified", "بدون زون": "No zone", "بدون منتج": "No product", "لا توجد طلبيات": "No orders", "لا توجد زيارات": "No visits", "لا توجد نتائج": "No results", "لا توجد أدوية": "No medicines", "د.ع": "IQD", "الشهر": "Month", "النسبة": "Percentage", "المتبقي": "Remaining", "التاركت": "Target", "البيع المحسوب على التاركت": "Sales counted toward target", "إجمالي المصاريف": "Total expenses", "الملخص": "Summary", "الزيارات": "Visits", "الإجراء القادم": "Next action", "تم حفظ الإعدادات": "Settings saved", "تم حفظ التاركت": "Target saved", "تم النسخ": "Copied", "كوّن التقرير أولاً": "Generate the report first", "اكتب اسم الدواء": "Enter medicine name", "اكتب اسم الطبيب": "Enter doctor name", "اكتب اسم الصيدلية": "Enter pharmacy name", "اكتب المبلغ": "Enter amount", "لا يوجد موقع محفوظ": "No saved location", "تم تثبيت الموقع": "Location pinned", "تعذر جلب الموقع": "Could not get location", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "Location does not work from a direct file. Upload to HTTPS or enter coordinates manually.", "حذف؟": "Delete?", "ملف غير صالح": "Invalid file", "تم الاستيراد": "Imported", "عربي": "Arabic", "کوردی": "Kurdish"}, "ku": {"نظام المندوب العلمي": "سیستەمی نوێنەری زانستی", "طلبيات، زيارات، عملاء، تاركت": "داواکاری، سەردان، کڕیار، تارگێت", "لوحة التحكم": "داشبۆرد", "مندوب علمي": "نوێنەری زانستی", "أكمل بياناتك من المزيد": "زانیارییەکانت لە بەشی زیاتر تەواو بکە", "الرئيسية": "سەرەکی", "الطلبيات": "داواکارییەکان", "العملاء": "کڕیارەکان", "المزيد": "زیاتر", "إضافة": "زیادکردن", "إضافة سريع": "زیادکردنی خێرا", "طلبية جديدة": "داواکاری نوێ", "تسجيل بيع أو طلبية": "فرۆشتن یان داواکاری تۆمار بکە", "زيارة": "سەردان", "تسجيل زيارة فقط": "تەنها سەردان تۆمار بکە", "طبيب": "پزیشک", "إضافة طبيب جديد": "پزیشکی نوێ زیاد بکە", "صيدلية": "دەرمانخانە", "إضافة صيدلية جديدة": "دەرمانخانەی نوێ زیاد بکە", "دواء": "دەرمان", "إضافة مادة جديدة": "مادەی نوێ زیاد بکە", "مخزون": "کۆگا", "المخزون": "کۆگا", "سامبلات / فري": "سامپڵ / فری", "مصروف": "خەرجی", "وقود أو ضيافة": "سووتەمەنی یان میوانداری", "خط سير": "ڕێڕەوی کار", "إضافة عميل للخطة": "کڕیار بۆ پلان زیاد بکە", "إلغاء": "هەڵوەشاندنەوە", "المطلوب": "پێویست", "المتحقق": "بەدەستهاتوو", "طلبيات اليوم": "داواکارییەکانی ئەمڕۆ", "متابعات اليوم": "بەدواداچوونەکانی ئەمڕۆ", "آخر الطلبيات": "دوایین داواکارییەکان", "مؤشرات سريعة": "نیشاندەرە خێراکان", "أكثر الأدوية مبيعاً والمصاريف اليومية": "زۆرترین دەرمانی فرۆشراو و خەرجی ڕۆژانە", "لا توجد طلبيات بعد": "هێشتا داواکاری نییە", "لا توجد مبيعات مؤكدة": "فرۆشتنی پشتڕاستکراو نییە", "مصاريف اليوم": "خەرجی ئەمڕۆ", "طلبية": "داواکاری", "تعديل طلبية": "دەستکاری داواکاری", "اختر العميل": "کڕیار هەڵبژێرە", "اختر دواء حتى تظهر تفاصيله هنا.": "دەرمانێک هەڵبژێرە بۆ ئەوەی وردەکارییەکان لێرە دەربکەون.", "اسم المنتج": "ناوی بەرهەم", "الكمية": "بڕ", "بونص مجاني": "بۆنەسی بێبەرامبەر", "سعر المفرد": "نرخی یەکە", "خصم بالدينار": "داشکاندن بە دینار", "ملاحظات الطلبية": "تێبینی داواکاری", "الصافي": "پاڵاوکراوە", "البونص": "بۆنەس", "تنحسب على التاركت": "بۆ تارگێت هەژمار دەکرێت", "لا تنحسب على التاركت": "بۆ تارگێت هەژمار ناکرێت", "حفظ الطلبية": "داواکاری پاشەکەوت بکە", "إلغاء التعديل": "دەستکاری هەڵبوەشێنەوە", "كل الحالات": "هەموو دۆخەکان", "بيع مؤكد": "فرۆشتنی پشتڕاستکراو", "تم التسليم": "گەیەندرا", "ملغي": "هەڵوەشاوە", "بحث": "گەڕان", "تعديل": "دەستکاری", "حذف": "سڕینەوە", "تسجيل زيارة": "سەردان تۆمار بکە", "ملاحظات الزيارة فقط": "تەنها تێبینی سەردان", "حفظ الزيارة": "سەردان پاشەکەوت بکە", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "داواکاری ئێستا بەشێکی سەربەخۆیە؛ لێرە تەنها سەردان و تێبینی تۆمار دەکرێت.", "سجل الزيارات": "تۆماری سەردانەکان", "تمت": "ئەنجامدرا", "لم تتم": "ئەنجام نەدرا", "مؤجلة": "دواخراوە", "يحتاج متابعة": "پێویستی بەدواداچوونە", "الأطباء": "پزیشکەکان", "الصيدليات": "دەرمانخانەکان", "إضافة طبيب": "پزیشک زیاد بکە", "اسم الطبيب": "ناوی پزیشک", "علمي": "زانستی", "ديلر": "دیلەر", "الاختصاص": "پسپۆڕی", "الهاتف": "ژمارەی مۆبایل", "الزون": "زۆن", "تفاصيل الديلر": "وردەکاریی دیلەر", "المادة المطلوبة": "مادەی داواکراو", "نوع الاحتياج": "جۆری پێویستی", "ديل": "دیل", "كسرة": "کسرە", "سفرة": "گەشت", "هدية": "دیاری", "دعم": "پشتیوانی", "أخرى": "هی تر", "القيمة / العدد": "بها / ژمارە", "ملاحظة الديلر": "تێبینی دیلەر", "مثال: 10 سامبل أو 50,000": "نموونە: ١٠ سامپڵ یان ٥٠,٠٠٠", "تفاصيل الاتفاق أو الحاجة": "وردەکاری ڕێککەوتن یان پێویستی", "المنتجات المهتم بها": "بەرهەمە گرنگەکان", "ملاحظة المتابعة": "تێبینی بەدواداچوون", "ملاحظات": "تێبینییەکان", "تثبيت الموقع": "شوێن دیاری بکە", "حفظ الطبيب": "پزیشک پاشەکەوت بکە", "إضافة صيدلية": "دەرمانخانە زیاد بکە", "اسم الصيدلية": "ناوی دەرمانخانە", "المسؤول": "بەرپرس", "حفظ الصيدلية": "دەرمانخانە پاشەکەوت بکە", "قائمة العملاء": "لیستی کڕیاران", "فلتر الزون": "فلتەری زۆن", "خريطة": "نەخشە", "الإعدادات": "ڕێکخستنەکان", "الأدوية": "دەرمانەکان", "المصاريف": "خەرجییەکان", "التقارير": "ڕاپۆرتەکان", "إعدادات المندوب": "ڕێکخستنی نوێنەر", "اسم المندوب": "ناوی نوێنەر", "الوظيفة": "پیشە", "الشركة": "کۆمپانیا", "الشركة الافتراضية للأدوية": "کۆمپانیای بنەڕەتی بۆ دەرمانەکان", "أسلوب تقرير مختصر": "شێوازی ڕاپۆرتی کورت", "أسلوب تقرير إداري": "شێوازی ڕاپۆرتی ئیداری", "أسلوب تقرير تفصيلي": "شێوازی ڕاپۆرتی ورد", "حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت بکە", "تاركت الشهر": "تارگێتی مانگانە", "قيمة التاركت": "بەهای تارگێت", "مبلغ يدوي إضافي اختياري": "بڕی دەستی زیادە بە ئارەزوو", "حفظ التاركت": "تارگێت پاشەکەوت بکە", "نسخ وتصدير": "کۆپی و هەناردە", "تصدير JSON": "هەناردەی JSON", "تصدير CSV": "هەناردەی CSV", "إضافة دواء": "دەرمان زیاد بکە", "اسم الدواء": "ناوی دەرمان", "الاسم العلمي": "ناوی زانستی", "السعر": "نرخ", "الجرعة / الشكل": "دۆز / شێوە", "شرح الدواء": "ڕوونکردنەوەی دەرمان", "نقاط البيع": "خاڵەکانی فرۆشتن", "حفظ الدواء": "دەرمان پاشەکەوت بکە", "قائمة الأدوية": "لیستی دەرمانەکان", "بدون علمي": "ناوی زانستی نییە", "PDF": "PDF", "خط السير اليومي": "ڕێڕەوی ڕۆژانە", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "کڕیارەکان بە زۆن ڕێکبخە و ڕاستەوخۆ بیانگۆڕە بۆ سەردانی ڕاستەقینە.", "إضافة إلى خط السير": "زیادکردن بۆ ڕێڕەو", "تحويل لزيارة": "گۆڕین بۆ سەردان", "لا توجد خطة لهذا اليوم": "بۆ ئەم ڕۆژە پلان نییە", "المصاريف اليومية": "خەرجی ڕۆژانە", "المبلغ": "بڕ", "وقود": "سووتەمەنی", "ضيافة": "میوانداری", "اتصالات": "پەیوەندییەکان", "نثرية": "خەرجی ورد", "حفظ المصروف": "خەرجی پاشەکەوت بکە", "لا توجد مصاريف لهذا اليوم": "بۆ ئەم ڕۆژە خەرجی نییە", "المخزون الخاص": "کۆگای تایبەت", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "سامپڵ و فری لە یەک خانە بنووسە بۆ ئەوەی ئاسان بێت.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "سامپڵ / فری - نموونە: ١٠ سامپڵ + ٥ فری", "حفظ المخزون": "کۆگا پاشەکەوت بکە", "لا يوجد مخزون محفوظ": "کۆگای پاشەکەوتکراو نییە", "تقرير جاهز": "ڕاپۆرتی ئامادە", "تكوين تقرير اليوم": "ڕاپۆرتی ئەمڕۆ دروست بکە", "التقرير يظهر هنا": "ڕاپۆرتەکە لێرە دەردەکەوێت", "نسخ": "کۆپی", "حفظ": "پاشەکەوت", "التقارير المحفوظة": "ڕاپۆرتە پاشەکەوتکراوەکان", "لا توجد تقارير": "ڕاپۆرت نییە", "اختر الدواء": "دەرمان هەڵبژێرە", "اختر المادة": "مادە هەڵبژێرە", "غير محدد": "دیاری نەکراو", "بدون زون": "بێ زۆن", "بدون منتج": "بێ بەرهەم", "لا توجد طلبيات": "داواکاری نییە", "لا توجد زيارات": "سەردان نییە", "لا توجد نتائج": "ئەنجام نییە", "لا توجد أدوية": "دەرمان نییە", "د.ع": "د.ع", "الشهر": "مانگ", "النسبة": "ڕێژە", "المتبقي": "ماوە", "التاركت": "تارگێت", "البيع المحسوب على التاركت": "فرۆشتنی هەژمارکراو بۆ تارگێت", "إجمالي المصاريف": "کۆی خەرجی", "الملخص": "پوختە", "الزيارات": "سەردانەکان", "الإجراء القادم": "هەنگاوی داهاتوو", "تم حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت کران", "تم حفظ التاركت": "تارگێت پاشەکەوت کرا", "تم النسخ": "کۆپی کرا", "كوّن التقرير أولاً": "سەرەتا ڕاپۆرتەکە دروست بکە", "اكتب اسم الدواء": "ناوی دەرمان بنووسە", "اكتب اسم الطبيب": "ناوی پزیشک بنووسە", "اكتب اسم الصيدلية": "ناوی دەرمانخانە بنووسە", "اكتب المبلغ": "بڕەکە بنووسە", "لا يوجد موقع محفوظ": "شوێنی پاشەکەوتکراو نییە", "تم تثبيت الموقع": "شوێن دیاری کرا", "تعذر جلب الموقع": "نەتوانرا شوێن وەربگیرێت", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "شوێن لە فایلێکی ڕاستەوخۆ کار ناکات. بیخە سەر HTTPS یان کۆئۆردیناتەکان دەستی بنووسە.", "حذف؟": "بسڕدرێتەوە؟", "ملف غير صالح": "فایلی نادروست", "تم الاستيراد": "هاوردە کرا", "عربي": "عەرەبی", "کوردی": "کوردی"}};
+const I18N={"en": {"نظام المندوب العلمي": "Medical Representative System", "طلبيات، زيارات، عملاء، تاركت": "Orders, visits, clients, target", "لوحة التحكم": "Dashboard", "مندوب علمي": "Medical representative", "أكمل بياناتك من المزيد": "Complete your details from More", "الرئيسية": "Home", "الطلبيات": "Orders", "العملاء": "Clients", "المزيد": "More", "إضافة": "Add", "إضافة سريع": "Quick add", "طلبية جديدة": "New order", "تسجيل بيع أو طلبية": "Record sale or order", "زيارة": "Visit", "تسجيل زيارة فقط": "Record visit only", "طبيب": "Doctor", "إضافة طبيب جديد": "Add new doctor", "صيدلية": "Pharmacy", "إضافة صيدلية جديدة": "Add new pharmacy", "منتج": "Medicine", "إضافة مادة جديدة": "Add new item", "مخزون": "Stock", "المخزون": "Stock", "سامبلات / فري": "Samples / Free items", "مصروف": "Expense", "وقود أو ضيافة": "Fuel or hospitality", "خط سير": "Route plan", "إضافة عميل للخطة": "Add client to plan", "إلغاء": "Cancel", "المطلوب": "Required", "المتحقق": "Achieved", "طلبيات اليوم": "Today's orders", "متابعات اليوم": "Today's follow-ups", "آخر الطلبيات": "Latest orders", "مؤشرات سريعة": "Quick indicators", "أكثر المنتجات مبيعاً والمصاريف اليومية": "Top-selling medicines and daily expenses", "لا توجد طلبيات بعد": "No orders yet", "لا توجد مبيعات مؤكدة": "No confirmed sales", "مصاريف اليوم": "Today's expenses", "طلبية": "Order", "تعديل طلبية": "Edit order", "اختر العميل": "Select client", "اختر منتج حتى تظهر تفاصيله هنا.": "Select a medicine to show details here.", "اسم المنتج": "Product name", "الكمية": "Quantity", "بونص مجاني": "Free bonus", "سعر المفرد": "Unit price", "خصم بالدينار": "Discount in IQD", "ملاحظات الطلبية": "Order notes", "الصافي": "Net", "البونص": "Bonus", "تنحسب على التاركت": "Counts toward target", "لا تنحسب على التاركت": "Does not count toward target", "حفظ الطلبية": "Save order", "إلغاء التعديل": "Cancel edit", "كل الحالات": "All statuses", "بيع مؤكد": "Confirmed sale", "تم التسليم": "Delivered", "ملغي": "Cancelled", "بحث": "Search", "تعديل": "Edit", "حذف": "Delete", "تسجيل زيارة": "Record visit", "ملاحظات الزيارة فقط": "Visit notes only", "حفظ الزيارة": "Save visit", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "Orders are now separate; this screen is only for visits and notes.", "سجل الزيارات": "Visit log", "تمت": "Done", "لم تتم": "Not done", "مؤجلة": "Postponed", "يحتاج متابعة": "Needs follow-up", "الأطباء": "Doctors", "الصيدليات": "Pharmacies", "إضافة طبيب": "Add doctor", "اسم الطبيب": "Doctor name", "علمي": "Scientific", "ديلر": "Dealer", "الاختصاص": "Specialty", "الهاتف": "Phone", "الزون": "Zone", "تفاصيل الديلر": "Dealer details", "المادة المطلوبة": "Required item", "نوع الاحتياج": "Need type", "ديل": "Deal", "كسرة": "Break / discount", "سفرة": "Trip", "هدية": "Gift", "دعم": "Support", "أخرى": "Other", "القيمة / العدد": "Value / count", "ملاحظة الديلر": "Dealer note", "مثال: 10 سامبل أو 50,000": "Example: 10 samples or 50,000", "تفاصيل الاتفاق أو الحاجة": "Deal or need details", "المنتجات المهتم بها": "Interested products", "ملاحظة المتابعة": "Follow-up note", "ملاحظات": "Notes", "تثبيت الموقع": "Pin location", "حفظ الطبيب": "Save doctor", "إضافة صيدلية": "Add pharmacy", "اسم الصيدلية": "Pharmacy name", "المسؤول": "Responsible person", "حفظ الصيدلية": "Save pharmacy", "قائمة العملاء": "Client list", "فلتر الزون": "Zone filter", "خريطة": "Map", "الإعدادات": "Settings", "المنتجات": "Medicines", "المصاريف": "Expenses", "التقارير": "Reports", "إعدادات المندوب": "Representative settings", "اسم المندوب": "Representative name", "الوظيفة": "Job title", "الشركة": "Company", "الشركة الافتراضية للأدوية": "Default medicine company", "أسلوب تقرير مختصر": "Short report style", "أسلوب تقرير إداري": "Administrative report style", "أسلوب تقرير تفصيلي": "Detailed report style", "حفظ الإعدادات": "Save settings", "تاركت الشهر": "Monthly target", "قيمة التاركت": "Target value", "مبلغ يدوي إضافي اختياري": "Optional manual achieved amount", "حفظ التاركت": "Save target", "نسخ وتصدير": "Backup and export", "تصدير JSON": "Export JSON", "تصدير CSV": "Export CSV", "إضافة منتج": "Add medicine", "اسم المنتج": "Medicine name", "الاسم العلمي": "Scientific name", "السعر": "Price", "الجرعة / الشكل": "Dose / form", "شرح المنتج": "Medicine description", "نقاط البيع": "Selling points", "حفظ المنتج": "Save medicine", "قائمة المنتجات": "Medicine list", "بدون علمي": "No scientific name", "PDF": "PDF", "خط السير اليومي": "Daily route plan", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "Arrange clients by zone and convert them directly to actual visits.", "إضافة إلى خط السير": "Add to route plan", "تحويل لزيارة": "Convert to visit", "لا توجد خطة لهذا اليوم": "No plan for this day", "المصاريف اليومية": "Daily expenses", "المبلغ": "Amount", "وقود": "Fuel", "ضيافة": "Hospitality", "اتصالات": "Communications", "نثرية": "Miscellaneous", "حفظ المصروف": "Save expense", "لا توجد مصاريف لهذا اليوم": "No expenses for this day", "المخزون الخاص": "Private stock", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "Write samples and free items in one flexible field.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "Samples / free - example: 10 samples + 5 free", "حفظ المخزون": "Save stock", "لا يوجد مخزون محفوظ": "No saved stock", "تقرير جاهز": "Ready report", "تكوين تقرير اليوم": "Generate today's report", "التقرير يظهر هنا": "The report appears here", "نسخ": "Copy", "حفظ": "Save", "التقارير المحفوظة": "Saved reports", "لا توجد تقارير": "No reports", "اختر المنتج": "Select medicine", "اختر المادة": "Select item", "غير محدد": "Not specified", "بدون زون": "No zone", "بدون منتج": "No product", "لا توجد طلبيات": "No orders", "لا توجد زيارات": "No visits", "لا توجد نتائج": "No results", "لا توجد أدوية": "No medicines", "د.ع": "IQD", "الشهر": "Month", "النسبة": "Percentage", "المتبقي": "Remaining", "التاركت": "Target", "البيع المحسوب على التاركت": "Sales counted toward target", "إجمالي المصاريف": "Total expenses", "الملخص": "Summary", "الزيارات": "Visits", "الإجراء القادم": "Next action", "تم حفظ الإعدادات": "Settings saved", "تم حفظ التاركت": "Target saved", "تم النسخ": "Copied", "كوّن التقرير أولاً": "Generate the report first", "اكتب اسم المنتج": "Enter medicine name", "اكتب اسم الطبيب": "Enter doctor name", "اكتب اسم الصيدلية": "Enter pharmacy name", "اكتب المبلغ": "Enter amount", "لا يوجد موقع محفوظ": "No saved location", "تم تثبيت الموقع": "Location pinned", "تعذر جلب الموقع": "Could not get location", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "Location does not work from a direct file. Upload to HTTPS or enter coordinates manually.", "حذف؟": "Delete?", "ملف غير صالح": "Invalid file", "تم الاستيراد": "Imported", "عربي": "Arabic", "کوردی": "Kurdish"}, "ku": {"نظام المندوب العلمي": "سیستەمی نوێنەری زانستی", "طلبيات، زيارات، عملاء، تاركت": "داواکاری، سەردان، کڕیار، تارگێت", "لوحة التحكم": "داشبۆرد", "مندوب علمي": "نوێنەری زانستی", "أكمل بياناتك من المزيد": "زانیارییەکانت لە بەشی زیاتر تەواو بکە", "الرئيسية": "سەرەکی", "الطلبيات": "داواکارییەکان", "العملاء": "کڕیارەکان", "المزيد": "زیاتر", "إضافة": "زیادکردن", "إضافة سريع": "زیادکردنی خێرا", "طلبية جديدة": "داواکاری نوێ", "تسجيل بيع أو طلبية": "فرۆشتن یان داواکاری تۆمار بکە", "زيارة": "سەردان", "تسجيل زيارة فقط": "تەنها سەردان تۆمار بکە", "طبيب": "پزیشک", "إضافة طبيب جديد": "پزیشکی نوێ زیاد بکە", "صيدلية": "دەرمانخانە", "إضافة صيدلية جديدة": "دەرمانخانەی نوێ زیاد بکە", "منتج": "دەرمان", "إضافة مادة جديدة": "مادەی نوێ زیاد بکە", "مخزون": "کۆگا", "المخزون": "کۆگا", "سامبلات / فري": "سامپڵ / فری", "مصروف": "خەرجی", "وقود أو ضيافة": "سووتەمەنی یان میوانداری", "خط سير": "ڕێڕەوی کار", "إضافة عميل للخطة": "کڕیار بۆ پلان زیاد بکە", "إلغاء": "هەڵوەشاندنەوە", "المطلوب": "پێویست", "المتحقق": "بەدەستهاتوو", "طلبيات اليوم": "داواکارییەکانی ئەمڕۆ", "متابعات اليوم": "بەدواداچوونەکانی ئەمڕۆ", "آخر الطلبيات": "دوایین داواکارییەکان", "مؤشرات سريعة": "نیشاندەرە خێراکان", "أكثر المنتجات مبيعاً والمصاريف اليومية": "زۆرترین دەرمانی فرۆشراو و خەرجی ڕۆژانە", "لا توجد طلبيات بعد": "هێشتا داواکاری نییە", "لا توجد مبيعات مؤكدة": "فرۆشتنی پشتڕاستکراو نییە", "مصاريف اليوم": "خەرجی ئەمڕۆ", "طلبية": "داواکاری", "تعديل طلبية": "دەستکاری داواکاری", "اختر العميل": "کڕیار هەڵبژێرە", "اختر منتج حتى تظهر تفاصيله هنا.": "دەرمانێک هەڵبژێرە بۆ ئەوەی وردەکارییەکان لێرە دەربکەون.", "اسم المنتج": "ناوی بەرهەم", "الكمية": "بڕ", "بونص مجاني": "بۆنەسی بێبەرامبەر", "سعر المفرد": "نرخی یەکە", "خصم بالدينار": "داشکاندن بە دینار", "ملاحظات الطلبية": "تێبینی داواکاری", "الصافي": "پاڵاوکراوە", "البونص": "بۆنەس", "تنحسب على التاركت": "بۆ تارگێت هەژمار دەکرێت", "لا تنحسب على التاركت": "بۆ تارگێت هەژمار ناکرێت", "حفظ الطلبية": "داواکاری پاشەکەوت بکە", "إلغاء التعديل": "دەستکاری هەڵبوەشێنەوە", "كل الحالات": "هەموو دۆخەکان", "بيع مؤكد": "فرۆشتنی پشتڕاستکراو", "تم التسليم": "گەیەندرا", "ملغي": "هەڵوەشاوە", "بحث": "گەڕان", "تعديل": "دەستکاری", "حذف": "سڕینەوە", "تسجيل زيارة": "سەردان تۆمار بکە", "ملاحظات الزيارة فقط": "تەنها تێبینی سەردان", "حفظ الزيارة": "سەردان پاشەکەوت بکە", "الطلبية صارت قسم مستقل، هنا فقط تسجيل زيارة وملاحظات.": "داواکاری ئێستا بەشێکی سەربەخۆیە؛ لێرە تەنها سەردان و تێبینی تۆمار دەکرێت.", "سجل الزيارات": "تۆماری سەردانەکان", "تمت": "ئەنجامدرا", "لم تتم": "ئەنجام نەدرا", "مؤجلة": "دواخراوە", "يحتاج متابعة": "پێویستی بەدواداچوونە", "الأطباء": "پزیشکەکان", "الصيدليات": "دەرمانخانەکان", "إضافة طبيب": "پزیشک زیاد بکە", "اسم الطبيب": "ناوی پزیشک", "علمي": "زانستی", "ديلر": "دیلەر", "الاختصاص": "پسپۆڕی", "الهاتف": "ژمارەی مۆبایل", "الزون": "زۆن", "تفاصيل الديلر": "وردەکاریی دیلەر", "المادة المطلوبة": "مادەی داواکراو", "نوع الاحتياج": "جۆری پێویستی", "ديل": "دیل", "كسرة": "کسرە", "سفرة": "گەشت", "هدية": "دیاری", "دعم": "پشتیوانی", "أخرى": "هی تر", "القيمة / العدد": "بها / ژمارە", "ملاحظة الديلر": "تێبینی دیلەر", "مثال: 10 سامبل أو 50,000": "نموونە: ١٠ سامپڵ یان ٥٠,٠٠٠", "تفاصيل الاتفاق أو الحاجة": "وردەکاری ڕێککەوتن یان پێویستی", "المنتجات المهتم بها": "بەرهەمە گرنگەکان", "ملاحظة المتابعة": "تێبینی بەدواداچوون", "ملاحظات": "تێبینییەکان", "تثبيت الموقع": "شوێن دیاری بکە", "حفظ الطبيب": "پزیشک پاشەکەوت بکە", "إضافة صيدلية": "دەرمانخانە زیاد بکە", "اسم الصيدلية": "ناوی دەرمانخانە", "المسؤول": "بەرپرس", "حفظ الصيدلية": "دەرمانخانە پاشەکەوت بکە", "قائمة العملاء": "لیستی کڕیاران", "فلتر الزون": "فلتەری زۆن", "خريطة": "نەخشە", "الإعدادات": "ڕێکخستنەکان", "المنتجات": "دەرمانەکان", "المصاريف": "خەرجییەکان", "التقارير": "ڕاپۆرتەکان", "إعدادات المندوب": "ڕێکخستنی نوێنەر", "اسم المندوب": "ناوی نوێنەر", "الوظيفة": "پیشە", "الشركة": "کۆمپانیا", "الشركة الافتراضية للأدوية": "کۆمپانیای بنەڕەتی بۆ دەرمانەکان", "أسلوب تقرير مختصر": "شێوازی ڕاپۆرتی کورت", "أسلوب تقرير إداري": "شێوازی ڕاپۆرتی ئیداری", "أسلوب تقرير تفصيلي": "شێوازی ڕاپۆرتی ورد", "حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت بکە", "تاركت الشهر": "تارگێتی مانگانە", "قيمة التاركت": "بەهای تارگێت", "مبلغ يدوي إضافي اختياري": "بڕی دەستی زیادە بە ئارەزوو", "حفظ التاركت": "تارگێت پاشەکەوت بکە", "نسخ وتصدير": "کۆپی و هەناردە", "تصدير JSON": "هەناردەی JSON", "تصدير CSV": "هەناردەی CSV", "إضافة منتج": "دەرمان زیاد بکە", "اسم المنتج": "ناوی دەرمان", "الاسم العلمي": "ناوی زانستی", "السعر": "نرخ", "الجرعة / الشكل": "دۆز / شێوە", "شرح المنتج": "ڕوونکردنەوەی دەرمان", "نقاط البيع": "خاڵەکانی فرۆشتن", "حفظ المنتج": "دەرمان پاشەکەوت بکە", "قائمة المنتجات": "لیستی دەرمانەکان", "بدون علمي": "ناوی زانستی نییە", "PDF": "PDF", "خط السير اليومي": "ڕێڕەوی ڕۆژانە", "رتب العملاء حسب الزون وحولهم مباشرة إلى زيارة فعلية.": "کڕیارەکان بە زۆن ڕێکبخە و ڕاستەوخۆ بیانگۆڕە بۆ سەردانی ڕاستەقینە.", "إضافة إلى خط السير": "زیادکردن بۆ ڕێڕەو", "تحويل لزيارة": "گۆڕین بۆ سەردان", "لا توجد خطة لهذا اليوم": "بۆ ئەم ڕۆژە پلان نییە", "المصاريف اليومية": "خەرجی ڕۆژانە", "المبلغ": "بڕ", "وقود": "سووتەمەنی", "ضيافة": "میوانداری", "اتصالات": "پەیوەندییەکان", "نثرية": "خەرجی ورد", "حفظ المصروف": "خەرجی پاشەکەوت بکە", "لا توجد مصاريف لهذا اليوم": "بۆ ئەم ڕۆژە خەرجی نییە", "المخزون الخاص": "کۆگای تایبەت", "اكتب السامبلات والفري بخانة واحدة حتى تبقى مرنة.": "سامپڵ و فری لە یەک خانە بنووسە بۆ ئەوەی ئاسان بێت.", "سامبلات / فري - مثال: 10 سامبلات + 5 فري": "سامپڵ / فری - نموونە: ١٠ سامپڵ + ٥ فری", "حفظ المخزون": "کۆگا پاشەکەوت بکە", "لا يوجد مخزون محفوظ": "کۆگای پاشەکەوتکراو نییە", "تقرير جاهز": "ڕاپۆرتی ئامادە", "تكوين تقرير اليوم": "ڕاپۆرتی ئەمڕۆ دروست بکە", "التقرير يظهر هنا": "ڕاپۆرتەکە لێرە دەردەکەوێت", "نسخ": "کۆپی", "حفظ": "پاشەکەوت", "التقارير المحفوظة": "ڕاپۆرتە پاشەکەوتکراوەکان", "لا توجد تقارير": "ڕاپۆرت نییە", "اختر المنتج": "دەرمان هەڵبژێرە", "اختر المادة": "مادە هەڵبژێرە", "غير محدد": "دیاری نەکراو", "بدون زون": "بێ زۆن", "بدون منتج": "بێ بەرهەم", "لا توجد طلبيات": "داواکاری نییە", "لا توجد زيارات": "سەردان نییە", "لا توجد نتائج": "ئەنجام نییە", "لا توجد أدوية": "دەرمان نییە", "د.ع": "د.ع", "الشهر": "مانگ", "النسبة": "ڕێژە", "المتبقي": "ماوە", "التاركت": "تارگێت", "البيع المحسوب على التاركت": "فرۆشتنی هەژمارکراو بۆ تارگێت", "إجمالي المصاريف": "کۆی خەرجی", "الملخص": "پوختە", "الزيارات": "سەردانەکان", "الإجراء القادم": "هەنگاوی داهاتوو", "تم حفظ الإعدادات": "ڕێکخستنەکان پاشەکەوت کران", "تم حفظ التاركت": "تارگێت پاشەکەوت کرا", "تم النسخ": "کۆپی کرا", "كوّن التقرير أولاً": "سەرەتا ڕاپۆرتەکە دروست بکە", "اكتب اسم المنتج": "ناوی دەرمان بنووسە", "اكتب اسم الطبيب": "ناوی پزیشک بنووسە", "اكتب اسم الصيدلية": "ناوی دەرمانخانە بنووسە", "اكتب المبلغ": "بڕەکە بنووسە", "لا يوجد موقع محفوظ": "شوێنی پاشەکەوتکراو نییە", "تم تثبيت الموقع": "شوێن دیاری کرا", "تعذر جلب الموقع": "نەتوانرا شوێن وەربگیرێت", "الموقع لا يعمل من ملف مباشر. ارفعه على HTTPS أو اكتب الإحداثيات يدوياً.": "شوێن لە فایلێکی ڕاستەوخۆ کار ناکات. بیخە سەر HTTPS یان کۆئۆردیناتەکان دەستی بنووسە.", "حذف؟": "بسڕدرێتەوە؟", "ملف غير صالح": "فایلی نادروست", "تم الاستيراد": "هاوردە کرا", "عربي": "عەرەبی", "کوردی": "کوردی"}};
 function currentLang(){return localStorage.getItem('medrep_lang')||'ar'}
 function trText(str,lang=currentLang()){if(!str||lang==='ar')return str;const dict=I18N[lang]||{};if(dict[str])return dict[str];let out=String(str);Object.keys(dict).sort((a,b)=>b.length-a.length).forEach(k=>{if(k&&out.includes(k))out=out.split(k).join(dict[k]);});return out;}
 function markAndTranslateNode(node,lang){if(!node||!node.nodeValue||!node.nodeValue.trim())return;const p=node.parentElement;if(!p||['SCRIPT','STYLE','TEXTAREA','INPUT','OPTION'].includes(p.tagName))return;if(!node._baseText)node._baseText=node.nodeValue;node.nodeValue=trText(node._baseText,lang);}
-function applyLang(lang=currentLang()){localStorage.setItem('medrep_lang',lang);document.documentElement.lang=lang==='ku'?'ckb':lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';document.body.dir=document.documentElement.dir;document.querySelectorAll('#langBar button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));document.querySelectorAll('input,textarea').forEach(el=>{if(el.placeholder){if(!el.dataset.phBase)el.dataset.phBase=el.placeholder;el.placeholder=trText(el.dataset.phBase,lang);}});document.querySelectorAll('button,title,h1,h2,h3,p,span,small,strong,b,label,option,div.badge,div.total,div.empty').forEach(el=>{if(el.tagName==='OPTION'){if(!el.dataset.baseText){el.dataset.baseText=el.textContent;if(!el.hasAttribute('value'))el.value=el.dataset.baseText;}el.textContent=trText(el.dataset.baseText,lang);return;}if(el.childNodes.length===1&&el.childNodes[0].nodeType===3){if(!el.dataset.baseText)el.dataset.baseText=el.textContent;el.textContent=trText(el.dataset.baseText,lang);}});const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){return n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});let n;while(n=walker.nextNode())markAndTranslateNode(n,lang);}
+function applyLang(lang=currentLang()){localStorage.setItem('medrep_lang',lang);document.documentElement.lang=lang==='ku'?'ckb':lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';document.body.dir=document.documentElement.dir;document.querySelectorAll('#langBar button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));document.querySelectorAll('input,textarea').forEach(el=>{if(el.placeholder){if(!el.dataset.phBase)el.dataset.phBase=el.placeholder;el.placeholder=trText(el.dataset.phBase,lang);}});document.querySelectorAll('button,title,h1,h2,h3,p,span,small,strong,b,label,option,div.badge,div.total,div.empty').forEach(el=>{if(el.tagName==='OPTION'){if(!el.dataset.baseText){el.dataset.baseText=el.textContent;if(!el.hasAttribute('value'))el.value=el.dataset.baseText;}el.textContent=trText(el.dataset.baseText,lang);return;}if(el.childNodes.length===1&&el.childNodes[0].nodeType===3){if(!el.dataset.baseText)el.dataset.baseText=el.textContent;el.textContent=trText(el.dataset.baseText,lang);}});const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){return n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});let node;while(node=walker.nextNode())markAndTranslateNode(node,lang);}
 function setLang(lang){applyLang(lang)}
 const _oldAlert=window.alert;window.alert=function(msg){_oldAlert(trText(String(msg),currentLang()))};
 function wrapI18n(name){const old=window[name];if(typeof old==='function'&&!old._i18nWrapped){window[name]=function(...args){const r=old.apply(this,args);setTimeout(()=>applyLang(currentLang()),0);return r};window[name]._i18nWrapped=true;}}
 ['render','go','moreTab','clientTab','sheet','fillOrderClients','fillVisitClients','fillPlanClients','medToOrder','calcOrder','dayReport','cancelMed','editMed'].forEach(wrapI18n);
 setTimeout(()=>applyLang(currentLang()),80);
 </script>
-
 <script id="medrep-pwa-safe-scripts">
 (function(){
   'use strict';
 
-  const DB_NAME='MedRepFlowIndexedDB';
+  const DB_NAME='MedRepFlowCommercialIndexedDB';
   const DB_VERSION=1;
   const STORE='records';
 
@@ -1078,7 +1521,7 @@ setTimeout(()=>applyLang(currentLang()),80);
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
       a.href=url;
-      a.download='medrep-flow-backup.json';
+      a.download='medrep-flow-commercial-backup.json';
       document.body.appendChild(a);
       a.click();
       a.remove();
