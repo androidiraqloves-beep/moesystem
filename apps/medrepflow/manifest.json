@@ -2,7 +2,7 @@
   "name": "MedRep Flow",
   "short_name": "MedRep Flow",
   "description": "MedRep Flow - Medical Representative PWA",
-  "start_url": "./index.html?v=logo4",
+  "start_url": "./index.html?v=commercial2",
   "scope": "./",
   "display": "standalone",
   "display_override": [
