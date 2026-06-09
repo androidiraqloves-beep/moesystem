@@ -1,1 +1,1330 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#155eef">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RepFlow">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<meta name="application-name" content="RepFlow">
+<meta name="msapplication-TileColor" content="#155eef">
+<link rel="manifest" href="manifest.json?v=repflow-ios-v1">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=repflow-ios-v1">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=repflow-ios-v1">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-touch-icon-120.png?v=repflow-ios-v1">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152.png?v=repflow-ios-v1">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/apple-touch-icon-167.png?v=repflow-ios-v1">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180.png?v=repflow-ios-v1">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1170-2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1290-2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
+<link rel="apple-touch-startup-image" href="splash/apple-splash-1125-2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+<title>RepFlow</title>
+<style>
+/* الثيم السمائي القديم مع استبدال أي لون أخضر باللون الأزرق الموحد */
+:root {
+  --bg: #f3f6fb;
+  --card: #ffffff;
+  --txt: #0f172a;
+  --mut: #64748b;
+  --p: #155eef;
+  --p2: #3386ff;
+  --soft: #eaf2ff;
+  --br: #e2e8f0;
+  --red: #dc2626;
+  --amber: #b45309;
+  --green: #155eef; /* تم استبدال الأخضر بالأزرق */
+  --input: #ffffff;
+  --sh: 0 14px 34px rgba(15,23,42,.09);
+  --hero1: #0f46b8;
+  --hero2: #3386ff;
+  --r: 22px;
+}
+html[data-theme=dark] {
+  --bg: #0b1220;
+  --card: #121b2b;
+  --txt: #eef4ff;
+  --mut: #94a3b8;
+  --p: #4f8cff;
+  --p2: #74a8ff;
+  --soft: #142845;
+  --br: #24344d;
+  --red: #fb7185;
+  --amber: #fbbf24;
+  --green: #4f8cff; /* تم استبدال الأخضر بالأزرق */
+  --input: #0f172a;
+  --sh: 0 14px 36px rgba(0,0,0,.35);
+  --hero1: #123c8c;
+  --hero2: #245bd8;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: var(--bg); color: var(--txt); font-family: Tahoma, Arial, sans-serif; padding-bottom: 100px; }
+.wrap { max-width: 900px; margin: auto; padding: 12px; }
+.hide { display: none !important; }
+header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--card) 94%, transparent); backdrop-filter: blur(12px); padding: 13px 16px; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--br); box-shadow: 0 2px 14px rgba(15,23,42,.05); }
+.logo { width: 54px; height: 54px; border-radius: 18px; background: #fff; display: grid; place-items: center; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,.10); border: 1px solid var(--br); }
+.logo img { width: 100%; height: 100%; object-fit: cover; }
+header h1 { font-size: 18px; margin: 0; font-weight: 900; }
+header p { margin: 4px 0 0; color: var(--mut); font-size: 12px; }
+.headTools { margin-inline-start: auto; display: flex; gap: 8px; align-items: center; }
+.theme-toggle { width: 44px !important; height: 44px !important; border-radius: 14px !important; background: var(--soft) !important; color: var(--p) !important; border: 1px solid color-mix(in srgb, var(--p) 20%, transparent) !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
+.langBar { position: sticky; top: 81px; z-index: 45; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 16px; background: color-mix(in srgb, var(--card) 94%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--br); }
+.langBar button { margin: 0 !important; padding: 9px !important; border-radius: 13px !important; background: var(--soft) !important; color: var(--p) !important; box-shadow: none !important; border: 0 !important; font-size: 12px !important; }
+.langBar button.active { background: linear-gradient(135deg, var(--p), var(--p2)) !important; color: #fff !important; box-shadow: 0 6px 14px rgba(21,94,239,.22) !important; }
+.page { display: none; animation: fade .18s ease; }
+.page.on { display: block; }
+@keyframes fade { from { opacity: .25; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.card, .item { background: var(--card); border: 1px solid var(--br); border-radius: var(--r); padding: 16px; margin-bottom: 12px; box-shadow: var(--sh); }
+.hero { background: linear-gradient(135deg, var(--hero1), var(--hero2)); color: #fff; border: 0; overflow: hidden; position: relative; }
+.hero:after { content: ""; position: absolute; inset: auto -40px -70px auto; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,.13); }
+.hero * { color: #fff; position: relative; }
+.hero .muted { color: #dbeafe; }
+.hero strong { display: block; font-size: 30px; margin: 4px 0; }
+.grid { display: grid; gap: 12px; }
+.row, .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tools { margin-top: 8px; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+.stat { background: var(--card); border: 1px solid var(--br); border-radius: 20px; padding: 16px; box-shadow: var(--sh); }
+.statIcon { width: 38px; height: 38px; border-radius: 14px; background: var(--soft); display: grid; place-items: center; color: var(--p); margin-bottom: 7px; }
+.stat span { display: block; color: var(--mut); font-size: 12px; }
+.stat b { display: block; font-size: 22px; margin-top: 3px; }
+.muted, .small { color: var(--mut); font-size: 13px; line-height: 1.65; }
+.empty { text-align: center; color: var(--mut); padding: 18px; border: 1px dashed var(--br); border-radius: 16px; font-size: 14px; }
+.badge { display: inline-block; background: color-mix(in srgb, var(--p) 8%, var(--card)); color: var(--txt); border: 1px solid color-mix(in srgb, var(--p) 16%, var(--br)); border-radius: 99px; padding: 6px 10px; margin: 3px; font-size: 12px; font-weight: 900; }
+.bad { color: var(--red); font-weight: 900; }
+.ok { color: var(--p); font-weight: 900; }
+.warnTxt { color: var(--amber); font-weight: 900; }
+h2, h3 { font-size: 16px; margin: 0 0 12px; }
+input, select, textarea { width: 100%; border-radius: 14px; border: 1px solid var(--br); padding: 14px; margin: 6px 0; background: var(--input); color: var(--txt); font: inherit; outline: none; }
+input:focus, select:focus, textarea:focus { border-color: var(--p); box-shadow: 0 0 0 3px color-mix(in srgb, var(--p) 20%, transparent); }
+textarea { min-height: 86px; resize: vertical; }
+button { width: 100%; padding: 14px; margin: 6px 0; border-radius: 14px; font-size: 15px; font-family: inherit; font-weight: 900; cursor: pointer; outline: none; transition: .15s; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border: 0; box-shadow: 0 8px 18px rgba(21,94,239,.22); }
+button:active { transform: scale(.98); }
+button.soft { background: var(--soft) !important; color: var(--p) !important; box-shadow: none !important; border: 1px solid color-mix(in srgb, var(--p) 25%, transparent) !important; }
+button.ghost { background: var(--card) !important; color: var(--txt) !important; box-shadow: none !important; border: 1px solid var(--br) !important; }
+button.danger { background: color-mix(in srgb, var(--red) 12%, var(--card)) !important; color: var(--red) !important; box-shadow: none !important; border: 1px solid color-mix(in srgb, var(--red) 30%, transparent) !important; }
+button.warn { background: color-mix(in srgb, var(--amber) 12%, var(--card)) !important; color: var(--amber) !important; box-shadow: none !important; border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent) !important; }
+button.smallbtn { padding: 9px !important; font-size: 13px !important; border-radius: 12px !important; min-height: 40px !important; }
+.bar { height: 10px; background: var(--soft); border-radius: 99px; overflow: hidden; margin-top: 8px; }
+.bar i { display: block; height: 100%; background: linear-gradient(135deg, var(--p), var(--p2)); border-radius: 99px; }
+.bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: color-mix(in srgb, var(--card) 96%, transparent); backdrop-filter: blur(12px); border-top: 1px solid var(--br); padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 24px rgba(15,23,42,.08); }
+.nav-grid { max-width: 900px; margin: auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; align-items: end; }
+.nav-btn { background: transparent !important; border: 0 !important; margin: 0 !important; padding: 8px 2px !important; color: var(--mut) !important; box-shadow: none !important; font-size: 11px !important; display: flex; flex-direction: column; align-items: center; gap: 4px; border-radius: 16px !important; }
+.nav-btn svg { width: 22px; height: 22px; fill: currentColor; }
+.nav-btn.on { background: var(--soft) !important; color: var(--p) !important; }
+.nav-btn.center { transform: translateY(-24px); }
+.nav-btn.center .fab { width: 62px; height: 62px; border-radius: 50%; background: linear-gradient(135deg, var(--p), var(--p2)); display: grid; place-items: center; color: #fff; box-shadow: 0 16px 30px rgba(21,94,239,.32); margin-bottom: 4px; }
+.sheetbg, .modalBg { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.42); z-index: 70; backdrop-filter: blur(2px); }
+.modalBg { z-index: 90; background: rgba(15,23,42,.50); }
+.sheetbg.on, .modalBg.on { display: block; }
+.sheet, .modal { position: fixed; left: 0; right: 0; bottom: -100%; z-index: 80; background: var(--card); border-radius: 30px 30px 0 0; transition: .25s ease; box-shadow: 0 -14px 42px rgba(15,23,42,.20); padding: 16px 20px 30px; max-width: 900px; margin: auto; max-height: 90vh; overflow: auto; }
+.sheet.on { bottom: 0; }
+.modal { z-index: 95; display: none; bottom: 0; }
+.modal.on { display: block; animation: fade .16s ease; }
+.sheetHandle { width: 60px; height: 6px; border-radius: 999px; background: var(--br); margin: 4px auto 16px; }
+.sheetActions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sheetActions button { background: var(--input) !important; border: 1px solid var(--br) !important; color: var(--txt) !important; text-align: start !important; padding: 16px !important; box-shadow: none !important; border-radius: 20px !important; }
+.sheetActions button b { display: block; font-size: 15px; margin-bottom: 4px; color: var(--p); }
+.sheetActions button span { display: block; font-size: 12px; color: var(--mut); font-weight: normal; }
+.modalHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.modalHead h2 { margin: 0; font-size: 18px; }
+.close { width: 42px !important; height: 42px !important; padding: 0 !important; margin: 0 !important; }
+.pill { border-radius: 999px; padding: 5px 10px; font-size: 11px; font-weight: 900; display: inline-block; }
+.pill.due { background: color-mix(in srgb, var(--red) 12%, var(--card)); color: var(--red); border: 1px solid color-mix(in srgb, var(--red) 30%, var(--br)); }
+.pill.pay { background: color-mix(in srgb, var(--amber) 13%, var(--card)); color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 30%, var(--br)); }
+.pill.done { background: color-mix(in srgb, var(--green) 12%, var(--card)); color: var(--green); border: 1px solid color-mix(in srgb, var(--green) 25%, var(--br)); }
+.listItem { border: 1px solid var(--br); border-radius: 17px; padding: 12px; margin: 8px 0; background: color-mix(in srgb, var(--p) 4%, var(--card)); }
+.listItem h3 { margin: 0 0 6px; }
+.install { position: fixed; inset: 0; z-index: 9999; background: radial-gradient(circle at top, rgba(21,94,239,.16), transparent 40%), var(--bg); display: grid; place-items: center; padding: 20px; }
+.installCard { max-width: 430px; background: var(--card); border: 1px solid var(--br); border-radius: 28px; padding: 22px; box-shadow: var(--sh); text-align: center; }
+.installCard img { width: 120px; height: 120px; border-radius: 30px; border: 1px solid var(--br); background: #fff; }
+.installBtn { font-size: 20px; padding: 18px; border-radius: 20px; }
+.installSteps { text-align: start; background: var(--soft); border: 1px solid var(--br); border-radius: 18px; padding: 12px; margin: 12px 0; line-height: 1.9; color: var(--txt); font-size: 13px; }
+.toast { position: fixed; left: 16px; right: 16px; bottom: 104px; z-index: 2000; max-width: 560px; margin: auto; background: #111827; color: #fff; border-radius: 16px; padding: 12px 14px; text-align: center; box-shadow: 0 14px 28px rgba(0,0,0,.22); display: none; }
+.toast.on { display: block; }
+@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } .grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 430px) { .row, .tools, .sheetActions { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr 1fr; } header { padding: 12px; } .langBar { top: 78px; } }
+.photoBox { border: 1px dashed color-mix(in srgb, var(--p) 28%, var(--br)); background: color-mix(in srgb, var(--p) 5%, var(--card)); border-radius: 18px; padding: 12px; margin: 8px 0; }
+.photoBox label { display: block; font-size: 12px; font-weight: 900; color: var(--p); margin-bottom: 6px; }
+.photoBox input { padding: 10px; background: var(--input); }
+.photoActions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+.photoActions button { margin: 0 !important; padding: 11px !important; border-radius: 14px !important; font-size: 13px !important; }
+.photoActions button.ghost { background: var(--card) !important; color: var(--txt) !important; border: 1px solid var(--br) !important; box-shadow: none !important; }
+@media (max-width: 430px) { .photoActions { grid-template-columns: 1fr; } }
+.photoPreview { display: none; margin-top: 10px; border-radius: 16px; overflow: hidden; border: 1px solid var(--br); background: var(--soft); }
+.photoPreview.on { display: block; }
+.photoPreview img { width: 100%; max-height: 260px; object-fit: contain; display: block; background: #fff; }
+.listPhoto { width: 100%; max-height: 320px; object-fit: contain; border-radius: 18px; border: 1px solid var(--br); background: #fff; margin: 10px 0; }
+.hint { font-size: 12px; color: var(--mut); line-height: 1.7; margin: 4px 0 8px; }
+.miniPhotoBadge { display: inline-block; border: 1px solid color-mix(in srgb, var(--p) 20%, var(--br)); background: color-mix(in srgb, var(--p) 8%, var(--card)); color: var(--p); border-radius: 99px; padding: 5px 9px; font-size: 11px; font-weight: 900; margin: 3px; }
+.productThumb { width: 76px; height: 76px; border-radius: 18px; object-fit: cover; border: 1px solid var(--br); background: var(--soft); float: inline-start; margin: 0 0 8px 10px; }
+.productThumb.big { width: 100%; height: auto; max-height: 280px; float: none; margin: 8px 0; object-fit: contain; background: #fff; }
+.productMeta { clear: both; }
+.fieldLabel { display: block; font-size: 12px; font-weight: 900; color: var(--p); margin: 10px 0 4px; }
+.fieldLabel + input, .fieldLabel + select { margin-top: 0; }
 
+.appTitleLine { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.appTitleLine h1 { margin:0; }
+.versionTag { display:inline-flex; align-items:center; padding:3px 8px; border-radius:99px; background:var(--soft); color:var(--p); font-size:11px; font-weight:900; border:1px solid color-mix(in srgb, var(--p) 22%, var(--br)); }
+.activationGate { position: fixed; inset: 0; z-index: 9998; background: radial-gradient(circle at top, rgba(21,94,239,.14), transparent 42%), var(--bg); display: grid; place-items: center; padding: 20px; }
+.activationCard { max-width: 450px; width: 100%; background: var(--card); border: 1px solid var(--br); border-radius: 28px; padding: 22px; box-shadow: var(--sh); text-align: center; }
+.activationCard img { width: 92px; height: 92px; border-radius: 24px; border: 1px solid var(--br); background: #fff; margin-bottom: 8px; }
+.deviceBox { direction:ltr; text-align:center; background:var(--soft); border:1px dashed color-mix(in srgb, var(--p) 35%, var(--br)); color:var(--p); font-weight:900; border-radius:16px; padding:12px; margin:8px 0; user-select:all; }
+.lockedApp { filter: blur(2px); pointer-events:none; user-select:none; }
+
+</style>
+</head>
+<body>
+<div id="installGate" class="install hide"><div class="installCard"><img src="icon-180.png"><h2 data-i="installTitle">تثبيت RepFlow</h2><p class="muted" data-i="installHint">على الآيفون لازم تضيف التطبيق إلى الشاشة الرئيسية حتى يعمل كتطبيق مستقل.</p><button class="installBtn" onclick="installApp()" data-i="installApp">طريقة التثبيت</button><div id="iosSteps" class="installSteps hide" data-i="iosSteps">على الآيفون: اضغط زر المشاركة في Safari ثم Add to Home Screen / إضافة إلى الشاشة الرئيسية. بعدها افتح RepFlow من الأيقونة.</div><button class="ghost" onclick="mustInstallMsg()" data-i="continueNoInstall">متابعة بدون تثبيت</button></div></div>
+<div id="activationGate" class="activationGate hide"><div class="activationCard"><img src="icon-180.png"><h2>تفعيل RepFlow</h2><p class="muted">أدخل الإيميل وكود التفعيل الخاص برقم هذا الجهاز.</p><input id="actEmail" type="email" placeholder="الإيميل"><div class="small">رقم الجهاز</div><div id="deviceIdBox" class="deviceBox"></div><input id="actCode" type="text" placeholder="كود التفعيل" inputmode="text"><button onclick="activateDevice()">تفعيل الجهاز</button><button class="ghost" onclick="copyDeviceId()">نسخ رقم الجهاز</button><p id="activationMsg" class="small"></p></div></div>
+<header><div class="logo"><img src="icon-180.png"></div><div><div class="appTitleLine"><h1>RepFlow</h1><span id="fixedVersion" class="versionTag">iOS</span></div><p data-i="subtitle">نظام المندوب التجاري</p></div><div class="headTools"><button class="theme-toggle" onclick="toggleTheme()">☾</button></div></header>
+<div class="langBar"><button id="lang_ar" onclick="setLang('ar')">العربية</button><button id="lang_en" onclick="setLang('en')">English</button><button id="lang_ku" onclick="setLang('ku')">کوردی</button></div>
+<main class="wrap">
+<section id="home" class="page on"></section>
+<section id="companies" class="page"></section>
+<section id="clients" class="page"></section>
+<section id="lists" class="page"></section>
+<section id="more" class="page"></section>
+</main>
+<nav class="bottom-nav"><div class="nav-grid"><button id="nav_home" class="nav-btn on" onclick="go('home')">⌂<span data-i="home">الرئيسية</span></button><button id="nav_companies" class="nav-btn" onclick="go('companies')">▣<span data-i="companies">الشركات</span></button><button class="nav-btn center" onclick="openSheet()"><div class="fab">＋</div><span data-i="add">إضافة</span></button><button id="nav_clients" class="nav-btn" onclick="go('clients')">◇<span data-i="clients">العملاء</span></button><button id="nav_more" class="nav-btn" onclick="go('more')">☰<span data-i="more">المزيد</span></button></div></nav>
+<div id="sheetBg" class="sheetbg" onclick="closeSheet()"></div><div id="sheet" class="sheet"><div class="sheetHandle"></div><h2 data-i="quickAdd">إضافة سريعة</h2><div id="sheetActions" class="sheetActions"></div></div>
+<div id="modalBg" class="modalBg" onclick="closeModal()"></div><div id="modal" class="modal"></div><div id="toast" class="toast"></div><input id="restoreInput" class="hide" type="file" accept="application/json" onchange="restoreBackup(event)">
+
+<script>
+const I = {
+  ar: {
+    subtitle:'نظام المندوب التجاري', installTitle:'تثبيت RepFlow', installHint:'على الآيفون لازم تضيف التطبيق إلى الشاشة الرئيسية حتى يعمل كتطبيق مستقل.', installApp:'طريقة التثبيت', iosSteps:'في الآيفون: اضغط مشاركة ثم Add to Home Screen.', continueNoInstall:'متابعة بدون تثبيت', home:'الرئيسية', companies:'الشركات', clients:'العملاء', lists:'القوائم', more:'المزيد', add:'إضافة', quickAdd:'إضافة سريعة', addCompany:'إضافة شركة', addClient:'إضافة عميل', addList:'إضافة قائمة', addPayment:'استحصال', addReturn:'راجع / تدبيل', addProduct:'إضافة منتج', addExpense:'مصروف', doctorDeal:'طبيب ديلر', salesTarget:'تاركت البيع', collectionTarget:'تاركت الاستحصال', salesDone:'محقق البيع', collectionDone:'محقق الاستحصال', salesRemain:'متبقي البيع', collectionRemain:'متبقي الاستحصال', totalDebt:'إجمالي الديون', lateLists:'قوائم متأخرة', todaySales:'بيع اليوم', todayCollections:'استحصال اليوم', companiesTargets:'تاركت الشركات', noCompanies:'لا توجد شركات بعد.', company:'الشركة', companyName:'اسم الشركة', managerPhone:'رقم مسؤول الشركة', commission:'نسبة العمولة', notes:'ملاحظات', save:'حفظ', edit:'تعديل', delete:'حذف', client:'العميل', clientName:'اسم العميل', clientType:'نوع العميل', pharmacy:'صيدلية', store:'محل', mall:'مول', supermarket:'سوبر ماركت', wholesale:'جملة', beauty:'مركز تجميل', other:'أخرى', ownerName:'اسم المالك', ownerPhone:'رقم المالك', payName:'اسم مسؤول التسديد', payPhone:'رقم مسؤول التسديد', area:'المنطقة', address:'العنوان', listPlace:'مكان حفظ القوائم / الدفتر', debtDays:'مدة الدين بالأيام', debtLimit:'سقف الدين', status:'الحالة', normal:'طبيعي', cashOnly:'نقدي فقط', noDebt:'ممنوع دين', late:'متأخر', products:'المنتجات', product:'المنتج', productName:'اسم المنتج', stock:'المخزن', netDefault:'سعر افتراضي', alertQty:'حد تنبيه النقص', listNo:'رقم القائمة / الوصل', listDate:'تاريخ القائمة', dueDate:'تاريخ الاستحقاق', items:'المواد', qty:'الكمية', netPrice:'السعر', bonus:'بونص', addItem:'إضافة مادة', total:'المجموع', returned:'راجع', paid:'مدفوع', remaining:'المتبقي', age:'العمر', days:'يوم', open:'مفتوحة', partial:'مدفوعة جزئياً', paidDone:'مسددة', overdue:'متأخرة', payment:'استحصال', amount:'المبلغ', method:'طريقة الدفع', cash:'نقد', transfer:'حوالة', card:'كي كارد', date:'التاريخ', returnStock:'يرجع للمخزن', yes:'نعم', no:'لا', reason:'السبب', doctorName:'اسم الطبيب', dealType:'نوع الديل', percentage:'نسبة', fixed:'مبلغ ثابت', gift:'هدية', iphone:'آيفون', support:'دعم', dealScope:'الديل على', specificProduct:'مادة محددة', specificList:'قائمة محددة', generalDeal:'ديل عام', value:'القيمة / النسبة / الهدية', reports:'التقارير', backup:'نسخة احتياطية', restore:'استرجاع نسخة', settings:'الإعدادات', clearAll:'مسح البيانات', selectCompany:'اختر الشركة', selectClient:'اختر العميل', selectList:'اختر القائمة', selectProduct:'اختر المادة', reportToday:'تقرير اليوم', openFile:'فتح الملف', listDetails:'تفاصيل القائمة', clientFile:'ملف العميل', companyFile:'ملف الشركة', noData:'لا توجد بيانات.', saved:'تم الحفظ', done:'تم', fillRequired:'أكمل الحقول المطلوبة', receiptPhoto:'صورة القائمة / الوصل', photoHint:'صوّر القائمة أو ارفع صورتها حتى تبقى محفوظة.', choosePhoto:'تصوير أو رفع صورة القائمة', cameraPhoto:'تصوير القائمة بالكاميرا', uploadPhoto:'رفع صورة من الملفات بدون كاميرا', editList:'تعديل القائمة', hasPhoto:'مرفق صورة', openPhoto:'فتح الصورة', productPhoto:'صورة المنتج', productPhotoHint:'ارفع صورة المنتج للمساعدة بالتعرف عليه.', uploadProductPhoto:'رفع صورة المنتج من الجهاز', cameraProductPhoto:'تصوير المنتج بالكاميرا', productType:'نوع المنتج', purchasePrice:'سعر الشراء', salePrice:'سعر البيع', expiryDate:'تاريخ انتهاء المنتج', productNotes:'ملاحظات المنتج', openProductImage:'فتح صورة المنتج', listCount:'عدد القوائم', autoListNo:'رقم القائمة يصدر تلقائياً.', multiItemsHint:'أضف أكثر من مادة، ثم اضغط حفظ.', optionalPhoto:'صورة القائمة اختيارية.', clientListsSummary:'ملخص قوائم العميل', addMoreItem:'إضافة مادة أخرى', clientTarget:'مبلغ التاركت', clientDeal:'ديل التاركت (الهدية)', totalClientDebts:'إجمالي مطلوبية الصيدليات'
+  },
+  en: {
+    subtitle:'Commercial representative system', installTitle:'Install RepFlow', installHint:'Install the app to use it as a standalone phone app.', installApp:'Install app', iosSteps:'On iPhone: tap Share, then Add to Home Screen.', continueNoInstall:'Continue without install', home:'Home', companies:'Companies', clients:'Clients', lists:'Lists', more:'More', add:'Add', quickAdd:'Quick add', addCompany:'Add company', addClient:'Add client', addList:'Add list', addPayment:'Collection', addReturn:'Return / Exchange', addProduct:'Add product', addExpense:'Expense', doctorDeal:'Doctor dealer', salesTarget:'Sales target', collectionTarget:'Collection target', salesDone:'Sales achieved', collectionDone:'Collection achieved', salesRemain:'Sales remaining', collectionRemain:'Collection remaining', totalDebt:'Total debt', lateLists:'Overdue lists', todaySales:'Today sales', todayCollections:'Today collections', companiesTargets:'Company targets', noCompanies:'No companies yet.', company:'Company', companyName:'Company name', managerPhone:'Manager phone', commission:'Commission %', notes:'Notes', save:'Save', edit:'Edit', delete:'Delete', client:'Client', clientName:'Client name', clientType:'Client type', pharmacy:'Pharmacy', store:'Store', mall:'Mall', supermarket:'Supermarket', wholesale:'Wholesale', beauty:'Beauty center', other:'Other', ownerName:'Owner name', ownerPhone:'Owner phone', payName:'Payment manager name', payPhone:'Payment manager phone', area:'Area', address:'Address', listPlace:'Lists storage place', debtDays:'Debt days', debtLimit:'Debt limit', status:'Status', normal:'Normal', cashOnly:'Cash only', noDebt:'No debt', late:'Late', products:'Products', product:'Product', productName:'Product name', stock:'Stock', netDefault:'Default price', alertQty:'Low stock alert', listNo:'List / receipt number', listDate:'List date', dueDate:'Due date', items:'Items', qty:'Quantity', netPrice:'Price', bonus:'Bonus', addItem:'Add item', total:'Total', returned:'Returned', paid:'Paid', remaining:'Remaining', age:'Age', days:'days', open:'Open', partial:'Partially paid', paidDone:'Paid', overdue:'Overdue', payment:'Collection', amount:'Amount', method:'Payment method', cash:'Cash', transfer:'Transfer', card:'Card', date:'Date', returnStock:'Return to stock', yes:'Yes', no:'No', reason:'Reason', doctorName:'Doctor name', dealType:'Deal type', percentage:'Percentage', fixed:'Fixed amount', gift:'Gift', iphone:'iPhone', support:'Support', dealScope:'Deal scope', specificProduct:'Specific product', specificList:'Specific list', generalDeal:'General deal', value:'Value / percentage / gift', reports:'Reports', backup:'Backup', restore:'Restore', settings:'Settings', clearAll:'Clear data', selectCompany:'Select company', selectClient:'Select client', selectList:'Select list', selectProduct:'Select product', reportToday:'Today report', openFile:'Open file', listDetails:'List details', clientFile:'Client file', companyFile:'Company file', noData:'No data.', saved:'Saved', done:'Done', fillRequired:'Complete required fields', receiptPhoto:'List / receipt photo', photoHint:'Take or upload a photo of the list.', choosePhoto:'Capture or upload list photo', cameraPhoto:'Capture with camera', uploadPhoto:'Upload from files / gallery', editList:'Edit list', hasPhoto:'Photo attached', openPhoto:'Open photo', productPhoto:'Product photo', productPhotoHint:'Upload a product image.', uploadProductPhoto:'Upload product image', cameraProductPhoto:'Capture product image', productType:'Product type', purchasePrice:'Purchase price', salePrice:'Sale price', expiryDate:'Product expiry date', productNotes:'Product notes', openProductImage:'Open product image', listCount:'Lists count', autoListNo:'List number is generated automatically.', multiItemsHint:'Add multiple items, then save.', optionalPhoto:'List photo is optional.', clientListsSummary:'Client lists summary', addMoreItem:'Add another item', clientTarget:'Target Amount', clientDeal:'Target Deal', totalClientDebts:'Total Client Debts'
+  },
+  ku: {
+    subtitle:'سیستەمی نوێنەری بازرگانی', installTitle:'دامەزراندنی RepFlow', installHint:'ئەپەکە دابمەزرێنە بۆ ئەوەی وەک ئەپی سەربەخۆ کار بکات.', installApp:'دامەزراندنی ئەپ', iosSteps:'لە ئایفۆن: Share بکە، پاشان Add to Home Screen.', continueNoInstall:'بەردەوام بەبێ دامەزراندن', home:'سەرەکی', companies:'کۆمپانیاکان', clients:'کڕیارەکان', lists:'لیستەکان', more:'زیاتر', add:'زیادکردن', quickAdd:'زیادکردنی خێرا', addCompany:'زیادکردنی کۆمپانیا', addClient:'زیادکردنی کڕیار', addList:'زیادکردنی لیست', addPayment:'وەرگرتنی پارە', addReturn:'گەڕاندنەوە / گۆڕین', addProduct:'زیادکردنی بەرهەم', addExpense:'خەرجی', doctorDeal:'پزیشکی دیلەڕ', salesTarget:'تارگێتی فرۆشتن', collectionTarget:'تارگێتی وەرگرتنەوە', salesDone:'فرۆشتنی کراو', collectionDone:'وەرگرتنی کراو', salesRemain:'ماوی فرۆشتن', collectionRemain:'ماوی وەرگرتن', totalDebt:'کۆی قەرز', lateLists:'لیستی دواخراو', todaySales:'فرۆشتنی ئەمڕۆ', todayCollections:'وەرگرتنی ئەمڕۆ', companiesTargets:'تارگێتی کۆمپانیاکان', noCompanies:'هێشتا کۆمپانیا نییە.', company:'کۆمپانیا', companyName:'ناوی کۆمپانیا', managerPhone:'ژمارەی بەرپرس', commission:'ڕێژەی کۆمسیۆن', notes:'تێبینی', save:'پاشەکەوت', edit:'دەستکاری', delete:'سڕینەوە', client:'کڕیار', clientName:'ناوی کڕیار', clientType:'جۆری کڕیار', pharmacy:'دەرمانخانە', store:'دوکان', mall:'مۆڵ', supermarket:'سوپەرمارکێت', wholesale:'کۆفرۆشی', beauty:'سەنتەری جوانکاری', other:'هیتر', ownerName:'ناوی خاوەن', ownerPhone:'ژمارەی خاوەن', payName:'ناوی بەرپرسی پارەدان', payPhone:'ژمارەی بەرپرسی پارەدان', area:'ناوچە', address:'ناونیشان', listPlace:'شوێنی پاراستنی لیستەکان / دەفتەر', debtDays:'ماوەی قەرز بە ڕۆژ', debtLimit:'سنووری قەرز', status:'دۆخ', normal:'ئاسایی', cashOnly:'تەنها نەقد', noDebt:'قەرز قەدەغە', late:'دواخراو', products:'بەرهەمەکان', product:'بەرهەم', productName:'ناوی بەرهەم', stock:'کۆگا', netDefault:'نرخی بنەڕەتی', alertQty:'ئاگاداری کەمی کۆگا', listNo:'ژمارەی لیست / وەسڵ', listDate:'بەرواری لیست', dueDate:'بەرواری شایستەبوون', items:'ماددەکان', qty:'ژمارە', netPrice:'نرخ', bonus:'بۆنەس', addItem:'زیادکردنی ماددە', total:'کۆی گشتی', returned:'گەڕاوە', paid:'دراوە', remaining:'ماوە', age:'تەمەن', days:'ڕۆژ', open:'کراوە', partial:'بەشێک دراوە', paidDone:'تەواو دراوە', overdue:'دواخراو', payment:'وەرگرتنی پارە', amount:'بڕ', method:'شێوازی پارەدان', cash:'نەقد', transfer:'حەوالە', card:'کارت', date:'بەروار', returnStock:'بگەڕێتەوە کۆگا', yes:'بەڵێ', no:'نەخێر', reason:'هۆکار', doctorName:'ناوی پزیشک', dealType:'جۆری دیل', percentage:'ڕێژە', fixed:'بڕی جێگیر', gift:'دیاری', iphone:'ئایفۆن', support:'پاڵپشتی', dealScope:'دیل لەسەر', specificProduct:'بەرهەمی دیاریکراو', specificList:'لیستی دیاریکراو', generalDeal:'دیلی گشتی', value:'بڕ / ڕێژە / دیاری', reports:'ڕاپۆرتەکان', backup:'کۆپی پاراستن', restore:'گەڕاندنەوە', settings:'ڕێکخستنەکان', clearAll:'سڕینەوەی داتا', selectCompany:'کۆمپانیا هەڵبژێرە', selectClient:'کڕیار هەڵبژێرە', selectList:'لیست هەڵبژێرە', selectProduct:'ماددە هەڵبژێرە', reportToday:'ڕاپۆرتی ئەمڕۆ', openFile:'کردنەوەی فایل', listDetails:'وردەکاری لیست', clientFile:'فایلی کڕیار', companyFile:'فایلی کۆمپانیا', noData:'داتا نییە.', saved:'پاشەکەوت کرا', done:'تەواو', fillRequired:'خانە پێویستەکان پڕ بکەوە', receiptPhoto:'وێنەی لیست / وەسڵ', photoHint:'وێنەی لیستەکە بگرە یان بەرزی بکەوە.', choosePhoto:'وێنەگرتن یان بەرزکردنەوەی لیست', cameraPhoto:'وێنەگرتنی لیست بە کامێرا', uploadPhoto:'وێنە لە فایل/گەلەری هەڵبژێرە', editList:'دەستکاری لیست', hasPhoto:'وێنە هەیە', openPhoto:'کردنەوەی وێنە', productPhoto:'وێنەی بەرهەم', productPhotoHint:'وێنەی بەرهەم بگرە.', uploadProductPhoto:'بەرزکردنەوەی وێنەی بەرهەم', cameraProductPhoto:'وێنەگرتنی بەرهەم بە کامێرا', productType:'جۆری بەرهەم', purchasePrice:'نرخی کڕین', salePrice:'نرخی فرۆشتن', productNotes:'تێبینی بەرهەم', openProductImage:'کردنەوەی وێنەی بەرهەم', listCount:'ژمارەی لیستەکان', autoListNo:'ژمارەی لیست بە شێوەی خۆکار دروست دەبێت.', multiItemsHint:'چەند ماددەیەک زیاد بکە پاشان پاشەکەوت بکە.', optionalPhoto:'وێنەی لیست ئارەزوومەندانەیە.', clientListsSummary:'پوختەی لیستەکانی کڕیار', addMoreItem:'زیادکردنی ماددەی تر', clientTarget:'بڕی تارگێت', clientDeal:'دیلی تارگێت', totalClientDebts:'کۆی قەرزی کڕیارەکان'
+  }
+};
+
+let lang = localStorage.getItem('trLang') || 'ar';
+let db = { companies:[], clients:[], products:[], lists:[], payments:[], returns:[], doctorDeals:[], expenses:[], settings:{} };
+
+const $ = id => document.getElementById(id);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const today = () => new Date().toISOString().slice(0, 10);
+const num = v => Number(String(v || '').replace(/,/g, '')) || 0;
+const fmt = n => num(n).toLocaleString(lang === 'en' ? 'en-US' : 'en-US');
+const t = k => I[lang]?.[k] || I.ar[k] || k;
+
+function setLang(l) {
+    lang = l;
+    localStorage.setItem('trLang', l);
+    document.documentElement.lang = l;
+    document.documentElement.dir = l === 'en' ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i]').forEach(e => e.textContent = t(e.dataset.i));
+    ['ar', 'en', 'ku'].forEach(x => $('lang_' + x)?.classList.toggle('active', x === l));
+    render();
+}
+
+const openDB = () => new Promise((res, rej) => {
+    let r = indexedDB.open('RepFlowDB_iOS_v1', 1);
+    r.onupgradeneeded = e => {
+        let d = e.target.result;
+        if (!d.objectStoreNames.contains('store')) d.createObjectStore('store', { keyPath: 'key' });
+    };
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+});
+
+async function dbGet(k, f) {
+    let d = await openDB();
+    return new Promise(res => {
+        let r = d.transaction('store').objectStore('store').get(k);
+        r.onsuccess = () => res(r.result ? r.result.value : f);
+        r.onerror = () => res(f);
+    });
+}
+
+async function dbSet(k, v) {
+    let d = await openDB();
+    return new Promise((res, rej) => {
+        let tx = d.transaction('store', 'readwrite');
+        tx.objectStore('store').put({ key: k, value: v });
+        tx.oncomplete = () => res();
+        tx.onerror = () => rej(tx.error);
+    });
+}
+
+async function load() { db = await dbGet('data', db); }
+async function save() { await dbSet('data', db); }
+
+function company(id) { return db.companies.find(x => x.id == id) || { name: t('company') }; }
+function client(id) { return db.clients.find(x => x.id == id) || { name: t('client'), debtDays: 45 }; }
+function product(id) { return db.products.find(x => x.id == id) || { name: t('product'), net: 0 }; }
+function daysBetween(d) { return Math.max(0, Math.floor((new Date(today()) - new Date(d || today())) / 86400000)); }
+function addDays(d, n) { let x = new Date(d || today()); x.setDate(x.getDate() + num(n)); return x.toISOString().slice(0, 10); }
+
+function itemPrice(i) { let p = product(i.productId); return num(i.net) || num(p.sell) || num(p.net) || num(p.buy) || 0; }
+function isPhotoList(l) { return l && l.type === 'photo'; }
+function listItemsTotal(l) { if (isPhotoList(l)) return num(l.total); return (l.items || []).reduce((s, i) => s + num(i.qty) * itemPrice(i), 0); }
+function listReturnTotal(id) { return db.returns.filter(r => r.listId == id).reduce((s, r) => s + num(r.qty) * num(r.net), 0); }
+function listPayTotal(id) { return db.payments.filter(p => p.listId == id).reduce((s, p) => s + num(p.amount), 0); }
+function returnedQty(listId, productId) { return db.returns.filter(r => r.listId == listId && r.productId == productId).reduce((s, r) => s + num(r.qty), 0); }
+function returnedStockQty(listId, productId) { return db.returns.filter(r => r.listId == listId && r.productId == productId && r.stock === 'yes').reduce((s, r) => s + num(r.qty), 0); }
+
+function listNet(l) { return Math.max(0, listItemsTotal(l) - listReturnTotal(l.id)); }
+function listRemain(l) { return Math.max(0, listNet(l) - listPayTotal(l.id)); }
+function listStatus(l) {
+    let total = listNet(l), rem = listRemain(l), age = daysBetween(l.date), dd = num(l.debtDays) || 45;
+    if (total <= 0) return ['pay', t('open')];
+    if (rem <= 0) return ['done', t('paidDone')];
+    if (age > dd) return ['due', t('overdue')];
+    if (listPayTotal(l.id) > 0) return ['pay', t('partial')];
+    return ['pay', t('open')];
+}
+
+function companyStats(id) {
+    let ls = db.lists.filter(l => l.companyId == id);
+    let sales = ls.reduce((s, l) => s + listNet(l), 0);
+    let collections = db.payments.filter(p => ls.some(l => l.id == p.listId)).reduce((s, p) => s + num(p.amount), 0);
+    let ret = ls.reduce((s, l) => s + listReturnTotal(l.id), 0);
+    return { sales, collections, ret, remainDebt: ls.reduce((s, l) => s + listRemain(l), 0) };
+}
+
+function allStats() {
+    let sales = db.lists.reduce((s, l) => s + listNet(l), 0);
+    let collections = db.payments.reduce((s, p) => s + num(p.amount), 0);
+    let debt = db.lists.reduce((s, l) => s + listRemain(l), 0);
+    let late = db.lists.filter(l => listRemain(l) > 0 && daysBetween(l.date) > (num(l.debtDays) || 45)).length;
+    let ts = db.lists.filter(l => l.date == today()).reduce((s, l) => s + listNet(l), 0);
+    let tc = db.payments.filter(p => p.date == today()).reduce((s, p) => s + num(p.amount), 0);
+    return { sales, collections, debt, late, ts, tc };
+}
+
+function progress(a, b) {
+    let p = b ? Math.min(100, Math.round(a / b * 100)) : 0;
+    return `<div class="bar"><i style="width:${p}%"></i></div><p class="small">${p}%</p>`;
+}
+
+function opts(arr, val) { return arr.map(x => `<option value="${x.id}" ${x.id == val ? 'selected' : ''}>${x.name}</option>`).join(''); }
+
+function input(id, label, val = '', type = 'text', attrs = '') {
+    let v = (val ?? '');
+    return `<input id="${id}" type="${type}" ${attrs} placeholder="${label}" value="${String(v).replace(/"/g, '&quot;')}">`;
+}
+
+function normalizeMoneyValue(v) {
+    let raw = String(v ?? '').trim().replace(/،/g, ',');
+    if (!raw) return '';
+    let n = Number(raw.replace(/,/g, ''));
+    if (!isFinite(n)) return raw;
+    if (n !== 0 && Math.abs(n) < 1000) n = n * 1000;
+    return Math.round(n);
+}
+
+function money(v) { let x = normalizeMoneyValue(v); return x === '' ? 0 : Number(x) || 0; }
+function moneyBlur(el) { let x = normalizeMoneyValue(el.value); if (x === '') return; el.value = Number(x).toLocaleString('en-US'); }
+function moneyInput(id, label, val = '') { return input(id, label, val, 'text', 'inputmode="decimal" onblur="moneyBlur(this)"'); }
+
+function go(p) {
+    document.querySelectorAll('.page').forEach(x => x.classList.remove('on'));
+    $(p).classList.add('on');
+    document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('on'));
+    $('nav_' + p)?.classList.add('on');
+    if (p === 'lists') renderLists();
+}
+
+function render() {
+    setLangOnly();
+    renderHome();
+    renderCompanies();
+    renderClients();
+    renderLists();
+    renderMore();
+}
+
+function setLangOnly() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i]').forEach(e => e.textContent = t(e.dataset.i));
+    ['ar', 'en', 'ku'].forEach(x => $('lang_' + x)?.classList.toggle('active', x === lang));
+}
+
+// تعديل لعرض تاركت الشركات مفصول في الداشبورد
+function renderHome() {
+    let s = allStats();
+    let st = db.companies.reduce((a, c) => ({ sales: a.sales + num(c.salesTarget), col: a.col + num(c.collectionTarget) }), { sales: 0, col: 0 });
+    
+    let companiesTargetsHtml = db.companies.map(c => {
+        let cs = companyStats(c.id);
+        return `
+        <div class="card">
+            <h3 style="margin: 0 0 10px 0; color: var(--p); border-bottom: 1px solid var(--br); padding-bottom: 8px;">${c.name}</h3>
+            <div style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;color:var(--mut)">
+                    <span>${t('salesTarget')}</span>
+                    <b>${fmt(cs.sales)} / ${fmt(c.salesTarget)}</b>
+                </div>
+                ${progress(cs.sales, num(c.salesTarget))}
+            </div>
+            <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;color:var(--mut)">
+                    <span>${t('collectionTarget')}</span>
+                    <b>${fmt(cs.collections)} / ${fmt(c.collectionTarget)}</b>
+                </div>
+                ${progress(cs.collections, num(c.collectionTarget))}
+            </div>
+        </div>`;
+    }).join('');
+
+    $('home').innerHTML = `
+        <div class="card hero">
+            <p class="muted">${t('subtitle')}</p>
+            <h2>الهدف الكلي (التاركت العام)</h2>
+            <strong>${fmt(s.sales)} / ${fmt(st.sales)}</strong><p>${t('salesTarget')}</p>${progress(s.sales, st.sales)}
+            <div style="margin-top: 16px;">
+                <strong>${fmt(s.collections)} / ${fmt(st.col)}</strong><p>${t('collectionTarget')}</p>${progress(s.collections, st.col)}
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat"><div class="statIcon">◆</div><span>${t('totalDebt')}</span><b>${fmt(s.debt)}</b></div>
+            <div class="stat"><div class="statIcon">!</div><span>${t('lateLists')}</span><b>${fmt(s.late)}</b></div>
+            <div class="stat"><div class="statIcon">＋</div><span>${t('todaySales')}</span><b>${fmt(s.ts)}</b></div>
+            <div class="stat"><div class="statIcon">✓</div><span>${t('todayCollections')}</span><b>${fmt(s.tc)}</b></div>
+        </div>
+        <h2 style="margin-top: 16px;">تاركت الشركات التفصيلي</h2>
+        <div class="grid">
+            ${db.companies.length ? companiesTargetsHtml : `<div class="empty">${t('noCompanies')}</div>`}
+        </div>
+    `;
+}
+
+function companyCard(c) {
+    let s = companyStats(c.id);
+    return `
+        <div class="item">
+            <h3>${c.name}</h3>
+            <span class="badge">${t('salesDone')} ${fmt(s.sales)} / ${fmt(c.salesTarget)}</span>
+            <span class="badge">${t('collectionDone')} ${fmt(s.collections)} / ${fmt(c.collectionTarget)}</span>
+            <span class="badge">${t('totalDebt')} ${fmt(s.remainDebt)}</span>
+            ${progress(s.sales, num(c.salesTarget))}
+            ${progress(s.collections, num(c.collectionTarget))}
+            <div class="tools">
+                <button class="soft smallbtn" onclick="openCompany('${c.id}')">${t('openFile')}</button>
+                <button class="ghost smallbtn" onclick="formCompany('${c.id}')">${t('edit')}</button>
+            </div>
+        </div>
+    `;
+}
+
+function renderCompanies() {
+    $('companies').innerHTML = `
+        <div class="tools">
+            <button onclick="formCompany()">${t('addCompany')}</button>
+            <button class="soft" onclick="formProduct()">${t('addProduct')}</button>
+        </div>
+        ${db.companies.length ? db.companies.map(companyCard).join('') : `<div class="empty">${t('noCompanies')}</div>`}
+    `;
+}
+
+function renderClients() {
+    $('clients').innerHTML = `
+        <button onclick="formClient()">${t('addClient')}</button>
+        ${db.clients.length ? db.clients.map(c => {
+            let ls = db.lists.filter(l => l.clientId == c.id);
+            let debt = ls.reduce((s, l) => s + listRemain(l), 0);
+            let paid = ls.reduce((s, l) => s + listPayTotal(l.id), 0);
+            return `
+                <div class="item">
+                    <h3>${c.name}</h3>
+                    <span class="badge">${c.type}</span>
+                    <span class="badge">${t('listCount')} ${ls.length}</span>
+                    <span class="badge">${t('totalDebt')} ${fmt(debt)}</span>
+                    <span class="badge">${t('paid')} ${fmt(paid)}</span>
+                    <p class="muted">
+                        ${t('ownerName')}: ${c.ownerName || '-'} / ${c.ownerPhone || '-'}<br>
+                        ${t('payName')}: ${c.payName || '-'} / ${c.payPhone || '-'}<br>
+                        ${t('listPlace')}: ${c.listPlace || '-'}
+                    </p>
+                    <div class="tools">
+                        <button class="soft smallbtn" onclick="openClient('${c.id}')">${t('openFile')}</button>
+                        <button class="ghost smallbtn" onclick="formClient('${c.id}')">${t('edit')}</button>
+                        <button class="smallbtn" onclick="formList('', '${c.id}')">${t('addList')}</button>
+                    </div>
+                </div>
+            `;
+        }).join('') : `<div class="empty">${t('noData')}</div>`}
+    `;
+}
+
+function listCard(l) {
+    let st = listStatus(l);
+    let age = daysBetween(l.date);
+    let place = l.place ? `<br>${t('listPlace')}: ${l.place}` : '';
+    let photo = isPhotoList(l);
+    return `
+        <div class="listItem">
+            <h3>${t('listNo')} ${l.no || '-'} ${photo ? '📷' : ''}</h3>
+            <p class="muted">${client(l.clientId).name} — ${company(l.companyId).name}${place}<br>
+            ${photo ? 'قائمة مرفوعة من الموبايل' : `${t('items')}: ${(l.items || []).length}`} / ${t('age')}: ${age} ${t('days')} / ${t('dueDate')}: ${addDays(l.date, l.debtDays)}</p>
+            <span class="badge">${t('total')} ${fmt(listItemsTotal(l))}</span>
+            <span class="badge">${t('returned')} ${fmt(listReturnTotal(l.id))}</span>
+            <span class="badge">${t('paid')} ${fmt(listPayTotal(l.id))}</span>
+            <span class="badge">${t('remaining')} ${fmt(listRemain(l))}</span>
+            <span class="pill ${st[0]}">${st[1]}</span>
+            <div class="tools">
+                <button class="soft smallbtn" onclick="openList('${l.id}')">${t('listDetails')}</button>
+                <button class="ghost smallbtn" onclick="formPayment('${l.id}')">${t('payment')}</button>
+            </div>
+        </div>
+    `;
+}
+
+function renderLists() {
+    $('lists').innerHTML = `
+        <div class="tools">
+            <button onclick="formList()">${t('addList')}</button>
+            <button class="warn" onclick="formReturn()">${t('addReturn')}</button>
+        </div>
+        ${db.lists.length ? db.lists.slice().reverse().map(listCard).join('') : `<div class="empty">${t('noData')}</div>`}
+    `;
+}
+
+function showAllDebtsReport() {
+    let report = db.clients.map(c => {
+        let ls = db.lists.filter(l => l.clientId == c.id);
+        let debt = ls.reduce((s, l) => s + listRemain(l), 0);
+        return { ...c, debt };
+    }).filter(c => c.debt > 0).sort((a, b) => b.debt - a.debt);
+    
+    let totalAll = report.reduce((s, c) => s + c.debt, 0);
+    
+    modal(t('totalClientDebts'), `
+        <div class="card hero">
+            <h2>المجموع الكلي للديون بالسوق</h2>
+            <strong>${fmt(totalAll)}</strong>
+        </div>
+        ${report.length ? report.map(c => `
+            <div class="listItem">
+                <h3>${c.name}</h3>
+                <span class="badge" style="font-size:14px;font-weight:bold">${t('totalDebt')}: ${fmt(c.debt)}</span>
+                <div class="tools"><button class="soft smallbtn" onclick="openClient('${c.id}')">${t('openFile')}</button></div>
+            </div>
+        `).join('') : `<div class="empty">لا توجد ديون</div>`}
+    `);
+}
+
+function renderMore() {
+    $('more').innerHTML = `
+        <div class="grid">
+            <button onclick="showAllDebtsReport()">${t('totalClientDebts')}</button>
+            <button onclick="openProducts()">${t('products')}</button>
+            <button onclick="openDoctorDeals()">${t('doctorDeal')}</button>
+            <button onclick="formExpense()">${t('addExpense')}</button>
+            <button onclick="showReport()">${t('reports')}</button>
+            <button class="soft" onclick="exportBackup()">${t('backup')}</button>
+            <button class="soft" onclick="$('restoreInput').click()">${t('restore')}</button>
+            <button class="danger" onclick="resetAll()">${t('clearAll')}</button>
+        </div>
+    `;
+}
+
+function openSheet() {
+    let actions = [
+        ['addCompany', 'formCompany'], ['addClient', 'formClient'], ['addList', 'formList'],
+        ['addPayment', 'formPayment'], ['addReturn', 'formReturn'], ['addProduct', 'formProduct'],
+        ['addExpense', 'formExpense'], ['doctorDeal', 'formDoctorDeal']
+    ];
+    $('sheetActions').innerHTML = actions.map(a => `<button onclick="closeSheet();${a[1]}()"><b>${t(a[0])}</b><span>RepFlow</span></button>`).join('');
+    $('sheetBg').classList.add('on');
+    $('sheet').classList.add('on');
+}
+
+function closeSheet() { $('sheetBg').classList.remove('on'); $('sheet').classList.remove('on'); }
+
+function modal(title, body) {
+    $('modalBg').classList.add('on');
+    $('modal').classList.add('on');
+    $('modal').innerHTML = `<div class="modalHead"><h2>${title}</h2><button class="close ghost" onclick="closeModal()">×</button></div>${body}`;
+}
+
+function closeModal() { $('modalBg').classList.remove('on'); $('modal').classList.remove('on'); $('modal').innerHTML = ''; }
+
+function toast(m) {
+    $('toast').textContent = m;
+    $('toast').classList.add('on');
+    setTimeout(() => $('toast').classList.remove('on'), 2200);
+}
+
+function formCompany(id) {
+    let c = db.companies.find(x => x.id == id) || {};
+    modal(id ? t('edit') : t('addCompany'), `
+        ${input('coName', t('companyName'), c.name)}
+        ${input('coPhone', t('managerPhone'), c.phone)}
+        <div class="row">
+            ${moneyInput('coSales', t('salesTarget'), c.salesTarget)}
+            ${moneyInput('coCol', t('collectionTarget'), c.collectionTarget)}
+        </div>
+        ${input('coComm', t('commission'), c.commission, 'number')}
+        <textarea id="coNotes" placeholder="${t('notes')}">${c.notes || ''}</textarea>
+        <button onclick="saveCompany('${id || ''}')">${t('save')}</button>
+    `);
+}
+
+async function saveCompany(id) {
+    let c = id ? db.companies.find(x => x.id == id) : { id: uid() };
+    Object.assign(c, {
+        name: $('coName').value.trim(), phone: $('coPhone').value.trim(),
+        salesTarget: money($('coSales').value), collectionTarget: money($('coCol').value),
+        commission: num($('coComm').value), notes: $('coNotes').value.trim()
+    });
+    if (!c.name) return toast(t('fillRequired'));
+    if (!id) db.companies.push(c);
+    await save(); closeModal(); render(); toast(t('saved'));
+}
+
+function formClient(id) {
+    let c = db.clients.find(x => x.id == id) || { debtDays: 45, status: t('normal') };
+    modal(id ? t('edit') : t('addClient'), `
+        ${input('clName', t('clientName'), c.name)}
+        <select id="clType">${['pharmacy', 'store', 'mall', 'supermarket', 'wholesale', 'beauty', 'other'].map(k => `<option ${c.type == t(k) ? 'selected' : ''}>${t(k)}</option>`).join('')}</select>
+        <div class="row">${moneyInput('clTarget', t('clientTarget'), c.targetAmount)}${input('clDeal', t('clientDeal'), c.targetDeal)}</div>
+        <div class="row">${input('clOwner', t('ownerName'), c.ownerName)}${input('clOwnerPhone', t('ownerPhone'), c.ownerPhone)}</div>
+        <div class="row">${input('clPay', t('payName'), c.payName)}${input('clPayPhone', t('payPhone'), c.payPhone)}</div>
+        ${input('clArea', t('area'), c.area)}${input('clAddress', t('address'), c.address)}${input('clPlace', t('listPlace'), c.listPlace)}
+        <div class="row">${input('clDays', t('debtDays'), c.debtDays, 'number')}${input('clLimit', t('debtLimit'), c.debtLimit)}</div>
+        <select id="clStatus">${['normal', 'cashOnly', 'noDebt', 'late'].map(k => `<option ${c.status == t(k) ? 'selected' : ''}>${t(k)}</option>`).join('')}</select>
+        <textarea id="clNotes" placeholder="${t('notes')}">${c.notes || ''}</textarea>
+        <button onclick="saveClient('${id || ''}')">${t('save')}</button>
+    `);
+}
+
+async function saveClient(id) {
+    let c = id ? db.clients.find(x => x.id == id) : { id: uid() };
+    Object.assign(c, {
+        name: $('clName').value.trim(), type: $('clType').value, targetAmount: money($('clTarget').value), targetDeal: $('clDeal').value.trim(),
+        ownerName: $('clOwner').value.trim(), ownerPhone: $('clOwnerPhone').value.trim(), payName: $('clPay').value.trim(), payPhone: $('clPayPhone').value.trim(),
+        area: $('clArea').value.trim(), address: $('clAddress').value.trim(), listPlace: $('clPlace').value.trim(),
+        debtDays: num($('clDays').value) || 45, debtLimit: money($('clLimit').value), status: $('clStatus').value, notes: $('clNotes').value.trim()
+    });
+    if (!c.name) return toast(t('fillRequired'));
+    if (!id) db.clients.push(c);
+    await save(); closeModal(); render(); toast(t('saved'));
+}
+
+let productPhotoData = '';
+function productPhotoPreviewHtml(src = '') { return `<div id="productPhotoPreview" class="photoPreview ${src ? 'on' : ''}">${src ? `<img src="${src}" alt="${t('productPhoto')}">` : ''}</div>`; }
+function readProductPhoto(e) { let f = e.target.files && e.target.files[0]; if (!f) return; fileToDataImage(f, src => { productPhotoData = src; setPhotoPreview('productPhotoPreview', src, t('productPhoto')); }); }
+function openProductCamera() { let i = $('productCameraInput'); if (i) { i.value = ''; i.click(); } }
+function openProductUpload() { let i = $('productUploadInput'); if (i) { i.value = ''; i.click(); } }
+function dateField(id, label, val = '') { return `<label class="fieldLabel" for="${id}">${label}</label><input id="${id}" type="date" value="${String(val || '').replace(/"/g, '&quot;')}">`; }
+
+function formProduct(id) {
+    let p = db.products.find(x => x.id == id) || {};
+    productPhotoData = p.photo || '';
+    modal(id ? t('edit') : t('addProduct'), `
+        ${input('pName', t('productName'), p.name)}
+        <select id="pCompany"><option value="">${t('selectCompany')}</option>${opts(db.companies, p.companyId)}</select>
+        <label class="fieldLabel" for="pType">${t('productType')}</label>
+        ${input('pType', t('productType'), p.type || '')}
+        <div class="photoBox">
+            <label>${t('productPhoto')}</label><div class="hint">${t('productPhotoHint')}</div>
+            <div class="photoActions">
+                <button type="button" onclick="openProductCamera()">📷 ${t('cameraProductPhoto')}</button>
+                <button type="button" class="ghost" onclick="openProductUpload()">🖼️ ${t('uploadProductPhoto')}</button>
+            </div>
+            <input id="productCameraInput" class="hide" type="file" accept="image/*" capture="environment" onchange="readProductPhoto(event)">
+            <input id="productUploadInput" class="hide" type="file" onchange="readProductPhoto(event)">
+            ${productPhotoPreviewHtml(productPhotoData)}
+        </div>
+        <div class="row">${input('pStock', t('stock'), p.stock, 'number')}${moneyInput('pSell', t('salePrice'), p.sell)}</div>
+        <div class="row">${moneyInput('pBuy', t('purchasePrice'), p.buy)}${input('pAlert', t('alertQty'), p.alert, 'number')}</div>
+        ${dateField('pExpiry', t('expiryDate'), p.expiry || '')}
+        <textarea id="pNotes" placeholder="${t('productNotes')}">${p.notes || ''}</textarea>
+        <button onclick="saveProduct('${id || ''}')">${t('save')}</button>
+    `);
+}
+
+async function saveProduct(id) {
+    let p = id ? db.products.find(x => x.id == id) : { id: uid() };
+    Object.assign(p, {
+        name: $('pName').value.trim(), companyId: $('pCompany').value, stock: num($('pStock').value),
+        buy: money($('pBuy').value), sell: money($('pSell').value), net: money($('pSell').value),
+        type: $('pType').value.trim(), expiry: $('pExpiry').value, alert: num($('pAlert').value),
+        notes: $('pNotes').value.trim(), photo: productPhotoData
+    });
+    delete p["bar" + "code"]; delete p.code; delete p["bat" + "ch"]; delete p.lot; delete p["un" + "it"]; delete p["pack" + "age"];
+    if (!p.name) return toast(t('fillRequired'));
+    if (!id) db.products.push(p);
+    await save(); closeModal(); render(); toast(t('saved'));
+}
+
+let tmpItems = [], editingListId = '', listPhotoData = '';
+
+function fileToDataImage(f, cb) {
+    let r = new FileReader();
+    r.onload = () => {
+        let raw = r.result, img = new Image();
+        img.onload = () => {
+            let m = 900, w = img.width, h = img.height;
+            if (w > m || h > m) { let scale = Math.min(m / w, m / h); w = Math.round(w * scale); h = Math.round(h * scale); }
+            let c = document.createElement('canvas'); c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            cb(c.toDataURL('image/jpeg', .78));
+        };
+        img.onerror = () => cb(raw); img.src = raw;
+    };
+    r.readAsDataURL(f);
+}
+
+function setPhotoPreview(id, src, alt) { let box = $(id); if (box) { box.classList.add('on'); box.innerHTML = `<img src="${src}" alt="${alt || ''}">`; } }
+function openListUpload() { let i = $('listUploadInput'); if (i) { i.value = ''; i.click(); } }
+function readListPhoto(e) { let f = e.target.files && e.target.files[0]; if (!f) return; fileToDataImage(f, src => { listPhotoData = src; setPhotoPreview('listPhotoPreview', src, 'صورة القائمة'); }); }
+function photoPreviewHtml(src = '') { return `<div id="listPhotoPreview" class="photoPreview ${src ? 'on' : ''}">${src ? `<img src="${src}" alt="صورة القائمة">` : ''}</div>`; }
+function switchListMode(mode) { let isPhoto = mode === 'photo'; $('manualListBox')?.classList.toggle('hide', isPhoto); $('photoListBox')?.classList.toggle('hide', !isPhoto); }
+function nextListNo() { let max = 0; (db.lists || []).forEach(l => { let n = parseInt(String(l.no || '').replace(/\D/g, ''), 10); if (n > max) max = n; }); return String(max + 1).padStart(4, '0'); }
+
+function formList(companyId = '', clientId = '', editId = '') {
+    let old = db.lists.find(x => x.id == editId) || {};
+    editingListId = editId || '';
+    tmpItems = old.items ? JSON.parse(JSON.stringify(old.items)) : [];
+    listPhotoData = old.photo || '';
+    let noVal = old.no || nextListNo(), mode = isPhotoList(old) ? 'photo' : 'manual';
+    
+    modal(editId ? t('editList') : t('addList'), `
+        <select id="lClient"><option value="">${t('selectClient')}</option>${opts(db.clients, old.clientId || clientId)}</select>
+        <select id="lCompany" onchange="drawProductSelect()"><option value="">${t('selectCompany')}</option>${opts(db.companies, old.companyId || companyId)}</select>
+        <label class="fieldLabel" for="lNo">${t('listNo')}</label>
+        <input id="lNo" value="${String(noVal).replace(/"/g, '&quot;')}" readonly><p class="hint">${t('autoListNo')}</p>
+        <label class="fieldLabel" for="lDate">${t('listDate')}</label>
+        <input id="lDate" type="date" value="${old.date || today()}">
+        <div class="row">
+            <button type="button" id="manualModeBtn" class="${mode === 'manual' ? '' : 'soft'}" onclick="switchListMode('manual')">قائمة يدوية</button>
+            <button type="button" id="photoModeBtn" class="${mode === 'photo' ? '' : 'soft'}" onclick="switchListMode('photo')">رفع قائمة من الموبايل</button>
+        </div>
+        <div id="manualListBox" class="card ${mode === 'photo' ? 'hide' : ''}">
+            <h3>${t('items')}</h3>
+            <p class="hint">أضف المادة والكمية والبونص فقط. السعر ينحسب تلقائياً من سعر البيع.</p>
+            <label class="fieldLabel" for="itemProduct">${t('selectProduct')}</label>
+            <select id="itemProduct"><option value="">${t('selectProduct')}</option></select>
+            <div class="row">
+                <div><label class="fieldLabel" for="itemQty">${t('qty')}</label>${input('itemQty', t('qty'), '', 'number')}</div>
+                <div><label class="fieldLabel" for="itemBonus">${t('bonus')}</label>${input('itemBonus', t('bonus'), '', 'number')}</div>
+            </div>
+            <button type="button" class="soft" onclick="addTmpItem()">${t('addMoreItem')}</button>
+            <div id="tmpItems"></div>
+        </div>
+        <div id="photoListBox" class="card ${mode === 'manual' ? 'hide' : ''}">
+            <h3>رفع قائمة من الموبايل</h3>
+            <p class="hint">اختر صورة من الاستوديو أو الملفات فقط.</p>
+            ${moneyInput('lPhotoTotal', 'المبلغ الكلي للقائمة', old.total || '')}
+            <button type="button" class="soft" onclick="openListUpload()">رفع صورة القائمة من الموبايل</button>
+            <input id="listUploadInput" class="hide" type="file" accept="image/*" onchange="readListPhoto(event)">
+            ${photoPreviewHtml(listPhotoData)}
+        </div>
+        <textarea id="lNotes" placeholder="${t('notes')}">${old.notes || ''}</textarea>
+        <button onclick="saveList()">${t('save')}</button>
+    `);
+    drawProductSelect(); drawTmpItems();
+}
+
+function drawProductSelect() {
+    let co = $('lCompany')?.value, ps = db.products.filter(p => !co || p.companyId == co);
+    if ($('itemProduct')) {
+        $('itemProduct').innerHTML = `<option value="">${t('selectProduct')}</option>` + ps.map(p => {
+            let price = num(p.sell) || num(p.net) || num(p.buy);
+            return `<option value="${p.id}">${p.name}${price ? ` - ${fmt(price)}` : ' - بدون سعر بيع'}</option>`;
+        }).join('');
+    }
+}
+
+function listFormError(msg, focusId) {
+    toast(msg);
+    if (focusId && $(focusId)) {
+        $(focusId).focus(); $(focusId).style.borderColor = 'var(--red)';
+        setTimeout(() => { $(focusId).style.borderColor = ''; }, 1400);
+    }
+    return false;
+}
+
+function tryAddTmpItem(silent = false) {
+    let pid = $('itemProduct')?.value || '', q = num($('itemQty')?.value), bonus = num($('itemBonus')?.value), has = !!pid || !!q || !!bonus;
+    if (!has) return true;
+    if (!pid) return listFormError(t('selectProduct'), 'itemProduct');
+    if (!q || q <= 0) return listFormError(t('qty') + ' مطلوب', 'itemQty');
+    let pr = product(pid), price = num(pr.sell) || num(pr.net) || num(pr.buy);
+    if (price <= 0) return listFormError('حدد سعر بيع للمادة من ملف المنتج حتى تنحسب القائمة دين', 'itemProduct');
+    tmpItems.push({ productId: pid, qty: q, net: price, bonus });
+    drawTmpItems();
+    $('itemProduct').value = ''; $('itemQty').value = ''; $('itemBonus').value = '';
+    return true;
+}
+
+function addTmpItem() { tryAddTmpItem(false); }
+
+function drawTmpItems() {
+    $('tmpItems').innerHTML = tmpItems.length ? tmpItems.map((i, k) => `
+        <div class="listItem">
+            <b>${product(i.productId).name}</b><br>
+            <span class="badge">${t('qty')} ${fmt(i.qty)}</span>
+            <span class="badge">${t('netPrice')} ${fmt(itemPrice(i))}</span>
+            <span class="badge">${t('total')} ${fmt(num(i.qty) * itemPrice(i))}</span>
+            ${i.bonus ? `<span class="badge">${t('bonus')} ${fmt(i.bonus)}</span>` : ''}
+            <button class="danger smallbtn" onclick="tmpItems.splice(${k}, 1); drawTmpItems()">${t('delete')}</button>
+        </div>
+    `).join('') : `<div class="empty">${t('items')}</div>`;
+}
+
+function stockBackList(l) {
+    (l.items || []).forEach(i => {
+        let p = db.products.find(x => x.id == i.productId);
+        if (p) {
+            let q = num(i.qty) + num(i.bonus) - returnedStockQty(l.id, i.productId);
+            p.stock = num(p.stock) + Math.max(0, q);
+        }
+    });
+}
+
+function stockOut(items) {
+    (items || []).forEach(i => {
+        let p = db.products.find(x => x.id == i.productId), q = num(i.qty) + num(i.bonus);
+        if (p) p.stock = Math.max(0, num(p.stock) - q);
+    });
+}
+
+async function saveList() {
+    let cid = $('lClient')?.value, co = $('lCompany')?.value;
+    if (!cid) return listFormError(t('selectClient'), 'lClient');
+    if (!co) return listFormError(t('selectCompany'), 'lCompany');
+    let isPhoto = !$('photoListBox')?.classList.contains('hide');
+    let c = client(cid), base = { clientId: cid, companyId: co, no: ($('lNo')?.value.trim() || nextListNo()), date: $('lDate')?.value || today(), place: '', debtDays: c.debtDays || 45, notes: $('lNotes')?.value.trim() || '' };
+    
+    if (isPhoto) {
+        let total = money($('lPhotoTotal')?.value);
+        if (!total || total <= 0) return listFormError('اكتب المبلغ الكلي للقائمة', 'lPhotoTotal');
+        if (!listPhotoData) return listFormError('ارفع صورة القائمة من الموبايل', 'listUploadInput');
+        let data = { ...base, type: 'photo', total, photo: listPhotoData, items: [] };
+        if (editingListId) {
+            let i = db.lists.findIndex(x => x.id == editingListId);
+            if (i > -1) {
+                if (!isPhotoList(db.lists[i])) stockBackList(db.lists[i]);
+                db.lists[i] = { ...db.lists[i], ...data };
+            }
+        } else db.lists.push({ id: uid(), ...data });
+    } else {
+        if (!tryAddTmpItem(true)) return;
+        if (!tmpItems.length) return listFormError('أضف مادة واحدة على الأقل داخل القائمة', 'itemProduct');
+        let data = { ...base, type: 'manual', items: tmpItems, total: 0, photo: '' };
+        if (editingListId) {
+            let i = db.lists.findIndex(x => x.id == editingListId);
+            if (i > -1) {
+                if (!isPhotoList(db.lists[i])) stockBackList(db.lists[i]);
+                db.lists[i] = { ...db.lists[i], ...data };
+                stockOut(tmpItems);
+            }
+        } else {
+            let l = { id: uid(), ...data };
+            db.lists.push(l);
+            stockOut(tmpItems);
+        }
+    }
+    await save(); closeModal(); render(); toast(t('saved'));
+}
+
+function formPayment(listId = '') {
+    let open = db.lists.filter(l => listRemain(l) > 0);
+    modal(t('payment'), `
+        <select id="payList" onchange="fillPayRemain()">
+            <option value="">${t('selectList')}</option>
+            ${open.map(l => `<option value="${l.id}" ${l.id == listId ? 'selected' : ''}>${client(l.clientId).name} - ${company(l.companyId).name} - ${l.no || ''} - ${fmt(listRemain(l))}</option>`).join('')}
+        </select>
+        <div class="card"><span class="badge">${t('remaining')}: <b id="payRemainBox">0</b></span></div>
+        ${moneyInput('payAmount', t('amount'), '')}
+        <button type="button" class="soft" onclick="payFull()">تسديد كامل المتبقي</button>
+        <select id="payMethod"><option>${t('cash')}</option><option>${t('transfer')}</option><option>${t('card')}</option><option>${t('other')}</option></select>
+        <input id="payDate" type="date" value="${today()}">
+        <textarea id="payNote" placeholder="${t('notes')}"></textarea>
+        <button onclick="savePayment()">${t('save')}</button>
+    `);
+    fillPayRemain();
+}
+
+function fillPayRemain() {
+    let l = db.lists.find(x => x.id == $('payList')?.value);
+    if ($('payRemainBox')) $('payRemainBox').textContent = fmt(l ? listRemain(l) : 0);
+}
+
+function payFull() {
+    let l = db.lists.find(x => x.id == $('payList')?.value);
+    if (l) { $('payAmount').value = fmt(listRemain(l)); fillPayRemain(); }
+}
+
+async function savePayment() {
+    let l = db.lists.find(x => x.id == $('payList').value), a = money($('payAmount').value);
+    if (!l || !a) return toast(t('fillRequired'));
+    let rem = listRemain(l);
+    if (rem <= 0) return toast('القائمة مسددة');
+    db.payments.push({ id: uid(), listId: l.id, amount: Math.min(a, rem), method: $('payMethod').value, date: $('payDate').value || today(), note: $('payNote').value.trim() });
+    await save(); closeModal(); render(); openList(l.id); toast(t('saved'));
+}
+
+async function quickPayList(id) {
+    let l = db.lists.find(x => x.id == id);
+    if (!l) return;
+    let rem = listRemain(l);
+    if (rem <= 0) return toast('القائمة مسددة');
+    if (!confirm('تأكيد تسديد كامل المتبقي؟')) return;
+    db.payments.push({ id: uid(), listId: id, amount: rem, method: t('cash'), date: today(), note: 'تسديد كامل' });
+    await save(); render(); openList(id); toast(t('saved'));
+}
+
+function formReturn(listId = '') {
+    let open = db.lists.filter(l => (l.items || []).length);
+    modal(t('addReturn'), `
+        <select id="retType" onchange="$('exchangeBox').classList.toggle('hide', this.value !== 'exchange')">
+            <option value="return">استرجاع مادة (تنزيل من الدين)</option>
+            <option value="exchange">تدبيل مادة (استرجاع وإضافة بديل)</option>
+        </select>
+        <select id="retList" onchange="drawReturnProducts()">
+            <option value="">${t('selectList')}</option>
+            ${open.map(l => `<option value="${l.id}" ${l.id == listId ? 'selected' : ''}>${client(l.clientId).name} - ${company(l.companyId).name} - ${l.no || ''}</option>`).join('')}
+        </select>
+        <select id="retProduct" onchange="showReturnMax()"><option value="">${t('selectProduct')}</option></select>
+        <div class="card"><span class="badge">المتاح للاسترجاع: <b id="retMaxBox">0</b></span></div>
+        ${input('retQty', t('qty'), '', 'number')}
+        <div id="exchangeBox" class="hide card">
+            <h3>المادة البديلة (الجديدة)</h3>
+            <select id="excProduct"><option value="">اختر المادة البديلة</option>${opts(db.products, '')}</select>
+            ${input('excQty', 'كمية البديل', '', 'number')}
+        </div>
+        <select id="retStock"><option value="yes">${t('yes')} - ${t('returnStock')}</option><option value="no">${t('no')}</option></select>
+        <input id="retDate" type="date" value="${today()}">
+        <textarea id="retReason" placeholder="${t('reason')}"></textarea>
+        <button onclick="saveReturn()">${t('save')}</button>
+    `);
+    drawReturnProducts();
+}
+
+function drawReturnProducts() {
+    let l = db.lists.find(x => x.id == $('retList')?.value);
+    $('retProduct').innerHTML = `<option value="">${t('selectProduct')}</option>` + (l?.items || []).map((i, k) => {
+        let max = num(i.qty) - returnedQty(l.id, i.productId);
+        return `<option value="${k}">${product(i.productId).name} - ${t('qty')} ${fmt(i.qty)} - المتاح ${fmt(Math.max(0, max))}</option>`;
+    }).join('');
+    showReturnMax();
+}
+
+function showReturnMax() {
+    let l = db.lists.find(x => x.id == $('retList')?.value);
+    let idx = num($('retProduct')?.value);
+    let it = l?.items?.[idx];
+    let max = it ? Math.max(0, num(it.qty) - returnedQty(l.id, it.productId)) : 0;
+    if ($('retMaxBox')) $('retMaxBox').textContent = fmt(max);
+}
+
+async function saveReturn() {
+    let l = db.lists.find(x => x.id == $('retList').value);
+    let idx = num($('retProduct').value);
+    let it = l?.items?.[idx];
+    let q = num($('retQty').value);
+    if (!l || !it || !q) return toast(t('fillRequired'));
+    
+    let isExchange = $('retType').value === 'exchange';
+    let excPid = $('excProduct')?.value, excQty = num($('excQty')?.value);
+    if (isExchange && (!excPid || !excQty)) return toast('أكمل بيانات المادة البديلة');
+    
+    let max = Math.max(0, num(it.qty) - returnedQty(l.id, it.productId));
+    if (q > max) return toast('الكمية أكبر من المتاح للاسترجاع');
+    
+    let price = itemPrice(it);
+    db.returns.push({ id: uid(), listId: l.id, productId: it.productId, qty: q, net: price, date: $('retDate').value || today(), stock: $('retStock').value, reason: $('retReason').value.trim() });
+    
+    if ($('retStock').value === 'yes') {
+        let p = db.products.find(x => x.id == it.productId);
+        if (p) p.stock = num(p.stock) + q;
+    }
+    
+    if (isExchange) {
+        let excP = product(excPid);
+        let excPrice = num(excP.sell) || num(excP.net) || num(excP.buy) || 0;
+        l.items.push({ productId: excPid, qty: excQty, net: excPrice, bonus: 0 });
+        excP.stock = Math.max(0, num(excP.stock) - excQty);
+    }
+    
+    await save(); closeModal(); render(); openList(l.id); toast(t('saved'));
+}
+
+async function deleteList(id) {
+    let l = db.lists.find(x => x.id == id);
+    if (!l) return;
+    if (!confirm('حذف القائمة؟ سيتم حذف الاستحصال والراجع الخاص بها وتصحيح المخزن والدين.')) return;
+    if (!isPhotoList(l)) stockBackList(l);
+    db.lists = db.lists.filter(x => x.id != id);
+    db.payments = db.payments.filter(x => x.listId != id);
+    db.returns = db.returns.filter(x => x.listId != id);
+    await save(); closeModal(); render(); toast('تم حذف القائمة وتصحيح ملف الصيدلية');
+}
+
+function formDoctorDeal(id) {
+    let d = db.doctorDeals.find(x => x.id == id) || {};
+    modal(t('doctorDeal'), `
+        ${input('dName', t('doctorName'), d.name)}
+        <select id="dCompany"><option value="">${t('selectCompany')}</option>${opts(db.companies, d.companyId)}</select>
+        <select id="dType"><option>${t('percentage')}</option><option>${t('fixed')}</option><option>${t('gift')}</option><option>${t('iphone')}</option><option>${t('bonus')}</option><option>${t('support')}</option></select>
+        <select id="dScope"><option>${t('specificProduct')}</option><option>${t('specificList')}</option><option>${t('generalDeal')}</option></select>
+        ${input('dValue', t('value'), d.value)}
+        <textarea id="dNotes" placeholder="${t('notes')}">${d.notes || ''}</textarea>
+        <button onclick="saveDoctorDeal('${id || ''}')">${t('save')}</button>
+    `);
+}
+
+async function saveDoctorDeal(id) {
+    let d = id ? db.doctorDeals.find(x => x.id == id) : { id: uid() };
+    Object.assign(d, { name: $('dName').value.trim(), companyId: $('dCompany').value, type: $('dType').value, scope: $('dScope').value, value: $('dValue').value.trim(), notes: $('dNotes').value.trim() });
+    if (!d.name) return toast(t('fillRequired'));
+    if (!id) db.doctorDeals.push(d);
+    await save(); closeModal(); render(); toast(t('saved'));
+}
+
+function formExpense() {
+    modal(t('addExpense'), `
+        ${moneyInput('exAmount', t('amount'), '')}
+        <select id="exType"><option>${t('cash')}</option><option>${t('other')}</option></select>
+        <input id="exDate" type="date" value="${today()}">
+        <textarea id="exNote" placeholder="${t('notes')}"></textarea>
+        <button onclick="saveExpense()">${t('save')}</button>
+    `);
+}
+
+async function saveExpense() {
+    let a = money($('exAmount').value);
+    if (!a) return toast(t('fillRequired'));
+    db.expenses.push({ id: uid(), amount: a, type: $('exType').value, date: $('exDate').value || today(), note: $('exNote').value.trim() });
+    await save(); closeModal(); render(); toast(t('saved'));
+}
+
+function openClient(id) {
+    let c = client(id);
+    let lists = db.lists.filter(l => l.clientId == id);
+    let debt = lists.reduce((s, l) => s + listRemain(l), 0);
+    let paid = lists.reduce((s, l) => s + listPayTotal(l.id), 0);
+    let ret = lists.reduce((s, l) => s + listReturnTotal(l.id), 0);
+    let oldest = lists.reduce((m, l) => Math.max(m, daysBetween(l.date)), 0);
+    let by = {};
+    lists.forEach(l => {
+        let k = l.companyId;
+        by[k] = by[k] || { count: 0, net: 0, pay: 0, ret: 0, rem: 0, old: 0 };
+        by[k].count++; by[k].net += listNet(l); by[k].pay += listPayTotal(l.id); by[k].ret += listReturnTotal(l.id); by[k].rem += listRemain(l); by[k].old = Math.max(by[k].old, daysBetween(l.date));
+    });
+    
+    let totalNet = lists.reduce((s, l) => s + listNet(l), 0);
+    let targetHtml = '';
+    if (num(c.targetAmount) > 0) {
+        targetHtml = `
+            <h3>${t('salesTarget')} الصيدلية</h3>
+            <span class="badge">المحقق: ${fmt(totalNet)} / ${fmt(c.targetAmount)}</span>
+            ${totalNet >= c.targetAmount ? `<span class="pill done" style="background:var(--p);color:#fff;border-color:var(--p)">${c.targetDeal || 'مستحق الديل'}</span>` : ''}
+            ${progress(totalNet, c.targetAmount)}
+        `;
+    }
+    
+    modal(t('clientFile'), `
+        <div class="card">
+            <h2>${c.name}</h2>
+            <p class="muted">${c.type} - ${c.area || ''}<br>${t('ownerName')}: ${c.ownerName || '-'} / ${c.ownerPhone || '-'}<br>${t('payName')}: ${c.payName || '-'} / ${c.payPhone || '-'}<br>${t('listPlace')}: ${c.listPlace || '-'}</p>
+            <span class="badge">${t('listCount')} ${lists.length}</span>
+            <span class="badge">${t('totalDebt')} ${fmt(debt)}</span>
+            <span class="badge">${t('paid')} ${fmt(paid)}</span>
+            <span class="badge">${t('returned')} ${fmt(ret)}</span>
+            <span class="badge">${t('age')} ${oldest} ${t('days')}</span>
+            <button onclick="formList('', '${id}')">${t('addList')}</button>
+        </div>
+        ${targetHtml}
+        <h3>${t('clientListsSummary')}</h3>
+        ${Object.keys(by).map(k => `
+            <div class="listItem">
+                <b>${company(k).name}</b><br>
+                <span class="badge">${t('listCount')} ${by[k].count}</span>
+                <span class="badge">${t('total')} ${fmt(by[k].net)}</span>
+                <span class="badge">${t('paid')} ${fmt(by[k].pay)}</span>
+                <span class="badge">${t('returned')} ${fmt(by[k].ret)}</span>
+                <span class="badge">${t('remaining')} ${fmt(by[k].rem)}</span>
+                <span class="badge">${t('age')} ${by[k].old} ${t('days')}</span>
+            </div>
+        `).join('') || `<div class="empty">${t('noData')}</div>`}
+        <h3>${t('lists')}</h3>
+        ${lists.slice().reverse().map(listCard).join('') || `<div class="empty">${t('noData')}</div>`}
+    `);
+}
+
+function openCompany(id) {
+    let c = company(id), s = companyStats(id), lists = db.lists.filter(l => l.companyId == id);
+    modal(t('companyFile'), `
+        <div class="card">
+            <h2>${c.name}</h2>
+            <span class="badge">${t('salesDone')} ${fmt(s.sales)} / ${fmt(c.salesTarget)}</span>
+            <span class="badge">${t('collectionDone')} ${fmt(s.collections)} / ${fmt(c.collectionTarget)}</span>
+            <span class="badge">${t('returned')} ${fmt(s.ret)}</span>
+            <span class="badge">${t('listCount')} ${lists.length}</span>
+            ${progress(s.sales, num(c.salesTarget))}${progress(s.collections, num(c.collectionTarget))}
+            <button onclick="formList('${id}')">${t('addList')}</button>
+        </div>
+        ${lists.map(listCard).join('') || `<div class="empty">${t('noData')}</div>`}
+    `);
+}
+
+function openList(id) {
+    let l = db.lists.find(x => x.id == id);
+    if (!l) return;
+    let photo = isPhotoList(l), st = listStatus(l), pay = listPayTotal(id), ret = listReturnTotal(id), total = listItemsTotal(l), rem = listRemain(l), cl = client(l.clientId);
+    let clientLists = db.lists.filter(x => x.clientId == l.clientId), clientDebt = clientLists.reduce((s, x) => s + listRemain(x), 0), clientPaid = clientLists.reduce((s, x) => s + listPayTotal(x.id), 0);
+    
+    modal(t('listDetails'), `
+        <div class="card hero">
+            <h2>${t('listDetails')} — ${l.no || '-'}</h2>
+            <p class="muted">${cl.name} — ${company(l.companyId).name}<br>${photo ? 'قائمة مرفوعة من الموبايل' : 'قائمة يدوية'}<br>${t('date')}: ${l.date} / ${t('dueDate')}: ${addDays(l.date, l.debtDays)}</p>
+        </div>
+        <div class="stats">
+            <div class="stat"><span>${t('total')}</span><b>${fmt(total)}</b></div>
+            <div class="stat"><span>${t('returned')}</span><b>${fmt(ret)}</b></div>
+            <div class="stat"><span>${t('paid')}</span><b>${fmt(pay)}</b></div>
+            <div class="stat"><span>${t('remaining')}</span><b>${fmt(rem)}</b></div>
+        </div>
+        <div class="card">
+            <h3>${t('clientFile')}</h3>
+            <span class="badge">${t('listCount')} ${clientLists.length}</span>
+            <span class="badge">${t('paid')} ${fmt(clientPaid)}</span>
+            <span class="badge">${t('totalDebt')} ${fmt(clientDebt)}</span>
+            <span class="pill ${st[0]}">${st[1]}</span>
+        </div>
+        ${photo && l.photo ? `<div class="card"><h3>صورة القائمة</h3><img class="listPhoto" src="${l.photo}" onclick="window.open('${l.photo}','_blank')"><p class="hint">اضغط على الصورة حتى تنفتح كاملة.</p></div>` : ''}
+        <div class="tools">
+            <button onclick="formPayment('${id}')">${t('payment')}</button>
+            <button class="soft" onclick="quickPayList('${id}')">تسديد كامل</button>
+            ${photo ? '' : `<button class="warn" onclick="formReturn('${id}')">${t('addReturn')}</button>`}
+            <button class="soft" onclick="printListPdf('${id}')">PDF</button>
+            <button class="ghost" onclick="formList('', '', '${id}')">${t('editList')}</button>
+            <button class="danger" onclick="deleteList('${id}')">${t('delete')}</button>
+        </div>
+        ${photo ? '' : `<h3>${t('items')}</h3>${(l.items || []).map(i => {
+            let rq = returnedQty(id, i.productId), available = Math.max(0, num(i.qty) - rq);
+            return `<div class="listItem"><b>${product(i.productId).name}</b><br><span class="badge">${t('qty')} ${fmt(i.qty)}</span><span class="badge">${t('bonus')} ${fmt(i.bonus)}</span><span class="badge">${t('total')} ${fmt(num(i.qty) * itemPrice(i))}</span><span class="badge">راجع ${fmt(rq)}</span><span class="badge">متاح ${fmt(available)}</span></div>`;
+        }).join('') || `<div class="empty">${t('noData')}</div>`}`}
+        <h3>${t('payment')}</h3>
+        ${db.payments.filter(p => p.listId == id).map(p => `<div class="listItem">${p.date} - ${fmt(p.amount)} - ${p.method}${p.note ? `<br><span class="muted">${p.note}</span>` : ''}</div>`).join('') || `<div class="empty">${t('noData')}</div>`}
+        <h3>${t('returned')}</h3>
+        ${db.returns.filter(r => r.listId == id).map(r => `<div class="listItem">${r.date} - ${product(r.productId).name} - ${fmt(r.qty)} × ${fmt(r.net)} = ${fmt(num(r.qty) * num(r.net))} - ${r.stock === 'yes' ? 'رجع للمخزن' : 'بدون مخزن'}</div>`).join('') || `<div class="empty">${t('noData')}</div>`}
+    `);
+}
+
+function escPdf(v) { return String(v ?? '').replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
+
+function printListPdf(id) {
+    let l = db.lists.find(x => x.id == id);
+    if (!l) return;
+    let photo = isPhotoList(l);
+    let rows = photo ? `<tr><td colspan="7">قائمة مرفوعة من الموبايل - المبلغ الكلي ${fmt(listItemsTotal(l))}</td></tr>` : (l.items || []).map((i, k) => `<tr><td>${k + 1}</td><td>${escPdf(product(i.productId).name)}</td><td>${fmt(i.qty)}</td><td>${fmt(i.bonus)}</td><td>${fmt(itemPrice(i))}</td><td>${fmt(num(i.qty) * itemPrice(i))}</td><td>${fmt(returnedQty(id, i.productId))}</td></tr>`).join('');
+    let img = photo && l.photo ? `<h2>صورة القائمة</h2><img src="${l.photo}" style="width:100%;max-height:700px;object-fit:contain;border:1px solid #e2e8f0;border-radius:14px">` : '';
+    let pays = db.payments.filter(p => p.listId == id).map(p => `<tr><td>${escPdf(p.date)}</td><td>${fmt(p.amount)}</td><td>${escPdf(p.method)}</td><td>${escPdf(p.note || '')}</td></tr>`).join('') || `<tr><td colspan="4">لا توجد استحصالات</td></tr>`;
+    let rets = db.returns.filter(r => r.listId == id).map(r => `<tr><td>${escPdf(r.date)}</td><td>${escPdf(product(r.productId).name)}</td><td>${fmt(r.qty)}</td><td>${fmt(num(r.qty) * num(r.net))}</td><td>${r.stock === 'yes' ? 'نعم' : 'لا'}</td></tr>`).join('') || `<tr><td colspan="5">لا يوجد راجع</td></tr>`;
+    
+    let w = window.open('', '_blank');
+    w.document.write(`<!doctype html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>List-${escPdf(l.no || '')}</title><style>body{font-family:Tahoma,Arial,sans-serif;margin:0;background:#f8fafc;color:#020617}.page{max-width:850px;margin:20px auto;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:24px}h1{margin:0;color:#1e293b}.head{display:flex;justify-content:space-between;gap:14px;border-bottom:3px solid #1e293b;padding-bottom:14px}.box{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:14px;padding:10px;margin:10px 0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.sum{font-weight:bold;text-align:center}table{width:100%;border-collapse:collapse;margin-top:10px}th{background:#1e293b;color:white}td,th{border:1px solid #e2e8f0;padding:9px;text-align:center}h2{font-size:16px;margin:18px 0 6px}@media print{body{background:white}.page{margin:0;border:0;border-radius:0}}</style></head><body><div class="page"><div class="head"><div><h1>تفاصيل القائمة</h1><p>رقم القائمة: ${escPdf(l.no || '-')}</p><p>${photo ? 'قائمة مرفوعة من الموبايل' : 'قائمة يدوية'}</p></div><div><b>${escPdf(company(l.companyId).name)}</b><br>${escPdf(client(l.clientId).name)}<br>${escPdf(l.date || '')}</div></div><div class="grid"><div class="box sum">المجموع<br>${fmt(listItemsTotal(l))}</div><div class="box sum">الراجع<br>${fmt(listReturnTotal(id))}</div><div class="box sum">المدفوع<br>${fmt(listPayTotal(id))}</div><div class="box sum">المتبقي<br>${fmt(listRemain(l))}</div></div><div class="box">تاريخ القائمة: ${escPdf(l.date || '-')} &nbsp; | &nbsp; تاريخ الاستحقاق: ${escPdf(addDays(l.date, l.debtDays))}</div>${img}<h2>المواد / التفاصيل</h2><table><thead><tr><th>#</th><th>المادة</th><th>الكمية</th><th>بونص</th><th>السعر</th><th>المجموع</th><th>راجع</th></tr></thead><tbody>${rows}</tbody></table><h2>الاستحصال</h2><table><thead><tr><th>التاريخ</th><th>المبلغ</th><th>الطريقة</th><th>ملاحظة</th></tr></thead><tbody>${pays}</tbody></table><h2>الراجع / التدبيل</h2><table><thead><tr><th>التاريخ</th><th>المادة</th><th>الكمية</th><th>القيمة</th><th>رجع للمخزن</th></tr></thead><tbody>${rets}</tbody></table></div><script>window.onload=()=>setTimeout(()=>print(),300)<\/script></body></html>`);
+    w.document.close();
+}
+
+function openProducts() {
+    modal(t('products'), `${db.products.map(p => `
+        <div class="item">
+            ${p.photo ? `<img class="productThumb" src="${p.photo}" onclick="window.open('${p.photo}','_blank')">` : ''}
+            <h3>${p.name}</h3>
+            <div class="productMeta">
+                <span class="badge">${company(p.companyId).name}</span>
+                <span class="badge">${t('stock')} ${fmt(p.stock)}</span>
+                ${p.sell ? `<span class="badge">${t('salePrice')} ${fmt(p.sell)}</span>` : ''}
+                ${p.expiry ? `<span class="badge">${t('expiryDate')}: ${p.expiry}</span>` : ''}
+                ${num(p.alert) && num(p.stock) <= num(p.alert) ? `<span class="pill due">${t('alertQty')}</span>` : ''}
+            </div>
+            ${p.notes ? `<p class="muted">${p.notes}</p>` : ''}
+            <button class="soft smallbtn" onclick="formProduct('${p.id}')">${t('edit')}</button>
+        </div>
+    `).join('') || `<div class="empty">${t('noData')}</div>`}`);
+}
+
+function openDoctorDeals() {
+    modal(t('doctorDeal'), `${db.doctorDeals.map(d => `
+        <div class="item">
+            <h3>${d.name}</h3>
+            <span class="badge">${company(d.companyId).name}</span>
+            <span class="badge">${d.type}</span>
+            <span class="badge">${d.scope}</span>
+            <p class="muted">${d.value || ''}<br>${d.notes || ''}</p>
+            <button class="soft smallbtn" onclick="formDoctorDeal('${d.id}')">${t('edit')}</button>
+        </div>
+    `).join('') || `<div class="empty">${t('noData')}</div>`}`);
+}
+
+function showReport() {
+    let s = allStats();
+    modal(t('reports'), `
+        <div class="card">
+            <h2>${t('reportToday')}</h2>
+            <span class="badge">${t('todaySales')} ${fmt(s.ts)}</span>
+            <span class="badge">${t('todayCollections')} ${fmt(s.tc)}</span>
+            <span class="badge">${t('totalDebt')} ${fmt(s.debt)}</span>
+            <span class="badge">${t('lateLists')} ${fmt(s.late)}</span>
+        </div>
+        ${db.companies.map(c => {
+            let x = companyStats(c.id);
+            return `<div class="listItem"><b>${c.name}</b><br><span class="badge">${t('salesDone')} ${fmt(x.sales)}</span><span class="badge">${t('collectionDone')} ${fmt(x.collections)}</span><span class="badge">${t('remaining')} ${fmt(x.remainDebt)}</span></div>`;
+        }).join('')}
+    `);
+}
+
+async function exportBackup() {
+    await save();
+    let a = document.createElement('a'), blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+    a.href = URL.createObjectURL(blob); a.download = 'repflow-backup.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+
+async function restoreBackup(e) {
+    let f = e.target.files[0]; if (!f) return;
+    db = { ...db, ...JSON.parse(await f.text()) };
+    await save(); render(); toast(t('done'));
+}
+
+async function resetAll() {
+    if (confirm(t('clearAll') + '؟')) {
+        db = { companies: [], clients: [], products: [], lists: [], payments: [], returns: [], doctorDeals: [], expenses: [], settings: {} };
+        await save(); render(); toast(t('done'));
+    }
+}
+
+function toggleTheme() {
+    let d = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', d);
+    localStorage.setItem('trTheme', d);
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
+window.addEventListener('appinstalled', () => { localStorage.setItem('repflowInstalledOnce', '1'); mustOpenFromHomeMsg(); checkAccessGates(); });
+function isStandaloneApp() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+function mustInstallMsg() { toast('لا يمكن المتابعة بدون طريقة التثبيت على شاشة الرئيسية'); }
+function mustOpenFromHomeMsg() { toast('بعد الإضافة افتح RepFlow من شاشة الرئيسية حتى تظهر واجهة التفعيل'); }
+async function installApp() {
+    if (isStandaloneApp()) { checkAccessGates(); return; }
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice.catch(() => null);
+        deferredPrompt = null;
+        if (choice && choice.outcome === 'accepted') mustOpenFromHomeMsg();
+        else mustInstallMsg();
+    } else {
+        $('iosSteps')?.classList.remove('hide');
+        toast('على الآيفون اضغط مشاركة ثم إضافة إلى الشاشة الرئيسية وبعدها افتحه من الأيقونة');
+    }
+}
+function deviceId() {
+    let id = localStorage.getItem('repflowDeviceId');
+    if (!id) {
+        let raw = [navigator.userAgent, navigator.language, screen.width, screen.height, screen.colorDepth, new Date().getTimezoneOffset(), Math.random().toString(36).slice(2)].join('|');
+        let h1 = 0x811c9dc5, h2 = 0x45d9f3b;
+        for (let i = 0; i < raw.length; i++) { h1 = Math.imul(h1 ^ raw.charCodeAt(i), 16777619); h2 = Math.imul(h2 ^ raw.charCodeAt(i), 1597334677); }
+        id = 'MR-' + (h1 >>> 0).toString(16).toUpperCase().padStart(8, '0') + '-' + (h2 >>> 0).toString(16).toUpperCase().padStart(8, '0');
+        localStorage.setItem('repflowDeviceId', id);
+    }
+    return id;
+}
+function activationCodeFor(email, id) {
+    let raw = String(email || '').trim().toLowerCase() + '|' + id + '|RepFlow2026';
+    let h = 0x811c9dc5;
+    for (let i = 0; i < raw.length; i++) h = Math.imul(h ^ raw.charCodeAt(i), 16777619);
+    return 'MRF-' + (h >>> 0).toString(36).toUpperCase().padStart(7, '0').slice(0, 7);
+}
+function isActivated() { return localStorage.getItem('repflowActivated') === '1' && localStorage.getItem('repflowActivatedDevice') === deviceId(); }
+function lockMainApp(locked) {
+    document.querySelector('header')?.classList.toggle('lockedApp', locked);
+    document.querySelector('.langBar')?.classList.toggle('lockedApp', locked);
+    document.querySelector('main')?.classList.toggle('lockedApp', locked);
+    document.querySelector('.bottom-nav')?.classList.toggle('lockedApp', locked);
+}
+function showActivationGate() {
+    $('installGate')?.classList.add('hide');
+    $('activationGate')?.classList.remove('hide');
+    if ($('deviceIdBox')) $('deviceIdBox').textContent = deviceId();
+    lockMainApp(true);
+}
+function hideAllGates() {
+    $('installGate')?.classList.add('hide');
+    $('activationGate')?.classList.add('hide');
+    lockMainApp(false);
+}
+function checkAccessGates() {
+    if (!isStandaloneApp()) {
+        $('activationGate')?.classList.add('hide');
+        $('installGate')?.classList.remove('hide');
+        lockMainApp(true);
+        return;
+    }
+    if (!isActivated()) showActivationGate(); else hideAllGates();
+}
+function copyDeviceId() {
+    let id = deviceId();
+    navigator.clipboard?.writeText(id).then(() => toast('تم نسخ رقم الجهاز')).catch(() => { $('activationMsg').textContent = id; });
+}
+function activateDevice() {
+    let email = $('actEmail')?.value.trim() || '';
+    let code = String($('actCode')?.value || '').trim().toUpperCase().replace(/\\s+/g, '');
+    let expected = activationCodeFor(email, deviceId());
+    if (!email || !code) { $('activationMsg').textContent = 'أدخل الإيميل وكود التفعيل'; return; }
+    if (code !== expected) { $('activationMsg').textContent = 'كود التفعيل غير صحيح لهذا الجهاز'; return; }
+    localStorage.setItem('repflowActivated', '1');
+    localStorage.setItem('repflowActivatedEmail', email);
+    localStorage.setItem('repflowActivatedDevice', deviceId());
+    hideAllGates();
+    toast('تم التفعيل بنجاح');
+}
+
+
+async function requestPersistentStorage() {
+    try {
+        if (navigator.storage && navigator.storage.persist) await navigator.storage.persist();
+        if (navigator.storage && navigator.storage.estimate) {
+            let e = await navigator.storage.estimate();
+            localStorage.setItem('repflowStorageEstimate', JSON.stringify({ quota: e.quota || 0, usage: e.usage || 0, at: Date.now() }));
+        }
+    } catch (e) { }
+}
+
+function security() {
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        let k = e.key.toLowerCase();
+        if (e.key === 'F12' || (e.ctrlKey && k === 'u') || (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(k))) { e.preventDefault(); toast('Security'); }
+    });
+}
+
+function sanitizeProducts() {
+    (db.products || []).forEach(p => { delete p["bar" + "code"]; delete p.code; delete p["bat" + "ch"]; delete p.lot; delete p["un" + "it"]; delete p["pack" + "age"]; });
+}
+
+(async function init() {
+    try {
+        document.documentElement.setAttribute('data-theme', localStorage.getItem('trTheme') || 'light');
+        checkAccessGates();
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=repflow-ios-v1').catch(() => { });
+        security();
+        await requestPersistentStorage();
+        await load();
+        sanitizeProducts();
+        await save();
+        setLang(lang);
+        render();
+        checkAccessGates();
+    } catch (err) {
+        alert("حدث خطأ أثناء تحميل البيانات من المتصفح: " + err.message);
+    }
+})();
+</script>
+</body>
+</html>
