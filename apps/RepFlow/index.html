@@ -5,32 +5,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#155eef">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="RepFlow">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="format-detection" content="telephone=no">
 <meta name="application-name" content="RepFlow">
 <meta name="msapplication-TileColor" content="#155eef">
-<link rel="manifest" href="manifest.json?v=repflow-local-v4">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=repflow-local-v4">
-<link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png?v=repflow-local-v4">
-<meta name="msapplication-TileImage" content="icon-180.png?v=repflow-local-v4">
+<meta name="msapplication-TileImage" content="repflow-logo.png">
 
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=repflow-local-v4">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=repflow-local-v4">
-<link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120.png?v=repflow-local-v4">
-<link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152.png?v=repflow-local-v4">
-<link rel="apple-touch-icon" sizes="167x167" href="apple-touch-icon-167.png?v=repflow-local-v4">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180.png?v=repflow-local-v4">
-<link rel="apple-touch-startup-image" href="apple-splash-1170-2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
-<link rel="apple-touch-startup-image" href="apple-splash-1290-2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
-<link rel="apple-touch-startup-image" href="apple-splash-1125-2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="RepFlow">
+<link rel="manifest" href="manifest.json?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=repflow-iphone-offline-v12">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=repflow-iphone-offline-v12">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="apple-splash-1170-2532.png?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="apple-splash-1290-2796.png?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="apple-splash-1242-2688.png?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="apple-splash-1242-2208.png?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="apple-splash-1125-2436.png?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="apple-splash-750-1334.png?v=repflow-iphone-offline-v12">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="apple-splash-828-1792.png?v=repflow-iphone-offline-v12">
 
-<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=repflow-local-v4">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=repflow-local-v4">
-<link rel="shortcut icon" href="./favicon.png?v=repflow-local-v4">
-<link rel="apple-touch-icon" href="./apple-touch-icon-180.png?v=repflow-local-v4">
-<link rel="apple-touch-icon-precomposed" href="./apple-touch-icon-180.png?v=repflow-local-v4">
+
+
 <title>RepFlow</title>
 <style>
 /* الثيم السمائي القديم مع استبدال أي لون أخضر باللون الأزرق الموحد */
@@ -184,12 +180,43 @@ button.smallbtn { padding: 9px !important; font-size: 13px !important; border-ra
 .deviceBox { direction:ltr; text-align:center; background:var(--soft); border:1px dashed color-mix(in srgb, var(--p) 35%, var(--br)); color:var(--p); font-weight:900; border-radius:16px; padding:12px; margin:8px 0; user-select:all; }
 .lockedApp { filter: blur(2px); pointer-events:none; user-select:none; }
 
+.versionTag{display:none!important}
 </style>
 </head>
 <body>
-<div id="installGate" class="install hide"><div class="installCard"><img src="repflow-logo.png?v=repflow-local-v4"><h2 data-i="installTitle">تثبيت RepFlow</h2><p class="muted" data-i="installHint">على الآيفون لازم تضيف التطبيق إلى الشاشة الرئيسية حتى يعمل كتطبيق مستقل.</p><button class="installBtn" onclick="installApp()" data-i="installApp">طريقة التثبيت</button><div id="iosSteps" class="installSteps hide" data-i="iosSteps">على الآيفون: اضغط زر المشاركة في Safari ثم Add to Home Screen / إضافة إلى الشاشة الرئيسية. بعدها افتح RepFlow من الأيقونة.</div><button class="ghost" onclick="mustInstallMsg()" data-i="continueNoInstall">متابعة بدون تثبيت</button></div></div>
-<div id="activationGate" class="activationGate hide"><div class="activationCard"><img src="repflow-logo.png?v=repflow-local-v4"><h2>تفعيل RepFlow</h2><p class="muted">أدخل الإيميل وكود التفعيل الخاص برقم هذا الجهاز. رقم الجهاز يبقى ثابت قدر الإمكان وينحفظ ويا النسخة الاحتياطية.</p><input id="actEmail" type="email" placeholder="الإيميل"><div class="small">رقم الجهاز الحالي</div><div id="deviceIdBox" class="deviceBox"></div><div id="oldDeviceWrap" class="hide"><div class="small">رقم الجهاز السابق المسجل</div><div id="oldDeviceBox" class="deviceBox"></div></div><input id="actCode" type="text" placeholder="كود التفعيل" inputmode="text"><button onclick="activateDevice()">تفعيل الجهاز</button><button class="ghost" onclick="copyDeviceId()">نسخ رقم الجهاز</button><button class="ghost" onclick="copyTransferRequest()">نسخ طلب نقل التفعيل</button><p id="activationMsg" class="small"></p></div></div>
-<header><div class="logo"><img src="repflow-logo.png?v=repflow-local-v4"></div><div><div class="appTitleLine"><h1>RepFlow</h1><span id="fixedVersion" class="versionTag">iOS</span></div><p data-i="subtitle">نظام المندوب التجاري</p></div><div class="headTools"><button class="theme-toggle" onclick="toggleTheme()">☾</button></div></header>
+
+<div id="installGate" class="install hide">
+  <div class="installCard">
+    <img src="repflow-logo.png?v=repflow-iphone-offline-v12" alt="RepFlow">
+    <h2 data-i="installTitle">تثبيت RepFlow</h2>
+    <p class="muted" data-i="installHint">على الآيفون لازم تضيف التطبيق إلى الشاشة الرئيسية حتى يعمل كتطبيق مستقل.</p>
+    <button class="installBtn" onclick="installApp()" data-i="installApp">طريقة التثبيت</button>
+    <div id="iosSteps" class="installSteps hide" data-i="iosSteps">على الآيفون: افتح الرابط من Safari، اضغط زر المشاركة، ثم Add to Home Screen / إضافة إلى الشاشة الرئيسية، وبعدها افتح RepFlow من الأيقونة.</div>
+    <button class="ghost" onclick="mustInstallMsg()" data-i="continueNoInstall">متابعة بدون تثبيت</button>
+  </div>
+</div>
+
+<div id="activationGate" class="activationGate hide">
+  <div class="activationCard">
+    <img src="repflow-logo.png?v=repflow-iphone-offline-v12" alt="RepFlow">
+    <h2 style="margin:6px 0 4px">تسجيل الدخول</h2>
+    <p class="muted" style="margin-bottom:12px">التسجيل يبقى محفوظاً، وكود الجهاز يبقى ثابتاً قدر الإمكان داخل الآيفون ولا يتغير إلا إذا انمسحت بيانات التطبيق.</p>
+    <div class="fieldLabel" style="text-align:start">كود الجهاز</div>
+    <div id="deviceIdBox" class="deviceBox">...</div>
+    <div id="oldDeviceWrap" class="hide">
+      <div class="small">كود الجهاز السابق المسجل</div>
+      <div id="oldDeviceBox" class="deviceBox"></div>
+    </div>
+    <button class="soft" onclick="copyDeviceId()">نسخ كود الجهاز</button>
+    <input id="actEmail" type="email" inputmode="email" autocomplete="username" placeholder="الإيميل">
+    <input id="actCode" type="text" autocomplete="one-time-code" placeholder="كود التفعيل" style="direction:ltr;text-align:center;font-weight:900;letter-spacing:1px">
+    <button onclick="activateDevice()">تفعيل التطبيق</button>
+    <button class="ghost" onclick="copyTransferRequest()">نسخ طلب نقل التفعيل</button>
+    <p id="activationMsg" class="small"></p>
+  </div>
+</div>
+
+<header><div class="logo"><img src="repflow-logo.png"></div><div><h1>RepFlow</h1><p data-i="subtitle">نظام المندوب التجاري</p></div><div class="headTools"><button class="theme-toggle" onclick="toggleTheme()">☾</button></div></header>
 <div class="langBar"><button id="lang_ar" onclick="setLang('ar')">العربية</button><button id="lang_en" onclick="setLang('en')">English</button><button id="lang_ku" onclick="setLang('ku')">کوردی</button></div>
 <main class="wrap">
 <section id="home" class="page on"></section>
@@ -401,6 +428,28 @@ function renderHome() {
             <div class="stat"><div class="statIcon">＋</div><span>${t('todaySales')}</span><b>${fmt(s.ts)}</b></div>
             <div class="stat"><div class="statIcon">✓</div><span>${t('todayCollections')}</span><b>${fmt(s.tc)}</b></div>
         </div>
+        <h2 style="margin-top: 16px;">ملخص العملاء حسب النوع</h2>
+        <div class="grid">
+            ${clientTypeStats().length ? clientTypeStats().map(x => `
+                <div class="card">
+                    <h3>${x.label}</h3>
+                    <span class="badge">عدد العملاء ${x.count}</span>
+                    <span class="badge">${t('totalDebt')} ${fmt(x.debt)}</span>
+                    <span class="badge">${t('paid')} ${fmt(x.paid)}</span>
+                </div>
+            `).join('') : `<div class="empty">${t('noData')}</div>`}
+        </div>
+        <h2 style="margin-top: 16px;">ملخص المنتجات حسب النوع</h2>
+        <div class="grid">
+            ${productTypeStats().length ? productTypeStats().slice(0,6).map(x => `
+                <div class="card">
+                    <h3>${x.label}</h3>
+                    <span class="badge">عدد المنتجات ${x.products}</span>
+                    <span class="badge">مبيعات ${fmt(x.sales)}</span>
+                    <span class="badge">مخزن ${fmt(x.stock)}</span>
+                </div>
+            `).join('') : `<div class="empty">${t('noData')}</div>`}
+        </div>
         <h2 style="margin-top: 16px;">تاركت الشركات التفصيلي</h2>
         <div class="grid">
             ${db.companies.length ? companiesTargetsHtml : `<div class="empty">${t('noCompanies')}</div>`}
@@ -437,23 +486,23 @@ function renderCompanies() {
 }
 
 function renderClients() {
+    ensureClientTypeSystem();
     $('clients').innerHTML = `
         <button onclick="formClient()">${t('addClient')}</button>
         ${db.clients.length ? db.clients.map(c => {
             let ls = db.lists.filter(l => l.clientId == c.id);
             let debt = ls.reduce((s, l) => s + listRemain(l), 0);
             let paid = ls.reduce((s, l) => s + listPayTotal(l.id), 0);
+            let extra = clientExtraShort(c);
             return `
                 <div class="item">
                     <h3>${c.name}</h3>
-                    <span class="badge">${c.type}</span>
+                    <span class="badge">${clientTypeLabel(c)}</span>
                     <span class="badge">${t('listCount')} ${ls.length}</span>
                     <span class="badge">${t('totalDebt')} ${fmt(debt)}</span>
                     <span class="badge">${t('paid')} ${fmt(paid)}</span>
                     <p class="muted">
-                        ${t('ownerName')}: ${c.ownerName || '-'} / ${c.ownerPhone || '-'}<br>
-                        ${t('payName')}: ${c.payName || '-'} / ${c.payPhone || '-'}<br>
-                        ${t('listPlace')}: ${c.listPlace || '-'}
+                        ${clientGeneralInfoHtml(c)}${clientGeneralInfoHtml(c) && extra ? '<br>' : ''}${extra || ''}
                     </p>
                     <div class="tools">
                         <button class="soft smallbtn" onclick="openClient('${c.id}')">${t('openFile')}</button>
@@ -533,6 +582,7 @@ function renderMore() {
             <button onclick="showReport()">${t('reports')}</button>
             <button class="soft" onclick="exportBackup()">${t('backup')}</button>
             <button class="soft" onclick="$('restoreInput').click()">${t('restore')}</button>
+            <button class="warn" onclick="logoutRepFlow()">تسجيل خروج</button>
             <button class="danger" onclick="resetAll()">${t('clearAll')}</button>
         </div>
     `;
@@ -565,6 +615,399 @@ function toast(m) {
     setTimeout(() => $('toast').classList.remove('on'), 2200);
 }
 
+
+const CLIENT_TYPE_KEYS = ['pharmacy','store','supermarket','mall','wholesale','beauty','other'];
+const CLIENT_TYPE_ALIASES = {
+    'صيدلية':'pharmacy','pharmacy':'pharmacy','دەرمانخانە':'pharmacy',
+    'محل':'store','store':'store','دوکان':'store',
+    'سوبر ماركت':'supermarket','supermarket':'supermarket','سوپەرمارکێت':'supermarket',
+    'مول':'mall','mall':'mall','مۆڵ':'mall',
+    'جملة':'wholesale','wholesale':'wholesale','کۆفرۆشی':'wholesale',
+    'مركز تجميل':'beauty','beauty center':'beauty','beauty':'beauty','سەنتەری جوانکاری':'beauty',
+    'أخرى':'other','other':'other','هیتر':'other'
+};
+function esc(v) { return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function ensureClientTypeSystem() {
+    db.settings = db.settings || {};
+    if (!Array.isArray(db.settings.customClientTypes)) db.settings.customClientTypes = [];
+    (db.clients || []).forEach(c => {
+        if (!c.extra) c.extra = {};
+        if (!c.typeKey) c.typeKey = guessClientTypeKey(c.type);
+        if (c.typeKey === 'custom' && !c.customType && c.type) c.customType = c.type;
+        if ((c.typeKey === 'custom' || c.typeKey === 'other') && c.customType) {
+            addCustomClientType(c.customType, false);
+        }
+    });
+}
+function guessClientTypeKey(type) {
+    let raw = String(type || '').trim();
+    let low = raw.toLowerCase();
+    if (CLIENT_TYPE_ALIASES[raw]) return CLIENT_TYPE_ALIASES[raw];
+    if (CLIENT_TYPE_ALIASES[low]) return CLIENT_TYPE_ALIASES[low];
+    for (let k of CLIENT_TYPE_KEYS) if (raw === t(k)) return k;
+    return raw ? 'custom' : 'pharmacy';
+}
+function addCustomClientType(name, persist = true) {
+    name = String(name || '').trim();
+    if (!name) return;
+    db.settings = db.settings || {};
+    db.settings.customClientTypes = db.settings.customClientTypes || [];
+    if (!db.settings.customClientTypes.some(x => String(x).trim().toLowerCase() === name.toLowerCase())) db.settings.customClientTypes.push(name);
+    if (persist) save();
+}
+function customClientTypes() {
+    ensureClientTypeSystem();
+    let set = new Map();
+    (db.settings.customClientTypes || []).forEach(x => { if (String(x || '').trim()) set.set(String(x).trim().toLowerCase(), String(x).trim()); });
+    (db.clients || []).forEach(c => { if (c.customType) set.set(String(c.customType).trim().toLowerCase(), String(c.customType).trim()); });
+    return Array.from(set.values()).sort((a,b) => a.localeCompare(b));
+}
+function clientTypeKeyOf(c) { if (!c) return 'pharmacy'; return c.typeKey || guessClientTypeKey(c.type); }
+function clientTypeLabel(c) {
+    let k = clientTypeKeyOf(c);
+    if ((k === 'custom' || k === 'other') && (c.customType || c.type)) return c.customType || c.type;
+    return t(k) || c.type || t('client');
+}
+function selectedClientTypeKey() {
+    let v = $('clType')?.value || 'pharmacy';
+    if (v.startsWith('custom:')) return 'custom';
+    return v;
+}
+function selectedClientCustomType() {
+    let v = $('clType')?.value || '';
+    if (v.startsWith('custom:')) return v.slice(7).trim();
+    if (v === 'other') return ($('exCustomType')?.value || '').trim();
+    return '';
+}
+function selectHtml(id, label, options, selected = '') {
+    return `<label class="fieldLabel" for="${id}">${label}</label><select id="${id}">${options.map(o => `<option value="${esc(o.value)}" ${String(o.value) === String(selected) ? 'selected' : ''}>${esc(o.label)}</option>`).join('')}</select>`;
+}
+function field(id, label, val = '', type = 'text', attrs = '') { return input(id, label, val, type, attrs); }
+function clientTypeOptionsHtml(c = {}) {
+    let k = clientTypeKeyOf(c);
+    let selected = k === 'custom' ? `custom:${c.customType || c.type || ''}` : k;
+    let base = ['pharmacy','store','supermarket','mall','wholesale','beauty'].map(x => `<option value="${x}" ${selected === x ? 'selected' : ''}>${t(x)}</option>`).join('');
+    let customs = customClientTypes().map(x => `<option value="custom:${esc(x)}" ${selected === `custom:${x}` ? 'selected' : ''}>${esc(x)}</option>`).join('');
+    let otherSel = selected === 'other' ? 'selected' : '';
+    return `<select id="clType" onchange="onClientTypeChange()">${base}${customs}<option value="other" ${otherSel}>${t('other')} / نوع مخصص</option></select>`;
+}
+function ynOptions(selected) {
+    return [{value:'',label:'اختر'},{value:'yes',label:t('yes')},{value:'no',label:t('no')}].map(o => `<option value="${o.value}" ${selected === o.value ? 'selected' : ''}>${o.label}</option>`).join('');
+}
+function clientExtraFormHtml(typeKey, extra = {}, customType = '') {
+    extra = extra || {};
+    const softCard = title => `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>${title}</h3>`;
+    if (typeKey === 'pharmacy') return `
+        ${softCard('تفاصيل الصيدلية')}
+            <div class="row">${field('exPharmacist','اسم الصيدلاني',extra.pharmacistName)}${field('exPharmacistPhone','رقم الصيدلاني',extra.pharmacistPhone)}</div>
+            ${field('exDoctors','الأطباء المرتبطين بالصيدلية',extra.linkedDoctors)}
+            <div class="row">${field('exDeal','ملاحظات الديل',extra.dealNotes)}${field('exBonus','البونص / الهدية',extra.bonusNotes)}</div>
+            <label class="fieldLabel">متابعة انتهاء المواد</label><select id="exExpiry">${ynOptions(extra.expiryFollow)}</select>
+        </div>`;
+    if (typeKey === 'supermarket') return `
+        ${softCard('تفاصيل السوبر ماركت')}
+            <div class="row">${field('exBuyer','مسؤول المشتريات',extra.buyerName)}${field('exBuyerPhone','رقم مسؤول المشتريات',extra.buyerPhone)}</div>
+            <div class="row">${field('exAccountant','مسؤول الحسابات',extra.accountantName)}${field('exAccountantPhone','رقم مسؤول الحسابات',extra.accountantPhone)}</div>
+            <div class="row">${field('exGoods','نوع المواد: غذائية / منظفات / مشروبات',extra.goodsType)}${field('exSellUnit','طريقة البيع: كارتون / باكيت / قطعة',extra.sellUnit)}</div>
+            ${field('exReturnPolicy','سياسة الراجع',extra.returnPolicy)}${field('exOffers','العروض الشهرية',extra.monthlyOffers)}
+        </div>`;
+    if (typeKey === 'store') return `
+        ${softCard('تفاصيل المحل')}
+            <div class="row">${field('exOwner','اسم صاحب المحل',extra.ownerName)}${field('exOwnerPhone','رقم صاحب المحل',extra.ownerPhone)}</div>
+            ${field('exActivity','نوع النشاط',extra.activityType)}
+            <div class="row">${field('exDelivery','طريقة التسليم',extra.deliveryMethod)}${field('exVisitNotes','ملاحظات الزيارة',extra.visitNotes)}</div>
+        </div>`;
+    if (typeKey === 'mall' || typeKey === 'wholesale') return `
+        ${softCard(typeKey === 'mall' ? 'تفاصيل المول' : 'تفاصيل الجملة')}
+            <div class="row">${field('exBuyer','مسؤول المشتريات',extra.buyerName)}${field('exBuyerPhone','رقم مسؤول المشتريات',extra.buyerPhone)}</div>
+            <div class="row">${field('exAccountant','مسؤول الحسابات',extra.accountantName)}${field('exAccountantPhone','رقم مسؤول الحسابات',extra.accountantPhone)}</div>
+            <div class="row">${field('exBranches','عدد الفروع',extra.branchCount,'number')}${field('exCycle','دورة الحساب: أسبوعية / شهرية',extra.accountCycle)}</div>
+            ${field('exDelivery','طريقة التسليم',extra.deliveryMethod)}
+        </div>`;
+    if (typeKey === 'beauty') return `
+        ${softCard('تفاصيل مركز التجميل')}
+            <div class="row">${field('exSpecialist','اسم المسؤول / الأخصائي',extra.specialistName)}${field('exSpecialistPhone','رقم المسؤول / الأخصائي',extra.specialistPhone)}</div>
+            ${field('exGoods','نوع المواد / الأجهزة',extra.goodsType)}
+            ${field('exDeal','العروض أو الديلات',extra.dealNotes)}${field('exReturnPolicy','سياسة الراجع',extra.returnPolicy)}
+        </div>`;
+    return `
+        ${softCard('نوع مخصص')}
+            ${field('exCustomType','اسم نوع العميل مثل: مطعم، مكتبة، كافيه، شركة...',customType || extra.customType)}
+            <label class="fieldLabel">طريقة التعامل</label><select id="exDealMode">
+                ${['بيع مباشر','قوائم وديون','جملة','عروض وديلات','تجهيز مستمر'].map(x => `<option ${extra.dealMode === x ? 'selected' : ''}>${x}</option>`).join('')}
+            </select>
+            ${field('exActivity','نوع النشاط',extra.activityType)}
+            <div class="row">${field('exBuyer','مسؤول الشراء',extra.buyerName)}${field('exBuyerPhone','رقم مسؤول الشراء',extra.buyerPhone)}</div>
+            <div class="row">${field('exAccountant','مسؤول الحسابات / التسديد',extra.accountantName)}${field('exAccountantPhone','رقم مسؤول الحسابات',extra.accountantPhone)}</div>
+            <div class="row">${field('exDelivery','طريقة التسليم',extra.deliveryMethod)}${field('exReturnPolicy','سياسة الراجع',extra.returnPolicy)}</div>
+            <label class="fieldLabel" style="display:flex;gap:8px;align-items:center;color:var(--txt)"><input id="exSaveCustom" type="checkbox" style="width:auto;margin:0" checked> حفظ هذا النوع بالقائمة للمستقبل</label>
+        </div>`;
+}
+function onClientTypeChange() {
+    let v = $('clType')?.value || 'pharmacy';
+    let typeKey = v.startsWith('custom:') ? 'custom' : v;
+    let customType = v.startsWith('custom:') ? v.slice(7) : '';
+    if ($('clientTypeExtra')) $('clientTypeExtra').innerHTML = clientExtraFormHtml(typeKey, {}, customType);
+}
+function readClientExtra(typeKey) {
+    if (typeKey === 'pharmacy') return {
+        pharmacistName:$('exPharmacist')?.value.trim() || '', pharmacistPhone:$('exPharmacistPhone')?.value.trim() || '',
+        linkedDoctors:$('exDoctors')?.value.trim() || '', dealNotes:$('exDeal')?.value.trim() || '', bonusNotes:$('exBonus')?.value.trim() || '', expiryFollow:$('exExpiry')?.value || ''
+    };
+    if (typeKey === 'supermarket') return {
+        buyerName:$('exBuyer')?.value.trim() || '', buyerPhone:$('exBuyerPhone')?.value.trim() || '',
+        accountantName:$('exAccountant')?.value.trim() || '', accountantPhone:$('exAccountantPhone')?.value.trim() || '',
+        goodsType:$('exGoods')?.value.trim() || '', sellUnit:$('exSellUnit')?.value.trim() || '', returnPolicy:$('exReturnPolicy')?.value.trim() || '', monthlyOffers:$('exOffers')?.value.trim() || ''
+    };
+    if (typeKey === 'store') return {
+        ownerName:$('exOwner')?.value.trim() || '', ownerPhone:$('exOwnerPhone')?.value.trim() || '',
+        activityType:$('exActivity')?.value.trim() || '', deliveryMethod:$('exDelivery')?.value.trim() || '', visitNotes:$('exVisitNotes')?.value.trim() || ''
+    };
+    if (typeKey === 'mall' || typeKey === 'wholesale') return {
+        buyerName:$('exBuyer')?.value.trim() || '', buyerPhone:$('exBuyerPhone')?.value.trim() || '',
+        accountantName:$('exAccountant')?.value.trim() || '', accountantPhone:$('exAccountantPhone')?.value.trim() || '',
+        branchCount:$('exBranches')?.value.trim() || '', accountCycle:$('exCycle')?.value.trim() || '', deliveryMethod:$('exDelivery')?.value.trim() || ''
+    };
+    if (typeKey === 'beauty') return {
+        specialistName:$('exSpecialist')?.value.trim() || '', specialistPhone:$('exSpecialistPhone')?.value.trim() || '',
+        goodsType:$('exGoods')?.value.trim() || '', dealNotes:$('exDeal')?.value.trim() || '', returnPolicy:$('exReturnPolicy')?.value.trim() || ''
+    };
+    return {
+        customType:$('exCustomType')?.value.trim() || '', dealMode:$('exDealMode')?.value || '', activityType:$('exActivity')?.value.trim() || '',
+        buyerName:$('exBuyer')?.value.trim() || '', buyerPhone:$('exBuyerPhone')?.value.trim() || '',
+        accountantName:$('exAccountant')?.value.trim() || '', accountantPhone:$('exAccountantPhone')?.value.trim() || '',
+        deliveryMethod:$('exDelivery')?.value.trim() || '', returnPolicy:$('exReturnPolicy')?.value.trim() || ''
+    };
+}
+function clientContactFromExtra(typeKey, extra = {}, old = {}) {
+    const pick = (...vals) => vals.find(v => String(v || '').trim()) || '';
+    if (typeKey === 'pharmacy') return {
+        ownerName: pick(extra.pharmacistName, old.ownerName), ownerPhone: pick(extra.pharmacistPhone, old.ownerPhone),
+        payName: pick(extra.pharmacistName, old.payName), payPhone: pick(extra.pharmacistPhone, old.payPhone)
+    };
+    if (typeKey === 'store') return {
+        ownerName: pick(extra.ownerName, old.ownerName), ownerPhone: pick(extra.ownerPhone, old.ownerPhone),
+        payName: pick(extra.ownerName, old.payName), payPhone: pick(extra.ownerPhone, old.payPhone)
+    };
+    if (typeKey === 'beauty') return {
+        ownerName: pick(extra.specialistName, old.ownerName), ownerPhone: pick(extra.specialistPhone, old.ownerPhone),
+        payName: pick(extra.specialistName, old.payName), payPhone: pick(extra.specialistPhone, old.payPhone)
+    };
+    return {
+        ownerName: pick(extra.buyerName, old.ownerName), ownerPhone: pick(extra.buyerPhone, old.ownerPhone),
+        payName: pick(extra.accountantName, old.payName), payPhone: pick(extra.accountantPhone, old.payPhone)
+    };
+}
+function clientGeneralInfoHtml(c) {
+    let parts = [];
+    if (c.area) parts.push(`${t('area')}: ${esc(c.area)}`);
+    if (c.address) parts.push(`${t('address')}: ${esc(c.address)}`);
+    if (c.listPlace) parts.push(`${t('listPlace')}: ${esc(c.listPlace)}`);
+    return parts.join('<br>');
+}
+function clientExtraShort(c) {
+    let e = c.extra || {}, k = clientTypeKeyOf(c), out = [];
+    if (k === 'pharmacy') out = [['الصيدلاني',e.pharmacistName || c.ownerName],['رقم الصيدلاني',e.pharmacistPhone || c.ownerPhone],['الأطباء',e.linkedDoctors],['الديل',e.dealNotes],['البونص',e.bonusNotes]];
+    else if (k === 'supermarket') out = [['المشتريات',e.buyerName || c.ownerName],['رقم المشتريات',e.buyerPhone || c.ownerPhone],['الحسابات',e.accountantName || c.payName],['رقم الحسابات',e.accountantPhone || c.payPhone],['نوع المواد',e.goodsType],['طريقة البيع',e.sellUnit],['الراجع',e.returnPolicy]];
+    else if (k === 'store') out = [['صاحب المحل',e.ownerName || c.ownerName],['رقم صاحب المحل',e.ownerPhone || c.ownerPhone],['النشاط',e.activityType],['التسليم',e.deliveryMethod]];
+    else if (k === 'mall' || k === 'wholesale') out = [['المشتريات',e.buyerName || c.ownerName],['رقم المشتريات',e.buyerPhone || c.ownerPhone],['الحسابات',e.accountantName || c.payName],['رقم الحسابات',e.accountantPhone || c.payPhone],['الفروع',e.branchCount],['دورة الحساب',e.accountCycle],['التسليم',e.deliveryMethod]];
+    else if (k === 'beauty') out = [['المسؤول',e.specialistName || c.ownerName],['رقم المسؤول',e.specialistPhone || c.ownerPhone],['المواد',e.goodsType],['الديلات',e.dealNotes],['الراجع',e.returnPolicy]];
+    else out = [['النشاط',e.activityType],['طريقة التعامل',e.dealMode],['مسؤول الشراء',e.buyerName || c.ownerName],['رقم مسؤول الشراء',e.buyerPhone || c.ownerPhone],['الحسابات',e.accountantName || c.payName],['رقم الحسابات',e.accountantPhone || c.payPhone],['التسليم',e.deliveryMethod],['الراجع',e.returnPolicy]];
+    return out.filter(x => x[1]).map(x => `${x[0]}: ${esc(x[1])}`).join(' / ');
+}
+function clientExtraDetailsHtml(c) {
+    let txt = clientExtraShort(c);
+    if (!txt) return '';
+    return `<div class="listItem"><b>تفاصيل حسب نوع العميل</b><p class="muted">${txt}</p></div>`;
+}
+function clientTypeStats() {
+    ensureClientTypeSystem();
+    let map = {};
+    (db.clients || []).forEach(c => {
+        let label = clientTypeLabel(c);
+        let ls = db.lists.filter(l => l.clientId == c.id);
+        map[label] = map[label] || { label, count: 0, sales: 0, debt: 0, paid: 0 };
+        map[label].count++;
+        map[label].sales += ls.reduce((s,l) => s + listNet(l), 0);
+        map[label].debt += ls.reduce((s,l) => s + listRemain(l), 0);
+        map[label].paid += ls.reduce((s,l) => s + listPayTotal(l.id), 0);
+    });
+    return Object.values(map).sort((a,b) => b.debt - a.debt || b.sales - a.sales);
+}
+
+
+
+const PRODUCT_TYPES = {
+    medical: { label:'دواء / مكمل / طبي', short:'طبي' },
+    food: { label:'مواد غذائية', short:'غذائي' },
+    cleaning: { label:'منظفات', short:'منظفات' },
+    beverage: { label:'مشروبات', short:'مشروبات' },
+    cosmetics: { label:'كوزمتك / عناية', short:'كوزمتك' },
+    device: { label:'أجهزة / معدات', short:'أجهزة' },
+    clothing: { label:'ملابس / إكسسوارات', short:'ملابس' },
+    general: { label:'عام / متنوع', short:'عام' }
+};
+const PRODUCT_TYPE_ALIASES = {
+    'دواء':'medical','ادوية':'medical','أدوية':'medical','مكمل':'medical','طبي':'medical','مستلزمات طبية':'medical','medical':'medical','medicine':'medical',
+    'غذائي':'food','مواد غذائية':'food','اغذية':'food','أغذية':'food','معلبات':'food','food':'food',
+    'منظفات':'cleaning','تنظيف':'cleaning','cleaning':'cleaning',
+    'مشروبات':'beverage','مشروب':'beverage','beverage':'beverage','drinks':'beverage',
+    'كوزمتك':'cosmetics','تجميل':'cosmetics','عناية':'cosmetics','cosmetics':'cosmetics','beauty':'cosmetics',
+    'اجهزة':'device','أجهزة':'device','جهاز':'device','معدات':'device','device':'device','equipment':'device',
+    'ملابس':'clothing','اكسسوارات':'clothing','إكسسوارات':'clothing','clothing':'clothing','accessories':'clothing',
+    'عام':'general','متنوع':'general','general':'general','other':'general','أخرى':'general'
+};
+const CLIENT_PRODUCT_SUGGESTIONS = {
+    pharmacy:['medical','cosmetics','device','general'],
+    supermarket:['food','cleaning','beverage','general'],
+    store:['general','food','cleaning','beverage','clothing','device','cosmetics'],
+    mall:['food','cleaning','beverage','clothing','cosmetics','device','general'],
+    wholesale:['food','cleaning','beverage','medical','cosmetics','general'],
+    beauty:['cosmetics','device','medical','general'],
+    other:['general','food','cleaning','beverage','device','cosmetics','clothing'],
+    custom:['general','food','cleaning','beverage','device','cosmetics','clothing']
+};
+function guessProductTypeKey(type) {
+    let raw = String(type || '').trim(), low = raw.toLowerCase();
+    if (PRODUCT_TYPES[raw]) return raw;
+    if (PRODUCT_TYPE_ALIASES[raw]) return PRODUCT_TYPE_ALIASES[raw];
+    if (PRODUCT_TYPE_ALIASES[low]) return PRODUCT_TYPE_ALIASES[low];
+    return raw ? 'general' : 'general';
+}
+function ensureProductTypeSystem() {
+    db.settings = db.settings || {};
+    (db.products || []).forEach(p => {
+        if (!p.extra) p.extra = {};
+        if (!p.typeKey) p.typeKey = guessProductTypeKey(p.type || p.productType || '');
+        if (!PRODUCT_TYPES[p.typeKey]) p.typeKey = 'general';
+        if (!p.type) p.type = PRODUCT_TYPES[p.typeKey].label;
+    });
+}
+function productTypeKeyOf(p) { return (p && p.typeKey && PRODUCT_TYPES[p.typeKey]) ? p.typeKey : guessProductTypeKey(p?.type); }
+function productTypeLabel(v) {
+    let key = typeof v === 'string' ? v : productTypeKeyOf(v);
+    return PRODUCT_TYPES[key]?.label || 'عام / متنوع';
+}
+function productTypeShort(v) {
+    let key = typeof v === 'string' ? v : productTypeKeyOf(v);
+    return PRODUCT_TYPES[key]?.short || 'عام';
+}
+function productTypeOptionsHtml(selected = 'general') {
+    return `<label class="fieldLabel" for="pTypeKey">نوع المنتج</label><select id="pTypeKey" onchange="onProductTypeChange()">${Object.keys(PRODUCT_TYPES).map(k => `<option value="${k}" ${k === selected ? 'selected' : ''}>${PRODUCT_TYPES[k].label}</option>`).join('')}</select>`;
+}
+function productExtraFormHtml(typeKey, extra = {}) {
+    extra = extra || {};
+    if (typeKey === 'medical') return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل المنتج الطبي</h3>
+        <div class="row">${field('pePharmacyPrice','سعر الصيدلية',extra.pharmacyPrice || '')}${field('peWholesalePrice','سعر الجملة',extra.wholesalePrice || '')}</div>
+        <div class="row">${field('peDeal','ديل / عرض خاص',extra.deal || '')}${field('peDose','الشكل: حبوب / أمبول / شراب',extra.doseForm || '')}</div>
+        ${field('peFollow','ملاحظة متابعة الانتهاء أو البونص',extra.followNote || '')}
+    </div>`;
+    if (typeKey === 'food') return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل المواد الغذائية</h3>
+        <div class="row">${field('peUnit','وحدة البيع: قطعة / باكيت / كارتون',extra.unit || '')}${field('pePieces','عدد القطع بالكارتون',extra.piecesPerCarton || '', 'number')}</div>
+        <div class="row">${field('peOffer','العرض الشهري',extra.offer || '')}${field('peReturn','سياسة الراجع',extra.returnPolicy || '')}</div>
+    </div>`;
+    if (typeKey === 'cleaning') return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل المنظفات</h3>
+        <div class="row">${field('peSize','حجم العبوة',extra.packageSize || '')}${field('pePieces','عدد القطع بالكارتون',extra.piecesPerCarton || '', 'number')}</div>
+        <div class="row">${field('peOffer','العرض',extra.offer || '')}${field('peReturn','سياسة الراجع',extra.returnPolicy || '')}</div>
+    </div>`;
+    if (typeKey === 'beverage') return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل المشروبات</h3>
+        <div class="row">${field('peSize','الحجم / اللتر',extra.size || '')}${field('pePieces','عدد القطع بالكارتون',extra.piecesPerCarton || '', 'number')}</div>
+        <div class="row">${field('peOffer','العرض',extra.offer || '')}${field('peReturn','سياسة الراجع',extra.returnPolicy || '')}</div>
+    </div>`;
+    if (typeKey === 'cosmetics') return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل الكوزمتك والعناية</h3>
+        <div class="row">${field('peUse','نوع الاستخدام: بشرة / شعر / صالون',extra.useType || '')}${field('peDeal','ديل / عرض',extra.deal || '')}</div>
+        <div class="row">${field('peUnit','وحدة البيع',extra.unit || '')}${field('peReturn','سياسة الراجع',extra.returnPolicy || '')}</div>
+    </div>`;
+    if (typeKey === 'device') return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل الأجهزة والمعدات</h3>
+        <div class="row">${field('peModel','الموديل',extra.model || '')}${field('peWarranty','الضمان',extra.warranty || '')}</div>
+        <label class="fieldLabel">تسجيل السيريال</label><select id="peSerial">${ynOptions(extra.serialRequired || '')}</select>
+    </div>`;
+    if (typeKey === 'clothing') return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل الملابس / الإكسسوارات</h3>
+        <div class="row">${field('peModel','الموديل',extra.model || '')}${field('peSeason','الموسم',extra.season || '')}</div>
+        <div class="row">${field('peSize','القياسات',extra.size || '')}${field('peColor','الألوان',extra.color || '')}</div>
+    </div>`;
+    return `<div class="card" style="box-shadow:none;background:var(--soft)"><h3>تفاصيل عامة</h3>
+        <div class="row">${field('peUnit','وحدة البيع',extra.unit || '')}${field('peCategory','تصنيف داخلي',extra.category || '')}</div>
+        ${field('peGeneral','ملاحظات خاصة لهذا النوع',extra.generalNote || '')}
+    </div>`;
+}
+function onProductTypeChange() {
+    let key = $('pTypeKey')?.value || 'general';
+    if ($('productTypeExtra')) $('productTypeExtra').innerHTML = productExtraFormHtml(key, {});
+}
+function readProductExtra(typeKey) {
+    if (typeKey === 'medical') return { pharmacyPrice:money($('pePharmacyPrice')?.value), wholesalePrice:money($('peWholesalePrice')?.value), deal:$('peDeal')?.value.trim() || '', doseForm:$('peDose')?.value.trim() || '', followNote:$('peFollow')?.value.trim() || '' };
+    if (typeKey === 'food') return { unit:$('peUnit')?.value.trim() || '', piecesPerCarton:num($('pePieces')?.value), offer:$('peOffer')?.value.trim() || '', returnPolicy:$('peReturn')?.value.trim() || '' };
+    if (typeKey === 'cleaning') return { packageSize:$('peSize')?.value.trim() || '', piecesPerCarton:num($('pePieces')?.value), offer:$('peOffer')?.value.trim() || '', returnPolicy:$('peReturn')?.value.trim() || '' };
+    if (typeKey === 'beverage') return { size:$('peSize')?.value.trim() || '', piecesPerCarton:num($('pePieces')?.value), offer:$('peOffer')?.value.trim() || '', returnPolicy:$('peReturn')?.value.trim() || '' };
+    if (typeKey === 'cosmetics') return { useType:$('peUse')?.value.trim() || '', deal:$('peDeal')?.value.trim() || '', unit:$('peUnit')?.value.trim() || '', returnPolicy:$('peReturn')?.value.trim() || '' };
+    if (typeKey === 'device') return { model:$('peModel')?.value.trim() || '', warranty:$('peWarranty')?.value.trim() || '', serialRequired:$('peSerial')?.value || '' };
+    if (typeKey === 'clothing') return { model:$('peModel')?.value.trim() || '', season:$('peSeason')?.value.trim() || '', size:$('peSize')?.value.trim() || '', color:$('peColor')?.value.trim() || '' };
+    return { unit:$('peUnit')?.value.trim() || '', category:$('peCategory')?.value.trim() || '', generalNote:$('peGeneral')?.value.trim() || '' };
+}
+function productExtraShort(p) {
+    let e = p?.extra || {}, k = productTypeKeyOf(p), out = [];
+    if (k === 'medical') out = [['ديل',e.deal],['شكل',e.doseForm],['سعر صيدلية',e.pharmacyPrice ? fmt(e.pharmacyPrice) : '']];
+    else if (k === 'food') out = [['وحدة',e.unit],['كارتون',e.piecesPerCarton],['عرض',e.offer],['راجع',e.returnPolicy]];
+    else if (k === 'cleaning') out = [['حجم',e.packageSize],['كارتون',e.piecesPerCarton],['عرض',e.offer]];
+    else if (k === 'beverage') out = [['حجم',e.size],['كارتون',e.piecesPerCarton],['عرض',e.offer]];
+    else if (k === 'cosmetics') out = [['استخدام',e.useType],['ديل',e.deal],['وحدة',e.unit]];
+    else if (k === 'device') out = [['موديل',e.model],['ضمان',e.warranty],['سيريال',e.serialRequired]];
+    else if (k === 'clothing') out = [['موديل',e.model],['قياس',e.size],['لون',e.color],['موسم',e.season]];
+    else out = [['وحدة',e.unit],['تصنيف',e.category]];
+    return out.filter(x => x[1] !== undefined && x[1] !== null && String(x[1]).trim() !== '').map(x => `${x[0]}: ${esc(x[1])}`).join(' / ');
+}
+function suggestedProductTypesForClient(c) {
+    let key = clientTypeKeyOf(c);
+    return CLIENT_PRODUCT_SUGGESTIONS[key] || CLIENT_PRODUCT_SUGGESTIONS.custom;
+}
+function productTypeStats() {
+    ensureProductTypeSystem();
+    let map = {};
+    (db.products || []).forEach(p => {
+        let k = productTypeKeyOf(p), label = productTypeLabel(k);
+        map[k] = map[k] || { key:k, label, products:0, qty:0, sales:0, stock:0 };
+        map[k].products++;
+        map[k].stock += num(p.stock);
+    });
+    (db.lists || []).forEach(l => (l.items || []).forEach(i => {
+        let p = product(i.productId), k = productTypeKeyOf(p), label = productTypeLabel(k);
+        map[k] = map[k] || { key:k, label, products:0, qty:0, sales:0, stock:0 };
+        map[k].qty += num(i.qty);
+        map[k].sales += num(i.qty) * itemPrice(i);
+    }));
+    return Object.values(map).sort((a,b) => b.sales - a.sales || b.products - a.products);
+}
+function productUnitsFor(p) {
+    let k = productTypeKeyOf(p), e = p.extra || {};
+    if (k === 'medical') return ['علبة','شريط','حبة','أمبول','قنينة'];
+    if (['food','cleaning','beverage'].includes(k)) return ['قطعة','باكيت','كارتون','درزن'];
+    if (k === 'cosmetics') return ['قطعة','علبة','كارتون','مجموعة'];
+    if (k === 'device') return ['قطعة','جهاز','كارتون'];
+    if (k === 'clothing') return ['قطعة','درزن','مجموعة'];
+    return [e.unit || 'قطعة','كارتون','باكيت','مجموعة'];
+}
+function listSmartAdvisorHtml(c) {
+    if (!c || !c.id) return `<div class="empty">اختر العميل حتى يقترح النظام أنواع المنتجات المناسبة.</div>`;
+    let arr = suggestedProductTypesForClient(c).map(k => PRODUCT_TYPES[k]?.short || k).join('، ');
+    return `<div class="listItem"><b>اقتراح حسب نوع العميل: ${clientTypeLabel(c)}</b><p class="muted">يفضل عرض: ${arr}. تگدر تضغط عرض كل المنتجات إذا تحتاج مادة خارج التصنيف.</p></div>`;
+}
+function drawListSmartAdvisor() {
+    let c = client($('lClient')?.value);
+    if ($('listSmartAdvisor')) $('listSmartAdvisor').innerHTML = listSmartAdvisorHtml(c);
+    drawProductSelect();
+}
+function drawItemSmartFields() {
+    let p = db.products.find(x => x.id == $('itemProduct')?.value);
+    let box = $('itemSmartBox');
+    if (!box) return;
+    if (!p) { box.innerHTML = ''; box.classList.add('hide'); return; }
+    let units = productUnitsFor(p);
+    box.classList.remove('hide');
+    box.innerHTML = `<b>${productTypeLabel(p)}</b><p class="muted">${productExtraShort(p) || 'لا توجد تفاصيل إضافية لهذا المنتج.'}</p>
+        <div class="row"><select id="itemUnit">${units.map(u => `<option>${esc(u)}</option>`).join('')}</select>${input('itemNote','ملاحظة للمادة داخل القائمة', '', 'text')}</div>`;
+}
+
 function formCompany(id) {
     let c = db.companies.find(x => x.id == id) || {};
     modal(id ? t('edit') : t('addCompany'), `
@@ -593,26 +1036,42 @@ async function saveCompany(id) {
 }
 
 function formClient(id) {
-    let c = db.clients.find(x => x.id == id) || { debtDays: 45, status: t('normal') };
+    ensureClientTypeSystem();
+    let c = db.clients.find(x => x.id == id) || { debtDays: 45, status: t('normal'), typeKey: 'pharmacy', extra: {} };
+    let typeKey = clientTypeKeyOf(c);
+    let customType = c.customType || (typeKey === 'custom' ? c.type : '');
     modal(id ? t('edit') : t('addClient'), `
         ${input('clName', t('clientName'), c.name)}
-        <select id="clType">${['pharmacy', 'store', 'mall', 'supermarket', 'wholesale', 'beauty', 'other'].map(k => `<option ${c.type == t(k) ? 'selected' : ''}>${t(k)}</option>`).join('')}</select>
-        <div class="row">${moneyInput('clTarget', t('clientTarget'), c.targetAmount)}${input('clDeal', t('clientDeal'), c.targetDeal)}</div>
-        <div class="row">${input('clOwner', t('ownerName'), c.ownerName)}${input('clOwnerPhone', t('ownerPhone'), c.ownerPhone)}</div>
-        <div class="row">${input('clPay', t('payName'), c.payName)}${input('clPayPhone', t('payPhone'), c.payPhone)}</div>
-        ${input('clArea', t('area'), c.area)}${input('clAddress', t('address'), c.address)}${input('clPlace', t('listPlace'), c.listPlace)}
-        <div class="row">${input('clDays', t('debtDays'), c.debtDays, 'number')}${input('clLimit', t('debtLimit'), c.debtLimit)}</div>
-        <select id="clStatus">${['normal', 'cashOnly', 'noDebt', 'late'].map(k => `<option ${c.status == t(k) ? 'selected' : ''}>${t(k)}</option>`).join('')}</select>
-        <textarea id="clNotes" placeholder="${t('notes')}">${c.notes || ''}</textarea>
+        <label class="fieldLabel" for="clType">${t('clientType')}</label>
+        ${clientTypeOptionsHtml(c)}
+        <div id="clientTypeExtra">${clientExtraFormHtml(typeKey, c.extra || {}, customType)}</div>
+        <div class="card" style="box-shadow:none">
+            <h3>بيانات عامة غير متكررة</h3>
+            <div class="row">${moneyInput('clTarget', t('clientTarget'), c.targetAmount)}${input('clDeal', t('clientDeal'), c.targetDeal)}</div>
+            <div class="row">${input('clArea', t('area'), c.area)}${input('clAddress', t('address'), c.address)}</div>
+            ${input('clPlace', t('listPlace'), c.listPlace)}
+            <div class="row">${input('clDays', t('debtDays'), c.debtDays, 'number')}${moneyInput('clLimit', t('debtLimit'), c.debtLimit)}</div>
+            <label class="fieldLabel" for="clStatus">${t('status')}</label>
+            <select id="clStatus">${['normal', 'cashOnly', 'noDebt', 'late'].map(k => `<option ${c.status == t(k) ? 'selected' : ''}>${t(k)}</option>`).join('')}</select>
+            <textarea id="clNotes" placeholder="${t('notes')}">${c.notes || ''}</textarea>
+        </div>
         <button onclick="saveClient('${id || ''}')">${t('save')}</button>
     `);
 }
 
 async function saveClient(id) {
+    ensureClientTypeSystem();
     let c = id ? db.clients.find(x => x.id == id) : { id: uid() };
+    let typeKey = selectedClientTypeKey();
+    let customType = selectedClientCustomType();
+    let extra = readClientExtra(typeKey);
+    if ((typeKey === 'other' || typeKey === 'custom') && !customType) return toast('اكتب اسم نوع العميل');
+    if ((typeKey === 'other' || typeKey === 'custom') && customType && $('exSaveCustom')?.checked) addCustomClientType(customType, false);
+    let contact = clientContactFromExtra(typeKey, extra, c);
     Object.assign(c, {
-        name: $('clName').value.trim(), type: $('clType').value, targetAmount: money($('clTarget').value), targetDeal: $('clDeal').value.trim(),
-        ownerName: $('clOwner').value.trim(), ownerPhone: $('clOwnerPhone').value.trim(), payName: $('clPay').value.trim(), payPhone: $('clPayPhone').value.trim(),
+        name: $('clName').value.trim(), typeKey, customType, type: customType || t(typeKey), extra,
+        targetAmount: money($('clTarget').value), targetDeal: $('clDeal').value.trim(),
+        ownerName: contact.ownerName, ownerPhone: contact.ownerPhone, payName: contact.payName, payPhone: contact.payPhone,
         area: $('clArea').value.trim(), address: $('clAddress').value.trim(), listPlace: $('clPlace').value.trim(),
         debtDays: num($('clDays').value) || 45, debtLimit: money($('clLimit').value), status: $('clStatus').value, notes: $('clNotes').value.trim()
     });
@@ -628,14 +1087,17 @@ function openProductCamera() { let i = $('productCameraInput'); if (i) { i.value
 function openProductUpload() { let i = $('productUploadInput'); if (i) { i.value = ''; i.click(); } }
 function dateField(id, label, val = '') { return `<label class="fieldLabel" for="${id}">${label}</label><input id="${id}" type="date" value="${String(val || '').replace(/"/g, '&quot;')}">`; }
 
+
 function formProduct(id) {
-    let p = db.products.find(x => x.id == id) || {};
+    ensureProductTypeSystem();
+    let p = db.products.find(x => x.id == id) || { typeKey:'general', extra:{} };
     productPhotoData = p.photo || '';
+    let typeKey = productTypeKeyOf(p);
     modal(id ? t('edit') : t('addProduct'), `
         ${input('pName', t('productName'), p.name)}
         <select id="pCompany"><option value="">${t('selectCompany')}</option>${opts(db.companies, p.companyId)}</select>
-        <label class="fieldLabel" for="pType">${t('productType')}</label>
-        ${input('pType', t('productType'), p.type || '')}
+        ${productTypeOptionsHtml(typeKey)}
+        <div id="productTypeExtra">${productExtraFormHtml(typeKey, p.extra || {})}</div>
         <div class="photoBox">
             <label>${t('productPhoto')}</label><div class="hint">${t('productPhotoHint')}</div>
             <div class="photoActions">
@@ -655,11 +1117,13 @@ function formProduct(id) {
 }
 
 async function saveProduct(id) {
+    ensureProductTypeSystem();
     let p = id ? db.products.find(x => x.id == id) : { id: uid() };
+    let typeKey = $('pTypeKey')?.value || 'general';
     Object.assign(p, {
         name: $('pName').value.trim(), companyId: $('pCompany').value, stock: num($('pStock').value),
         buy: money($('pBuy').value), sell: money($('pSell').value), net: money($('pSell').value),
-        type: $('pType').value.trim(), expiry: $('pExpiry').value, alert: num($('pAlert').value),
+        typeKey, type: productTypeLabel(typeKey), extra: readProductExtra(typeKey), expiry: $('pExpiry').value, alert: num($('pAlert').value),
         notes: $('pNotes').value.trim(), photo: productPhotoData
     });
     delete p["bar" + "code"]; delete p.code; delete p["bat" + "ch"]; delete p.lot; delete p["un" + "it"]; delete p["pack" + "age"];
@@ -693,7 +1157,9 @@ function photoPreviewHtml(src = '') { return `<div id="listPhotoPreview" class="
 function switchListMode(mode) { let isPhoto = mode === 'photo'; $('manualListBox')?.classList.toggle('hide', isPhoto); $('photoListBox')?.classList.toggle('hide', !isPhoto); }
 function nextListNo() { let max = 0; (db.lists || []).forEach(l => { let n = parseInt(String(l.no || '').replace(/\D/g, ''), 10); if (n > max) max = n; }); return String(max + 1).padStart(4, '0'); }
 
+
 function formList(companyId = '', clientId = '', editId = '') {
+    ensureClientTypeSystem(); ensureProductTypeSystem();
     let old = db.lists.find(x => x.id == editId) || {};
     editingListId = editId || '';
     tmpItems = old.items ? JSON.parse(JSON.stringify(old.items)) : [];
@@ -701,8 +1167,10 @@ function formList(companyId = '', clientId = '', editId = '') {
     let noVal = old.no || nextListNo(), mode = isPhotoList(old) ? 'photo' : 'manual';
     
     modal(editId ? t('editList') : t('addList'), `
-        <select id="lClient"><option value="">${t('selectClient')}</option>${opts(db.clients, old.clientId || clientId)}</select>
+        <select id="lClient" onchange="drawListSmartAdvisor()"><option value="">${t('selectClient')}</option>${opts(db.clients, old.clientId || clientId)}</select>
         <select id="lCompany" onchange="drawProductSelect()"><option value="">${t('selectCompany')}</option>${opts(db.companies, old.companyId || companyId)}</select>
+        <div id="listSmartAdvisor"></div>
+        <label class="fieldLabel" style="display:flex;gap:8px;align-items:center;color:var(--txt)"><input id="showAllProducts" type="checkbox" style="width:auto;margin:0" onchange="drawProductSelect()"> عرض كل المنتجات وعدم تقييدها حسب نوع العميل</label>
         <label class="fieldLabel" for="lNo">${t('listNo')}</label>
         <input id="lNo" value="${String(noVal).replace(/"/g, '&quot;')}" readonly><p class="hint">${t('autoListNo')}</p>
         <label class="fieldLabel" for="lDate">${t('listDate')}</label>
@@ -713,9 +1181,10 @@ function formList(companyId = '', clientId = '', editId = '') {
         </div>
         <div id="manualListBox" class="card ${mode === 'photo' ? 'hide' : ''}">
             <h3>${t('items')}</h3>
-            <p class="hint">أضف المادة والكمية والبونص فقط. السعر ينحسب تلقائياً من سعر البيع.</p>
+            <p class="hint">أضف المادة والكمية والبونص. النظام يقترح المنتجات حسب نوع العميل ونوع المنتج.</p>
             <label class="fieldLabel" for="itemProduct">${t('selectProduct')}</label>
-            <select id="itemProduct"><option value="">${t('selectProduct')}</option></select>
+            <select id="itemProduct" onchange="drawItemSmartFields()"><option value="">${t('selectProduct')}</option></select>
+            <div id="itemSmartBox" class="listItem hide"></div>
             <div class="row">
                 <div><label class="fieldLabel" for="itemQty">${t('qty')}</label>${input('itemQty', t('qty'), '', 'number')}</div>
                 <div><label class="fieldLabel" for="itemBonus">${t('bonus')}</label>${input('itemBonus', t('bonus'), '', 'number')}</div>
@@ -734,17 +1203,29 @@ function formList(companyId = '', clientId = '', editId = '') {
         <textarea id="lNotes" placeholder="${t('notes')}">${old.notes || ''}</textarea>
         <button onclick="saveList()">${t('save')}</button>
     `);
-    drawProductSelect(); drawTmpItems();
+    drawListSmartAdvisor(); drawProductSelect(); drawTmpItems();
 }
 
+
 function drawProductSelect() {
-    let co = $('lCompany')?.value, ps = db.products.filter(p => !co || p.companyId == co);
+    ensureProductTypeSystem(); ensureClientTypeSystem();
+    let co = $('lCompany')?.value || '';
+    let cid = $('lClient')?.value || '';
+    let c = db.clients.find(x => x.id == cid);
+    let showAll = !!$('showAllProducts')?.checked;
+    let suggested = c ? suggestedProductTypesForClient(c) : [];
+    let all = db.products.filter(p => !co || p.companyId == co);
+    let ps = all;
+    if (c && !showAll) ps = all.filter(p => suggested.includes(productTypeKeyOf(p)) || productTypeKeyOf(p) === 'general');
     if ($('itemProduct')) {
         $('itemProduct').innerHTML = `<option value="">${t('selectProduct')}</option>` + ps.map(p => {
             let price = num(p.sell) || num(p.net) || num(p.buy);
-            return `<option value="${p.id}">${p.name}${price ? ` - ${fmt(price)}` : ' - بدون سعر بيع'}</option>`;
+            let kind = productTypeShort(p);
+            return `<option value="${p.id}">${p.name} — ${kind}${price ? ` - ${fmt(price)}` : ' - بدون سعر بيع'}</option>`;
         }).join('');
+        if (!ps.length && all.length && !showAll) $('itemProduct').innerHTML += `<option value="" disabled>لا توجد منتجات مناسبة لهذا النوع، فعّل عرض كل المنتجات</option>`;
     }
+    drawItemSmartFields();
 }
 
 function listFormError(msg, focusId) {
@@ -756,6 +1237,7 @@ function listFormError(msg, focusId) {
     return false;
 }
 
+
 function tryAddTmpItem(silent = false) {
     let pid = $('itemProduct')?.value || '', q = num($('itemQty')?.value), bonus = num($('itemBonus')?.value), has = !!pid || !!q || !!bonus;
     if (!has) return true;
@@ -763,25 +1245,31 @@ function tryAddTmpItem(silent = false) {
     if (!q || q <= 0) return listFormError(t('qty') + ' مطلوب', 'itemQty');
     let pr = product(pid), price = num(pr.sell) || num(pr.net) || num(pr.buy);
     if (price <= 0) return listFormError('حدد سعر بيع للمادة من ملف المنتج حتى تنحسب القائمة دين', 'itemProduct');
-    tmpItems.push({ productId: pid, qty: q, net: price, bonus });
+    tmpItems.push({ productId: pid, qty: q, net: price, bonus, unit: $('itemUnit')?.value || '', itemNote: $('itemNote')?.value.trim() || '', productTypeKey: productTypeKeyOf(pr) });
     drawTmpItems();
     $('itemProduct').value = ''; $('itemQty').value = ''; $('itemBonus').value = '';
+    if ($('itemSmartBox')) { $('itemSmartBox').innerHTML = ''; $('itemSmartBox').classList.add('hide'); }
     return true;
 }
 
 function addTmpItem() { tryAddTmpItem(false); }
 
+
 function drawTmpItems() {
-    $('tmpItems').innerHTML = tmpItems.length ? tmpItems.map((i, k) => `
+    $('tmpItems').innerHTML = tmpItems.length ? tmpItems.map((i, k) => {
+        let p = product(i.productId);
+        return `
         <div class="listItem">
-            <b>${product(i.productId).name}</b><br>
-            <span class="badge">${t('qty')} ${fmt(i.qty)}</span>
+            <b>${p.name}</b><br>
+            <span class="badge">${productTypeShort(p)}</span>
+            <span class="badge">${t('qty')} ${fmt(i.qty)} ${i.unit ? esc(i.unit) : ''}</span>
             <span class="badge">${t('netPrice')} ${fmt(itemPrice(i))}</span>
             <span class="badge">${t('total')} ${fmt(num(i.qty) * itemPrice(i))}</span>
             ${i.bonus ? `<span class="badge">${t('bonus')} ${fmt(i.bonus)}</span>` : ''}
+            ${i.itemNote ? `<p class="muted">${esc(i.itemNote)}</p>` : ''}
             <button class="danger smallbtn" onclick="tmpItems.splice(${k}, 1); drawTmpItems()">${t('delete')}</button>
-        </div>
-    `).join('') : `<div class="empty">${t('items')}</div>`;
+        </div>`;
+    }).join('') : `<div class="empty">${t('items')}</div>`;
 }
 
 function stockBackList(l) {
@@ -1013,6 +1501,7 @@ async function saveExpense() {
 }
 
 function openClient(id) {
+    ensureClientTypeSystem();
     let c = client(id);
     let lists = db.lists.filter(l => l.clientId == id);
     let debt = lists.reduce((s, l) => s + listRemain(l), 0);
@@ -1025,22 +1514,22 @@ function openClient(id) {
         by[k] = by[k] || { count: 0, net: 0, pay: 0, ret: 0, rem: 0, old: 0 };
         by[k].count++; by[k].net += listNet(l); by[k].pay += listPayTotal(l.id); by[k].ret += listReturnTotal(l.id); by[k].rem += listRemain(l); by[k].old = Math.max(by[k].old, daysBetween(l.date));
     });
-    
     let totalNet = lists.reduce((s, l) => s + listNet(l), 0);
     let targetHtml = '';
     if (num(c.targetAmount) > 0) {
         targetHtml = `
-            <h3>${t('salesTarget')} الصيدلية</h3>
+            <h3>${t('salesTarget')} العميل</h3>
             <span class="badge">المحقق: ${fmt(totalNet)} / ${fmt(c.targetAmount)}</span>
             ${totalNet >= c.targetAmount ? `<span class="pill done" style="background:var(--p);color:#fff;border-color:var(--p)">${c.targetDeal || 'مستحق الديل'}</span>` : ''}
             ${progress(totalNet, c.targetAmount)}
         `;
     }
-    
     modal(t('clientFile'), `
         <div class="card">
             <h2>${c.name}</h2>
-            <p class="muted">${c.type} - ${c.area || ''}<br>${t('ownerName')}: ${c.ownerName || '-'} / ${c.ownerPhone || '-'}<br>${t('payName')}: ${c.payName || '-'} / ${c.payPhone || '-'}<br>${t('listPlace')}: ${c.listPlace || '-'}</p>
+            <span class="badge">${clientTypeLabel(c)}</span>
+            <p class="muted">${clientGeneralInfoHtml(c) || '-'}</p>
+            ${clientExtraDetailsHtml(c)}
             <span class="badge">${t('listCount')} ${lists.length}</span>
             <span class="badge">${t('totalDebt')} ${fmt(debt)}</span>
             <span class="badge">${t('paid')} ${fmt(paid)}</span>
@@ -1066,98 +1555,27 @@ function openClient(id) {
     `);
 }
 
-function openCompany(id) {
-    let c = company(id), s = companyStats(id), lists = db.lists.filter(l => l.companyId == id);
-    modal(t('companyFile'), `
-        <div class="card">
-            <h2>${c.name}</h2>
-            <span class="badge">${t('salesDone')} ${fmt(s.sales)} / ${fmt(c.salesTarget)}</span>
-            <span class="badge">${t('collectionDone')} ${fmt(s.collections)} / ${fmt(c.collectionTarget)}</span>
-            <span class="badge">${t('returned')} ${fmt(s.ret)}</span>
-            <span class="badge">${t('listCount')} ${lists.length}</span>
-            ${progress(s.sales, num(c.salesTarget))}${progress(s.collections, num(c.collectionTarget))}
-            <button onclick="formList('${id}')">${t('addList')}</button>
-        </div>
-        ${lists.map(listCard).join('') || `<div class="empty">${t('noData')}</div>`}
-    `);
-}
-
-function openList(id) {
-    let l = db.lists.find(x => x.id == id);
-    if (!l) return;
-    let photo = isPhotoList(l), st = listStatus(l), pay = listPayTotal(id), ret = listReturnTotal(id), total = listItemsTotal(l), rem = listRemain(l), cl = client(l.clientId);
-    let clientLists = db.lists.filter(x => x.clientId == l.clientId), clientDebt = clientLists.reduce((s, x) => s + listRemain(x), 0), clientPaid = clientLists.reduce((s, x) => s + listPayTotal(x.id), 0);
-    
-    modal(t('listDetails'), `
-        <div class="card hero">
-            <h2>${t('listDetails')} — ${l.no || '-'}</h2>
-            <p class="muted">${cl.name} — ${company(l.companyId).name}<br>${photo ? 'قائمة مرفوعة من الموبايل' : 'قائمة يدوية'}<br>${t('date')}: ${l.date} / ${t('dueDate')}: ${addDays(l.date, l.debtDays)}</p>
-        </div>
-        <div class="stats">
-            <div class="stat"><span>${t('total')}</span><b>${fmt(total)}</b></div>
-            <div class="stat"><span>${t('returned')}</span><b>${fmt(ret)}</b></div>
-            <div class="stat"><span>${t('paid')}</span><b>${fmt(pay)}</b></div>
-            <div class="stat"><span>${t('remaining')}</span><b>${fmt(rem)}</b></div>
-        </div>
-        <div class="card">
-            <h3>${t('clientFile')}</h3>
-            <span class="badge">${t('listCount')} ${clientLists.length}</span>
-            <span class="badge">${t('paid')} ${fmt(clientPaid)}</span>
-            <span class="badge">${t('totalDebt')} ${fmt(clientDebt)}</span>
-            <span class="pill ${st[0]}">${st[1]}</span>
-        </div>
-        ${photo && l.photo ? `<div class="card"><h3>صورة القائمة</h3><img class="listPhoto" src="${l.photo}" onclick="window.open('${l.photo}','_blank')"><p class="hint">اضغط على الصورة حتى تنفتح كاملة.</p></div>` : ''}
-        <div class="tools">
-            <button onclick="formPayment('${id}')">${t('payment')}</button>
-            <button class="soft" onclick="quickPayList('${id}')">تسديد كامل</button>
-            ${photo ? '' : `<button class="warn" onclick="formReturn('${id}')">${t('addReturn')}</button>`}
-            <button class="soft" onclick="printListPdf('${id}')">PDF</button>
-            <button class="ghost" onclick="formList('', '', '${id}')">${t('editList')}</button>
-            <button class="danger" onclick="deleteList('${id}')">${t('delete')}</button>
-        </div>
-        ${photo ? '' : `<h3>${t('items')}</h3>${(l.items || []).map(i => {
-            let rq = returnedQty(id, i.productId), available = Math.max(0, num(i.qty) - rq);
-            return `<div class="listItem"><b>${product(i.productId).name}</b><br><span class="badge">${t('qty')} ${fmt(i.qty)}</span><span class="badge">${t('bonus')} ${fmt(i.bonus)}</span><span class="badge">${t('total')} ${fmt(num(i.qty) * itemPrice(i))}</span><span class="badge">راجع ${fmt(rq)}</span><span class="badge">متاح ${fmt(available)}</span></div>`;
-        }).join('') || `<div class="empty">${t('noData')}</div>`}`}
-        <h3>${t('payment')}</h3>
-        ${db.payments.filter(p => p.listId == id).map(p => `<div class="listItem">${p.date} - ${fmt(p.amount)} - ${p.method}${p.note ? `<br><span class="muted">${p.note}</span>` : ''}</div>`).join('') || `<div class="empty">${t('noData')}</div>`}
-        <h3>${t('returned')}</h3>
-        ${db.returns.filter(r => r.listId == id).map(r => `<div class="listItem">${r.date} - ${product(r.productId).name} - ${fmt(r.qty)} × ${fmt(r.net)} = ${fmt(num(r.qty) * num(r.net))} - ${r.stock === 'yes' ? 'رجع للمخزن' : 'بدون مخزن'}</div>`).join('') || `<div class="empty">${t('noData')}</div>`}
-    `);
-}
-
-function escPdf(v) { return String(v ?? '').replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
-
-function printListPdf(id) {
-    let l = db.lists.find(x => x.id == id);
-    if (!l) return;
-    let photo = isPhotoList(l);
-    let rows = photo ? `<tr><td colspan="7">قائمة مرفوعة من الموبايل - المبلغ الكلي ${fmt(listItemsTotal(l))}</td></tr>` : (l.items || []).map((i, k) => `<tr><td>${k + 1}</td><td>${escPdf(product(i.productId).name)}</td><td>${fmt(i.qty)}</td><td>${fmt(i.bonus)}</td><td>${fmt(itemPrice(i))}</td><td>${fmt(num(i.qty) * itemPrice(i))}</td><td>${fmt(returnedQty(id, i.productId))}</td></tr>`).join('');
-    let img = photo && l.photo ? `<h2>صورة القائمة</h2><img src="${l.photo}" style="width:100%;max-height:700px;object-fit:contain;border:1px solid #e2e8f0;border-radius:14px">` : '';
-    let pays = db.payments.filter(p => p.listId == id).map(p => `<tr><td>${escPdf(p.date)}</td><td>${fmt(p.amount)}</td><td>${escPdf(p.method)}</td><td>${escPdf(p.note || '')}</td></tr>`).join('') || `<tr><td colspan="4">لا توجد استحصالات</td></tr>`;
-    let rets = db.returns.filter(r => r.listId == id).map(r => `<tr><td>${escPdf(r.date)}</td><td>${escPdf(product(r.productId).name)}</td><td>${fmt(r.qty)}</td><td>${fmt(num(r.qty) * num(r.net))}</td><td>${r.stock === 'yes' ? 'نعم' : 'لا'}</td></tr>`).join('') || `<tr><td colspan="5">لا يوجد راجع</td></tr>`;
-    
-    let w = window.open('', '_blank');
-    w.document.write(`<!doctype html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>List-${escPdf(l.no || '')}</title><style>body{font-family:Tahoma,Arial,sans-serif;margin:0;background:#f8fafc;color:#020617}.page{max-width:850px;margin:20px auto;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:24px}h1{margin:0;color:#1e293b}.head{display:flex;justify-content:space-between;gap:14px;border-bottom:3px solid #1e293b;padding-bottom:14px}.box{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:14px;padding:10px;margin:10px 0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.sum{font-weight:bold;text-align:center}table{width:100%;border-collapse:collapse;margin-top:10px}th{background:#1e293b;color:white}td,th{border:1px solid #e2e8f0;padding:9px;text-align:center}h2{font-size:16px;margin:18px 0 6px}@media print{body{background:white}.page{margin:0;border:0;border-radius:0}}</style></head><body><div class="page"><div class="head"><div><h1>تفاصيل القائمة</h1><p>رقم القائمة: ${escPdf(l.no || '-')}</p><p>${photo ? 'قائمة مرفوعة من الموبايل' : 'قائمة يدوية'}</p></div><div><b>${escPdf(company(l.companyId).name)}</b><br>${escPdf(client(l.clientId).name)}<br>${escPdf(l.date || '')}</div></div><div class="grid"><div class="box sum">المجموع<br>${fmt(listItemsTotal(l))}</div><div class="box sum">الراجع<br>${fmt(listReturnTotal(id))}</div><div class="box sum">المدفوع<br>${fmt(listPayTotal(id))}</div><div class="box sum">المتبقي<br>${fmt(listRemain(l))}</div></div><div class="box">تاريخ القائمة: ${escPdf(l.date || '-')} &nbsp; | &nbsp; تاريخ الاستحقاق: ${escPdf(addDays(l.date, l.debtDays))}</div>${img}<h2>المواد / التفاصيل</h2><table><thead><tr><th>#</th><th>المادة</th><th>الكمية</th><th>بونص</th><th>السعر</th><th>المجموع</th><th>راجع</th></tr></thead><tbody>${rows}</tbody></table><h2>الاستحصال</h2><table><thead><tr><th>التاريخ</th><th>المبلغ</th><th>الطريقة</th><th>ملاحظة</th></tr></thead><tbody>${pays}</tbody></table><h2>الراجع / التدبيل</h2><table><thead><tr><th>التاريخ</th><th>المادة</th><th>الكمية</th><th>القيمة</th><th>رجع للمخزن</th></tr></thead><tbody>${rets}</tbody></table></div><script>window.onload=()=>setTimeout(()=>print(),300)<\/script></body></html>`);
-    w.document.close();
-}
 
 function openProducts() {
-    modal(t('products'), `${db.products.map(p => `
-        <div class="item">
-            ${p.photo ? `<img class="productThumb" src="${p.photo}" onclick="window.open('${p.photo}','_blank')">` : ''}
-            <h3>${p.name}</h3>
-            <div class="productMeta">
-                <span class="badge">${company(p.companyId).name}</span>
+    ensureProductTypeSystem();
+    modal(t('products'), `
+        <button onclick="formProduct()">${t('addProduct')}</button>
+        ${db.products.length ? db.products.map(p => {
+            let price = num(p.sell) || num(p.net) || num(p.buy);
+            let low = num(p.alert) && num(p.stock) <= num(p.alert);
+            return `<div class="item">
+                ${p.photo ? `<img class="productThumb" src="${p.photo}" alt="${esc(p.name)}">` : ''}
+                <h3>${esc(p.name)}</h3>
+                <span class="badge">${productTypeLabel(p)}</span>
                 <span class="badge">${t('stock')} ${fmt(p.stock)}</span>
-                ${p.sell ? `<span class="badge">${t('salePrice')} ${fmt(p.sell)}</span>` : ''}
-                ${p.expiry ? `<span class="badge">${t('expiryDate')}: ${p.expiry}</span>` : ''}
-                ${num(p.alert) && num(p.stock) <= num(p.alert) ? `<span class="pill due">${t('alertQty')}</span>` : ''}
-            </div>
-            ${p.notes ? `<p class="muted">${p.notes}</p>` : ''}
-            <button class="soft smallbtn" onclick="formProduct('${p.id}')">${t('edit')}</button>
-        </div>
-    `).join('') || `<div class="empty">${t('noData')}</div>`}`);
+                <span class="badge">${t('salePrice')} ${fmt(price)}</span>
+                ${p.expiry ? `<span class="badge">${t('expiryDate')} ${p.expiry}</span>` : ''}
+                ${low ? `<span class="pill due">مخزن قليل</span>` : ''}
+                <p class="muted">${productExtraShort(p) || ''}<br>${esc(p.notes || '')}</p>
+                <button class="soft smallbtn" onclick="formProduct('${p.id}')">${t('edit')}</button>
+            </div>`;
+        }).join('') : `<div class="empty">${t('noData')}</div>`}
+    `);
 }
 
 function openDoctorDeals() {
@@ -1175,6 +1593,7 @@ function openDoctorDeals() {
 
 function showReport() {
     let s = allStats();
+    let typeRows = clientTypeStats();
     modal(t('reports'), `
         <div class="card">
             <h2>${t('reportToday')}</h2>
@@ -1183,6 +1602,11 @@ function showReport() {
             <span class="badge">${t('totalDebt')} ${fmt(s.debt)}</span>
             <span class="badge">${t('lateLists')} ${fmt(s.late)}</span>
         </div>
+        <h3>تقرير حسب نوع العميل</h3>
+        ${typeRows.map(x => `<div class="listItem"><b>${x.label}</b><br><span class="badge">عدد العملاء ${x.count}</span><span class="badge">${t('total')} ${fmt(x.sales)}</span><span class="badge">${t('paid')} ${fmt(x.paid)}</span><span class="badge">${t('remaining')} ${fmt(x.debt)}</span></div>`).join('') || `<div class="empty">${t('noData')}</div>`}
+        <h3>تقرير حسب نوع المنتج</h3>
+        ${productTypeStats().map(x => `<div class="listItem"><b>${x.label}</b><br><span class="badge">عدد المنتجات ${x.products}</span><span class="badge">الكمية المباعة ${fmt(x.qty)}</span><span class="badge">المبيعات ${fmt(x.sales)}</span><span class="badge">المخزن ${fmt(x.stock)}</span></div>`).join('') || `<div class="empty">${t('noData')}</div>`}
+        <h3>${t('companies')}</h3>
         ${db.companies.map(c => {
             let x = companyStats(c.id);
             return `<div class="listItem"><b>${c.name}</b><br><span class="badge">${t('salesDone')} ${fmt(x.sales)}</span><span class="badge">${t('collectionDone')} ${fmt(x.collections)}</span><span class="badge">${t('remaining')} ${fmt(x.remainDebt)}</span></div>`;
@@ -1191,19 +1615,21 @@ function showReport() {
 }
 
 async function exportBackup() {
-    await syncDeviceIdToAllStores();
     db.settings = db.settings || {};
     db.settings.repflowDeviceId = deviceId();
     db.settings.repflowActivation = {
-        active: localStorage.getItem('repflowActivated') === '1',
-        email: localStorage.getItem('repflowActivatedEmail') || '',
-        device: localStorage.getItem('repflowActivatedDevice') || deviceId(),
+        active: isActivationFlagOn(),
+        email: savedActivationEmail(),
+        device: savedActivationDevice() || deviceId(),
+        activatedAt: savedActivationAt(),
         exportedAt: new Date().toISOString()
     };
     await save();
-    let payload = { app: 'RepFlow', version: 'local-v4', exportedAt: new Date().toISOString(), deviceId: deviceId(), activation: db.settings.repflowActivation, data: db };
-    let a = document.createElement('a'), blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    a.href = URL.createObjectURL(blob); a.download = 'repflow-backup-' + deviceId().replaceAll('-', '') + '.json'; a.click(); URL.revokeObjectURL(a.href);
+    let payload = { app: 'RepFlow', version: 'iphone-offline-v12', exportedAt: new Date().toISOString(), deviceId: deviceId(), activation: db.settings.repflowActivation, data: db };
+    let fileName = 'repflow-backup-' + deviceId().replaceAll('-', '') + '.json';
+    let content = JSON.stringify(payload, null, 2);
+    let a = document.createElement('a'), blob = new Blob([content], { type: 'application/json' });
+    a.href = URL.createObjectURL(blob); a.download = fileName; a.click(); URL.revokeObjectURL(a.href);
 }
 
 async function restoreBackup(e) {
@@ -1211,15 +1637,12 @@ async function restoreBackup(e) {
     try {
         let parsed = JSON.parse(await f.text());
         let incomingDb = parsed.data || parsed;
-        let backupDevice = parsed.deviceId || incomingDb?.settings?.repflowDeviceId || '';
+        let backupDevice = cleanDevice(parsed.deviceId || incomingDb?.settings?.repflowDeviceId || parsed.activation?.device || '');
+        let keepSettings = db.settings || {};
         db = { ...db, ...incomingDb };
-        db.settings = db.settings || {};
-        if (backupDevice && confirm('هل تريد استرجاع رقم الجهاز القديم من النسخة الاحتياطية؟\nاختر موافق إذا هذه نسخة نفس الزبون ونفس حسابه.')) {
-            await setStableDeviceId(cleanDevice(backupDevice));
-            db.settings.repflowDeviceId = cleanDevice(backupDevice);
-        } else {
-            db.settings.repflowDeviceId = deviceId();
-        }
+        db.settings = { ...(incomingDb.settings || {}), ...keepSettings };
+        if (validDeviceId(backupDevice)) await setStableDeviceId(backupDevice);
+        else db.settings.repflowDeviceId = deviceId();
         await save();
         render();
         checkAccessGates();
@@ -1243,29 +1666,55 @@ function toggleTheme() {
     localStorage.setItem('trTheme', d);
 }
 
-let deferredPrompt = null;
-const DEVICE_KEY = 'repflowDeviceId';
-const DEVICE_DB_KEY = 'repflowDeviceId';
-const DEVICE_BACKUP_KEY = 'repflowDeviceBackup';
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
-window.addEventListener('appinstalled', () => { localStorage.setItem('repflowInstalledOnce', '1'); mustOpenFromHomeMsg(); checkAccessGates(); });
-function isStandaloneApp() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
-function mustInstallMsg() { toast('لا يمكن المتابعة بدون التثبيت على شاشة الرئيسية'); }
-function mustOpenFromHomeMsg() { toast('بعد الإضافة افتح RepFlow من شاشة الرئيسية حتى تظهر واجهة التفعيل'); }
-async function installApp() {
-    if (isStandaloneApp()) { checkAccessGates(); return; }
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const choice = await deferredPrompt.userChoice.catch(() => null);
-        deferredPrompt = null;
-        if (choice && choice.outcome === 'accepted') mustOpenFromHomeMsg();
-        else mustInstallMsg();
-    } else {
-        $('iosSteps')?.classList.remove('hide');
-        toast('على الآيفون اضغط مشاركة ثم إضافة إلى الشاشة الرئيسية وبعدها افتحه من الأيقونة');
+// ===== RepFlow iPhone PWA local activation helpers =====
+const DEVICE_KEY = 'repflowIOSDeviceIdV12';
+const DEVICE_BACKUP_KEY = 'repflowIOSDeviceIdBackupV12';
+const DEVICE_DB_KEY = 'repflowIOSDeviceIdDBV12';
+const ACTIVATION_SECRET = 'RepFlow2026';
+const LEGACY_DEVICE_KEY = 'repflowDeviceId';
+const LEGACY_DEVICE_BACKUP_KEY = 'repflowDeviceBackup';
+const LEGACY_DEVICE_DB_KEY = 'repflowDeviceId';
+const ACT_ACTIVE_KEYS = ['repflowIOSActivated', 'repflowActivated'];
+const ACT_EMAIL_KEYS = ['repflowIOSEmail', 'repflowActivatedEmail'];
+const ACT_DEVICE_KEYS = ['repflowIOSActivatedDevice', 'repflowActivatedDevice'];
+const ACT_AT_KEYS = ['repflowIOSActivatedAt', 'repflowActivatedAt'];
+
+function cleanDevice(v) { return String(v || '').trim().toUpperCase().replace(/\s+/g, ''); }
+function firstLocal(keys) { for (const k of keys) { const v = localStorage.getItem(k); if (v) return v; } return ''; }
+function isActivationFlagOn() { return ACT_ACTIVE_KEYS.some(k => localStorage.getItem(k) === '1') || db?.settings?.repflowActivation?.active === true; }
+function savedActivationEmail() { return normalizeActEmail(firstLocal(ACT_EMAIL_KEYS) || db?.settings?.repflowActivation?.email || ''); }
+function savedActivationDevice() { return cleanDevice(firstLocal(ACT_DEVICE_KEYS) || db?.settings?.repflowActivation?.device || ''); }
+function savedActivationAt() { return firstLocal(ACT_AT_KEYS) || db?.settings?.repflowActivation?.activatedAt || ''; }
+function rememberDeviceEverywhere(id) {
+    id = cleanDevice(id);
+    if (!validDeviceId(id)) return;
+    localStorage.setItem(DEVICE_KEY, id);
+    localStorage.setItem(DEVICE_BACKUP_KEY, id);
+    localStorage.setItem(LEGACY_DEVICE_KEY, id);
+    localStorage.setItem(LEGACY_DEVICE_BACKUP_KEY, id);
+    if (db && db.settings) db.settings.repflowDeviceId = id;
+}
+function migrateActivationToCurrentKeys() {
+    const email = savedActivationEmail();
+    const dev = savedActivationDevice();
+    const at = savedActivationAt() || new Date().toISOString();
+    if (isActivationFlagOn() && validDeviceId(dev)) {
+        localStorage.setItem('repflowIOSActivated', '1');
+        localStorage.setItem('repflowActivated', '1');
+        localStorage.setItem('repflowIOSActivatedDevice', dev);
+        localStorage.setItem('repflowActivatedDevice', dev);
+        if (email) {
+            localStorage.setItem('repflowIOSEmail', email);
+            localStorage.setItem('repflowActivatedEmail', email);
+        }
+        localStorage.setItem('repflowIOSActivatedAt', at);
+        localStorage.setItem('repflowActivatedAt', at);
+        db.settings = db.settings || {};
+        db.settings.repflowDeviceId = dev;
+        db.settings.repflowActivation = { active: true, email, device: dev, activatedAt: at, migrated: true };
     }
 }
-function cleanDevice(v) { return String(v || '').trim().toUpperCase().replace(/\s+/g, ''); }
+function normalizeActEmail(v) { return String(v || '').trim().toLowerCase(); }
 function validDeviceId(id) { return /^MR-[A-F0-9]{8}-[A-F0-9]{8}$/.test(cleanDevice(id)); }
 function createFreshDeviceId() {
     let a = new Uint32Array(2);
@@ -1274,44 +1723,68 @@ function createFreshDeviceId() {
     return 'MR-' + (a[0] >>> 0).toString(16).toUpperCase().padStart(8, '0') + '-' + (a[1] >>> 0).toString(16).toUpperCase().padStart(8, '0');
 }
 function deviceId() {
-    let id = cleanDevice(localStorage.getItem(DEVICE_KEY) || localStorage.getItem(DEVICE_BACKUP_KEY) || db?.settings?.repflowDeviceId || '');
+    let id = cleanDevice(
+        localStorage.getItem(DEVICE_KEY) ||
+        localStorage.getItem(DEVICE_BACKUP_KEY) ||
+        localStorage.getItem(LEGACY_DEVICE_KEY) ||
+        localStorage.getItem(LEGACY_DEVICE_BACKUP_KEY) ||
+        db?.settings?.repflowDeviceId ||
+        savedActivationDevice() ||
+        ''
+    );
     if (!validDeviceId(id)) {
         id = createFreshDeviceId();
-        localStorage.setItem('repflowDeviceCreatedAt', new Date().toISOString());
+        localStorage.setItem('repflowIOSDeviceCreatedAt', new Date().toISOString());
     }
-    localStorage.setItem(DEVICE_KEY, id);
-    localStorage.setItem(DEVICE_BACKUP_KEY, id);
-    if (db && db.settings) db.settings.repflowDeviceId = id;
+    rememberDeviceEverywhere(id);
     return id;
 }
 async function setStableDeviceId(id) {
     id = cleanDevice(id);
     if (!validDeviceId(id)) return false;
-    localStorage.setItem(DEVICE_KEY, id);
-    localStorage.setItem(DEVICE_BACKUP_KEY, id);
+    rememberDeviceEverywhere(id);
     if (!db.settings) db.settings = {};
     db.settings.repflowDeviceId = id;
     try { await dbSet(DEVICE_DB_KEY, id); } catch (e) {}
+    try { await dbSet(LEGACY_DEVICE_DB_KEY, id); } catch (e) {}
     try { await save(); } catch (e) {}
     return true;
 }
 async function syncDeviceIdToAllStores() {
-    let candidates = [localStorage.getItem(DEVICE_KEY), localStorage.getItem(DEVICE_BACKUP_KEY), db?.settings?.repflowDeviceId];
+    let candidates = [localStorage.getItem(DEVICE_KEY), localStorage.getItem(DEVICE_BACKUP_KEY), localStorage.getItem(LEGACY_DEVICE_KEY), localStorage.getItem(LEGACY_DEVICE_BACKUP_KEY), db?.settings?.repflowDeviceId, savedActivationDevice()];
     try { candidates.push(await dbGet(DEVICE_DB_KEY, '')); } catch (e) {}
+    try { candidates.push(await dbGet(LEGACY_DEVICE_DB_KEY, '')); } catch (e) {}
     let id = candidates.map(cleanDevice).find(validDeviceId) || createFreshDeviceId();
     await setStableDeviceId(id);
     return id;
 }
 function activationCodeFor(email, id) {
-    let raw = String(email || '').trim().toLowerCase() + '|' + cleanDevice(id) + '|RepFlow2026';
+    let raw = normalizeActEmail(email) + '|' + cleanDevice(id) + '|' + ACTIVATION_SECRET;
     let h = 0x811c9dc5;
     for (let i = 0; i < raw.length; i++) h = Math.imul(h ^ raw.charCodeAt(i), 16777619);
     return 'MRF-' + (h >>> 0).toString(36).toUpperCase().padStart(7, '0').slice(0, 7);
 }
+function isStandaloneApp() {
+    return window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+}
+function installApp() {
+    $('iosSteps')?.classList.remove('hide');
+    toast('على الآيفون استخدم مشاركة ثم إضافة إلى الشاشة الرئيسية');
+}
+function mustInstallMsg() {
+    $('iosSteps')?.classList.remove('hide');
+    toast('لازم تثبت التطبيق على الشاشة الرئيسية حتى يفتح');
+}
 function isActivated() {
-    let active = localStorage.getItem('repflowActivated') === '1';
-    let registered = cleanDevice(localStorage.getItem('repflowActivatedDevice') || db?.settings?.repflowActivation?.device || '');
-    return active && registered === deviceId();
+    let active = isActivationFlagOn();
+    let registered = savedActivationDevice();
+    let current = deviceId();
+    if (active && registered === current) {
+        migrateActivationToCurrentKeys();
+        rememberDeviceEverywhere(current);
+        return true;
+    }
+    return false;
 }
 function lockMainApp(locked) {
     document.querySelector('header')?.classList.toggle('lockedApp', locked);
@@ -1319,25 +1792,28 @@ function lockMainApp(locked) {
     document.querySelector('main')?.classList.toggle('lockedApp', locked);
     document.querySelector('.bottom-nav')?.classList.toggle('lockedApp', locked);
 }
-function showActivationGate() {
-    $('installGate')?.classList.add('hide');
-    $('activationGate')?.classList.remove('hide');
-    let current = deviceId();
-    let old = cleanDevice(localStorage.getItem('repflowActivatedDevice') || db?.settings?.repflowActivation?.device || '');
-    if ($('deviceIdBox')) $('deviceIdBox').textContent = current;
-    if (old && old !== current) {
-        $('oldDeviceWrap')?.classList.remove('hide');
-        if ($('oldDeviceBox')) $('oldDeviceBox').textContent = old;
-        if ($('activationMsg')) $('activationMsg').innerHTML = '<span class="bad">تم اكتشاف رقم جهاز مختلف. اعتبره نقل جهاز وسجله بالأدمن.</span>';
-    } else {
-        $('oldDeviceWrap')?.classList.add('hide');
-    }
-    lockMainApp(true);
-}
 function hideAllGates() {
     $('installGate')?.classList.add('hide');
     $('activationGate')?.classList.add('hide');
     lockMainApp(false);
+}
+function showActivationGate() {
+    $('installGate')?.classList.add('hide');
+    let id = deviceId();
+    if ($('deviceIdBox')) $('deviceIdBox').textContent = id;
+    let savedEmail = savedActivationEmail();
+    if ($('actEmail') && savedEmail) $('actEmail').value = savedEmail;
+    let old = savedActivationDevice();
+    if (old && old !== id) {
+        $('oldDeviceWrap')?.classList.remove('hide');
+        if ($('oldDeviceBox')) $('oldDeviceBox').textContent = old;
+        if ($('activationMsg')) $('activationMsg').innerHTML = '<span class="bad">تم اكتشاف كود جهاز مختلف. اعتبره نقل جهاز وسجله بالأدمن.</span>';
+    } else {
+        $('oldDeviceWrap')?.classList.add('hide');
+        if ($('activationMsg') && savedEmail) $('activationMsg').textContent = 'هذا الحساب محفوظ، أدخل كود التفعيل لإعادة الدخول إذا سجلت خروج.';
+    }
+    $('activationGate')?.classList.remove('hide');
+    lockMainApp(true);
 }
 function checkAccessGates() {
     if (!isStandaloneApp()) {
@@ -1350,17 +1826,13 @@ function checkAccessGates() {
 }
 function copyDeviceId() {
     let id = deviceId();
-    navigator.clipboard?.writeText(id).then(() => toast('تم نسخ رقم الجهاز')).catch(() => { $('activationMsg').textContent = id; });
+    navigator.clipboard?.writeText(id).then(() => toast('تم نسخ كود الجهاز')).catch(() => prompt('انسخ كود الجهاز:', id));
 }
-function activationEmail() { return String($('actEmail')?.value || localStorage.getItem('repflowActivatedEmail') || db?.settings?.repflowActivation?.email || '').trim().toLowerCase(); }
+function activationEmail() { return normalizeActEmail($('actEmail')?.value || savedActivationEmail() || ''); }
 function transferText() {
     let email = activationEmail();
-    let old = cleanDevice(localStorage.getItem('repflowActivatedDevice') || db?.settings?.repflowActivation?.device || '');
-    return `طلب نقل تفعيل RepFlow
-الإيميل: ${email || '-'}
-رقم الجهاز الجديد: ${deviceId()}
-رقم الجهاز السابق: ${old || '-'}
-التاريخ: ${new Date().toLocaleString()}`;
+    let old = savedActivationDevice();
+    return `طلب نقل تفعيل RepFlow\nالإيميل: ${email || '-'}\nكود الجهاز الجديد: ${deviceId()}\nكود الجهاز السابق: ${old || '-'}\nالتاريخ: ${new Date().toLocaleString()}`;
 }
 function copyTransferRequest() { navigator.clipboard?.writeText(transferText()).then(() => toast('تم نسخ طلب نقل التفعيل')).catch(() => prompt('انسخ الطلب:', transferText())); }
 async function activateDevice() {
@@ -1370,9 +1842,14 @@ async function activateDevice() {
     let expected = activationCodeFor(email, id);
     if (!email || !code) { $('activationMsg').textContent = 'أدخل الإيميل وكود التفعيل'; return; }
     if (code !== expected) { $('activationMsg').textContent = 'كود التفعيل غير صحيح لهذا الجهاز'; return; }
+    localStorage.setItem('repflowIOSActivated', '1');
     localStorage.setItem('repflowActivated', '1');
+    localStorage.setItem('repflowIOSEmail', email);
     localStorage.setItem('repflowActivatedEmail', email);
+    localStorage.setItem('repflowIOSActivatedDevice', id);
     localStorage.setItem('repflowActivatedDevice', id);
+    localStorage.setItem('repflowIOSActivatedAt', new Date().toISOString());
+    localStorage.setItem('repflowActivatedAt', new Date().toISOString());
     db.settings = db.settings || {};
     db.settings.repflowDeviceId = id;
     db.settings.repflowActivation = { active: true, email, device: id, activatedAt: new Date().toISOString() };
@@ -1381,7 +1858,24 @@ async function activateDevice() {
     hideAllGates();
     toast('تم التفعيل بنجاح');
 }
-
+async function logoutRepFlow() {
+    if (!confirm('تريد تسجيل الخروج؟\nكود الجهاز سيبقى نفسه، فقط يرجع يطلب الإيميل وكود التفعيل.')) return;
+    localStorage.removeItem('repflowIOSActivated');
+    localStorage.removeItem('repflowActivated');
+    localStorage.removeItem('repflowIOSEmail');
+    localStorage.removeItem('repflowActivatedEmail');
+    localStorage.removeItem('repflowIOSActivatedAt');
+    localStorage.removeItem('repflowActivatedAt');
+    db.settings = db.settings || {};
+    if (db.settings.repflowActivation) db.settings.repflowActivation.active = false;
+    await save();
+    showActivationGate();
+}
+async function registerOfflineWorker() {
+    try {
+        if ('serviceWorker' in navigator) await navigator.serviceWorker.register('service-worker.js?v=repflow-iphone-offline-v12-safe');
+    } catch (e) {}
+}
 
 async function requestPersistentStorage() {
     try {
@@ -1403,21 +1897,22 @@ function security() {
 
 function sanitizeProducts() {
     (db.products || []).forEach(p => { delete p["bar" + "code"]; delete p.code; delete p["bat" + "ch"]; delete p.lot; delete p["un" + "it"]; delete p["pack" + "age"]; });
+    ensureProductTypeSystem();
 }
 
 (async function init() {
     try {
         document.documentElement.setAttribute('data-theme', localStorage.getItem('trTheme') || 'light');
-        if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=repflow-local-v4').catch(() => { });
         security();
         await requestPersistentStorage();
         await load();
         db.settings = db.settings || {};
-        await syncDeviceIdToAllStores();
         sanitizeProducts();
         await save();
         setLang(lang);
         render();
+        await registerOfflineWorker();
+        await syncDeviceIdToAllStores();
         checkAccessGates();
     } catch (err) {
         alert("حدث خطأ أثناء تحميل البيانات من المتصفح: " + err.message);
